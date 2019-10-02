@@ -15,17 +15,18 @@
     $dbname = "the_provider";
     $conn = new mysqli($servername, $username, $password, $dbname);
 
+
 ?>
-<form action="dest.php">
-<input type="text" name="title">
+<form action="skapaBlogg.php" method="get">
+<input type="text" name="Titel">
 <select name="Anvandare">
 <?php
-$sql = "SELECT UID from anvandare";
-$result = $conn->query($sql);
-for(int i=0;i<$result->num_row;i++){
-    echo $row['UID']"<br>";
-}
-$conn->close();
+    $sql = "SELECT * from anvandare";
+    $result = $conn->query($sql);
+    while($row = $result->fetch_assoc()) {
+        echo "<option value=" . $row['UID'] . ">" . $row['fnman'] . " " . $row['enamn'] . "</option>";
+    }
+    
 ?>
 </select>
 
@@ -33,11 +34,7 @@ $conn->close();
 </form>
 <?php
 
- function createBlog(){
-    $title = ;
-    $usrid = ;
-    $sql = "INSERT into blogg(title,UID) VALUES($title)";
- }
+    $conn->close();
 
 ?>
 
