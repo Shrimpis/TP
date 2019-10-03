@@ -7,16 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<?php 
 
-<form action="funktioner/inlaggredfunktion.php" method="get">
-<input type="text" name="Titel">
-<select name="IID">
+include("funktioner/dbh.inc.php");
+
+
+?>
+<form action="funktioner/redigeratextruta.php" method="get">
+<input type="text" name="Text">
+<select name="RID">
 <?php
-    include("funktioner/dbh.inc.php");
-    $sql = "SELECT * from blogginlagg";
+
+    $sql = "SELECT * from textruta";
     $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
-        echo "<option>" . $row['IID'] . "</option>";
+        echo "<option>" . $row['RID'] . "</option>";
     }
     
 ?>
