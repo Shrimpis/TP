@@ -7,21 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<?php 
 
-include("dbh.inc.php");
-
-
-?>
-<form action="redigeraBlogg.php" method="get">
+<form action="inlaggredfunktion.php" method="get">
 <input type="text" name="Titel">
-<select name="BID">
+<select name="IID">
 <?php
 
     $sql = "SELECT * from blogginlagg";
     $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
-        echo "<option>" . $row['BID'] . "</option>";
+        echo "<option>" . $row['IID'] . "</option>";
     }
     
 ?>

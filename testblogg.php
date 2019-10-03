@@ -9,12 +9,12 @@
 <body>
 <?php 
 
-    include("dbh.inc.php");
+    include("funktioner/dbh.inc.php");
     $conn;
 
 
 ?>
-<form action="skapaBlogg.php" method="get">
+<form action="funktioner/skapaBlogg.php" method="get">
 <input type="text" name="Titel">
 <select name="Anvandare">
 <?php

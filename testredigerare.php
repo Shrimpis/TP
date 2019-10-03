@@ -9,11 +9,11 @@
 <body>
 <?php 
 
-include("dbh.inc.php");
+include("funktioner/dbh.inc.php");
 
 
 ?>
-<form action="redigeraBlogg.php" method="get">
+<form action="funktioner/redigeraBlogg.php" method="get">
 <input type="text" name="Titel">
 <select name="BID">
 <?php

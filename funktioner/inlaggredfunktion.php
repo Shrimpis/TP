@@ -1,13 +1,10 @@
-
 <?php
-
 include("dbh.inc.php");
 
-    $usrid = $_GET['Anvandare'];
+    $iid = $_GET['BID'];
     $title = $_GET['Titel'];
-    $sql = "INSERT into blogg(title,UID) VALUES('{$title}',$usrid)";
+    $sql = "UPDATE blogginlagg set title = '{$title}' WHERE BID = $iid ";
     echo $sql;
     $conn->query($sql);
     $conn->close();
-    
 ?>

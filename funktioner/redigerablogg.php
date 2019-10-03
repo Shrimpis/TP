@@ -9,4 +9,10 @@
     $conn->query($sql);
     $conn->close();
     
+    if(mysqli_query($conn, $sql)){
+        echo "INFO: Bloggen har redigerats.";
+    } else {
+        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+    }
+
 ?>

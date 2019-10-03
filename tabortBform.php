@@ -10,15 +10,24 @@
     </head>
     <body>
         <p>Ta bort en blogg</p>
-        <form action="tabortblogg.php">
+        <form action="funktioner/tabortblogg.php">
         Välj en blogg:
             <select name="BID" id="BID">
                 <?php 
                     include('dbh.inc.php');
-                    $sql = "SELECT BID"
+                    $sql = "SELECT BID, title, UID FROM blogg";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["BID"] ."'>ID: ". $row["UID"]." | ". $row["title"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
                 ?>
             </select>
-        
+            <br><br>
+            <input type="submit" value="Ta bort blogg">
         </form>
     </body>
 </html>
