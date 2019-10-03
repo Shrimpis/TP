@@ -26,12 +26,10 @@
                    
                     var jsonData = JSON.parse(this.responseText);
                     console.log(jsonData);
-                    console.log("******************");
-                    console.log(jsonData.bloggInlagg[0]);
                 }
             };
 
-            xhttp.open("GET", "test.php?send=blogg", true);
+            xhttp.open("GET", "test.php?användare=1&blogg=1", true);
             xhttp.send();
             }
         </script>

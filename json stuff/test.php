@@ -7,17 +7,12 @@
             die("Connection failed: " . $db->connect_error);
         }
 
-        if(isset($_GET['send'])){
-            //echo 'send is set. <br> ';
-
-            $send=$_GET['send'];
-            if($send=="blogg"){
-                blog(1,1,$db);
-            }
+        if(isset($_GET['användare']) && isset($_GET['blogg'])){
+                blog($_GET['användare'],$_GET['blogg'],$db);
 
         }
         else{
-            echo 'send not set';
+            
         }
         
 
@@ -38,7 +33,7 @@
             $i=0;
             while($row = $blogginlagg->fetch_assoc()) {
                 $IID=$row["IID"];//id på det inlägget som vi är på.
-                $blogginlaggArray[$i]=array($row["datum"],$row["title"]);//skappar en array som innehåller datum title
+                $blogginlaggArray[$i]=array('datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
 
 
 
@@ -76,17 +71,17 @@
                     for($ii=0;$ii<count($textrutaArray);$ii++){//går igenom alla textrutor och kollar om dom har samma index som en av rutornas id.
                        
                         if($textrutaArray[$ii][0]==$rutorArray[$in][0]){
-                            $inlaggRutor[$in]=array('textRuta',$textrutaArray[$ii][1],$textrutaArray[$ii][2],$rutorArray[$in][1]);//om rutan är en text så skappa en textruta
+                            $inlaggRutor[$in]=array('type'=>'textRuta','rubrik'=>$textrutaArray[$ii][1],'text'=>$textrutaArray[$ii][2],'ordning'=>$rutorArray[$in][1]);//om rutan är en text så skappa en textruta
                         }
                     }
                     for($ii=0;$ii<count($bildrutaArray);$ii++){//går igenom alla bildrutorna och kollar om dom har samma index som en av rutornas id.
                         if($bildrutaArray[$ii][0]==$rutorArray[$in][0]){
-                            $inlaggRutor[$in]=array('bildRuta',$bildrutaArray[$ii][1],$rutorArray[$in][1]);//om rutan är en bild så skappa en bildruta
+                            $inlaggRutor[$in]=array('type'=>'bildRuta','bild'=>$bildrutaArray[$ii][1],'ordning'=>$rutorArray[$in][1]);//om rutan är en bild så skappa en bildruta
                         }
                     }
                     
                 }
-                $blogginlaggArray[$i][2]=$inlaggRutor;//lägger i alla text och bildrutor i blogginlägg.
+                $blogginlaggArray[$i]['rutor']=$inlaggRutor;//lägger i alla text och bildrutor i blogginlägg.
 
 
 
@@ -96,15 +91,16 @@
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('KID'=>$row['KID'],'UID'=>$row['UID'],'IID'=>$row['IID'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('användare'=>$row['UID'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
-                $blogginlaggArray[$i][3]=$kommentarArray;//lägger in en array med alla kommentarer i blogginlägget.
+                $blogginlaggArray[$i]['kommentarer']=$kommentarArray;//lägger in en array med alla kommentarer i blogginlägget.
 
 
 
 
+                //lägger in gillningar.
                 $gillningar = $db->query('select * from gillningar where IID='.$IID);
                 $gillningarArray=array();
                 $index=0;
@@ -112,7 +108,7 @@
                     $gillningarArray[$index]=array('användare'=>$row['UID']);//alla gillningar i ett blogginlägg.
                     $index++;
                 }
-                $blogginlaggArray[$i][4]=$gillningarArray;//lägger in en array med alla gillningar i blogginlägget.
+                $blogginlaggArray[$i]['gillningar']=$gillningarArray;//lägger in en array med alla gillningar i blogginlägget.
 
 
 
@@ -130,12 +126,16 @@
                 $Bloggarray=array('titel'=>$row["title"]);
             }
 
-            
-            $Bloggarray['bloggInlagg']=$blogginlaggArray;
-
-            $json=json_encode($Bloggarray);
-            echo $json;
-
+            if(isset($blogginlaggArray)){
+                $Bloggarray['bloggInlagg']=$blogginlaggArray;
+                
+                $json=json_encode($Bloggarray);
+                echo $json;
+            }
+            else{
+                $json=json_encode("blogginlägg eller blogg är inte set");
+                echo $json;
+            }
 
 
            /* $j = json_decode($json);  
