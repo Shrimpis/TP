@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
     <?php
 
         $db=new mysqli("localhost","root","","the_provider");
+        $db->set_charset("utf8");
 
         if($db->connect_error){
             die("Connection failed: " . $db->connect_error);
         }
 
         if(isset($_GET['send'])){
-            echo 'send is set. <br> ';
+            //echo 'send is set. <br> ';
 
             $send=$_GET['send'];
-            if($send=="blog"){
-                blog(1,$db);
+            if($send=="blogg"){
+                blog(1,1,$db);
             }
 
         }
@@ -38,28 +25,77 @@
             $användare = $db->query('select * from anvandare where UID='.$användarId);
             $blogg = $db->query('select * from blogg where BID='.$bloggId);
             $blogginlagg = $db->query('select * from blogginlagg where BID='.$bloggId);
-            $kommentarer = $db->query('select * from kommentar where IID='.$bloggId);
+
+            $kommentarer = $db->query('select * from kommentar');
+            $kommentarArray=array();
+
+
+            $blogginlaggArray;
+            //kollar på alla bloginlägg.
+            $i=0;
+            while($row = $blogginlagg->fetch_assoc()) {
+                $IID=$row["IID"];
+                $blogginlaggArray[$i]=array($row["datum"],$row["title"],array());
+
+                $tempKommentar=$db->query('select * from kommentar where IID='.$IID); //hämtar alla komentarer i ett bloginlägg
+
+                $kommentarArray;
+                $index=0;
+                while($row = $tempKommentar->fetch_assoc()) {
+                    $kommentarArray[$index]=array('KID'=>$row['KID'],'UID'=>$row['UID'],'IID'=>$row['IID'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                   
+                   // echo $kommentarArray[$index]["text"].'  <br>';
+                    $index++;
+                }
+                $blogginlaggArray[$i][2]=$kommentarArray;
+                $i++;
+
+
+            }
             
+           
+           /* echo '<pre>';
+            var_dump($blogginlaggArray);
+            echo '</pre>';*/
+            $array;
+            while($row=$blogg->fetch_assoc()){
+                $array=array($row["title"]);
+            }
             
+            $index=0;
 
-
-
-            /*while($row = $blogg->fetch_assoc()) {
-                echo $row["UID"];
+            //var_dump($blogginlagg);
+            
+           /* while($row=$blogginlagg->fetch_assoc()){
+              
+                $array[0][1][$index]=array($row["title"],$row["datum"]);
+                $index++;
             }*/
+            
+            $array[1]=$blogginlaggArray;
+           
+            //echo '<pre>';
+           // var_dump($array);
+           // echo '</pre>';
 
 
+            $json=json_encode($array);
+            echo $json;
+
+            /*$array=array('sak1','sak2');
+            $json=json_encode($array);
+            echo $json;*/
+
+
+           /* $j = json_decode($json);  
+            echo '<pre>';
+            var_dump($j);
+            echo '</pre>';*/
 
         }
 
         
 
 ?>
-    <div id="body" class="container"></div>
-        <script>
-
-        </script>
-    </body>
-</html>
 
 
