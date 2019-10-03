@@ -73,11 +73,6 @@
             }*/
             
             $array[1]=$blogginlaggArray;
-           
-            //echo '<pre>';
-           // var_dump($array);
-           // echo '</pre>';
-
 
             $json=json_encode($array);
             echo $json;
