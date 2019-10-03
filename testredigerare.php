@@ -9,20 +9,19 @@
 <body>
 <?php 
 
-    include("dbh.inc.php");
-    $conn;
+include("dbh.inc.php");
 
 
 ?>
-<form action="skapaBlogg.php" method="get">
+<form action="redigeraBlogg.php" method="get">
 <input type="text" name="Titel">
-<select name="Anvandare">
+<select name="BID">
 <?php
 
-    $sql = "SELECT * from anvandare";
+    $sql = "SELECT * from blogg";
     $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
-        echo "<option value=" . $row['UID'] . ">" . $row['fnman'] . " " . $row['enamn'] . "</option>";
+        echo "<option>" . $row['BID'] . "</option>";
     }
     
 ?>

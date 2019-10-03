@@ -1,11 +1,7 @@
 
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "the_provider";
-$conn = new mysqli($servername, $username, $password, $dbname); 
+include("dbh.inc.php");
 
     $usrid = $_GET['Anvandare'];
     $title = $_GET['Titel'];
