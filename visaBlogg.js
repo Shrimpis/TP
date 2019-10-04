@@ -51,7 +51,7 @@ function createSkribent() {
     let element = document.createElement("p");
     let div = document.createElement("div");
 
-    let skribent = document.createTextNode(jsonData)
+    let skribent = document.createTextNode(jsonData);
 }
 
 function createTitel() {
