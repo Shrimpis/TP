@@ -8,7 +8,6 @@
     $sql = "INSERT INTO kommentar (UID, IID, text, hierarchyID) VALUES ('$UID', '$IID', '{$text}', '$hierarchyID')";
     if(mysqli_query($conn, $sql)){
         echo "INFO: Kommentar skapad.";
-        header('Refresh: 2; URL = ../skapaKommentarForm.php');
     } else{
         echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
     }
