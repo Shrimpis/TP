@@ -102,13 +102,16 @@ function init() {
     xhttp.onreadystatechange = function () {
 
         if (this.readyState === 4 && this.status === 200) {
-           
+            console.log(this.responseText);
             var jsonData = JSON.parse(this.responseText);
+            
             createBlogg();
         }
     };
 
-    xhttp.open("GET", "json stuff/bloggjson.php?användare=1&blogg=1", true);
+    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=1", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
     xhttp.send();
     }
 
