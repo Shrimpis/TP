@@ -28,11 +28,11 @@
             $kommentarArray=array();//alla kommentarer.
 
 
-            $blogginlaggArray;//innehåller alla blogginlägg.
-            //kollar på alla bloginlägg.
+            $blogginlaggArray;//innehåller alla blogginlagg.
+            //kollar på alla bloginlagg.
             $i=0;
             while($row = $blogginlagg->fetch_assoc()) {
-                $IID=$row["IID"];//id på det inlägget som vi är på.
+                $IID=$row["IID"];//id på det inlagget som vi ar på.
                 $blogginlaggArray[$i]=array('datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
 
 
@@ -45,23 +45,23 @@
                 $bildruta = $db->query('select * from bildruta where IID='.$IID);
 
 
-                //lägger in rutor.
+                //lagger in rutor.
                 $rutorArray=array();
                 $index=0;
                 while($row = $rutor->fetch_assoc()) {
-                    $rutorArray[$index]=array($row['RID'],$row['ordning']);//alla rutor i ett blogginlägg.
+                    $rutorArray[$index]=array($row['RID'],$row['ordning']);//alla rutor i ett blogginlagg.
                     $index++;
                 }
                 $textrutaArray=array();
                 $index=0;
                 while($row = $textruta->fetch_assoc()) {
-                    $textrutaArray[$index]=array($row['RID'], $row['rubrik'], $row['text']);//alla textrutor i ett blogginlägg.
+                    $textrutaArray[$index]=array($row['RID'], $row['rubrik'], $row['text']);//alla textrutor i ett blogginlagg.
                     $index++;
                 }
                 $bildrutaArray=array();
                 $index=0;
                 while($row = $bildruta->fetch_assoc()) {
-                    $bildrutaArray[$index]=array($row['RID'],$row['bild']);//alla bildrutor i ett blogginlägg.
+                    $bildrutaArray[$index]=array($row['RID'],$row['bild']);//alla bildrutor i ett blogginlagg.
                     $index++;
                 }
 
@@ -71,44 +71,44 @@
                     for($ii=0;$ii<count($textrutaArray);$ii++){//går igenom alla textrutor och kollar om dom har samma index som en av rutornas id.
                        
                         if($textrutaArray[$ii][0]==$rutorArray[$in][0]){
-                            $inlaggRutor[$in]=array('type'=>'textRuta','rubrik'=>$textrutaArray[$ii][1],'text'=>$textrutaArray[$ii][2],'ordning'=>$rutorArray[$in][1]);//om rutan är en text så skappa en textruta
+                            $inlaggRutor[$in]=array('type'=>'textRuta','rubrik'=>$textrutaArray[$ii][1],'text'=>$textrutaArray[$ii][2],'ordning'=>$rutorArray[$in][1]);//om rutan ar en text så skappa en textruta
                         }
                     }
                     for($ii=0;$ii<count($bildrutaArray);$ii++){//går igenom alla bildrutorna och kollar om dom har samma index som en av rutornas id.
                         if($bildrutaArray[$ii][0]==$rutorArray[$in][0]){
-                            $inlaggRutor[$in]=array('type'=>'bildRuta','bild'=>$bildrutaArray[$ii][1],'ordning'=>$rutorArray[$in][1]);//om rutan är en bild så skappa en bildruta
+                            $inlaggRutor[$in]=array('type'=>'bildRuta','bild'=>$bildrutaArray[$ii][1],'ordning'=>$rutorArray[$in][1]);//om rutan ar en bild så skappa en bildruta
                         }
                     }
                     
                 }
-                $blogginlaggArray[$i]['rutor']=$inlaggRutor;//lägger i alla text och bildrutor i blogginlägg.
+                $blogginlaggArray[$i]['rutor']=$inlaggRutor;//lagger i alla text och bildrutor i blogginlagg.
 
 
 
 
-                //lägger in kommentarer.
-                $tempKommentar=$db->query('select * from kommentar where IID='.$IID); //hämtar alla kommentarer i ett bloginlägg
+                //lagger in kommentarer.
+                $tempKommentar=$db->query('select * from kommentar where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('användare'=>$row['UID'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('anvandare'=>$row['UID'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
-                $blogginlaggArray[$i]['kommentarer']=$kommentarArray;//lägger in en array med alla kommentarer i blogginlägget.
+                $blogginlaggArray[$i]['kommentarer']=$kommentarArray;//lagger in en array med alla kommentarer i blogginlagget.
 
 
 
 
-                //lägger in gillningar.
+                //lagger in gillningar.
                 $gillningar = $db->query('select * from gillningar where IID='.$IID);
                 $gillningarArray=array();
                 $index=0;
                 while($row = $gillningar->fetch_assoc()) {
-                    $gillningarArray[$index]=array('användare'=>$row['UID']);//alla gillningar i ett blogginlägg.
+                    $gillningarArray[$index]=array('anvandare'=>$row['UID']);//alla gillningar i ett blogginlagg.
                     $index++;
                 }
-                $blogginlaggArray[$i]['gillningar']=$gillningarArray;//lägger in en array med alla gillningar i blogginlägget.
+                $blogginlaggArray[$i]['gillningar']=$gillningarArray;//lagger in en array med alla gillningar i blogginlagget.
 
 
 
@@ -133,7 +133,7 @@
                 echo $json;
             }
             else{
-                $json=json_encode("blogginlägg eller blogg är inte set");
+                $json=json_encode("blogginlagg eller blogg ar inte set");
                 echo $json;
             }
 
