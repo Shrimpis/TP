@@ -36,7 +36,7 @@ function createInlagg(id) {
             element2 = document.createElement("p");
             element2.innerHTML = "KYSKYSKYSKYSKYSKYS";
             element.appendChild(element2);
-        }else{
+        }else {
             element.className = "ruta bildRuta";
             element.id = "ruta"+i;
             let element2 = document.createElement("img");
@@ -53,12 +53,15 @@ function createInlagg(id) {
 
 function createBlogg() {
 
-    createTitel("Hej");
+    createTitel("Detta är en titel");
     
 
     for(let i = 0; i < 6; i++) {
        createInlagg(i);
+       
     }
+
+    createKommentar("Detta är en kommentar");
 
     
 
@@ -66,17 +69,30 @@ function createBlogg() {
 
 function createTitel(TITEL) {
     let body = document.getElementById("headerContainer");
-    let element = document.createElement("header");
+    let element = document.createElement("h2");
     let div = document.createElement("div");
-    element.setAttribute("headerContainer", "titel");
-   
+    //element.setAttribute("headerContainer", "titel");
+    
 
-    let titelFormat = document.createElement("h2");
+   // let titelFormat = document.createElement("h2");
     let titel = document.createTextNode(TITEL);
-    titelFormat.appendChild(titel);
-    element.appendChild(titelFormat);
+    //titelFormat.appendChild(titel);
+    element.appendChild(titel);
     div.appendChild(element);
     body.appendChild(div);
+}
+
+function createKommentar() {
+    let body = document.getElementById("kommentarContainer");
+    let element = document.createElement("p");
+    let div = document.createElement("div");
+    //element.setAttribute("kommentarContainer", "kommentar");
+
+    let kommentar = document.createTextNode("KOMMENTAR");
+    element.appendChild(kommentar);
+    div.appendChild(element);
+    body.appendChild(div);
+
 }
 
 
