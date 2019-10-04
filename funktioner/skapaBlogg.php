@@ -8,10 +8,10 @@
     $conn->query($sql);
     $conn->close();
     
-    if(mysqli_query($conn, $sql)){
-        echo "INFO: Bloggen är nu skapad.";
-    } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
-    }
+    // if(mysqli_query($conn, $sql)){
+    //     echo "INFO: Bloggen är nu skapad.";
+    // } else {
+    //     echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+    // }
 
 ?>

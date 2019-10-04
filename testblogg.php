@@ -12,7 +12,7 @@
 
 
     include("funktioner/dbh.inc.php");
-    $conn;
+    
 
 
 ?>

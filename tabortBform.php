@@ -14,7 +14,7 @@
         Välj en blogg:
             <select name="BID" id="BID">
                 <?php 
-                    include('dbh.inc.php');
+                    include('funktioner/dbh.inc.php');
                     $sql = "SELECT BID, title, UID FROM blogg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
