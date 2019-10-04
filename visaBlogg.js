@@ -1,22 +1,7 @@
 
+let jsonData;
 
-function getJsonData() {
-
-    var http = new XMLHttpRequest();
-
-    http.onreadystatechange = function () {
-
-        if (this.status === 200 && this.readystate === 4) {
-            
-        }
-
-    };
-
-    http.open("GET", "asd.php", true);
-    http.send();
-}
-
-function createInlagg(id, blogginlaggTitel) {
+function createInlagg(id) {
 
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
@@ -29,7 +14,7 @@ function createInlagg(id, blogginlaggTitel) {
             element.className = "ruta textRuta";
             element.id ="inlagg"+id+"ruta"+i;
             let element2 = document.createElement("h3");
-            element2.innerHTML = blogginlaggTitel;
+            element2.innerHTML = "Flaming me ";
             element.appendChild(element2);
             element2 = document.createElement("p");
             element2.innerHTML = "KYSKYSKYSKYSKYSKYS";
@@ -51,26 +36,30 @@ function createInlagg(id, blogginlaggTitel) {
 
 
 
-function createBlogg(bloggTitel, blogginlaggTitel) {
+function createBlogg() {
 
-    createTitel(bloggTitel);
+    createTitel();
 
     for(let i = 0; i < 6; i++) {
-       createInlagg(i, blogginlaggTitel);
+       createInlagg(i);
     }
     createKommentar("Detta är en kommentar");
 }
 
-function createTitel(TITEL) {
+function createSkribent() {
+    let body = document.createElementById("skribentContainer");
+    let element = document.createElement("p");
+    let div = document.createElement("div");
+
+    let skribent = document.createTextNode(jsonData)
+}
+
+function createTitel() {
     let body = document.getElementById("headerContainer");
     let element = document.createElement("h2");
     let div = document.createElement("div");
-    //element.setAttribute("headerContainer", "titel");
-    
 
-   // let titelFormat = document.createElement("h2");
-    let titel = document.createTextNode(TITEL);
-    //titelFormat.appendChild(titel);
+    let titel = document.createTextNode(jsonData.titel);
     element.appendChild(titel);
     div.appendChild(element);
     body.appendChild(div);
@@ -100,10 +89,10 @@ function init() {
 
         if (this.readyState === 4 && this.status === 200) {
             
-            var jsonData = JSON.parse(this.responseText);
+            jsonData = JSON.parse(this.responseText);
             console.log(jsonData);
-            console.log(jsonData.bloggInlagg[0].titel);
-            createBlogg(jsonData.titel, jsonData.bloggInlagg[0].titel);
+            console.log(jsonData.titel);
+            createBlogg();
         }
     };
 
@@ -111,7 +100,6 @@ function init() {
 
     xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=6", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-
     xhttp.send();
     }
 
