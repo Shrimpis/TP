@@ -16,8 +16,8 @@
         }
         
 
-        function blog($användarId,$bloggId,$db){
-            $användare = $db->query('select * from anvandare where UID='.$användarId);
+        function blog($anvandarId,$bloggId,$db){
+            $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
             $blogg = $db->query('select * from blogg where BID='.$bloggId);
             $blogginlagg = $db->query('select * from blogginlagg where BID='.$bloggId);
 
