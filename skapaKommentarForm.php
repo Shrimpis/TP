@@ -13,6 +13,7 @@
         <form action="funktioner/skapaKommentar.php">
         Välj att kommentera:
             <select name="hierarchyID" id="hierarchyID">
+                <option value="0">Ingen</option>
                 <?php 
                     include('funktioner/dbh.inc.php');
                     $sql = "SELECT KID, text FROM kommentar";
