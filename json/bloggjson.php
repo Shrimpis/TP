@@ -133,7 +133,8 @@
                 echo $json;
             }
             else{
-                $json=json_encode("blogginlagg eller blogg ar inte set");
+                $Bloggarray['bloggInlagg']=array();
+                $json=json_encode($Bloggarray);
                 echo $json;
             }
 
