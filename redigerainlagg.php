@@ -7,27 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<?php 
 
-
-
-    include("funktioner/dbh.inc.php");
-    $conn;
-
-
-?>
-<form action="funktioner/skapaBlogg.php" method="get">
+<form action="funktioner/inlaggredfunktion.php" method="get">
 <input type="text" name="Titel">
-<select name="Anvandare">
+<select name="IID">
 <?php
-
-    $sql = "SELECT * from anvandare";
+    include("funktioner/dbh.inc.php");
+    $sql = "SELECT * from blogginlagg";
     $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
-        echo "<option value=" . $row['UID'] . ">" . $row['fnman'] . " " . $row['enamn'] . "</option>";
+        echo "<option>" . $row['IID'] . "</option>";
     }
     
-
 ?>
 </select>
 
@@ -35,9 +26,7 @@
 </form>
 <?php
 
-
     $conn->close();
-
 
 ?>
 

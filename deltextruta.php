@@ -9,25 +9,21 @@
 <body>
 <?php 
 
-
-
-    include("funktioner/dbh.inc.php");
-    $conn;
+include("funktioner/dbh.inc.php");
 
 
 ?>
-<form action="funktioner/skapaBlogg.php" method="get">
-<input type="text" name="Titel">
-<select name="Anvandare">
+<form action="funktioner/taborttextruta.php" method="get">
+
+<select name="RID">
 <?php
 
-    $sql = "SELECT * from anvandare";
+    $sql = "SELECT * from rutor";
     $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
-        echo "<option value=" . $row['UID'] . ">" . $row['fnman'] . " " . $row['enamn'] . "</option>";
+        echo "<option>" . $row['RID'] . "</option>";
     }
     
-
 ?>
 </select>
 
@@ -35,9 +31,7 @@
 </form>
 <?php
 
-
     $conn->close();
-
 
 ?>
 
