@@ -190,12 +190,6 @@
                 echo $json;
             }
 
-
-           /* $j = json_decode($json);  
-            echo '<pre>';
-            var_dump($j);
-            echo '</pre>';*/
-
         }
 
         
