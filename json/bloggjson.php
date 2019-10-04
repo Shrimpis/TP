@@ -27,13 +27,25 @@
             $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
             $blogg = $db->query('select * from blogg where UID='.$anvandarId);
 
+            $fnamn;
+            $enamn;
+            $i=0;
+            while($row = $anvandare->fetch_assoc()) {
+                $fnamn=$row["fnman"];
+                $enamn=$row["enamn"];
+                $i++;
+            }
+            
+            //echo var_dump($anvandareArray[]);
             $bloggar;
             $i=0;
             while($row = $blogg->fetch_assoc()) {
                 $bloggar['bloggar'][$i]=array('titel'=>$row["title"],'BID'=>$row["BID"]);
+                
                 $i++;
             }
-
+            $bloggar['fnamn']=$fnamn;
+            $bloggar['enamn']=$enamn;
 
 
             if(isset($bloggar)){
