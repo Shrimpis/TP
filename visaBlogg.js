@@ -95,12 +95,21 @@ function createKommentar() {
 
 }
 
+function init() {
 
+    let xhttp = new XMLHttpRequest();
 
+    xhttp.onreadystatechange = function () {
 
+        if (this.readyState === 4 && this.status === 200) {
+           
+            var jsonData = JSON.parse(this.responseText);
+            createBlogg();
+        }
+    };
 
+    xhttp.open("GET", "json stuff/bloggjson.php?användare=1&blogg=1", true);
+    xhttp.send();
+    }
 
-
-
-
-document.body.onload = function() {createBlogg()};
+document.body.onload = function() {init()};
