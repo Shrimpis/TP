@@ -30,7 +30,7 @@
             $fnamn;
             $enamn;
             $i=0;
-            while($row = $anvandare->fetch_assoc()) {
+            while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
                 $fnamn=$row["fnman"];
                 $enamn=$row["enamn"];
                 $i++;
@@ -44,8 +44,8 @@
                 
                 $i++;
             }
-            $bloggar['fnamn']=$fnamn;
-            $bloggar['enamn']=$enamn;
+            $bloggar['fnamn']=$fnamn;//förnamn
+            $bloggar['enamn']=$enamn;//efternamn
 
 
             if(isset($bloggar)){
