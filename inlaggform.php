@@ -9,13 +9,13 @@
     <script type="text/javascript">
         let rutaOrdning = 0;
 
-        function laggTillTextruta(id) {
+        function laggTillTextruta() {
 
             rutaOrdning++;
 
             let body = document.getElementById("rutor-container");
             let ruta = document.createElement("div");
-            ruta.id = "huvudruta" + id;
+            ruta.name = "textruta";
 
             let rubrik = document.createElement("div");
             let rubrikInnehall = document.createTextNode("Rubrik Paragraf: ");
@@ -42,6 +42,27 @@
             body.appendChild(ruta);
 
         }
+
+        function laggTillBildruta(){
+
+            rutaOrdning++;
+
+            let body = document.getElementById("rutor-container");
+            let ruta = document.createElement("div");
+            ruta.name = "bildruta";
+
+            let bild = document.createElement("div");
+            let bildInnehall = document.createTextNode("Bild: ");
+            let bildInput = document.createElement("input");
+            bildInput.type = "text";
+            bildInput.name = "bild" + rutaOrdning;
+            bild.appendChild(bildInnehall);
+            bild.appendChild(bildInput);
+            ruta.appendChild(bild);
+            body.appendChild(ruta);
+
+        }
+
     </script>
 </head>
 
@@ -82,7 +103,7 @@
             </div>
         </div>
         <input type="button" name="textRuta" value="Lägg till Textruta" onclick="laggTillTextruta()"><br /><br />
-        <input type="button" name="bildRuta" value="Lägg till Bildruta"><br /><br />
+        <input type="button" name="bildRuta" value="Lägg till Bildruta" onclick="laggTillBildruta()"><br /><br />
         <input type="submit">
     </form>
     <?php
