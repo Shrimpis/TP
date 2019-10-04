@@ -7,15 +7,64 @@
             die("Connection failed: " . $db->connect_error);
         }
 
-        if(isset($_GET['vissa'])){
-            if($_GET['vissa']=='anvandare'){
+        if(isset($_GET['visa'])){
+            if($_GET['visa']=='anvandare'){
                 if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
                         blog($_GET['anvandare'],$_GET['blogg'],$db);
 
                 }
+                else if(isset($_GET['anvandare'])){
+                    visaBloggar($_GET['anvandare'],$db);
+                }
+                else{
+                    visaAnvandare($db);
+                }
             }
+            
         }
         
+        function visaBloggar($anvandarId,$db){
+            $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
+            $blogg = $db->query('select * from blogg where UID='.$anvandarId);
+
+            $bloggar;
+            $i=0;
+            while($row = $blogg->fetch_assoc()) {
+                $bloggar['bloggar'][$i]=array('titel'=>$row["title"],'BID'=>$row["BID"]);
+                $i++;
+            }
+
+
+
+            if(isset($bloggar)){
+                $json=json_encode($bloggar);
+                echo $json;
+            }
+
+
+        }
+
+        function visaAnvandare($db){
+            $anvandare = $db->query('select * from anvandare');
+
+            $anvandareArray;
+            $i=0;
+            while($row = $anvandare->fetch_assoc()) {
+                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnman"],'enamn'=>$row["enamn"]);
+                $i++;
+            }
+
+
+
+            if(isset($anvandareArray)){
+                $json=json_encode($anvandareArray);
+                echo $json;
+            }
+
+
+        }
+
+
         
 
         function blog($anvandarId,$bloggId,$db){
