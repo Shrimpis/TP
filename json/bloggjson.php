@@ -7,8 +7,8 @@
             die("Connection failed: " . $db->connect_error);
         }
 
-        if(isset($_GET['användare']) && isset($_GET['blogg'])){
-                blog($_GET['användare'],$_GET['blogg'],$db);
+        if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
+                blog($_GET['anvandare'],$_GET['blogg'],$db);
 
         }
         else{
