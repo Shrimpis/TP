@@ -7,13 +7,15 @@
             die("Connection failed: " . $db->connect_error);
         }
 
-        if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
-                blog($_GET['anvandare'],$_GET['blogg'],$db);
+        if(isset($_GET['vissa'])){
+            if($_GET['vissa']=='anvandare'){
+                if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
+                        blog($_GET['anvandare'],$_GET['blogg'],$db);
 
+                }
+            }
         }
-        else{
-            
-        }
+        
         
 
         function blog($anvandarId,$bloggId,$db){
@@ -87,11 +89,12 @@
 
 
                 //lagger in kommentarer.
-                $tempKommentar=$db->query('select * from kommentar where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
+                $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.UID=anvandare.UID where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
+                //echo var_dump($tempKommentar);
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('anvandare'=>$row['UID'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('anvandareID'=>$row['UID'],'namn'=>$row['fnman'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
