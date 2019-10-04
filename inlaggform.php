@@ -16,10 +16,10 @@
 <body>
 <?php 
 
-    include("funktioner/dbh.inc.php");
+    include("dbh.inc.php");
 
 ?>
-<form action="funktioner/skapainlagg.php" method="get">
+<form action="skapainlagg.php" method="get">
     Välj en blogg:
         <select name="BID" id="BID">
             <?php 
@@ -30,17 +30,20 @@
                         echo "<option value='". $row["BID"] ."'>ID: ". $row["UID"]." | ". $row["title"]."</option>";
                     }
                     echo "</table>";
-                } else { echo "0 results"; }
-                $conn->close();
+                } else { 
+                    echo "0 results"; 
+                }
+                
             ?>
         </select>
+        <br/><br/>
 
-    Blogginläggs titel: <input type="text" name="Title"><br/>
-    <input type="text" name="rubrik" name="rubrik">
-    <textarea name="inlagg" placeholder="Skriv in ett inlägg här..."></textarea>
-    <input type="text" name="bild">
-    <input type="button" name="textRuta">
-    <input type="button" name="bildRuta">
+    Blogginläggs titel: <input type="text" name="Title"><br/><br/>
+    Text-Paragraf Rubrik: <input type="text" name="rubrik" name="rubrik"><br/><br/>
+    Text-Paragraf: <textarea name="inlagg" placeholder="Skriv in ett inlägg här..."></textarea><br/><br/>
+    BildURL-Paragraf: <input type="text" name="bild"><br/><br/>
+    <input type="button" name="textRuta" value="Lägg till Textruta"><br/><br/>
+    <input type="button" name="bildRuta" value="Lägg till Bildruta"><br/><br/>
     <input type="submit">
 </form>
 <?php
