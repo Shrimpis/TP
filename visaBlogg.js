@@ -16,14 +16,12 @@ function getJsonData() {
     http.send();
 }
 
-function createInlagg(id) {
+function createInlagg(id, blogginlaggTitel) {
 
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
     inlagg.id = "inlagg"+id;
     for (let i = 0; i < 6; i++) {
-        
-        
         let element = document.createElement("div");
         
         if(i <3){
@@ -31,7 +29,7 @@ function createInlagg(id) {
             element.className = "ruta textRuta";
             element.id ="inlagg"+id+"ruta"+i;
             let element2 = document.createElement("h3");
-            element2.innerHTML = "Title";
+            element2.innerHTML = blogginlaggTitel;
             element.appendChild(element2);
             element2 = document.createElement("p");
             element2.innerHTML = "KYSKYSKYSKYSKYSKYS";
@@ -51,20 +49,16 @@ function createInlagg(id) {
     body.appendChild(inlagg);
 }
 
-function createBlogg() {
 
-    createTitel("Detta är en titel");
-    
+
+function createBlogg(bloggTitel, blogginlaggTitel) {
+
+    createTitel(bloggTitel);
 
     for(let i = 0; i < 6; i++) {
-       createInlagg(i);
-       
+       createInlagg(i, blogginlaggTitel);
     }
-
     createKommentar("Detta är en kommentar");
-
-    
-
 }
 
 function createTitel(TITEL) {
@@ -92,6 +86,9 @@ function createKommentar() {
     element.appendChild(kommentar);
     div.appendChild(element);
     body.appendChild(div);
+}
+
+function createGilla() {
 
 }
 
@@ -102,14 +99,17 @@ function init() {
     xhttp.onreadystatechange = function () {
 
         if (this.readyState === 4 && this.status === 200) {
-            console.log(this.responseText);
-            var jsonData = JSON.parse(this.responseText);
             
-            createBlogg();
+            var jsonData = JSON.parse(this.responseText);
+            console.log(jsonData);
+            console.log(jsonData.bloggInlagg[0].titel);
+            createBlogg(jsonData.titel, jsonData.bloggInlagg[0].titel);
         }
     };
 
-    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=1", true);
+
+
+    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=6", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
     xhttp.send();
