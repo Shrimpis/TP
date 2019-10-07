@@ -2,10 +2,26 @@
 
         $db=new mysqli("localhost","root","","the_provider");
         $db->set_charset("utf8");
-
+        
         if($db->connect_error){
             die("Connection failed: " . $db->connect_error);
         }
+        
+        /*if(isset($_SESSION["licens"])){
+            
+            $sql = "SELECT *FROM LICENS WHERE ID =".$_GET["anvandare"];
+            $result = $db->query($sql);
+            $result = mysqli_fetch_assoc($result);
+                    
+            if($_SESSION["licens"] ==  $result["licens"]){
+                
+            }else{
+                echo "Felaktig/gammal licens. kontakta en adminstratör";
+            }
+            
+        }else{
+            echo "Ingen licens. Kontakta adminstratör";
+        }*/
 
         if(isset($_GET['visa'])){
             if($_GET['visa']=='anvandare'){
