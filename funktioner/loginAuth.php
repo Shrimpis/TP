@@ -6,6 +6,6 @@ if(isset($_POST["anvandare"])){
     $sql = "SELECT * FROM licens WHERE UID=".$_POST["anvandare"];
     $result = mysqli_fetch_assoc($db->query($sql));
     $_SESSION["licens"] = $result["licens_key"];
-    header("location: index.php");
+    header("location: ../index.php");
 }
 
