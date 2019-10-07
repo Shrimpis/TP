@@ -396,6 +396,32 @@
             <br><br>
             <input type="submit" value="Skapa Kommentar">
         </form>
+        <br>
+        <br>
+
+        <!-- Ta bort en kommentar -->
+
+        <h4>Ta bort en kommentar</h4>
+
+        <form action="funktioner/delkomfunc.php" method="get">
+            <select name="KID">
+            <?php
+                include("funktioner/dbh.inc.php");
+                $sql = "SELECT * from kommentar";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['KID'] . "'>" . $row['KID'] . " | " . $row['text'] . "</option>";
+                    }
+                } else { 
+                    echo "0 results"; 
+                }
+                $conn->close();
+                
+            ?>
+            </select>
+            <input type="submit" value="Ta bort kommentaren">
+        </form>
 
         </div>
         </div>
