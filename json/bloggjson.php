@@ -47,7 +47,7 @@
             $enamn;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnman"];
+                $fnamn=$row["fnamn"];
                 $enamn=$row["enamn"];
                 $i++;
             }
@@ -78,7 +78,7 @@
             $anvandareArray;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {
-                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnman"],'enamn'=>$row["enamn"]);
+                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"]);
                 $i++;
             }
 
@@ -171,7 +171,7 @@
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('anvandareID'=>$row['UID'],'namn'=>$row['fnman'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
@@ -227,7 +227,7 @@
             $enamn;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnman"];
+                $fnamn=$row["fnamn"];
                 $enamn=$row["enamn"];
                 $i++;
             }
