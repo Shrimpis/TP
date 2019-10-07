@@ -291,15 +291,16 @@
 
             <form action="funktioner/redigeratextruta.php" method="get">
                 <input type="text" name="Text">
+                <input type="text" name="ordning">
                 <br>
                 <select name="RID">
                 <?php
-
+                    include('funktioner/dbh.inc.php');
                     $sql = "SELECT * from textruta";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["RID"] ."'>RID: ". $row["RID"]."</option>";
+                            echo "<option value='". $row["RID"] ."'>RID: ". $row['RID']."</option>";
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
@@ -395,6 +396,33 @@
             <textarea name="text" rows="10" cols="30">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</textarea>
             <br><br>
             <input type="submit" value="Skapa Kommentar">
+        </form>
+        <br>
+        <br>
+        <!-- Redigera kommentar -->
+
+        <h4>Redigera kommentar</h4>
+
+        <form action="funktioner/redigerakommentar.php" method="get">
+        <textarea name="text" rows="10" cols="30">ny text</textarea>
+        <br>
+        <select name="KID">
+        <?php
+        include('funktioner/dbh.inc.php');
+        $sql = "SELECT * from kommentar";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<option value='". $row["KID"] ."'>KID: ". $row['KID']."</option>";
+            }
+            echo "</table>";
+            } else { echo "0 results"; }
+        
+        ?>
+        </select>
+        <br>
+
+        <input type="submit" value="Redigera kommentar">
         </form>
         <br>
         <br>
