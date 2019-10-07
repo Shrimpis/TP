@@ -7,7 +7,7 @@
     <meta name="description" content="testform">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript">
-        let rutaOrdning = 0;
+        let rutaOrdning = 1;
 
         function laggTillTextruta() {
 
@@ -21,7 +21,7 @@
             let rubrikInnehall = document.createTextNode("Rubrik Paragraf: ");
             let rubrikInput = document.createElement("input");
             rubrikInput.type = "text";
-            rubrikInput.name = "rubrik" + rutaOrdning;
+            rubrikInput.name = "rubrik";
             rubrik.appendChild(rubrikInnehall);
             rubrik.appendChild(rubrikInput);
             ruta.appendChild(rubrik);
@@ -33,7 +33,7 @@
             let text = document.createElement("div");
             let textInnehall = document.createTextNode("Text Paragraf: ");
             let textInput = document.createElement("textarea");
-            textInput.name = "text" + rutaOrdning;
+            textInput.name = "text";
             textInput.placeholder = "Skriv in ett inlägg här...";
             text.appendChild(textInnehall);
             text.appendChild(breakLine);
@@ -55,7 +55,7 @@
             let bildInnehall = document.createTextNode("Bild: ");
             let bildInput = document.createElement("input");
             bildInput.type = "text";
-            bildInput.name = "bild" + rutaOrdning;
+            bildInput.name = "bild";
             bild.appendChild(bildInnehall);
             bild.appendChild(bildInput);
             ruta.appendChild(bild);
@@ -72,7 +72,7 @@
     include("funktioner/dbh.inc.php");
 
     ?>
-    <form action="skapainlagg.php" method="post">
+    <form action="funktioner/bloggInlagg.php" method="post">
         Välj en blogg:
         <select name="BID" id="BID">
             <?php
@@ -91,7 +91,7 @@
         </select>
         <br /><br />
 
-        Blogginläggs titel: <input type="text" name="Title"><br /><br />
+        Blogginläggs titel: <input type="text" name="title"><br /><br />
         <div id="rutor-container">
             <div class="ruta text">
                 <div class="ruta text rubrik">

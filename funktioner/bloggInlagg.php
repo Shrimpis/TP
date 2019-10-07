@@ -24,7 +24,7 @@
 
 
         //här så addar man texten från URL till variabel.
-        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID'])){
             $text= $_POST['text'];
             $rubrik= $_POST['rubrik'];
             $IID= $_POST['IID'];
@@ -69,3 +69,5 @@
             $sql= "INSERT INTO bildruta(RID, bild, IID) VALUES ('$rutaID','$bild','$IID')";
             $conn->query($sql);
         }
+
+    $conn->close();
