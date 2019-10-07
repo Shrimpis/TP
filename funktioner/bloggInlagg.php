@@ -1,11 +1,6 @@
 <?php
 
-        $dbhost = "localhost";
-        $dbuser = "root";
-        $dbpass = "";
-        $db = "the_provider";
-
-        $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
+    include("dbh.inc.php");
 
         if(isset($_POST['BID']) && isset($_POST['title'])){
             $blogID= $_POST['BID'];
@@ -74,6 +69,3 @@
             $sql= "INSERT INTO bildruta(RID, bild, IID) VALUES ('$rutaID','$bild','$IID')";
             $conn->query($sql);
         }
-
-
-    ?>
