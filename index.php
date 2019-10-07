@@ -16,6 +16,65 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+        <script type="text/javascript">
+        let rutaOrdning = 0;
+
+        function laggTillTextruta() {
+
+            rutaOrdning++;
+
+            let body = document.getElementById("rutor-container");
+            let ruta = document.createElement("div");
+            ruta.name = "textruta";
+
+            let rubrik = document.createElement("div");
+            let rubrikInnehall = document.createTextNode("Rubrik Paragraf: ");
+            let rubrikInput = document.createElement("input");
+            rubrikInput.type = "text";
+            rubrikInput.name = "rubrik" + rutaOrdning;
+            rubrik.appendChild(rubrikInnehall);
+            rubrik.appendChild(rubrikInput);
+            ruta.appendChild(rubrik);
+
+            let breakLine = document.createElement("br");
+            rubrik.appendChild(breakLine);
+            rubrik.appendChild(breakLine);
+
+            let text = document.createElement("div");
+            let textInnehall = document.createTextNode("Text Paragraf: ");
+            let textInput = document.createElement("textarea");
+            textInput.name = "text" + rutaOrdning;
+            textInput.placeholder = "Skriv in ett inlägg här...";
+            text.appendChild(textInnehall);
+            text.appendChild(breakLine);
+            text.appendChild(textInput);
+            ruta.appendChild(text);
+            body.appendChild(ruta);
+
+        }
+
+        function laggTillBildruta(){
+
+            rutaOrdning++;
+
+            let body = document.getElementById("rutor-container");
+            let ruta = document.createElement("div");
+            ruta.name = "bildruta";
+
+            let bild = document.createElement("div");
+            let bildInnehall = document.createTextNode("Bild: ");
+            let bildInput = document.createElement("input");
+            bildInput.type = "text";
+            bildInput.name = "bild" + rutaOrdning;
+            bild.appendChild(bildInnehall);
+            bild.appendChild(bildInput);
+            ruta.appendChild(bild);
+            body.appendChild(ruta);
+
+        }
+
+    </script>
+
     </head>
     <body>
     <div class="container">
@@ -31,9 +90,15 @@
         <div class="tab-content">
             <div id="Blogg" class="tab-pane fade in active">
             <h3>Blogg</h3>
-            <p>Skapa en Blogg:</p>
+            <br>
+
+            <!-- Skapa blogg -->
+
+            <h4>Skapa en Blogg:</h4>
                 <form action="funktioner/skapaBlogg.php" method="get">
-                <input type="text" name="Titel">
+                Namn:<input type="text" name="Titel">
+                <br><br>
+                Välj en användare:
                 <select name="Anvandare">
                 <?php
                     $sql = "SELECT * from anvandare";
@@ -43,12 +108,196 @@
                     }
                 ?>
                 </select>
-                <input type="submit">
+                <br><br>
+                <input type="submit" value="Skapa Blogg">
                 </form>
+                <br>
+
+            <!-- Ta bort blogg -->
+
+            <h4>Ta bort en Blogg:</h4>
+
+            <form action="funktioner/tabortblogg.php">
+            Välj en blogg:
+                <select name="BID" id="BID">
+                    <?php 
+                        include('funktioner/dbh.inc.php');
+                        $sql = "SELECT BID, title, UID FROM blogg";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["BID"] ."'>ID: ". $row["UID"]." | ". $row["title"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                    ?>
+                </select>
+                <br><br>
+                <input type="submit" value="Ta bort blogg">
+            </form>
+
             </div>
             <div id="Inlagg" class="tab-pane fade">
-            <h3>Inlägg</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+            <!-- Skapa ett inlägg -->
+
+            <h4>Skapa ett inlägg</h4>
+
+            <form action="funktioner/skapainlagg.php" method="get">
+                Välj en blogg:
+                <select name="BID" id="BID">
+                    <?php
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT BID, title, UID FROM blogg";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row["BID"] . "'>ID: " . $row["UID"] . " | " . $row["title"] . "</option>";
+                        }
+                        echo "</table>";
+                    } else {
+                        echo "0 results";
+                    }
+
+                    ?>
+                </select>
+                <br>
+                <br>
+
+                Blogginläggs titel: <input type="text" name="Title"><br /><br />
+                <div id="rutor-container">
+                    <div class="ruta text">
+                        <div class="ruta text rubrik">
+                            Rubrik Paragraf: <input type="text" name="rubrik"><br /><br />
+                        </div>
+                        <div class="ruta innertext">
+                            Text Paragraf: <textarea name="text" placeholder="Skriv in ett inlägg här..."></textarea><br /><br />
+                        </div>
+                    </div>
+                </div>
+                <input type="button" name="textRuta" value="Lägg till Textruta" onclick="laggTillTextruta()"><br /><br />
+                <input type="button" name="bildRuta" value="Lägg till Bildruta" onclick="laggTillBildruta()"><br /><br />
+                <input type="submit" value="Skapa inlägg">
+            </form><br><br>
+
+            <!-- Redigera titel på ett inlägg -->
+
+            <h4>Redigera titel på ett inlägg</h4>
+
+            <form action="funktioner/inlaggredfunktion.php" method="get">
+                Titel:
+                <input type="text" name="Titel">
+                <br>
+                <br>
+                Inlägg:
+                <select name="IID" id="IID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+                </select>
+                <br><br>
+                <input type="submit" value="Redigera titel">
+            </form>
+            <br>
+            <br>
+
+            <!-- Ta bort ett inlägg -->
+
+            <h4>Ta bort ett inlägg</h4>
+
+            <form action="funktioner/tabortinlagg.php" method="get">
+                Inlägg:
+                <select name="IID" id="IID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+                </select>
+                <br>
+                <br>
+                <input type="submit" value="Ta bort inlägg">
+            </form> 
+            <br>
+
+            <!-- Gilla ett inlägg -->
+
+            <h4>Gilla ett inlägg</h4>
+            <form action="funktioner/gillaInlagg.php">
+            Välj ett inlägg:
+            <select name="IID" id="IID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            Välj en användare:
+            <select name="UID" id="UID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT UID, fnamn, enamn FROM anvandare";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["UID"] ."'>AnvändareID: ". $row["UID"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            <input type="submit" value="Gilla">
+            </form>
+
+            <!-- Ta bort en ruta -->
+
+            <h4>Ta bort en textruta</h4>
+
+            <form action="funktioner/taborttextruta.php" method="get">
+            <select name="RID">
+            <?php
+                include('funktioner/dbh.inc.php');
+                $sql = "SELECT * from rutor";
+                $result = $conn->query($sql);
+                while($row = $result->fetch_assoc()) {
+                    echo "<option>" . $row['RID'] . "</option>";
+                }
+                $conn->close();
+                
+            ?>
+            </select>
+            <br>
+            <br>
+            <input type="submit" value="Ta bort textruta">
+            </form>
+
             </div>
             <div id="Kommentar" class="tab-pane fade">
             <h3>Kommentar</h3>
