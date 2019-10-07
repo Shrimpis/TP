@@ -99,19 +99,24 @@
                 Namn:<input type="text" name="Titel">
                 <br><br>
                 Välj en användare:
-                <select name="Anvandare">
-                <?php
-                    $sql = "SELECT * from anvandare";
+                <select name="UID" id="UID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT UID, fnamn, enamn FROM anvandare";
                     $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value=" . $row['UID'] . ">" . $row['fnman'] . " " . $row['enamn'] . "</option>";
+                        echo "<option value='". $row["UID"] ."'>AnvändareID: ". $row["UID"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
                     }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
                 ?>
                 </select>
                 <br><br>
                 <input type="submit" value="Skapa Blogg">
                 </form>
-                <br>
+                <br><br>
 
             <!-- Ta bort blogg -->
 
@@ -172,7 +177,9 @@
                             Rubrik Paragraf: <input type="text" name="rubrik"><br /><br />
                         </div>
                         <div class="ruta innertext">
-                            Text Paragraf: <textarea name="text" placeholder="Skriv in ett inlägg här..."></textarea><br /><br />
+                            Text Paragraf: 
+                            <br>
+                            <textarea name="text" placeholder="Skriv in ett inlägg här..."></textarea><br /><br />
                         </div>
                     </div>
                 </div>
@@ -235,7 +242,7 @@
                 <br>
                 <input type="submit" value="Ta bort inlägg">
             </form> 
-            <br>
+            <br><br>
 
             <!-- Gilla ett inlägg -->
 
@@ -275,6 +282,36 @@
             <br><br>
             <input type="submit" value="Gilla">
             </form>
+            <br>
+            <br>
+
+            <!-- Redigera textruta -->
+
+            <h4>Redigera textruta</h4>
+
+            <form action="funktioner/redigeratextruta.php" method="get">
+                <input type="text" name="Text">
+                <br>
+                <select name="RID">
+                <?php
+
+                    $sql = "SELECT * from textruta";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["RID"] ."'>RID: ". $row["RID"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                    
+                ?>
+                </select>
+                <br>
+
+                <input type="submit" value="Redigera textruta">
+            </form>
+            <br>
+            <br>
 
             <!-- Ta bort en ruta -->
 
@@ -300,9 +337,67 @@
 
             </div>
             <div id="Kommentar" class="tab-pane fade">
-            <h3>Kommentar</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-            </div>
+
+            <!-- Skapa en kommentar -->
+
+            <h4>Skapa en kommentar</h4>
+
+            <form action="funktioner/skapaKommentar.php">
+            Välj att kommentera:
+            <select name="hierarchyID" id="hierarchyID">
+                <option value="0">Ingen</option>
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT KID, text FROM kommentar";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["KID"] ."'>KID: ". $row["KID"]." | ". $row["text"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            Välj ett inlägg:
+            <select name="IID" id="IID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            Välj en användare:
+            <select name="UID" id="UID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT UID, fnamn, enamn FROM anvandare";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["UID"] ."'>AnvändareID: ". $row["UID"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            <textarea name="text" rows="10" cols="30">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</textarea>
+            <br><br>
+            <input type="submit" value="Skapa Kommentar">
+        </form>
+
+        </div>
         </div>
         </div>
     </body>
