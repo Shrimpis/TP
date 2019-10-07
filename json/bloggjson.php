@@ -182,6 +182,18 @@
 
 
             }
+
+
+
+
+
+
+
+
+            
+
+
+            
             
 
 
@@ -190,12 +202,42 @@
                 $Bloggarray=array('titel'=>$row["title"]);
             }
 
+
+
+
+
+
+            $fnamn;
+            $enamn;
+            $i=0;
+            while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
+                $fnamn=$row["fnman"];
+                $enamn=$row["enamn"];
+                $i++;
+            }
+            
+            $Bloggarray['fnamn']=$fnamn;//förnamn
+            $Bloggarray['enamn']=$enamn;//efternamn
+
+
+
+
+
+
+
+
+
             if(isset($blogginlaggArray)){
                 $Bloggarray['bloggInlagg']=$blogginlaggArray;
                 
                 $json=json_encode($Bloggarray);
                 echo $json;
             }
+
+
+
+
+
             else{
                 $Bloggarray['bloggInlagg']=array();
                 $json=json_encode($Bloggarray);

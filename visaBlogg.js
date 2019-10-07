@@ -1,13 +1,59 @@
 
 let jsonData;
 
-function createInlagg(id) {
 
+
+function createBlogg() {
+
+    createTitel();
+    createInlagg();
+    createSkribent();
+    createKommentar();
+}
+
+
+
+//Dynamisk
+function createSkribent() {
+    let body = document.getElementById("skribentContainer");
+    let element = document.createElement("p");
+    let div = document.createElement("div");
+
+    let skribent = document.createTextNode(jsonData.fnamn);
+    element.appendChild(skribent);
+    div.appendChild(element);
+    body.appendChild(div);
+}
+
+
+
+//Dynamisk
+function createTitel() {
+    let body = document.getElementById("headerContainer");
+    let element = document.createElement("h1");
+    let div = document.createElement("div");
+
+    let titel = document.createTextNode(jsonData.titel);
+    element.appendChild(titel);
+    div.appendChild(element);
+    body.appendChild(div);
+}
+
+
+
+function createInlagg(id) {
+    
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
-    console.log(jsonData.bloggInlagg[0].rutor[0]);
+    console.log(jsonData.bloggInlagg[0].titel);
     inlagg.id = "inlagg" + id;
     for (let i = 0; i < jsonData.bloggInlagg.length; i++) {
+        
+        let titleContainer = document.createElement("div");
+        let title = document.createElement("h2");
+        title.innerHTML = jsonData.bloggInlagg[i].titel;
+        titleContainer.appendChild(title);
+        inlagg.appendChild(titleContainer);
         for (let j = 0; j < jsonData.bloggInlagg[i].rutor.length; j++) {
 
             let element = document.createElement("div");
@@ -20,7 +66,7 @@ function createInlagg(id) {
                 element.id = "inlagg" + id + "ruta" + j;
                 if (jsonData.bloggInlagg[i].rutor[j].rubrik !== null) {
 
-                    element2 = document.createElement("h2");
+                    element2 = document.createElement("h3");
                     element2.innerHTML = jsonData.bloggInlagg[i].rutor[j].rubrik;
                     element.appendChild(element2);
                 }
@@ -47,54 +93,38 @@ function createInlagg(id) {
 
 
 
-function createBlogg() {
-
-    createTitel();
-    createSkribent();
-
-    for(let i = 0; i < 6; i++) {
-       createInlagg(i);
-    }
-    createKommentar("Detta är en kommentar");
-}
-
-function createSkribent() {
-    let body = document.createElementById("skribentContainer");
-    let element = document.createElement("p");
-    let div = document.createElement("div");
-
-    let skribent = document.createTextNode(jsonData.fnamn);
-    element.appendChild(skribent);
-    div.appendChild(element);
-    body.appendChild(div);
-}
-
-function createTitel() {
-    let body = document.getElementById("headerContainer");
-    let element = document.createElement("h2");
-    let div = document.createElement("div");
-
-    let titel = document.createTextNode(jsonData.titel);
-    element.appendChild(titel);
-    div.appendChild(element);
-    body.appendChild(div);
-}
-
+//Inte dynamisk
 function createKommentar() {
     let body = document.getElementById("kommentarContainer");
-    let element = document.createElement("p");
-    let div = document.createElement("div");
-    //element.setAttribute("kommentarContainer", "kommentar");
+    let kommentar = document.createElement("div");
 
-    let kommentar = document.createTextNode("KOMMENTAR");
-    element.appendChild(kommentar);
-    div.appendChild(element);
-    body.appendChild(div);
+    for(let i = 0; i < jsonData.bloggInlagg.length; i++)
+        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
+
+            let element = document.createElement("div");
+            element.id = "kommentar" + j;
+            let element2;
+            
+            if (jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == 0) {
+                element2 = document.createElement("p");
+                element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
+                element.appendChild(element2);
+            } else {
+                element2 = document.createElement("div");
+                let element3 = document.createElement("p");
+                element3.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
+
+                element2.appendChild(element3);
+                element.appendChild(element2);
+            }
+            
+            kommentar.appendChild(element);
+  
+    }
+    
+    body.appendChild(kommentar);
 }
 
-function createGilla() {
-
-}
 
 function init() {
 
@@ -110,8 +140,6 @@ function init() {
             createBlogg();
         }
     };
-
-
 
     xhttp.open("GET", "json/bloggjson.php?visa=anvandare&anvandare=1&blogg=6", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
