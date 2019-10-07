@@ -2,10 +2,26 @@
 
         $db=new mysqli("localhost","root","","the_provider");
         $db->set_charset("utf8");
-
+        
         if($db->connect_error){
             die("Connection failed: " . $db->connect_error);
         }
+        
+        /*if(isset($_SESSION["licens"]) && isset($_GET["anvandare"])){
+            
+            $sql = "SELECT *FROM LICENS WHERE ID =".$_GET["anvandare"];
+            $result = $db->query($sql);
+            $result = mysqli_fetch_assoc($result);
+                    
+            if($_SESSION["licens"] ==  $result["licens"]){
+                
+            }else{
+                echo "Felaktig/gammal licens. kontakta en adminstratör";
+            }
+            
+        }else{
+            echo "Ingen licens. Kontakta adminstratör";
+        }*/
 
         if(isset($_GET['visa'])){
             if($_GET['visa']=='anvandare'){
@@ -31,7 +47,7 @@
             $enamn;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnman"];
+                $fnamn=$row["fnamn"];
                 $enamn=$row["enamn"];
                 $i++;
             }
@@ -62,7 +78,7 @@
             $anvandareArray;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {
-                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnman"],'enamn'=>$row["enamn"]);
+                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"]);
                 $i++;
             }
 
@@ -155,7 +171,7 @@
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('anvandareID'=>$row['UID'],'namn'=>$row['fnman'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('KID'=>$row['KID'],'anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
@@ -211,7 +227,7 @@
             $enamn;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnman"];
+                $fnamn=$row["fnamn"];
                 $enamn=$row["enamn"];
                 $i++;
             }
@@ -247,6 +263,17 @@
         }
 
         
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
 

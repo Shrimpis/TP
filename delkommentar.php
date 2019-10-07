@@ -13,15 +13,15 @@ include("funktioner/dbh.inc.php");
 
 
 ?>
-<form action="funktioner/taborttextruta.php" method="get">
+<form action="funktioner/delkomfunc.php" method="get">
 
-<select name="RID">
+<select name="KID">
 <?php
 
-    $sql = "SELECT * from rutor";
+    $sql = "SELECT * from kommentar";
     $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
-        echo "<option>" . $row['RID'] . "</option>";
+        echo "<option>" . $row['KID'] . "</option>";
     }
     
 ?>

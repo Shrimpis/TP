@@ -13,9 +13,11 @@
         
         $sql3="DELETE FROM textruta WHERE IID=$IID";
         $sql4="DELETE FROM rutor WHERE IID=$IID";
+        $sql5="DELETE FROM kommentar WHERE IID=$IID";
         
         $conn->query($sql3);
         $conn->query($sql4);
+        $conn->query($sql5);
         
     }
     if(mysqli_query($conn, $sql)&&mysqli_query($conn, $sql2)){
