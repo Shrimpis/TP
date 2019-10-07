@@ -5,30 +5,41 @@ function createInlagg(id) {
 
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
-    inlagg.id = "inlagg"+id;
-    for (let i = 0; i < 6; i++) {
-        let element = document.createElement("div");
-        
-        if(i <3){
+    console.log(jsonData.bloggInlagg[0].rutor[0]);
+    inlagg.id = "inlagg" + id;
+    for (let i = 0; i < jsonData.bloggInlagg.length; i++) {
+        for (let j = 0; j < jsonData.bloggInlagg[i].rutor.length; j++) {
+
+            let element = document.createElement("div");
             
-            element.className = "ruta textRuta";
-            element.id ="inlagg"+id+"ruta"+i;
-            let element2 = document.createElement("h3");
-            element2.innerHTML = "Flaming me ";
-            element.appendChild(element2);
-            element2 = document.createElement("p");
-            element2.innerHTML = "KYSKYSKYSKYSKYSKYS";
-            element.appendChild(element2);
-        }else {
-            element.className = "ruta bildRuta";
-            element.id = "ruta"+i;
-            let element2 = document.createElement("img");
-            element2.src = "images/kys.jpg";
-            element2.alt = "KYS";
-            element.appendChild(element2);
+            let element2;
             
+            if (jsonData.bloggInlagg[i].rutor[j].type === "textRuta") {
+
+                element.className = "ruta textRuta";
+                element.id = "inlagg" + id + "ruta" + j;
+                if (jsonData.bloggInlagg[i].rutor[j].rubrik !== null) {
+
+                    element2 = document.createElement("h2");
+                    element2.innerHTML = jsonData.bloggInlagg[i].rutor[j].rubrik;
+                    element.appendChild(element2);
+                }
+
+                element2 = document.createElement("p");
+                element2.innerHTML = jsonData.bloggInlagg[i].rutor[j].text;
+                element.appendChild(element2);
+            } else {
+                element.className = "ruta bildRuta";
+                element.id = "ruta" + j;
+                let element2 = document.createElement("img");
+                element2.src = "images/kys.jpg";
+                element2.alt = "KYS";
+                element.appendChild(element2);
+            }
+            
+            inlagg.appendChild(element);
         }
-        inlagg.appendChild(element);
+            inlagg.appendChild(document.createTextNode(jsonData.bloggInlagg[i].datum));
     }
     
     body.appendChild(inlagg);
@@ -51,7 +62,10 @@ function createSkribent() {
     let element = document.createElement("p");
     let div = document.createElement("div");
 
-    let skribent = document.createTextNode(jsonData);
+    //let skribent = document.createTextNode(jsonData.titel.);
+    element.appendChild(skribent);
+    div.appendChild(element);
+    body.appendChild(div);
 }
 
 function createTitel() {
@@ -98,7 +112,7 @@ function init() {
 
 
 
-    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=6", true);
+    xhttp.open("GET", "json/bloggjson.php?visa=anvandare&anvandare=1&blogg=6", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
     }
