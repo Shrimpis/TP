@@ -112,7 +112,7 @@
             $i=0;
             while($row = $blogginlagg->fetch_assoc()) {
                 $IID=$row["IID"];//id på det inlagget som vi ar på.
-                $blogginlaggArray[$i]=array('datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
+                $blogginlaggArray[$i]=array('IID'=>$IID,'datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
 
 
 
