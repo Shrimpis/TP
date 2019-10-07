@@ -72,7 +72,7 @@
     include("funktioner/dbh.inc.php");
 
     ?>
-    <form action="skapainlagg.php" method="get">
+    <form action="skapainlagg.php" method="post">
         Välj en blogg:
         <select name="BID" id="BID">
             <?php

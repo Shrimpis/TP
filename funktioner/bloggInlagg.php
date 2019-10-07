@@ -7,9 +7,9 @@
 
         $conn = mysqli_connect($dbhost, $dbuser, $dbpass,$db);
 
-        if(isset($_GET['BID']) && isset($_GET['title'])){
-            $blogID= $_GET['BID'];
-            $title= $_GET['title'];
+        if(isset($_POST['BID']) && isset($_POST['title'])){
+            $blogID= $_POST['BID'];
+            $title= $_POST['title'];
 
             bloggInlagg($blogID, $title, $conn);
         }
@@ -29,11 +29,11 @@
 
 
         //här så addar man texten från URL till variabel.
-        if(isset($_GET['text']) && isset($_GET['rubrik']) && isset($_GET['IID']) && isset($_GET['ordning'])){
-            $text= $_GET['text'];
-            $rubrik= $_GET['rubrik'];
-            $IID= $_GET['IID'];
-            $ordning= $_GET['ordning'];
+        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+            $text= $_POST['text'];
+            $rubrik= $_POST['rubrik'];
+            $IID= $_POST['IID'];
+            $ordning= $_POST['ordning'];
 
             textRuta($text, $rubrik, $IID, $ordning, $conn);
         }
@@ -53,10 +53,10 @@
 
 
         //här så addar man bilden från URL
-        if(isset($_GET['bild']) && isset($_GET['IID'])&& isset($_GET['ordning'])){
-            $bild= $_GET['bild'];
-            $IID= $_GET['IID'];
-            $ordning= $_GET['ordning'];
+        if(isset($_POST['bild']) && isset($_POST['IID'])&& isset($_POST['ordning'])){
+            $bild= $_POST['bild'];
+            $IID= $_POST['IID'];
+            $ordning= $_POST['ordning'];
 
             bildRuta($bild, $IID, $ordning, $conn);
         }
