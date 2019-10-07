@@ -141,7 +141,7 @@ function init() {
         }
     };
 
-    xhttp.open("GET", "json/bloggjson.php?visa=anvandare&anvandare=1&blogg=6", true);
+    xhttp.open("GET", "json/bloggjson.php?visa=anvandare&anvandare=1&blogg=1", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
     }
