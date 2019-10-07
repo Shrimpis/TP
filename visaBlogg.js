@@ -50,6 +50,7 @@ function createInlagg(id) {
 function createBlogg() {
 
     createTitel();
+    createSkribent();
 
     for(let i = 0; i < 6; i++) {
        createInlagg(i);
@@ -62,7 +63,7 @@ function createSkribent() {
     let element = document.createElement("p");
     let div = document.createElement("div");
 
-    //let skribent = document.createTextNode(jsonData.titel.);
+    let skribent = document.createTextNode(jsonData.fnamn);
     element.appendChild(skribent);
     div.appendChild(element);
     body.appendChild(div);
