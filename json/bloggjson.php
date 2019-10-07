@@ -7,7 +7,7 @@
             die("Connection failed: " . $db->connect_error);
         }
         
-        /*if(isset($_SESSION["licens"])){
+        /*if(isset($_SESSION["licens"]) && isset($_GET["anvandare"])){
             
             $sql = "SELECT *FROM LICENS WHERE ID =".$_GET["anvandare"];
             $result = $db->query($sql);
