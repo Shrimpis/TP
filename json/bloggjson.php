@@ -171,7 +171,7 @@
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('KID'=>$row['KID'],'anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
