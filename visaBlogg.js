@@ -45,7 +45,7 @@ function createInlagg(id) {
     
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
-    console.log(jsonData.bloggInlagg[0].titel);
+    //console.log(jsonData.bloggInlagg[0].titel);
     inlagg.id = "inlagg" + id;
     for (let i = 0; i < jsonData.bloggInlagg.length; i++) {
         
@@ -94,85 +94,70 @@ function createInlagg(id) {
 
 
 //Inte dynamisk
-function createKommentar() {
-    
+
+
+
+
+//Work in progress fully dynamisk kommentarsfält
+/*function createKommentar() {
+    let body = document.getElementById("kommentarContainer");
+    let kommentar = document.createElement("div");
     
 
     for(let i = 0; i < jsonData.bloggInlagg.length; i++)
-    {console.log(jsonData);
+    {
         for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
-                rekurs(jsonData.bloggInlagg[i].kommentarer[j].KID);
+            //console.log(jsonData.bloggInlagg[i].kommentarer[j].text);
+            if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == 0) {
+                let element = rekurs(jsonData.bloggInlagg[i].kommentarer[j].KID); 
                 
-            } 
-        }
+                kommentar.appendChild(element); 
+            }
             
-           /* while(kommentarArray.length != 0) {
-                if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == curKommentar) {
-                        kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID);
-                }
-                    
-
-                }*/
-                
-                
-                
-                
-                
-                
-                
-                
-                /*else {
-                element2 = document.createElement("div");
-                let element3 = document.createElement("p");
-                element3.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
-
-                element2.appendChild(element3);
-                element.appendChild(element2);
-            }*/
-            
-            
-  
+        } 
+    }
     
+    //console.log(kommentar);
+    body.appendChild(kommentar);
     
 }
 
 
 function rekurs(id) {
-    let body = document.getElementById("kommentarContainer");
-    let kommentar = document.createElement("div");
-    
-
-    for(let i = 0; i < jsonData.bloggInlagg.length; i++){
+    let element, element2;
+    kommentarArray.push(id);
+    for(let i = 0; i < jsonData.bloggInlagg.length; i++) {
         
-        let element = document.createElement("div");
-        element.id = "kommentar" + j;
-        let element2;
-
-        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer; j++) {
-            console.log("je");
-
+        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
+            element = document.createElement("div");
+            element.id = "kommentar" + j;
+            
+            //console.log(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID + " " + id);
             if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == id) {
-                kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID)
+                kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID);
+            
             }
             
-            while(kommentarArray.length > 0) {
-            element2 = document.createElement("p");
-            element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
-            element.appendChild(element2);
-
-            kommentarArray.splice(i);
         }
-
-
-        }
-
-        
-        kommentar.appendChild(element);
     }
 
-    body.appendChild(kommentar);
+    for(let i = 0; i < jsonData.bloggInlagg.length; i++){
+        for(let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
+            console.log(kommentarArray.length);
+            while(kommentarArray.length > 0) {
+                element2 = document.createElement("p");
+                element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
+                element.appendChild(element2);
+                console.log(jsonData.bloggInlagg[i].kommentarer[j].text);
+                kommentarArray.splice(i);
+            }
+        }
+    }
+
+    console.log(element);
+    return element;
     
-}
+}*/
 
 
 
@@ -186,7 +171,7 @@ function init() {
             
             jsonData = JSON.parse(this.responseText);
             console.log(jsonData);
-            console.log(jsonData.titel);
+            //console.log(jsonData.titel);
             createBlogg();
         }
     };
