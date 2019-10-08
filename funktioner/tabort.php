@@ -1,21 +1,24 @@
 <?php
 
 // Ta bort funktioner //
-$auth = "SvvVuxb9gzQYtkjNYdEVvxnP";
+
+//Anropas via följande url:
+// http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=FUNKTIONSNAMN&BID=5
+
+$auth = "SvvVuxb9gzQYtkjNYdEVvxnP"; //Autorisationsnyckel/Licsensnyckeln
 
 if($_GET['key'] == $auth){
     switch($_GET['f']) {
-        case 'tabortBlogg': // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=tabortBlogg&BID=5
+        case 'tabortBlogg':
             tabortBlogg();
             break;
-        case 'tabortInlagg'; // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=tabortInlagg&IID=5
+        case 'tabortInlagg';
             tabortInlagg();
             break;
-    $KID = mysqli_real_escape_string($conn, $_REQUEST['KID']);
-        case 'tabortKommentar'; // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=tabortKommentar&KID=5
+        case 'tabortKommentar';
             tabortKommentar();
             break;
-        case 'tabortTextruta'; // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=tabortTextruta&RID=5
+        case 'tabortTextruta';
             tabortTextruta();
             break;
         default:
