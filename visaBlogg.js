@@ -97,6 +97,7 @@ function createInlagg(id) {
 function createKommentar() {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
+    let kommentarArray = new Array();
 
     for(let i = 0; i < jsonData.bloggInlagg.length; i++)
         for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
@@ -104,19 +105,40 @@ function createKommentar() {
             let element = document.createElement("div");
             element.id = "kommentar" + j;
             let element2;
+            let curKommentar = jsonData.bloggInlagg[i].kommentarer[j].KID;
             
             if (jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == 0) {
-                element2 = document.createElement("p");
-                element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
-                element.appendChild(element2);
-            } else {
+                kommentarArray.push(curKommentar);
+                
+            } 
+            
+           /* while(kommentarArray.length != 0) {
+                if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == curKommentar) {
+                        kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID);
+                }
+                    element2 = document.createElement("p");
+                    element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
+                    element.appendChild(element2);
+
+                    kommentarArray.splice()
+
+                }*/
+                
+                
+                
+                
+                
+                
+                
+                
+                /*else {
                 element2 = document.createElement("div");
                 let element3 = document.createElement("p");
                 element3.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
 
                 element2.appendChild(element3);
                 element.appendChild(element2);
-            }
+            }*/
             
             kommentar.appendChild(element);
   
