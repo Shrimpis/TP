@@ -1,5 +1,22 @@
 <?php
 
+switch ($_GET['funktion']) {
+    case 'skapaBlogg':
+        tabortBlogg();
+        break;
+    case 'skapaInlagg';
+        tabortInlagg();
+        break;
+    case 'skapaKommentar';
+        tabortKommentar();
+        break;
+    case 'skapaTextruta';
+        tabortTextruta();
+        break;
+    default:
+        echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+}
+
     function skapaBlogg(){
 
         include("dbh.inc.php");

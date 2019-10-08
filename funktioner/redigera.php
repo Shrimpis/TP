@@ -2,7 +2,7 @@
 
 // Redigera funktioner //
 
-switch ($_GET['f']) {
+switch ($_GET['funktion']) {
     case 'redigeraBlogg':
         redigeraBlogg();
         break;
@@ -24,15 +24,13 @@ function redigeraBlogg(){
 
     $Bid = $_GET['BID'];
     $title = $_GET['Titel'];
-    $sql = "UPDATE blogg set title = '{$title}' WHERE BID = $Bid ";
-    echo $sql;
-    $conn->query($sql);
+    $uppdateraBlogg = "UPDATE blogg set title = '{$title}' WHERE BID = $Bid ";
     
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $uppdateraBlogg)){
         echo "INFO: Bloggen har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraBlogg. " . mysqli_error($conn);
     }
     $conn->close();
 }
@@ -43,30 +41,31 @@ function redigeraKommentar(){
     $Kid = $_GET['KID'];
     $text = $_GET['text'];
 
-    $sql = "UPDATE kommentar set text = '{$text}' WHERE KID = $Kid ";
-    $conn->query($sql);
+    $uppdateraKommentar = "UPDATE kommentar set text = '{$text}' WHERE KID = $Kid ";
 
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $uppdateraKommentar)){
         echo "INFO: Kommentaren har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $updateraKommentar. " . mysqli_error($conn);
     }
     $conn->close();
 }
 
 function redigeraTextruta(){
+    include("dbh.inc.php");
+
     $Rid = $_GET['RID'];
     $text = $_GET['Text'];
     $ordning = $_GET['ordning'];
-    $sql = "UPDATE textruta set text = '{$text}' WHERE RID = $Rid ";
-    $sql = "UPDATE rutor set ordning = $ordning Where RID = $Rid";
+    $uppdateraTextRuta = "UPDATE textruta set text = '{$text}' WHERE RID = $Rid ";
+    $uppdateraRuta = "UPDATE rutor set ordning = $ordning Where RID = $Rid";
 
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $uppdateraTextRuta) && mysqli_query($conn, $uppdateraRuta)){
         echo "INFO: Textrutan har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraTextRuta,$uppdateraRuta. " . mysqli_error($conn);
     }
     $conn->close();
 }
