@@ -54,6 +54,9 @@ function tabortBlogg(){
     } else {
         echo "ERROR: Could not execute $sql,$sql2. " . mysqli_error($conn);
     }
+
+    $conn->close();
+
 }
 
 function tabortInlagg(){
@@ -70,6 +73,9 @@ function tabortInlagg(){
     } else {
         echo "ERROR: Could not execute $sql,$sql2,$sql3. " . mysqli_error($conn);
     }
+
+    $conn->close();
+
 }
 
 function tabortKommentar(){
@@ -84,6 +90,8 @@ function tabortKommentar(){
         echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
     }
 
+    $conn->close();
+
 }
 
 function tabortTextruta(){
@@ -97,6 +105,9 @@ function tabortTextruta(){
     } else {
         echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
     }
+
+    $conn->close();
+
 }
 
 ?>
