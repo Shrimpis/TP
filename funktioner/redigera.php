@@ -22,8 +22,8 @@ switch ($_GET['funktion']) {
 function redigeraBlogg(){
     include("dbh.inc.php");
 
-    $Bid = $_GET['BID'];
-    $title = $_GET['Titel'];
+    $Bid = $_POST['BID'];
+    $title = $_POST['Titel'];
     $uppdateraBlogg = "UPDATE blogg set title = '{$title}' WHERE BID = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
@@ -38,8 +38,8 @@ function redigeraBlogg(){
 function redigeraKommentar(){
     include("dbh.inc.php");
 
-    $Kid = $_GET['KID'];
-    $text = $_GET['text'];
+    $Kid = $_POST['KID'];
+    $text = $_POST['text'];
 
     $uppdateraKommentar = "UPDATE kommentar set text = '{$text}' WHERE KID = $Kid ";
 
@@ -55,9 +55,9 @@ function redigeraKommentar(){
 function redigeraTextruta(){
     include("dbh.inc.php");
 
-    $Rid = $_GET['RID'];
-    $text = $_GET['Text'];
-    $ordning = $_GET['ordning'];
+    $Rid = $_POST['RID'];
+    $text = $_POST['Text'];
+    $ordning = $_POST['ordning'];
     $uppdateraTextRuta = "UPDATE textruta set text = '{$text}' WHERE RID = $Rid ";
     $uppdateraRuta = "UPDATE rutor set ordning = $ordning Where RID = $Rid";
 
@@ -73,16 +73,15 @@ function redigeraTextruta(){
 function redigeraInlagg(){
     include("dbh.inc.php");
 
-    $iid = $_GET['IID'];
-    $title = $_GET['Titel'];
-    $sql = "UPDATE blogginlagg set title = '{$title}' WHERE IID = $iid ";
-    $conn->query($sql);
+    $iid = $_POST['IID'];
+    $title = $_POST['Titel'];
+    $uppdateraInlagg = "UPDATE blogginlagg set title = '{$title}' WHERE IID = $iid ";
     
-    if(mysqli_query($conn, $sql)){
-        echo "INFO: Inlägget har redigerats.";
+    if(mysqli_query($conn, $uppdateraInlagg )){
+        echo "INFO: InlägPOST har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraInlagg . " . mysqli_error($conn);
     }
     $conn->close();
 }

@@ -16,6 +16,9 @@ switch ($_GET['funktion']) {
     case 'skapaKommentar':
         skapaKommentar();
         break;
+    case 'sattaOrdning':
+        sattaOrdning();
+        break;
     case 'gillaInlagg':
         gillaInlagg();
         break;
