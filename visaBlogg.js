@@ -1,6 +1,6 @@
 
 let jsonData;
-
+let kommentarArray = new Array();
 
 
 function createBlogg() {
@@ -95,32 +95,22 @@ function createInlagg(id) {
 
 //Inte dynamisk
 function createKommentar() {
-    let body = document.getElementById("kommentarContainer");
-    let kommentar = document.createElement("div");
-    let kommentarArray = new Array();
+    
+    
 
     for(let i = 0; i < jsonData.bloggInlagg.length; i++)
+    {console.log(jsonData);
         for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
-
-            let element = document.createElement("div");
-            element.id = "kommentar" + j;
-            let element2;
-            let curKommentar = jsonData.bloggInlagg[i].kommentarer[j].KID;
-            
-            if (jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == 0) {
-                kommentarArray.push(curKommentar);
+                rekurs(jsonData.bloggInlagg[i].kommentarer[j].KID);
                 
             } 
+        }
             
            /* while(kommentarArray.length != 0) {
                 if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == curKommentar) {
                         kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID);
                 }
-                    element2 = document.createElement("p");
-                    element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
-                    element.appendChild(element2);
-
-                    kommentarArray.splice()
+                    
 
                 }*/
                 
@@ -140,12 +130,50 @@ function createKommentar() {
                 element.appendChild(element2);
             }*/
             
-            kommentar.appendChild(element);
+            
   
-    }
     
-    body.appendChild(kommentar);
+    
 }
+
+
+function rekurs(id) {
+    let body = document.getElementById("kommentarContainer");
+    let kommentar = document.createElement("div");
+    
+
+    for(let i = 0; i < jsonData.bloggInlagg.length; i++){
+        
+        let element = document.createElement("div");
+        element.id = "kommentar" + j;
+        let element2;
+
+        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer; j++) {
+            console.log("je");
+
+            if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == id) {
+                kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID)
+            }
+            
+            while(kommentarArray.length > 0) {
+            element2 = document.createElement("p");
+            element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
+            element.appendChild(element2);
+
+            kommentarArray.splice(i);
+        }
+
+
+        }
+
+        
+        kommentar.appendChild(element);
+    }
+
+    body.appendChild(kommentar);
+    
+}
+
 
 
 function init() {
