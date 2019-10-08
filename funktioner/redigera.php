@@ -24,7 +24,7 @@ function redigeraBlogg(){
 
     $Bid = $_POST['BID'];
     $title = $_POST['Titel'];
-    $uppdateraBlogg = "UPDATE blogg set title = '{$title}' WHERE BID = $Bid ";
+    $uppdateraBlogg = "UPDATE blogg SET title = '{$title}' WHERE BID = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
         echo "INFO: Bloggen har redigerats.";
@@ -41,7 +41,7 @@ function redigeraKommentar(){
     $Kid = $_POST['KID'];
     $text = $_POST['text'];
 
-    $uppdateraKommentar = "UPDATE kommentar set text = '{$text}' WHERE KID = $Kid ";
+    $uppdateraKommentar = "UPDATE kommentar SET text = '{$text}' WHERE KID = $Kid ";
 
     if(mysqli_query($conn, $uppdateraKommentar)){
         echo "INFO: Kommentaren har redigerats.";
@@ -58,8 +58,8 @@ function redigeraTextruta(){
     $Rid = $_POST['RID'];
     $text = $_POST['Text'];
     $ordning = $_POST['ordning'];
-    $uppdateraTextRuta = "UPDATE textruta set text = '{$text}' WHERE RID = $Rid ";
-    $uppdateraRuta = "UPDATE rutor set ordning = $ordning Where RID = $Rid";
+    $uppdateraTextRuta = "UPDATE textruta SET text = '{$text}' WHERE RID = $Rid ";
+    $uppdateraRuta = "UPDATE rutor SET ordning = $ordning Where RID = $Rid";
 
     if(mysqli_query($conn, $uppdateraTextRuta) && mysqli_query($conn, $uppdateraRuta)){
         echo "INFO: Textrutan har redigerats.";
@@ -75,7 +75,7 @@ function redigeraInlagg(){
 
     $iid = $_POST['IID'];
     $title = $_POST['Titel'];
-    $uppdateraInlagg = "UPDATE blogginlagg set title = '{$title}' WHERE IID = $iid ";
+    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' WHERE IID = $iid ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
         echo "INFO: InlägPOST har redigerats.";

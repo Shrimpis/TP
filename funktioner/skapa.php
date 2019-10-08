@@ -53,6 +53,24 @@ switch ($_GET['funktion']) {
 
     function skapaTextRuta(){
 
+        include('dbh.inc.php');
+        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+            $text= $_POST['text'];
+            $rubrik= $_POST['rubrik'];
+            $IID= $_POST['IID'];
+            $ordning= $_POST['ordning'];
+        }
+        if(isset($_POST['text']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+            $text= $_POST['text'];
+            $IID= $_POST['IID'];
+            $ordning= $_POST['ordning'];
+        }
+
+        $sql= "INSERT INTO rutor(ordning, IID) VALUES ('$ordning','$IID')";
+        $conn->query($sql);
+        $rutaID= mysqli_insert_id($conn);
+        $sql= "INSERT INTO textruta(RID, text, rubrik, IID) VALUES ('$rutaID','$text','$rubrik','$IID')";
+        $conn->query($sql);
 
 
     }
