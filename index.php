@@ -118,6 +118,36 @@
                 </form>
                 <br><br>
 
+            <!-- Redigera titel på en blogg -->
+
+            <h4>Redigera titel på ett inlägg</h4>
+
+            <form action="funktioner/redigerablogg.php" method="get">
+                Titel:
+                <input type="text" name="Titel">
+                <br>
+                <br>
+                Blogg:
+                <select name="BID" id="BID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT BID, title, UID FROM blogg";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["BID"] ."'>ID: ". $row["UID"]." | ". $row["title"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                ?>
+                </select>
+                <br><br>
+                <input type="submit" value="Redigera titel">
+            </form>
+            <br>
+            <br>
+
             <!-- Ta bort blogg -->
 
             <h4>Ta bort en Blogg:</h4>
