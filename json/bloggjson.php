@@ -47,7 +47,7 @@
             $enamn;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnman"];
+                $fnamn=$row["fnamn"];
                 $enamn=$row["enamn"];
                 $i++;
             }
@@ -78,7 +78,7 @@
             $anvandareArray;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {
-                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnman"],'enamn'=>$row["enamn"]);
+                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"]);
                 $i++;
             }
 
@@ -92,8 +92,23 @@
 
         }
 
-
         
+        function hämtaKommentarer($id,$minaKommentarer){
+            $index=0;
+            $kommentarArrayFull=array();
+                for($ii=0;$ii<count($minaKommentarer);$ii++){
+                    if($minaKommentarer[$ii]['hierarchyID']==$id){
+                        $tempKommentarer=$minaKommentarer;
+                        
+                        $kommentarArrayFull[$index]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
+
+                        $index++;
+                    }
+
+                }
+                return $kommentarArrayFull;
+        }
 
         function blog($anvandarId,$bloggId,$db){
             $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
@@ -112,7 +127,7 @@
             $i=0;
             while($row = $blogginlagg->fetch_assoc()) {
                 $IID=$row["IID"];//id på det inlagget som vi ar på.
-                $blogginlaggArray[$i]=array('datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
+                $blogginlaggArray[$i]=array('IID'=>$IID,'datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
 
 
 
@@ -171,11 +186,30 @@
                 $kommentarArray;
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarArray[$index]=array('anvandareID'=>$row['UID'],'namn'=>$row['fnman'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
+                    $kommentarArray[$index]=array('KID'=>$row['KID'],'anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
                    
                     $index++;
                 }
-                $blogginlaggArray[$i]['kommentarer']=$kommentarArray;//lagger in en array med alla kommentarer i blogginlagget.
+
+                $index=0;
+                $kommentarArrayFull;
+                for($ii=0;$ii<count($kommentarArray);$ii++){
+                    if($kommentarArray[$ii]['hierarchyID']==0){
+                        $tempKommentarer=$kommentarArray;
+
+                        //lägger kommetarer i kommentarer.
+                        $kommentarArrayFull[$index]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($tempKommentarer[$ii]['KID'],$tempKommentarer);
+                        $index++;
+                    }
+                }
+
+                /*echo '<pre>';
+                var_dump($kommentarArrayFull);
+                echo '</pre';*/
+
+
+                $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
 
 
 
@@ -198,6 +232,18 @@
 
 
             }
+
+
+
+
+
+
+
+
+            
+
+
+            
             
 
 
@@ -206,12 +252,42 @@
                 $Bloggarray=array('titel'=>$row["title"]);
             }
 
+
+
+
+
+
+            $fnamn;
+            $enamn;
+            $i=0;
+            while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
+                $fnamn=$row["fnamn"];
+                $enamn=$row["enamn"];
+                $i++;
+            }
+            
+            $Bloggarray['fnamn']=$fnamn;//förnamn
+            $Bloggarray['enamn']=$enamn;//efternamn
+
+
+
+
+
+
+
+
+
             if(isset($blogginlaggArray)){
                 $Bloggarray['bloggInlagg']=$blogginlaggArray;
                 
                 $json=json_encode($Bloggarray);
                 echo $json;
             }
+
+
+
+
+
             else{
                 $Bloggarray['bloggInlagg']=array();
                 $json=json_encode($Bloggarray);
@@ -221,6 +297,17 @@
         }
 
         
+
+
+
+
+
+
+
+
+
+
+
 
 ?>
 
