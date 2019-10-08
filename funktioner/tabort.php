@@ -1,12 +1,17 @@
 <?php
 
+<<<<<<< HEAD
 // Funktioner för att ta bort //
 
+=======
+// Ta bort funktioner //
+>>>>>>> 6b4098e99e9bc907c1b4cc30113c0730c8b1e9e0
 //Anropas via följande url:
 // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=FUNKTIONSNAMN&BID=5
 
 $auth = "SvvVuxb9gzQYtkjNYdEVvxnP"; //Autorisationsnyckel/Licsensnyckeln
 
+<<<<<<< HEAD
 if($_POST['key'] == $auth){
     switch($_POST['f']) {
         case 'tabortBlogg':
@@ -23,10 +28,41 @@ if($_POST['key'] == $auth){
             break;
         default:
             echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+=======
+session_start();
+
+if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
+
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_UID["anvandare"];
+    $result = $db->query($sql);
+    $result = mysqli_fetch_assoc($result);
+
+    if ($_SESSION["licens"] == $result["licens"]) {
+        switch ($_GET['f']) {
+            case 'tabortBlogg':
+                tabortBlogg();
+                break;
+            case 'tabortInlagg';
+                tabortInlagg();
+                break;
+            case 'tabortKommentar';
+                tabortKommentar();
+                break;
+            case 'tabortTextruta';
+                tabortTextruta();
+                break;
+            default:
+                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+>>>>>>> 6b4098e99e9bc907c1b4cc30113c0730c8b1e9e0
         }
+    } else {
+        echo "Felaktig/gammal licens. kontakta en adminstratör";
+    }
 } else {
-    echo "ERROR: Ogiltig autorisationsnyckel.";
+    echo "Ingen licens. Kontakta adminstratör";
 }
+
+
 
 function tabortBlogg(){
     include('dbh.inc.php');
