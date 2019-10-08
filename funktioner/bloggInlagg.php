@@ -2,14 +2,16 @@
 
     include("dbh.inc.php");
 
+        //här så addar man bloggInlägg från frontEnd till variabel.
         if(isset($_POST['BID']) && isset($_POST['title'])){
             $blogID= $_POST['BID'];
             $title= $_POST['title'];
 
             bloggInlagg($blogID, $title, $conn);
-        }
+        } 
 
-        function bloggInlagg($blogID, $title, $conn){
+         //här addar man en bloggInlägg till blogg till database.
+         function bloggInlagg($blogID, $title, $conn){
             $date= date("Y-m-d H:i");
 
             $sql= "INSERT INTO blogginlagg(BID, datum, title) VALUES ('$blogID','$date','$title')";
@@ -23,8 +25,8 @@
         }
 
 
-        //här så addar man texten från URL till variabel.
-        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID'])){
+        //här så addar man texten från frontEnd till variabel.
+        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID']) && isset($_POST['ordning'])){
             $text= $_POST['text'];
             $rubrik= $_POST['rubrik'];
             $IID= $_POST['IID'];
@@ -47,7 +49,7 @@
         }
 
 
-        //här så addar man bilden från URL
+        //här så addar man bilden från frontEnd
         if(isset($_POST['bild']) && isset($_POST['IID'])&& isset($_POST['ordning'])){
             $bild= $_POST['bild'];
             $IID= $_POST['IID'];
@@ -62,7 +64,6 @@
 
             $sql= "INSERT INTO rutor(ordning, IID) VALUES ('$ordning','$IID')";
             $conn->query($sql);
-
 
             $rutaID= mysqli_insert_id($conn);
 

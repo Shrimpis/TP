@@ -25,10 +25,25 @@
             rubrik.appendChild(rubrikInnehall);
             rubrik.appendChild(rubrikInput);
             ruta.appendChild(rubrik);
+            
 
             let breakLine = document.createElement("br");
             rubrik.appendChild(breakLine);
             rubrik.appendChild(breakLine);
+
+            let ordning = document.createElement("div");
+            let ordningInnehall = document.createTextNode("Ordning: ");
+            let ordningInput = document.createElement("input");
+            ordningInput.type = "text";
+            ordningInput.name = "ordning";
+            ordning.appendChild(ordningInnehall);
+            ordning.appendChild(ordningInput);
+            ruta.appendChild(ordning);
+            
+
+            
+            ordning.appendChild(breakLine);
+            ordning.appendChild(breakLine);
 
             let text = document.createElement("div");
             let textInnehall = document.createTextNode("Text Paragraf: ");
@@ -90,16 +105,19 @@
             ?>
         </select>
         <br /><br />
-
+        
+        Blogginläggs ID: <input type="text" name="IID"><br /><br />
         Blogginläggs titel: <input type="text" name="title"><br /><br />
         <div id="rutor-container">
             <div class="ruta text">
                 <div class="ruta text rubrik">
-                    Rubrik Paragraf: <input type="text" name="rubrik"><br /><br />
                 </div>
                 <div class="ruta innertext">
-                    Text Paragraf: <textarea name="text" placeholder="Skriv in ett inlägg här..."></textarea><br /><br />
+                    
                 </div>
+
+                
+
             </div>
         </div>
         <input type="button" name="textRuta" value="Lägg till Textruta" onclick="laggTillTextruta()"><br /><br />
