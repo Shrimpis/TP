@@ -2,7 +2,6 @@
 
 // Redigera funktioner //
 
-
 switch ($_GET['f']) {
     case 'redigeraBlogg':
         redigeraBlogg();
