@@ -6,13 +6,13 @@ switch ($_GET['funktion']) {
     case 'redigeraBlogg':
         redigeraBlogg();
         break;
-    case 'redigeraKommentar';
+    case 'redigeraKommentar':
         redigeraKommentar();
         break;
-    case 'redigeraTextruta';
+    case 'redigeraTextruta':
         redigeraTextruta();
         break;
-    case 'redigeraInlagg';
+    case 'redigeraInlagg':
         redigeraTextruta();
         break;
     default:

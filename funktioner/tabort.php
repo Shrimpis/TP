@@ -20,13 +20,13 @@ if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
             case 'tabortBlogg':
                 tabortBlogg();
                 break;
-            case 'tabortInlagg';
+            case 'tabortInlagg':
                 tabortInlagg();
                 break;
-            case 'tabortKommentar';
+            case 'tabortKommentar':
                 tabortKommentar();
                 break;
-            case 'tabortTextruta';
+            case 'tabortTextruta':
                 tabortTextruta();
                 break;
             default:

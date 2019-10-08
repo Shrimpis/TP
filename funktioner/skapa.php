@@ -2,16 +2,22 @@
 
 switch ($_GET['funktion']) {
     case 'skapaBlogg':
-        tabortBlogg();
+        skapaBlogg();
         break;
-    case 'skapaInlagg';
-        tabortInlagg();
+    case 'skapaInlagg':
+        skapaInlagg();
         break;
-    case 'skapaKommentar';
-        tabortKommentar();
+    case 'skapaTextruta':
+        skapaTextruta();
         break;
-    case 'skapaTextruta';
-        tabortTextruta();
+    case 'skapaBildRuta':
+        skapaBildRuta();
+        break;
+    case 'skapaKommentar':
+        skapaKommentar();
+        break;
+    case 'gillaInlagg':
+        gillaInlagg();
         break;
     default:
         echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
