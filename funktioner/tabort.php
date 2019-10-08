@@ -1,14 +1,14 @@
 <?php
 
-// Ta bort funktioner //
+// Funktioner för att ta bort //
 
 //Anropas via följande url:
 // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=FUNKTIONSNAMN&BID=5
 
 $auth = "SvvVuxb9gzQYtkjNYdEVvxnP"; //Autorisationsnyckel/Licsensnyckeln
 
-if($_GET['key'] == $auth){
-    switch($_GET['f']) {
+if($_POST['key'] == $auth){
+    switch($_POST['f']) {
         case 'tabortBlogg':
             tabortBlogg();
             break;
@@ -30,7 +30,7 @@ if($_GET['key'] == $auth){
 
 function tabortBlogg(){
     include('dbh.inc.php');
-    $BID = mysqli_real_escape_string($conn, $_REQUEST['BID']);
+    $BID = mysqli_real_escape_string($conn, $_POST['BID']);
     $sql = "DELETE FROM blogg WHERE BID='{$BID}'";
     $sql2 = "DELETE FROM blogginlagg WHERE BID='{$BID}'";
 
@@ -61,7 +61,7 @@ function tabortBlogg(){
 
 function tabortInlagg(){
     include('dbh.inc.php');
-    $IID = mysqli_real_escape_string($conn, $_REQUEST['IID']);
+    $IID = mysqli_real_escape_string($conn, $_POST['IID']);
     $sql = "DELETE FROM blogginlagg WHERE IID='{$IID}'";
     $sql2 = "DELETE FROM rutor WHERE IID='{$IID}'";
     $sql3 = "DELETE FROM textruta WHERE IID='{$IID}'";
@@ -80,7 +80,7 @@ function tabortInlagg(){
 
 function tabortKommentar(){
     include('dbh.inc.php');
-    $KID = mysqli_real_escape_string($conn, $_REQUEST['KID']);
+    $KID = mysqli_real_escape_string($conn, $_POST['KID']);
     $sql = "DELETE FROM kommentar WHERE KID='{$KID}'";
 
     if(mysqli_query($conn, $sql)){
@@ -96,7 +96,7 @@ function tabortKommentar(){
 
 function tabortTextruta(){
     include('dbh.inc.php');
-    $RID = mysqli_real_escape_string($conn, $_REQUEST['RID']);
+    $RID = mysqli_real_escape_string($conn, $_POST['RID']);
     $sql = "DELETE FROM rutor WHERE RID='{$RID}'";
 
     if(mysqli_query($conn, $sql)){
