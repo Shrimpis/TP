@@ -4,8 +4,8 @@
 
         include("dbh.inc.php");
 
-        $usrid = $_GET['UID'];
-        $title = $_GET['Titel'];
+        $usrid = $_POST['UID'];
+        $title = $_POST['Titel'];
         $sql = "INSERT into blogg(title,UID) VALUES('{$title}',$usrid)";
         echo $sql;
         $conn->query($sql);
@@ -34,10 +34,10 @@
     function skapaKommentar(){
 
         include('dbh.inc.php');
-        $UID = mysqli_real_escape_string($conn, $_REQUEST['UID']); //Användar-ID
-        $IID = mysqli_real_escape_string($conn, $_REQUEST['IID']); //Blogginlägg-ID
-        $text = mysqli_real_escape_string($conn, $_REQUEST['text']); //Kommentar text
-        $hierarchyID = mysqli_real_escape_string($conn, $_REQUEST['hierarchyID']);
+        $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
+        $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+        $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
+        $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
 
         $sql = "INSERT INTO kommentar (UID, IID, text, hierarchyID) VALUES ('$UID', '$IID', '{$text}', '$hierarchyID')";
         if(mysqli_query($conn, $sql)){
@@ -52,15 +52,15 @@
 
     function sattaOrdning(){
 
-        
+
 
     }
 
     function gillaInlagg(){
 
         include('dbh.inc.php');
-        $UID = mysqli_real_escape_string($conn, $_REQUEST['UID']); //Användar-ID
-        $IID = mysqli_real_escape_string($conn, $_REQUEST['IID']); //Blogginlägg-ID
+        $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
+        $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
 
         $redan_gillat = mysqli_query($conn, "SELECT UID, IID FROM gillningar WHERE UID='$UID' AND IID='$IID'");
 
