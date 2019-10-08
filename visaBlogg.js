@@ -94,6 +94,7 @@ function createInlagg(id) {
 
 
 //Inte dynamisk
+<<<<<<< HEAD
 function createKommentar() {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
@@ -127,6 +128,14 @@ function createKommentar() {
 
 
 
+=======
+
+function createKommentar(){
+    
+}
+
+
+>>>>>>> master
 //Work in progress fully dynamisk kommentarsfält
 /*function createKommentar() {
     let body = document.getElementById("kommentarContainer");
