@@ -92,16 +92,18 @@
 
         }
 
+        
         function hämtaKommentarer($id,$minaKommentarer){
+            $index=0;
             $kommentarArrayFull=array();
                 for($ii=0;$ii<count($minaKommentarer);$ii++){
                     if($minaKommentarer[$ii]['hierarchyID']==$id){
                         $tempKommentarer=$minaKommentarer;
                         
-                        $kommentarArrayFull[$ii]=$tempKommentarer[$ii];
-                        $kommentarArrayFull[$ii]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
+                        $kommentarArrayFull[$index]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
 
-                        
+                        $index++;
                     }
 
                 }
@@ -188,15 +190,17 @@
                    
                     $index++;
                 }
+
+                $index=0;
                 $kommentarArrayFull;
                 for($ii=0;$ii<count($kommentarArray);$ii++){
                     if($kommentarArray[$ii]['hierarchyID']==0){
                         $tempKommentarer=$kommentarArray;
 
                         //lägger kommetarer i kommentarer.
-                        $kommentarArrayFull[$ii]=$tempKommentarer[$ii];
-                        $kommentarArrayFull[$ii]['kommentarer']=hämtaKommentarer($tempKommentarer[$ii]['KID'],$tempKommentarer);
-                        
+                        $kommentarArrayFull[$index]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($tempKommentarer[$ii]['KID'],$tempKommentarer);
+                        $index++;
                     }
                 }
 
