@@ -47,7 +47,7 @@ function tabortBlogg(){
     $delBlogg = "DELETE FROM blogg WHERE BID='{$BID}'";
     $delInlagg = "DELETE FROM blogginlagg WHERE BID='{$BID}'";
 
-    $IIDarray = ($conn->query("SELECT IID from blogginlagg where BID ='{$BID}'"));
+    $IIDarray = ($conn->query("SELECT IID FROM blogginlagg WHERE BID ='{$BID}'"));
     
     while($row = $IIDarray->fetch_assoc()){
         $IID= $row['IID'];
