@@ -1,5 +1,14 @@
 <?php 
     include("funktioner/dbh.inc.php");
+    
+    session_start();
+    
+    
+    if(isset($_SESSION["licens"])){
+        
+    }else{
+        header("location: funktioner/loginForm.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -152,7 +161,7 @@
 
             <h4>Ta bort en Blogg:</h4>
 
-            <form action="funktioner/tabortblogg.php">
+            <form action="funktioner/tabort.php?tabortBlogg">
             Välj en blogg:
                 <select name="BID" id="BID">
                     <?php 
