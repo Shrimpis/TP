@@ -92,8 +92,21 @@
 
         }
 
+        function hämtaKommentarer($id,$minaKommentarer){
+            $kommentarArrayFull=array();
+                for($ii=0;$ii<count($minaKommentarer);$ii++){
+                    if($minaKommentarer[$ii]['hierarchyID']==$id){
+                        $tempKommentarer=$minaKommentarer;
+                        
+                        $kommentarArrayFull[$ii]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$ii]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
 
-        
+                        
+                    }
+
+                }
+                return $kommentarArrayFull;
+        }
 
         function blog($anvandarId,$bloggId,$db){
             $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
@@ -175,7 +188,24 @@
                    
                     $index++;
                 }
-                $blogginlaggArray[$i]['kommentarer']=$kommentarArray;//lagger in en array med alla kommentarer i blogginlagget.
+                $kommentarArrayFull;
+                for($ii=0;$ii<count($kommentarArray);$ii++){
+                    if($kommentarArray[$ii]['hierarchyID']==0){
+                        $tempKommentarer=$kommentarArray;
+
+                        //lägger kommetarer i kommentarer.
+                        $kommentarArrayFull[$ii]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$ii]['kommentarer']=hämtaKommentarer($tempKommentarer[$ii]['KID'],$tempKommentarer);
+                        
+                    }
+                }
+
+                /*echo '<pre>';
+                var_dump($kommentarArrayFull);
+                echo '</pre';*/
+
+
+                $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
 
 
 
