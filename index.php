@@ -1,5 +1,14 @@
 <?php 
     include("funktioner/dbh.inc.php");
+    
+    session_start();
+    
+    
+    if(isset($_SESSION["licens"])){
+        
+    }else{
+        header("location: funktioner/loginForm.php");
+    }
 ?>
 
 <!DOCTYPE html>
