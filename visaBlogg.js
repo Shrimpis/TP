@@ -94,7 +94,36 @@ function createInlagg(id) {
 
 
 //Inte dynamisk
+function createKommentar() {
+    let body = document.getElementById("kommentarContainer");
+    let kommentar = document.createElement("div");
 
+   // for(let i = 0; i < jsonData.bloggInlagg.length; i++)
+        for (let j = 0; j < jsonData.bloggInlagg[0].kommentarer.length; j++) {
+
+            let element = document.createElement("div");
+            element.id = "kommentar" + j;
+            let element2;
+            
+            if (jsonData.bloggInlagg[0].kommentarer[j].hierarchyID == 0) {
+                element2 = document.createElement("p");
+                element2.innerHTML = jsonData.bloggInlagg[0].kommentarer[j].text;
+                element.appendChild(element2);
+            } else {
+                element2 = document.createElement("div");
+                let element3 = document.createElement("p");
+                element3.innerHTML = jsonData.bloggInlagg[0].kommentarer[j].text;
+
+                element2.appendChild(element3);
+                element.appendChild(element2);
+            }
+            
+            kommentar.appendChild(element);
+  
+    }
+    
+    body.appendChild(kommentar);
+}
 
 
 
