@@ -7,15 +7,15 @@
 $auth = "SvvVuxb9gzQYtkjNYdEVvxnP"; //Autorisationsnyckel/Licsensnyckeln
 
 session_start();
+include('dbh.inc.php');
+if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
-if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
-
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_UID["anvandare"];
-    $result = $db->query($sql);
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
+    $result = $conn->query($sql);
     $result = mysqli_fetch_assoc($result);
 
-    if ($_SESSION["licens"] == $result["licens"]) {
-        switch ($_GET['f']) {
+    if ($_SESSION["licens"] == $result["licens_key"]) {
+        switch ($_GET['funktion']) {
             case 'tabortBlogg':
                 tabortBlogg();
                 break;
@@ -41,7 +41,7 @@ if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
 
 
 function tabortBlogg(){
-    include('dbh.inc.php');
+    
     $BID = mysqli_real_escape_string($conn, $_POST['BID']);
     $sql = "DELETE FROM blogg WHERE BID='{$BID}'";
     $sql2 = "DELETE FROM blogginlagg WHERE BID='{$BID}'";
@@ -147,7 +147,7 @@ if(mysqli_num_rows($looparray) > 0)
 
 
 
-    //cred to BrandonBoi 4 code help big thx
+    //cred to Brandon 4 code help big thx
 
 
 
