@@ -1,5 +1,5 @@
     <?php
-
+    
         $db=new mysqli("localhost","root","","the_provider");
         $db->set_charset("utf8");
         
@@ -7,9 +7,9 @@
             die("Connection failed: " . $db->connect_error);
         }
         
-        /*if(isset($_SESSION["licens"]) && isset($_GET["anvandare"])){
+        /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
             
-            $sql = "SELECT *FROM LICENS WHERE ID =".$_GET["anvandare"];
+            $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
             $result = $db->query($sql);
             $result = mysqli_fetch_assoc($result);
                     
