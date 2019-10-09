@@ -24,67 +24,10 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-        <script type="text/javascript">
-        let rutaOrdning = 0;
-
-        function laggTillTextruta() {
-
-            rutaOrdning++;
-
-            let body = document.getElementById("rutor-container");
-            let ruta = document.createElement("div");
-            ruta.name = "textruta";
-
-            let rubrik = document.createElement("div");
-            let rubrikInnehall = document.createTextNode("Rubrik Paragraf: ");
-            let rubrikInput = document.createElement("input");
-            rubrikInput.type = "text";
-            rubrikInput.name = "rubrik" + rutaOrdning;
-            rubrik.appendChild(rubrikInnehall);
-            rubrik.appendChild(rubrikInput);
-            ruta.appendChild(rubrik);
-
-            let breakLine = document.createElement("br");
-            rubrik.appendChild(breakLine);
-            rubrik.appendChild(breakLine);
-
-            let text = document.createElement("div");
-            let textInnehall = document.createTextNode("Text Paragraf: ");
-            let textInput = document.createElement("textarea");
-            textInput.name = "text" + rutaOrdning;
-            textInput.placeholder = "Skriv in ett inlägg här...";
-            text.appendChild(textInnehall);
-            text.appendChild(breakLine);
-            text.appendChild(textInput);
-            ruta.appendChild(text);
-            body.appendChild(ruta);
-
-        }
-
-        function laggTillBildruta(){
-
-            rutaOrdning++;
-
-            let body = document.getElementById("rutor-container");
-            let ruta = document.createElement("div");
-            ruta.name = "bildruta";
-
-            let bild = document.createElement("div");
-            let bildInnehall = document.createTextNode("Bild: ");
-            let bildInput = document.createElement("input");
-            bildInput.type = "text";
-            bildInput.name = "bild" + rutaOrdning;
-            bild.appendChild(bildInnehall);
-            bild.appendChild(bildInput);
-            ruta.appendChild(bild);
-            body.appendChild(ruta);
-
-        }
-
-    </script>
-
+        <script src="js/visablogg.js"></script>
+        <script src="js/skapainlagg.js"></script>
     </head>
+
     <body>
     <div class="container">
         <h2>The Provider</h2>
@@ -92,6 +35,7 @@
 
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#Blogg">Blogg</a></li>
+            <li><a data-toggle="tab" href="#VisaBlogg">Visa Blogg</a></li>
             <li><a data-toggle="tab" href="#Inlagg">Inlägg</a></li>
             <li><a data-toggle="tab" href="#Kommentar">Kommentar</a></li>
         </ul>
@@ -182,6 +126,24 @@
             </form>
 
             </div>
+
+            <!-- Visa Blogg -->
+
+            <div id="VisaBlogg" class="tab-pane fade in active">
+                <h3>Visa Blogg</h3>
+
+                <div id="bloggContainer" class="bloggContainer">
+                    <div id="headerContainer" class="headerContainer"></div>
+                    <br>
+                    <div id="skribentContainer" class="skribentContainer"></div>
+                    <br>
+                    <div id="bloggInlaggContainer" class="bloggInlaggContainer"></div>
+                    <br>
+                    <div id="kommentarContainer" class="kommentarContainer"></div>
+                </div>
+
+            </div>
+
             <div id="Inlagg" class="tab-pane fade">
 
             <!-- Skapa ett inlägg -->
