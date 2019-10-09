@@ -168,7 +168,9 @@
 
             <h4>Skapa ett inlägg</h4>
 
-            <form action="funktioner/skapainlagg.php" method="get">
+            <form action="funktioner/skapa.php" method="post">
+            <input type="hidden" name="funktion" value="skapaInlagg">
+            <input type="hidden" name="funktion" value="skapaTextRuta">
                 Välj en blogg:
                 <select name="BID" id="BID">
                     <?php
@@ -192,6 +194,7 @@
                 Blogginläggs titel: <input type="text" name="Title"><br /><br />
                 <div id="rutor-container">
                     <div class="ruta text" name="ruta_1">
+                        <input type="hidden" value="1" name="ruta[]">
                         <div class="ruta text rubrik">
                             Rubrik Paragraf: <input type="text" name="rubrik"><br /><br />
                         </div>
