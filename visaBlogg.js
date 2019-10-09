@@ -98,7 +98,7 @@ function createKommentar() {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
 
-   // for(let i = 0; i < jsonData.bloggInlagg.length; i++)
+    for(let i = 0; i < jsonData.bloggInlagg.length; i++)
         for (let j = 0; j < jsonData.bloggInlagg[0].kommentarer.length; j++) {
 
             let element = document.createElement("div");
@@ -107,12 +107,12 @@ function createKommentar() {
             
             if (jsonData.bloggInlagg[0].kommentarer[j].hierarchyID == 0) {
                 element2 = document.createElement("p");
-                element2.innerHTML = jsonData.bloggInlagg[0].kommentarer[j].text;
+                element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].namn + ": " + jsonData.bloggInlagg[0].kommentarer[j].text;
                 element.appendChild(element2);
             } else {
                 element2 = document.createElement("div");
                 let element3 = document.createElement("p");
-                element3.innerHTML = jsonData.bloggInlagg[0].kommentarer[j].text;
+                element3.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].namn + ": " + jsonData.bloggInlagg[0].kommentarer[j].text;
 
                 element2.appendChild(element3);
                 element.appendChild(element2);
@@ -124,69 +124,6 @@ function createKommentar() {
     
     body.appendChild(kommentar);
 }
-
-
-
-//Work in progress fully dynamisk kommentarsfält
-/*function createKommentar() {
-    let body = document.getElementById("kommentarContainer");
-    let kommentar = document.createElement("div");
-    
-
-    for(let i = 0; i < jsonData.bloggInlagg.length; i++)
-    {
-        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
-            //console.log(jsonData.bloggInlagg[i].kommentarer[j].text);
-            if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == 0) {
-                let element = rekurs(jsonData.bloggInlagg[i].kommentarer[j].KID); 
-                
-                kommentar.appendChild(element); 
-            }
-            
-        } 
-    }
-    
-    //console.log(kommentar);
-    body.appendChild(kommentar);
-    
-}
-
-
-function rekurs(id) {
-    let element, element2;
-    kommentarArray.push(id);
-    for(let i = 0; i < jsonData.bloggInlagg.length; i++) {
-        
-        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
-            element = document.createElement("div");
-            element.id = "kommentar" + j;
-            
-            //console.log(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID + " " + id);
-            if(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID == id) {
-                kommentarArray.push(jsonData.bloggInlagg[i].kommentarer[j].hierarchyID);
-            
-            }
-            
-        }
-    }
-
-    for(let i = 0; i < jsonData.bloggInlagg.length; i++){
-        for(let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
-            console.log(kommentarArray.length);
-            while(kommentarArray.length > 0) {
-                element2 = document.createElement("p");
-                element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].text;
-                element.appendChild(element2);
-                console.log(jsonData.bloggInlagg[i].kommentarer[j].text);
-                kommentarArray.splice(i);
-            }
-        }
-    }
-
-    console.log(element);
-    return element;
-    
-}*/
 
 
 
