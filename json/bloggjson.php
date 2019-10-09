@@ -154,7 +154,7 @@
                 $bildrutaArray=array();
                 $index=0;
                 while($row = $bildruta->fetch_assoc()) {
-                    $bildrutaArray[$index]=array($row['RID'],$row['bild']);//alla bildrutor i ett blogginlagg.
+                    $bildrutaArray[$index]=array($row['RID'],$row['bildPath']);//alla bildrutor i ett blogginlagg.
                     $index++;
                 }
 
