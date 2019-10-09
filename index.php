@@ -26,7 +26,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
         <script type="text/javascript">
-        let rutaOrdning = 0;
+        let rutaOrdning = 1;
 
         function laggTillTextruta() {
 
@@ -34,13 +34,18 @@
 
             let body = document.getElementById("rutor-container");
             let ruta = document.createElement("div");
-            ruta.name = "textruta";
+            ruta.setAttribute("name", "ruta_" + rutaOrdning);
+
+            let input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("value", rutaOrdning);
+            input.setAttribute("name", "ruta[]");
 
             let rubrik = document.createElement("div");
             let rubrikInnehall = document.createTextNode("Rubrik Paragraf: ");
             let rubrikInput = document.createElement("input");
             rubrikInput.type = "text";
-            rubrikInput.name = "rubrik" + rutaOrdning;
+            rubrikInput.name = "rubrik";
             rubrik.appendChild(rubrikInnehall);
             rubrik.appendChild(rubrikInput);
             ruta.appendChild(rubrik);
@@ -52,7 +57,7 @@
             let text = document.createElement("div");
             let textInnehall = document.createTextNode("Text Paragraf: ");
             let textInput = document.createElement("textarea");
-            textInput.name = "text" + rutaOrdning;
+            textInput.name = "text";
             textInput.placeholder = "Skriv in ett inlägg här...";
             text.appendChild(textInnehall);
             text.appendChild(breakLine);
@@ -68,13 +73,18 @@
 
             let body = document.getElementById("rutor-container");
             let ruta = document.createElement("div");
-            ruta.name = "bildruta";
+            ruta.setAttribute("name", "ruta_" + rutaOrdning);
+
+            let input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("value", rutaOrdning);
+            input.setAttribute("name", "ruta[]");
 
             let bild = document.createElement("div");
             let bildInnehall = document.createTextNode("Bild: ");
             let bildInput = document.createElement("input");
             bildInput.type = "text";
-            bildInput.name = "bild" + rutaOrdning;
+            bildInput.name = "bild";
             bild.appendChild(bildInnehall);
             bild.appendChild(bildInput);
             ruta.appendChild(bild);
@@ -181,7 +191,7 @@
 
                 Blogginläggs titel: <input type="text" name="Title"><br /><br />
                 <div id="rutor-container">
-                    <div class="ruta text">
+                    <div class="ruta text" name="ruta_1">
                         <div class="ruta text rubrik">
                             Rubrik Paragraf: <input type="text" name="rubrik"><br /><br />
                         </div>

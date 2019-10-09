@@ -1,29 +1,45 @@
 <?php
 
 // Redigera funktioner //
+session_start();
+include("dbh.inc.php");
+if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
-switch ($_GET['funktion']) {
-    case 'redigeraBlogg':
-        redigeraBlogg();
-        break;
-    case 'redigeraKommentar':
-        redigeraKommentar();
-        break;
-    case 'redigeraTextruta':
-        redigeraTextruta();
-        break;
-    case 'redigeraInlagg':
-        redigeraTextruta();
-        break;
-    default:
-        echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
+    $result = $conn->query($sql);
+    $result = mysqli_fetch_assoc($result);
+
+    if ($_SESSION["licens"] == $result["licens"]) {
+        switch ($_POST['funktion']) {
+            case 'redigeraBlogg':
+                redigeraBlogg();
+                break;
+            case 'redigeraKommentar':
+                redigeraKommentar();
+                break;
+            case 'redigeraTextruta':
+                redigeraTextruta();
+                break;
+            case 'redigeraInlagg':
+                redigeraTextruta();
+                break;
+            default:
+                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+        }
+    } else {
+        echo "Felaktig/gammal licens. kontakta en adminstratör";
+    }
+} else {
+    echo "Ingen licens. Kontakta adminstratör";
 }
+$conn->close();
 
 function redigeraBlogg(){
     include("dbh.inc.php");
-
-    $Bid = $_POST['BID'];
-    $title = $_POST['Titel'];
+    if(isset($_POST['BID']) && isset($_POST['Titel'])){
+        $Bid = $_POST['BID'];
+        $title = $_POST['Titel'];
+    }
     $uppdateraBlogg = "UPDATE blogg SET title = '{$title}' WHERE BID = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
@@ -37,9 +53,10 @@ function redigeraBlogg(){
 
 function redigeraKommentar(){
     include("dbh.inc.php");
-
-    $Kid = $_POST['KID'];
-    $text = $_POST['text'];
+    if(isset($_POST['KID']) && isset($_POST['text'])){
+        $Kid = $_POST['KID'];
+        $text = $_POST['text'];
+    }
 
     $uppdateraKommentar = "UPDATE kommentar SET text = '{$text}' WHERE KID = $Kid ";
 
@@ -54,10 +71,11 @@ function redigeraKommentar(){
 
 function redigeraTextruta(){
     include("dbh.inc.php");
-
-    $Rid = $_POST['RID'];
-    $text = $_POST['Text'];
-    $ordning = $_POST['ordning'];
+    if(isset($_POST['RID']) && isset($_POST['text']) && isset($_POST['ordning'])){
+        $Rid = $_POST['RID'];
+        $text = $_POST['text'];
+        $ordning = $_POST['ordning'];
+    }
     $uppdateraTextRuta = "UPDATE textruta SET text = '{$text}' WHERE RID = $Rid ";
     $uppdateraRuta = "UPDATE rutor SET ordning = $ordning Where RID = $Rid";
 

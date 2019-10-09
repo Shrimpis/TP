@@ -76,17 +76,16 @@ $conn->close();
     function skapaTextRuta(){
 
         include('dbh.inc.php');
-        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+        if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID'])){
             $text= $_POST['text'];
             $rubrik= $_POST['rubrik'];
             $IID= $_POST['IID'];
-            $ordning= $_POST['ordning'];
-        }else if(isset($_POST['text']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+        }else if(isset($_POST['text']) && isset($_POST['IID'])){
             $text= $_POST['text'];
             $IID= $_POST['IID'];
-            $ordning= $_POST['ordning'];
         }
 
+        
         $sql= "INSERT INTO rutor(ordning, IID) VALUES ('$ordning','$IID')";
         $conn->query($sql);
         $rutaID= mysqli_insert_id($conn);

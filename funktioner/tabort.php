@@ -5,18 +5,16 @@
 //Anropas via följande url:
 // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=FUNKTIONSNAMN&BID=5
 
-$auth = "SvvVuxb9gzQYtkjNYdEVvxnP"; //Autorisationsnyckel/Licsensnyckeln
-
 session_start();
+include("dbh.inc.php");
+if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
-if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
-
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_UID["anvandare"];
-    $result = $db->query($sql);
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
+    $result = $conn->query($sql);
     $result = mysqli_fetch_assoc($result);
 
     if ($_SESSION["licens"] == $result["licens"]) {
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
             case 'tabortBlogg':
                 tabortBlogg();
                 break;
@@ -38,7 +36,7 @@ if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
 } else {
     echo "Ingen licens. Kontakta adminstratör";
 }
-
+$conn->close();
 
 
 function tabortBlogg(){
