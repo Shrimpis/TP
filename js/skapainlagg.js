@@ -12,19 +12,34 @@ let rutaOrdning = 0;
             let rubrikInnehall = document.createTextNode("Rubrik Paragraf: ");
             let rubrikInput = document.createElement("input");
             rubrikInput.type = "text";
-            rubrikInput.name = "rubrik" + rutaOrdning;
+            rubrikInput.name = "rubrik";
             rubrik.appendChild(rubrikInnehall);
             rubrik.appendChild(rubrikInput);
             ruta.appendChild(rubrik);
+            
 
             let breakLine = document.createElement("br");
             rubrik.appendChild(breakLine);
             rubrik.appendChild(breakLine);
 
+            let ordning = document.createElement("div");
+            let ordningInnehall = document.createTextNode("Ordning: ");
+            let ordningInput = document.createElement("input");
+            ordningInput.type = "text";
+            ordningInput.name = "ordning";
+            ordning.appendChild(ordningInnehall);
+            ordning.appendChild(ordningInput);
+            ruta.appendChild(ordning);
+            
+
+            
+            ordning.appendChild(breakLine);
+            ordning.appendChild(breakLine);
+
             let text = document.createElement("div");
             let textInnehall = document.createTextNode("Text Paragraf: ");
             let textInput = document.createElement("textarea");
-            textInput.name = "text" + rutaOrdning;
+            textInput.name = "text";
             textInput.placeholder = "Skriv in ett inlägg här...";
             text.appendChild(textInnehall);
             text.appendChild(breakLine);
@@ -46,7 +61,7 @@ let rutaOrdning = 0;
             let bildInnehall = document.createTextNode("Bild: ");
             let bildInput = document.createElement("input");
             bildInput.type = "text";
-            bildInput.name = "bild" + rutaOrdning;
+            bildInput.name = "bild";
             bild.appendChild(bildInnehall);
             bild.appendChild(bildInput);
             ruta.appendChild(bild);
