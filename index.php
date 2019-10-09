@@ -185,7 +185,6 @@
                     } else {
                         echo "0 results";
                     }
-
                     ?>
                 </select>
                 <br>
