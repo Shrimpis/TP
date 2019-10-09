@@ -1,12 +1,14 @@
 <?php
+session_start();
+include("dbh.inc.php");
 if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
     $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
-    $result = $db->query($sql);
+    $result = $conn->query($sql);
     $result = mysqli_fetch_assoc($result);
 
     if ($_SESSION["licens"] == $result["licens"]) {
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
             case 'skapaBlogg':
                 skapaBlogg();
                 break;
@@ -22,9 +24,6 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
             case 'skapaKommentar':
                 skapaKommentar();
                 break;
-            case 'sattaOrdning':
-                sattaOrdning();
-                break;
             case 'gillaInlagg':
                 gillaInlagg();
                 break;
@@ -37,23 +36,25 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 } else {
 echo "Ingen licens. Kontakta adminstratör";
 }
+$conn->close();
 
     function skapaBlogg(){
 
         include("dbh.inc.php");
         if(isset($_POST['UID']) && isset($_POST['Titel'])){
-        $userid = $_POST['UID'];
-        $title = $_POST['Titel'];
-        $skapaBlogg = "INSERT INTO blogg(title,UID) VALUES('{$title}',$userid)";
-        $conn->query($skapaBlogg);
-        $conn->close();
-
+            $userid = $_POST['UID'];
+            $title = $_POST['Titel'];
+            $skapaBlogg = "INSERT INTO blogg(title,UID) VALUES('{$title}',$userid)";
+            $conn->query($skapaBlogg);
+            $conn->close();
+        }
         if(mysqli_query($conn, $skapaBlogg)){
             echo "INFO: Bloggen har skapats.";
             header('Refresh: 2; URL = ../index.php');
         } else {
             echo "ERROR: Could not execute $skapaBlogg. " . mysqli_error($conn);
         }
+        $conn->close();
 
     }
 
@@ -68,6 +69,7 @@ echo "Ingen licens. Kontakta adminstratör";
         $date= date("Y-m-d H:i");
         $sql= "INSERT INTO blogginlagg(BID, datum, title) VALUES ('$blogID','$date','$title')";
         $conn->query($sql);
+        $conn->close();
 
     }
 
@@ -90,13 +92,70 @@ echo "Ingen licens. Kontakta adminstratör";
         $rutaID= mysqli_insert_id($conn);
         $sql= "INSERT INTO textruta(RID, text, rubrik, IID) VALUES ('$rutaID','$text','$rubrik','$IID')";
         $conn->query($sql);
+        $conn->close();
 
 
     }
 
     function skapaBildRuta(){
 
+        include('dbh.inc.php');
+        $mal_dir = "bilder/";
+        $mal_fil = $mal_dir . basename($_FILES["bildRuta"]["name"]);
+        $uppladningOk = 1;
+        $bildFilTyp = strtolower(pathinfo($mal_fil,PATHINFO_EXTENSION));       
+        if(!file_exists($mal_dir)){
+            mkdir($mal_fil,0777,true);
+        }
+        if(isset($_POST["submit"])){
+            $kontroll = getimagesize($_FILES["bildRuta"]["tmp_name"]);
+            
+            if($kontroll !== false){
+                
+                $uppladningOk = 1;
+            }else{
+                $uppladningOk  = 0;
+            }
+            
+        }
+        //om filen redan finns
+        if(file_exists($mal_fil)){
+            $uppladningOk = 0;
+            echo "shit";
+        }
+        //Max storlek på bild
+        if($_FILES["bildRuta"]["size"] > 500000){
+            
+            $uppladningOk = 0;
+            
+        }
+        //Kollar så att det är giltiga fil extensions
+        if($bildFilTyp != "jpg" && $bildFilTyp != "png" && $bildFilTyp != "gif" && $bildFilTyp != "jpeg"){
+            $uppladningOk = 0;
+            echo "fel bild format";
+        }
+        //kollar om det dök upp något fel annars går den vidare
+        if($uppladningOk == 0){
+            echo "FEL";
+        }else{
+            if(move_uploaded_file($_FILES["bildRuta"]["tmp_name"], $mal_fil)){
+                
+                $sql = "INSERT INTO rutor(IID,ordning) VALUES(1,1)";
+                $conn->query($sql);
+                $RID = mysqli_insert_id($conn);
+                
+                $sql= "INSERT INTO bildRuta(RID,bildPath,IID) VALUES($RID,'$mal_fil',1)";
+                
+                $conn->query($sql);
+                
+                
+                echo "gick";
+            }else{
+                echo "fel";
+            }
+        }
 
+        $conn->close();
 
     }
 
@@ -116,12 +175,6 @@ echo "Ingen licens. Kontakta adminstratör";
             echo "ERROR: Could not able to execute $skapaKommentar. " . mysqli_error($conn);
         }
         $conn->close();
-
-    }
-
-    function sattaOrdning(){
-
-
 
     }
 
