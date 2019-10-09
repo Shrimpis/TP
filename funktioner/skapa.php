@@ -1,29 +1,41 @@
 <?php
+if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
-switch ($_GET['funktion']) {
-    case 'skapaBlogg':
-        skapaBlogg();
-        break;
-    case 'skapaInlagg':
-        skapaInlagg();
-        break;
-    case 'skapaTextruta':
-        skapaTextruta();
-        break;
-    case 'skapaBildRuta':
-        skapaBildRuta();
-        break;
-    case 'skapaKommentar':
-        skapaKommentar();
-        break;
-    case 'sattaOrdning':
-        sattaOrdning();
-        break;
-    case 'gillaInlagg':
-        gillaInlagg();
-        break;
-    default:
-        echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
+    $result = $db->query($sql);
+    $result = mysqli_fetch_assoc($result);
+
+    if ($_SESSION["licens"] == $result["licens"]) {
+        switch ($_GET['funktion']) {
+            case 'skapaBlogg':
+                skapaBlogg();
+                break;
+            case 'skapaInlagg':
+                skapaInlagg();
+                break;
+            case 'skapaTextruta':
+                skapaTextruta();
+                break;
+            case 'skapaBildRuta':
+                skapaBildRuta();
+                break;
+            case 'skapaKommentar':
+                skapaKommentar();
+                break;
+            case 'sattaOrdning':
+                sattaOrdning();
+                break;
+            case 'gillaInlagg':
+                gillaInlagg();
+                break;
+            default:
+                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+        }
+    } else {
+        echo "Felaktig/gammal licens. kontakta en adminstratör";
+    }
+} else {
+echo "Ingen licens. Kontakta adminstratör";
 }
 
     function skapaBlogg(){
