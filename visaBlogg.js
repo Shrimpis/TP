@@ -100,13 +100,6 @@ function createKommentar(kom) {
 
     for(let i = 0; i < jsonData.bloggInlagg.length; i++)
         for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
-            
-            if(kom.length > 0) {
-                for(let komLangd = 0; komLangd < kom.length; komLangd++) {
-                    kommentarArray.push(kom[komLangd]);
-            }
-                createKommentar(kom[j]);
-            }
 
             let element = document.createElement("div");
             element.id = "kommentar" + j;
@@ -115,14 +108,6 @@ function createKommentar(kom) {
             element2 = document.createElement("p");
             element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].namn + ": " + jsonData.bloggInlagg[i].kommentarer[j].text;
             element.appendChild(element2);
-
-            try{
-              console.log(jsonData.bloggInlagg[i].kommentarer[j].kommentarer[1].text);  
-
-              lista = jsonData.bloggInlagg[i].kommentarer;
-              alert(lista.length);
-            }
-            catch(error){}
 
             kommentar.appendChild(element);
   
