@@ -48,7 +48,8 @@
             <!-- Skapa blogg -->
 
             <h4>Skapa en Blogg:</h4>
-                <form action="funktioner/skapaBlogg.php" method="get">
+                <form action="funktioner/skapa.php" method="POST">
+                <input type='hidden' name='funktion' value='skapaBlogg'/>
                 Namn:<input type="text" name="Titel">
                 <br><br>
                 Välj en användare:
@@ -75,7 +76,7 @@
 
             <h4>Redigera titel på ett inlägg</h4>
 
-            <form action="funktioner/redigerablogg.php" method="get">
+            <form action="funktioner/redigera.php" method="POST">
                 <input type='hidden' name='funktion' value='redigeraBlogg'/>
                 Titel:
                 <input type="text" name="Titel">
@@ -152,7 +153,8 @@
 
             <h4>Skapa ett inlägg</h4>
 
-            <form action="funktioner/skapainlagg.php" method="get">
+            <form action="funktioner/skapa.php" method="POST">
+            <input type='hidden' name='funktion' value='skapaInlagg'/>
                 Välj en blogg:
                 <select name="BID" id="BID">
                     <?php
@@ -195,7 +197,7 @@
 
             <h4>Redigera titel på ett inlägg</h4>
 
-            <form action="funktioner/redigera.php" method="get">
+            <form action="funktioner/redigera.php" method="POST">
             <input type='hidden' name='funktion' value='redigeraInlagg'/>
                 Titel:
                 <input type="text" name="Titel">
@@ -226,7 +228,7 @@
 
             <h4>Ta bort ett inlägg</h4>
 
-            <form action="funktioner/tabort.php" method="get">
+            <form action="funktioner/tabort.php" method="POST">
             <input type='hidden' name='funktion' value='tabortInlagg'/>
                 Inlägg:
                 <select name="IID" id="IID">
@@ -252,7 +254,8 @@
             <!-- Gilla ett inlägg -->
 
             <h4>Gilla ett inlägg</h4>
-            <form action="funktioner/gillaInlagg.php">
+            <form action="funktioner/skapa.php">
+            <input type='hidden' name='funktion' value='gillaInlag'/>
             Välj ett inlägg:
             <select name="IID" id="IID">
                 <?php 
@@ -294,7 +297,7 @@
 
             <h4>Redigera textruta</h4>
 
-            <form action="funktioner/redigera.php" method="get">
+            <form action="funktioner/redigera.php" method="POST">
             <input type='hidden' name='funktion' value='redigeraTextruta'/>
                 <input type="text" name="Text">
                 <input type="text" name="ordning">
@@ -324,7 +327,7 @@
 
             <h4>Ta bort en textruta</h4>
 
-            <form action="funktioner/tabort.php" method="get">
+            <form action="funktioner/tabort.php" method="POST">
             <input type='hidden' name='funktion' value='tabortTextruta'/>
             <select name="RID">
             <?php
@@ -350,7 +353,8 @@
 
             <h4>Skapa en kommentar</h4>
 
-            <form action="funktioner/skapaKommentar.php">
+            <form action="funktioner/skapa.php">
+            <input type='hidden' name='funktion' value='skapaKommentar'/>
             Välj att kommentera:
             <select name="hierarchyID" id="hierarchyID">
                 <option value="0">Ingen</option>
@@ -410,7 +414,7 @@
 
         <h4>Redigera kommentar</h4>
 
-        <form action="funktioner/redigera.php" method="get">
+        <form action="funktioner/redigera.php" method="POST">
             <input type='hidden' name='funktion' value='redigeraKommentar'/>
             <textarea name="text" rows="10" cols="30">ny text</textarea>
             <br>
@@ -439,7 +443,7 @@
 
         <h4>Ta bort en kommentar</h4>
 
-        <form action="funktioner/tabort.php" method="get">
+        <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortKommentar'/>
             <select name="KID">
             <?php
