@@ -105,7 +105,8 @@
 
             <h4>Ta bort en Blogg:</h4>
 
-            <form action="funktioner/tabort.php?tabortBlogg">
+            <form action="funktioner/tabort.php" method="post">
+            <input type='hidden' name='funktion' value='tabortBlogg'/>
             Välj en blogg:
                 <select name="BID" id="BID">
                     <?php 
@@ -223,7 +224,8 @@
 
             <h4>Ta bort ett inlägg</h4>
 
-            <form action="funktioner/tabortinlagg.php" method="get">
+            <form action="funktioner/tabort.php" method="get">
+            <input type='hidden' name='funktion' value='tabortInlagg'/>
                 Inlägg:
                 <select name="IID" id="IID">
                 <?php 
@@ -319,7 +321,8 @@
 
             <h4>Ta bort en textruta</h4>
 
-            <form action="funktioner/taborttextruta.php" method="get">
+            <form action="funktioner/tabort.php" method="get">
+            <input type='hidden' name='funktion' value='tabortTextruta'/>
             <select name="RID">
             <?php
                 include('funktioner/dbh.inc.php');
@@ -432,7 +435,8 @@
 
         <h4>Ta bort en kommentar</h4>
 
-        <form action="funktioner/delkomfunc.php" method="get">
+        <form action="funktioner/tabort.php" method="get">
+        <input type='hidden' name='funktion' value='tabortKommentar'/>
             <select name="KID">
             <?php
                 include("funktioner/dbh.inc.php");
