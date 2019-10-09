@@ -76,6 +76,7 @@
             <h4>Redigera titel på ett inlägg</h4>
 
             <form action="funktioner/redigerablogg.php" method="get">
+                <input type='hidden' name='funktion' value='redigeraBlogg'/>
                 Titel:
                 <input type="text" name="Titel">
                 <br>
@@ -105,7 +106,8 @@
 
             <h4>Ta bort en Blogg:</h4>
 
-            <form action="funktioner/tabort.php?tabortBlogg">
+            <form action="funktioner/tabort.php" method="post">
+            <input type='hidden' name='funktion' value='tabortBlogg'/>
             Välj en blogg:
                 <select name="BID" id="BID">
                     <?php 
@@ -193,7 +195,8 @@
 
             <h4>Redigera titel på ett inlägg</h4>
 
-            <form action="funktioner/inlaggredfunktion.php" method="get">
+            <form action="funktioner/redigera.php" method="get">
+            <input type='hidden' name='funktion' value='redigeraInlagg'/>
                 Titel:
                 <input type="text" name="Titel">
                 <br>
@@ -223,7 +226,8 @@
 
             <h4>Ta bort ett inlägg</h4>
 
-            <form action="funktioner/tabortinlagg.php" method="get">
+            <form action="funktioner/tabort.php" method="get">
+            <input type='hidden' name='funktion' value='tabortInlagg'/>
                 Inlägg:
                 <select name="IID" id="IID">
                 <?php 
@@ -290,7 +294,8 @@
 
             <h4>Redigera textruta</h4>
 
-            <form action="funktioner/redigeratextruta.php" method="get">
+            <form action="funktioner/redigera.php" method="get">
+            <input type='hidden' name='funktion' value='redigeraTextruta'/>
                 <input type="text" name="Text">
                 <input type="text" name="ordning">
                 <br>
@@ -319,7 +324,8 @@
 
             <h4>Ta bort en textruta</h4>
 
-            <form action="funktioner/taborttextruta.php" method="get">
+            <form action="funktioner/tabort.php" method="get">
+            <input type='hidden' name='funktion' value='tabortTextruta'/>
             <select name="RID">
             <?php
                 include('funktioner/dbh.inc.php');
@@ -404,26 +410,27 @@
 
         <h4>Redigera kommentar</h4>
 
-        <form action="funktioner/redigerakommentar.php" method="get">
-        <textarea name="text" rows="10" cols="30">ny text</textarea>
-        <br>
-        <select name="KID">
-        <?php
-        include('funktioner/dbh.inc.php');
-        $sql = "SELECT * from kommentar";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                echo "<option value='". $row["KID"] ."'>KID: ". $row['KID']."</option>";
-            }
-            echo "</table>";
-            } else { echo "0 results"; }
-        
-        ?>
-        </select>
-        <br>
+        <form action="funktioner/redigera.php" method="get">
+            <input type='hidden' name='funktion' value='redigeraKommentar'/>
+            <textarea name="text" rows="10" cols="30">ny text</textarea>
+            <br>
+            <select name="KID">
+            <?php
+            include('funktioner/dbh.inc.php');
+            $sql = "SELECT * from kommentar";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<option value='". $row["KID"] ."'>KID: ". $row['KID']."</option>";
+                }
+                echo "</table>";
+                } else { echo "0 results"; }
+            
+            ?>
+            </select>
+            <br>
 
-        <input type="submit" value="Redigera kommentar">
+            <input type="submit" value="Redigera kommentar">
         </form>
         <br>
         <br>
@@ -432,7 +439,8 @@
 
         <h4>Ta bort en kommentar</h4>
 
-        <form action="funktioner/delkomfunc.php" method="get">
+        <form action="funktioner/tabort.php" method="get">
+        <input type='hidden' name='funktion' value='tabortKommentar'/>
             <select name="KID">
             <?php
                 include("funktioner/dbh.inc.php");
