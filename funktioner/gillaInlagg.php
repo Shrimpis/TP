@@ -20,4 +20,5 @@
             echo "ERROR: Could not able to execute $sql2. " . mysqli_error($conn);
         }
     }
+    header("location: ../index.php");
 ?>
