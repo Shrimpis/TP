@@ -92,17 +92,18 @@
 
         }
 
-        $index=0;
+        
         function hämtaKommentarer($id,$minaKommentarer){
+            $index=0;
             $kommentarArrayFull=array();
                 for($ii=0;$ii<count($minaKommentarer);$ii++){
                     if($minaKommentarer[$ii]['hierarchyID']==$id){
                         $tempKommentarer=$minaKommentarer;
                         
-                        $kommentarArrayFull[$ii]=$tempKommentarer[$ii];
-                        $kommentarArrayFull[$ii]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
+                        $kommentarArrayFull[$index]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
 
-                        
+                        $index++;
                     }
 
                 }
