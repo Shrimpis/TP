@@ -1,72 +1,89 @@
 <?php
 
 // Redigera funktioner //
+session_start();
+include("dbh.inc.php");
+if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
-switch ($_GET['f']) {
-    case 'redigeraBlogg':
-        redigeraBlogg();
-        break;
-    case 'redigeraKommentar';
-        redigeraKommentar();
-        break;
-    case 'redigeraTextruta';
-        redigeraTextruta();
-        break;
-    case 'redigeraInlagg';
-        redigeraTextruta();
-        break;
-    default:
-        echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
+    $result = $conn->query($sql);
+    $result = mysqli_fetch_assoc($result);
+
+    if ($_SESSION["licens"] == $result["licens"]) {
+        switch ($_POST['funktion']) {
+            case 'redigeraBlogg':
+                redigeraBlogg();
+                break;
+            case 'redigeraKommentar':
+                redigeraKommentar();
+                break;
+            case 'redigeraTextruta':
+                redigeraTextruta();
+                break;
+            case 'redigeraInlagg':
+                redigeraTextruta();
+                break;
+            default:
+                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+        }
+    } else {
+        echo "Felaktig/gammal licens. kontakta en adminstratör";
+    }
+} else {
+    echo "Ingen licens. Kontakta adminstratör";
 }
+$conn->close();
 
 function redigeraBlogg(){
     include("dbh.inc.php");
-
-    $Bid = $_GET['BID'];
-    $title = $_GET['Titel'];
-    $sql = "UPDATE blogg set title = '{$title}' WHERE BID = $Bid ";
-    echo $sql;
-    $conn->query($sql);
+    if(isset($_POST['BID']) && isset($_POST['Titel'])){
+        $Bid = $_POST['BID'];
+        $title = $_POST['Titel'];
+    }
+    $uppdateraBlogg = "UPDATE blogg SET title = '{$title}' WHERE BID = $Bid ";
     
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $uppdateraBlogg)){
         echo "INFO: Bloggen har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraBlogg. " . mysqli_error($conn);
     }
     $conn->close();
 }
 
 function redigeraKommentar(){
     include("dbh.inc.php");
+    if(isset($_POST['KID']) && isset($_POST['text'])){
+        $Kid = $_POST['KID'];
+        $text = $_POST['text'];
+    }
 
-    $Kid = $_GET['KID'];
-    $text = $_GET['text'];
+    $uppdateraKommentar = "UPDATE kommentar SET text = '{$text}' WHERE KID = $Kid ";
 
-    $sql = "UPDATE kommentar set text = '{$text}' WHERE KID = $Kid ";
-    $conn->query($sql);
-
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $uppdateraKommentar)){
         echo "INFO: Kommentaren har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $updateraKommentar. " . mysqli_error($conn);
     }
     $conn->close();
 }
 
 function redigeraTextruta(){
-    $Rid = $_GET['RID'];
-    $text = $_GET['Text'];
-    $ordning = $_GET['ordning'];
-    $sql = "UPDATE textruta set text = '{$text}' WHERE RID = $Rid ";
-    $sql = "UPDATE rutor set ordning = $ordning Where RID = $Rid";
+    include("dbh.inc.php");
+    if(isset($_POST['RID']) && isset($_POST['text']) && isset($_POST['ordning'])){
+        $Rid = $_POST['RID'];
+        $text = $_POST['text'];
+        $ordning = $_POST['ordning'];
+    }
+    $uppdateraTextRuta = "UPDATE textruta SET text = '{$text}' WHERE RID = $Rid ";
+    $uppdateraRuta = "UPDATE rutor SET ordning = $ordning Where RID = $Rid";
 
-    if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $uppdateraTextRuta) && mysqli_query($conn, $uppdateraRuta)){
         echo "INFO: Textrutan har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraTextRuta,$uppdateraRuta. " . mysqli_error($conn);
     }
     $conn->close();
 }
@@ -74,16 +91,15 @@ function redigeraTextruta(){
 function redigeraInlagg(){
     include("dbh.inc.php");
 
-    $iid = $_GET['IID'];
-    $title = $_GET['Titel'];
-    $sql = "UPDATE blogginlagg set title = '{$title}' WHERE IID = $iid ";
-    $conn->query($sql);
+    $iid = $_POST['IID'];
+    $title = $_POST['Titel'];
+    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' WHERE IID = $iid ";
     
-    if(mysqli_query($conn, $sql)){
-        echo "INFO: Inlägget har redigerats.";
+    if(mysqli_query($conn, $uppdateraInlagg )){
+        echo "INFO: InlägPOST har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraInlagg . " . mysqli_error($conn);
     }
     $conn->close();
 }
