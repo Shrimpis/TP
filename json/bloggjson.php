@@ -92,18 +92,17 @@
 
         }
 
-        
+        $index=0;
         function hämtaKommentarer($id,$minaKommentarer){
-            $index=0;
             $kommentarArrayFull=array();
                 for($ii=0;$ii<count($minaKommentarer);$ii++){
                     if($minaKommentarer[$ii]['hierarchyID']==$id){
                         $tempKommentarer=$minaKommentarer;
                         
-                        $kommentarArrayFull[$index]=$tempKommentarer[$ii];
-                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
+                        $kommentarArrayFull[$ii]=$tempKommentarer[$ii];
+                        $kommentarArrayFull[$ii]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
 
-                        $index++;
+                        
                     }
 
                 }
@@ -155,7 +154,7 @@
                 $bildrutaArray=array();
                 $index=0;
                 while($row = $bildruta->fetch_assoc()) {
-                    $bildrutaArray[$index]=array($row['RID'],$row['bild']);//alla bildrutor i ett blogginlagg.
+                    $bildrutaArray[$index]=array($row['RID'],$row['bildPath']);//alla bildrutor i ett blogginlagg.
                     $index++;
                 }
 
@@ -183,7 +182,7 @@
                 //lagger in kommentarer.
                 $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.UID=anvandare.UID where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
                 //echo var_dump($tempKommentar);
-                $kommentarArray;
+                $kommentarArray=array();
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
                     $kommentarArray[$index]=array('KID'=>$row['KID'],'anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
@@ -192,7 +191,7 @@
                 }
 
                 $index=0;
-                $kommentarArrayFull;
+                $kommentarArrayFull=array();
                 for($ii=0;$ii<count($kommentarArray);$ii++){
                     if($kommentarArray[$ii]['hierarchyID']==0){
                         $tempKommentarer=$kommentarArray;
@@ -205,8 +204,8 @@
                 }
 
                 /*echo '<pre>';
-                var_dump($kommentarArrayFull);
-                echo '</pre';*/
+                var_dump($kommentarArray);
+                echo '</pre> <br><br>sadsadasdadadsadasdas<br>';*/
 
 
                 $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
