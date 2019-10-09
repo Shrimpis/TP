@@ -77,8 +77,8 @@ function createInlagg(id) {
                 element.className = "ruta bildRuta";
                 element.id = "ruta" + j;
                 let element2 = document.createElement("img");
-                element2.src = "images/kys.jpg";
-                element2.alt = "KYS";
+                element2.src = jsonData.bloggInlagg[i].rutor[j].bild;
+                element2.alt = "bild";
                 element.appendChild(element2);
             }
             
@@ -131,7 +131,6 @@ function createKommentar() {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
     
-
     for(let i = 0; i < jsonData.bloggInlagg.length; i++)
     {
         for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
@@ -149,8 +148,6 @@ function createKommentar() {
     body.appendChild(kommentar);
     
 }
-
-
 function rekurs(id) {
     let element, element2;
     kommentarArray.push(id);
@@ -168,7 +165,6 @@ function rekurs(id) {
             
         }
     }
-
     for(let i = 0; i < jsonData.bloggInlagg.length; i++){
         for(let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
             console.log(kommentarArray.length);
@@ -181,7 +177,6 @@ function rekurs(id) {
             }
         }
     }
-
     console.log(element);
     return element;
     
