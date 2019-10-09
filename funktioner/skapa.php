@@ -29,10 +29,10 @@ switch ($_GET['funktion']) {
     function skapaBlogg(){
 
         include("dbh.inc.php");
-
-        $usrid = $_POST['UID'];
+        if(isset($_POST['UID']) && isset($_POST['Titel'])){
+        $userid = $_POST['UID'];
         $title = $_POST['Titel'];
-        $skapaBlogg = "INSERT INTO blogg(title,UID) VALUES('{$title}',$usrid)";
+        $skapaBlogg = "INSERT INTO blogg(title,UID) VALUES('{$title}',$userid)";
         $conn->query($skapaBlogg);
         $conn->close();
 
@@ -47,7 +47,15 @@ switch ($_GET['funktion']) {
 
     function skapaInlagg(){
 
+        include("dbh.inc.php");
+        if(isset($_POST['BID']) && isset($_POST['title'])){
+            $blogID= $_POST['BID'];
+            $title= $_POST['title'];
+        }
 
+        $date= date("Y-m-d H:i");
+        $sql= "INSERT INTO blogginlagg(BID, datum, title) VALUES ('$blogID','$date','$title')";
+        $conn->query($sql);
 
     }
 
@@ -59,8 +67,7 @@ switch ($_GET['funktion']) {
             $rubrik= $_POST['rubrik'];
             $IID= $_POST['IID'];
             $ordning= $_POST['ordning'];
-        }
-        if(isset($_POST['text']) && isset($_POST['IID']) && isset($_POST['ordning'])){
+        }else if(isset($_POST['text']) && isset($_POST['IID']) && isset($_POST['ordning'])){
             $text= $_POST['text'];
             $IID= $_POST['IID'];
             $ordning= $_POST['ordning'];
@@ -84,11 +91,12 @@ switch ($_GET['funktion']) {
     function skapaKommentar(){
 
         include('dbh.inc.php');
-        $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
-        $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
-        $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
-        $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
-
+        if(isset($_POST['UID']) && isset($_POST['IID']) && isset($_POST['text']) && isset($_POST['hierarchyID'])){
+            $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
+            $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+            $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
+            $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
+        }
         $skapaKommentar = "INSERT INTO kommentar (UID, IID, text, hierarchyID) VALUES ('$UID', '$IID', '{$text}', '$hierarchyID')";
         if(mysqli_query($conn, $skapaKommentar)){
             echo "INFO: Kommentar skapad.";
@@ -96,13 +104,6 @@ switch ($_GET['funktion']) {
             echo "ERROR: Could not able to execute $skapaKommentar. " . mysqli_error($conn);
         }
         $conn->close();
-
-        if(mysqli_query($conn, $skapaKommentar)){
-            echo "INFO: Kommentaren har skapats.";
-            header('Refresh: 2; URL = ../index.php');
-        } else {
-            echo "ERROR: Could not execute $skapaKommentar. " . mysqli_error($conn);
-        }
 
     }
 
@@ -115,9 +116,10 @@ switch ($_GET['funktion']) {
     function gillaInlagg(){
 
         include('dbh.inc.php');
-        $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
-        $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
-
+        if(isset($_POST['UID']) && isset($_POST['IID'])){
+            $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
+            $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+        }
         $redan_gillat = mysqli_query($conn, "SELECT UID, IID FROM gillningar WHERE UID='$UID' AND IID='$IID'");
 
         if($redan_gillat->num_rows == 0){
