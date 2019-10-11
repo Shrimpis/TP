@@ -127,7 +127,7 @@ function init() {
         if (this.readyState === 4 && this.status === 200) {
             
             jsonData = JSON.parse(this.responseText);
-            console.log(jsonData);
+            //console.log(jsonData);
             //console.log(jsonData.titel);
             createBlogg();
         }
