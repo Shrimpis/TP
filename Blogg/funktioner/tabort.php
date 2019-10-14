@@ -3,6 +3,7 @@
 // Funktioner för att ta bort
 
 session_start();
+
 include('dbh.inc.php');
 if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
@@ -12,6 +13,7 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
     if ($_SESSION["licens"] == $result["licens_key"]) {
         switch ($_GET['funktion']) {
+
             case 'tabortBlogg':
                 tabortBlogg();
                 break;
