@@ -66,8 +66,6 @@ function tabortInlagg(){
     include('dbh.inc.php');
     $IID = mysqli_real_escape_string($conn, $_POST['IID']);
     $delInlagg = "DELETE FROM blogginlagg WHERE IID='{$IID}'";
-    $delRuta = "DELETE FROM rutor WHERE IID='{$IID}'";
-    $delText = "DELETE FROM textruta WHERE IID='{$IID}'";
     $delKommentar = "DELETE FROM kommentar WHERE IID=$IID";
 
     if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delRuta)&&mysqli_query($conn, $delText)&&mysqli_query($conn, $delKommentar)){
@@ -89,9 +87,6 @@ function tabortKommentar(){
     $temparray = array();
     
     $KIDarray = loop($KID,$conn,$KIDarray,$temparray);
-    
-    var_dump($KIDarray);
-    echo "<br>";
     
     $deleteID = implode(',',$KIDarray);
     
