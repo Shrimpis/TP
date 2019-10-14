@@ -1,6 +1,7 @@
 
 let jsonData;
 let kommentarArray = new Array();
+let index = 0;
 
 
 function createBlogg() {
@@ -8,7 +9,8 @@ function createBlogg() {
     createTitel();
     createInlagg();
     createSkribent();
-    createKommentar();
+    
+    console.log(jsonData);
 }
 
 
@@ -98,24 +100,44 @@ function createKommentar(kom) {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
 
-    for(let i = 0; i < jsonData.bloggInlagg.length; i++)
-        for (let j = 0; j < jsonData.bloggInlagg[i].kommentarer.length; j++) {
+   
 
             let element = document.createElement("div");
-            element.id = "kommentar" + j;
+            element.id = "kommentar";
             let element2;
 
             element2 = document.createElement("p");
-            element2.innerHTML = jsonData.bloggInlagg[i].kommentarer[j].namn + ": " + jsonData.bloggInlagg[i].kommentarer[j].text;
+            element2.innerHTML = kom.text;
             element.appendChild(element2);
 
             kommentar.appendChild(element);
   
-    }
-    
+
     body.appendChild(kommentar);
 }
 
+
+function recurs(kom){
+    if (kom instanceof Object) {
+        for (let k in kom){
+            if (kom.hasOwnProperty("kommentarer")){
+                //recursive call to scan propertyconsole.log(k);
+                if(k == "kommentarer"){
+                    console.log(kom[k][index]);
+                    if(kom[k][index].kommentarer.length > 0){
+                        createKommentar(kom[k][index]);
+                        recurs(kom[k][index]);
+                    }else{
+                        createKommentar(kom[k][index]);
+                        index++;
+                        recurs(kom[k]);
+                    }
+                
+                }
+            }                
+        }
+    }
+}
 
 
 function init() {
@@ -130,6 +152,7 @@ function init() {
             //console.log(jsonData);
             //console.log(jsonData.titel);
             createBlogg();
+            recurs(jsonData.bloggInlagg[0]);
         }
     };
 
