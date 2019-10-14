@@ -1,3 +1,10 @@
+<?php
+   include ('includes/settings.php');
+   session_start();
+   unset($_SESSION["login_user"]);
+   session_destroy();
+   header('Refresh: 2; URL = login.php');
+?>
 <!doctype html>
 <html lang="en">
   <head>
