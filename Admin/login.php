@@ -18,12 +18,10 @@
 
   <body class="text-center">
     <form class="form-signin" action = "" method = "post">
-      <h1 class="h3 mb-3 font-weight-normal">Logga in till ditt konto</h1>
-      <label for="inputEmail" class="sr-only" >Användarnamn</label>
-      <input type="text" id="username" name="username" class="form-control" required autofocus>
+      <h1 class="h3 mb-3 font-weight-normal">Logga in till Adminpanelen</h1>
+      <input type="text" id="username" name="username" class="form-control" placeholder="Användarnamn" required autofocus>
       <br>
-      <label for="inputEmail" class="sr-only">Password</label>
-      <input type="password" id="pwd" name="pwd" class="form-control" required autofocus>
+      <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Lösenord" required autofocus>
       <br>
       <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Logga in</button>
       <p class="mt-5 mb-3 text-muted"><?php include ('includes/settings.php'); echo $site_footer?></p>
