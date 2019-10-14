@@ -77,7 +77,7 @@ $conn->close();
 
     }
 
-    function skapaBildRuta(){
+    function skapaBild(){
 
         include('dbh.inc.php');
         $mal_dir = "bilder/";
