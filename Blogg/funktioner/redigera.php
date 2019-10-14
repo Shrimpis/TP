@@ -70,25 +70,6 @@ function redigeraKommentar(){
     $conn->close();
 }
 
-function redigeraTextruta(){
-    include("dbh.inc.php");
-    if(isset($_POST['RID']) && isset($_POST['text']) && isset($_POST['ordning'])){
-        $Rid = $_POST['RID'];
-        $text = $_POST['text'];
-        $ordning = $_POST['ordning'];
-    }
-    $uppdateraTextRuta = "UPDATE textruta SET text = '{$text}' WHERE RID = $Rid ";
-    $uppdateraRuta = "UPDATE rutor SET ordning = $ordning Where RID = $Rid";
-
-    if(mysqli_query($conn, $uppdateraTextRuta) && mysqli_query($conn, $uppdateraRuta)){
-        echo "INFO: Textrutan har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
-    } else {
-        echo "ERROR: Could not execute $uppdateraTextRuta,$uppdateraRuta. " . mysqli_error($conn);
-    }
-    $conn->close();
-}
-
 function redigeraInlagg(){
     include("dbh.inc.php");
 
