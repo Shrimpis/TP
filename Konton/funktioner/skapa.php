@@ -11,22 +11,7 @@ include("dbh.inc.php");
             case 'skapaKonto':
                 skapaKonto();
                 break;
-            case 'skapaInlagg':
-                skapaInlagg();
-                break;
-            case 'skapaTextruta':
-                skapaTextruta();
-                break;
-            case 'skapaBildRuta':
-                skapaBildRuta();
-                break;
-            case 'skapaKommentar':
-                skapaKommentar();
-                break;
-            case 'gillaInlagg':
-                gillaInlagg();
-                break;
-            default:
+
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
     
