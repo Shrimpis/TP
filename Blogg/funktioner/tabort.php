@@ -46,13 +46,8 @@ function tabortBlogg(){
     
     while($row = $IIDarray->fetch_assoc()){
         $IID= $row['IID'];
-        
-        $delText="DELETE FROM textruta WHERE IID=$IID";
-        $delRuta="DELETE FROM rutor WHERE IID=$IID";
+    
         $delKommentar="DELETE FROM kommentar WHERE IID=$IID";
-        
-        $conn->query($delText);
-        $conn->query($delRuta);
         $conn->query($delKommentar);
         
     }
