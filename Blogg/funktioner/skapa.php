@@ -77,33 +77,6 @@ $conn->close();
 
     }
 
-    function skapaTextRuta(){
-
-        include('dbh.inc.php');
-        $rutlista = $_POST["ruta"];
-        for($i = 0; $i < sizeof($rutlista); $i++){
-            $ordning = $rutlista[$i]["value"];
-            if(isset($_POST['text']) && isset($_POST['rubrik']) && isset($_POST['IID'])){
-                $text= $_POST['text'];
-                $rubrik= $_POST['rubrik'];
-                $IID= $_POST['IID'];
-            }else if(isset($_POST['text']) && isset($_POST['IID'])){
-                $text= $_POST['text'];
-                $IID= $_POST['IID'];
-            }
-
-            
-            $sql= "INSERT INTO rutor(ordning, IID) VALUES ('$ordning','$IID')";
-            $conn->query($sql);
-            $rutaID= mysqli_insert_id($conn);
-            $sql= "INSERT INTO textruta(RID, text, rubrik, IID) VALUES ('$rutaID','$text','$rubrik','$IID')";
-            $conn->query($sql);
-        }
-        $conn->close();
-
-
-    }
-
     function skapaBildRuta(){
 
         include('dbh.inc.php');
