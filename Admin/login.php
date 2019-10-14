@@ -16,7 +16,7 @@
 		
       if($count == 1) {
          $_SESSION['login_user'] = $anamn;
-         header("location: index.php");
+         header("location: index.php?userLogin=Success");
       }else {
          $error = "Failed to login.";
          header("location: ./login.php?userLogin=Error?reason=NotAdmin");

@@ -259,6 +259,7 @@ if(!isset($_SESSION['login_user'])){
 
   <!-- Custom scripts for all pages-->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/password-generator.js"></script>
 
 </body>
 
