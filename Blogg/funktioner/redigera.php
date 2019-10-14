@@ -1,6 +1,7 @@
 <?php
 
-// Redigera funktioner //
+// Funktion för redigera //
+
 session_start();
 include("dbh.inc.php");
 if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
