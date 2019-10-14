@@ -1,3 +1,11 @@
+<?php 
+include 'includes/settings.php';
+session_start();
+if(!isset($_SESSION['login_user'])){
+    header("location:login.php");
+    die();
+ }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
