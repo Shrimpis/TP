@@ -141,20 +141,4 @@ if(mysqli_num_rows($looparray) > 0)
     return $KIDarray;  
 }
 
-function tabortTextruta(){
-    include('dbh.inc.php');
-    $RID = mysqli_real_escape_string($conn, $_POST['RID']);
-    $delRuta = "DELETE FROM rutor WHERE RID='{$RID}'";
-
-    if(mysqli_query($conn, $delRuta)){
-        echo "INFO: Ruta borttagen";
-        header('Refresh: 2; URL = ../index.php');
-    } else {
-        echo "ERROR: Could not execute $delRuta. " . mysqli_error($conn);
-    }
-
-    $conn->close();
-
-}
-
 ?>
