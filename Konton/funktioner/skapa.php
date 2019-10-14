@@ -4,9 +4,7 @@ session_start();
 include("dbh.inc.php");
 
 
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
-    $result = $conn->query($sql);
-    $result = mysqli_fetch_assoc($result);
+
 
     
         switch ($_POST['funktion']) {
