@@ -2,21 +2,7 @@
 
 // Funktioner för att ta bort
 
-//Anropas via följande url:
-// http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=FUNKTIONSNAMN&BID=5
-
 session_start();
-<<<<<<< HEAD
-include("dbh.inc.php");
-if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
-
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
-    $result = $conn->query($sql);
-    $result = mysqli_fetch_assoc($result);
-
-    if ($_SESSION["licens"] == $result["licens"]) {
-        switch ($_POST['funktion']) {
-=======
 include('dbh.inc.php');
 if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
@@ -26,7 +12,6 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
     if ($_SESSION["licens"] == $result["licens_key"]) {
         switch ($_GET['funktion']) {
->>>>>>> 2252b038172e9ceda181b93f345629f467a1967f
             case 'tabortBlogg':
                 tabortBlogg();
                 break;
@@ -61,13 +46,8 @@ function tabortBlogg(){
     
     while($row = $IIDarray->fetch_assoc()){
         $IID= $row['IID'];
-        
-        $delText="DELETE FROM textruta WHERE IID=$IID";
-        $delRuta="DELETE FROM rutor WHERE IID=$IID";
+    
         $delKommentar="DELETE FROM kommentar WHERE IID=$IID";
-        
-        $conn->query($delText);
-        $conn->query($delRuta);
         $conn->query($delKommentar);
         
     }
@@ -86,8 +66,6 @@ function tabortInlagg(){
     include('dbh.inc.php');
     $IID = mysqli_real_escape_string($conn, $_POST['IID']);
     $delInlagg = "DELETE FROM blogginlagg WHERE IID='{$IID}'";
-    $delRuta = "DELETE FROM rutor WHERE IID='{$IID}'";
-    $delText = "DELETE FROM textruta WHERE IID='{$IID}'";
     $delKommentar = "DELETE FROM kommentar WHERE IID=$IID";
 
     if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delRuta)&&mysqli_query($conn, $delText)&&mysqli_query($conn, $delKommentar)){
@@ -109,9 +87,6 @@ function tabortKommentar(){
     $temparray = array();
     
     $KIDarray = loop($KID,$conn,$KIDarray,$temparray);
-    
-    var_dump($KIDarray);
-    echo "<br>";
     
     $deleteID = implode(',',$KIDarray);
     
@@ -164,22 +139,6 @@ if(mysqli_num_rows($looparray) > 0)
 
     
     return $KIDarray;  
-}
-
-function tabortTextruta(){
-    include('dbh.inc.php');
-    $RID = mysqli_real_escape_string($conn, $_POST['RID']);
-    $delRuta = "DELETE FROM rutor WHERE RID='{$RID}'";
-
-    if(mysqli_query($conn, $delRuta)){
-        echo "INFO: Ruta borttagen";
-        header('Refresh: 2; URL = ../index.php');
-    } else {
-        echo "ERROR: Could not execute $delRuta. " . mysqli_error($conn);
-    }
-
-    $conn->close();
-
 }
 
 ?>
