@@ -75,10 +75,11 @@ function redigeraInlagg(){
 
     $iid = $_POST['IID'];
     $title = $_POST['Titel'];
-    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' WHERE IID = $iid ";
+    $innehall = $_POST['innehall'];
+    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' innehall = '{$innehall}' WHERE IID = $iid ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
-        echo "INFO: InlägPOST har redigerats.";
+        echo "INFO: Inlägget har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
         echo "ERROR: Could not execute $uppdateraInlagg . " . mysqli_error($conn);
