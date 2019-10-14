@@ -7,10 +7,10 @@ include("dbh.inc.php");
           
             $sok= $_POST['sok'];
 
-            sokfalt($sok, $conn);
+            sokFalt($sok, $conn);
         } 
         //här söker man för bloggInlägg i database.
-        function sokfalt($sok, $conn){
+        function sokFalt($sok, $conn){
             $output = '';
 
             $query = mysqli_query($conn,"SELECT * FROM blogginlagg WHERE title LIKE '%$sok%'") or die ("Could not search");
