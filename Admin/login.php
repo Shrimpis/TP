@@ -4,10 +4,10 @@
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       
-      $username = mysqli_real_escape_string($conn,$_POST['anamn']);
-      $pwd = mysqli_real_escape_string($conn,$_POST['losenord']);
+      $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
+      $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
       
-      $sql = "SELECT anamn FROM anvandare WHERE anamn = '$username' AND losenord = '$pwd' AND role_id='1'";
+      $sql = "SELECT anamn FROM anvandare WHERE anamn = '$anamn' AND losenord = '$losenord'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       
