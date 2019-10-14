@@ -6,7 +6,6 @@
 // http://localhost/tp/funktioner/tabort.php?key=SvvVuxb9gzQYtkjNYdEVvxnP&f=FUNKTIONSNAMN&BID=5
 
 session_start();
-<<<<<<< HEAD
 include("dbh.inc.php");
 if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
@@ -16,17 +15,6 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
     if ($_SESSION["licens"] == $result["licens"]) {
         switch ($_POST['funktion']) {
-=======
-include('dbh.inc.php');
-if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
-
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
-    $result = $conn->query($sql);
-    $result = mysqli_fetch_assoc($result);
-
-    if ($_SESSION["licens"] == $result["licens_key"]) {
-        switch ($_GET['funktion']) {
->>>>>>> 2252b038172e9ceda181b93f345629f467a1967f
             case 'tabortBlogg':
                 tabortBlogg();
                 break;
