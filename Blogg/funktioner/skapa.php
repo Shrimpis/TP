@@ -67,10 +67,11 @@ $conn->close();
         if(isset($_POST['BID']) && isset($_POST['title'])){
             $blogID= $_POST['BID'];
             $title= $_POST['title'];
+            $innehall= $_POST['innehall'];
         }
 
         $date= date("Y-m-d H:i");
-        $sql= "INSERT INTO blogginlagg(BID, datum, title) VALUES ('$blogID','$date','$title')";
+        $sql= "INSERT INTO blogginlagg(BID, datum, title) VALUES ('$blogID','$date','$title','$innehall')";
         $conn->query($sql);
         $conn->close();
 
