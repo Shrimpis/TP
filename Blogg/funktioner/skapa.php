@@ -1,4 +1,7 @@
 <?php
+
+// Funktion för skapa //
+
 session_start();
 include("dbh.inc.php");
 if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
