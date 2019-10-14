@@ -7,7 +7,7 @@
       $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
       $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
       
-      $sql = "SELECT anamn FROM anvandare WHERE anamn = '$anamn' AND losenord = '$losenord'";
+      $sql = "SELECT anamn, losenord FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$losenord}'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       
@@ -15,7 +15,7 @@
       
 		
       if($count == 1) {
-         $_SESSION['login_user'] = $username;
+         $_SESSION['login_user'] = $anamn;
          header("location: index.php");
       }else {
          $error = "Failed to login.";
