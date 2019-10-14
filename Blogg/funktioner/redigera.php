@@ -1,6 +1,7 @@
 <?php
 
-// Redigera funktioner //
+// Funktion för redigera //
+
 session_start();
 include("dbh.inc.php");
 if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
@@ -69,34 +70,16 @@ function redigeraKommentar(){
     $conn->close();
 }
 
-function redigeraTextruta(){
-    include("dbh.inc.php");
-    if(isset($_POST['RID']) && isset($_POST['text']) && isset($_POST['ordning'])){
-        $Rid = $_POST['RID'];
-        $text = $_POST['text'];
-        $ordning = $_POST['ordning'];
-    }
-    $uppdateraTextRuta = "UPDATE textruta SET text = '{$text}' WHERE RID = $Rid ";
-    $uppdateraRuta = "UPDATE rutor SET ordning = $ordning Where RID = $Rid";
-
-    if(mysqli_query($conn, $uppdateraTextRuta) && mysqli_query($conn, $uppdateraRuta)){
-        echo "INFO: Textrutan har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
-    } else {
-        echo "ERROR: Could not execute $uppdateraTextRuta,$uppdateraRuta. " . mysqli_error($conn);
-    }
-    $conn->close();
-}
-
 function redigeraInlagg(){
     include("dbh.inc.php");
 
     $iid = $_POST['IID'];
     $title = $_POST['Titel'];
-    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' WHERE IID = $iid ";
+    $innehall = $_POST['innehall'];
+    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' innehall = '{$innehall}' WHERE IID = $iid ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
-        echo "INFO: InlägPOST har redigerats.";
+        echo "INFO: Inlägget har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
         echo "ERROR: Could not execute $uppdateraInlagg . " . mysqli_error($conn);
