@@ -197,7 +197,7 @@ if(!isset($_SESSION['login_user'])){
                 <!-- Card Body -->
                 <div class="card-body">
 
-                  <?php include 'includes/kundtabell2.php' ?>
+                  <?php include 'includes/kundtabell.php' ?>
 
                 </div>
               </div>
