@@ -15,7 +15,7 @@
     <br>
     email<input type="text" name="email">
     <br>
-    <select name="UID">
+    <select name="anvandarid">
     <?php
         include('funktioner/dbh.inc.php');
         $sql = "SELECT * from anvandare where aktiv = true";
@@ -75,7 +75,7 @@
 <input type='hidden' name='funktion' value='tabortKonto'/>
 
     <br>
-    <select name="UID">
+    <select name="anvandarid">
     <?php
         include('funktioner/dbh.inc.php');
         $sql = "SELECT * from anvandare where aktiv = true";
@@ -104,7 +104,7 @@
 <input type='hidden' name='funktion' value='redigeraRoll'/>
 
     <br>
-    <select name="UID">
+    <select name="anvandarid">
     <?php
         include('funktioner/dbh.inc.php');
         $sql = "SELECT * from anvandare where aktiv = true";

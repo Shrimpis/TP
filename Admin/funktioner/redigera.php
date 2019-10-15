@@ -21,8 +21,8 @@ $conn->close();
 
 function redigeraKonto(){
     include("dbh.inc.php");
-    if(isset($_POST['anamn']) && isset($_POST['losenord']) && isset($_POST['UID'])){
-        $UID = $_POST['UID'];
+    if(isset($_POST['anamn']) && isset($_POST['losenord']) && isset($_POST['anvandarid'])){
+        $anvandarid = $_POST['anvandarid'];
 	    $anamn = $_POST['anamn'];
         $losenord = $_POST['losenord'];
     }
@@ -31,11 +31,11 @@ function redigeraKonto(){
         $enamn = $_POST['enamn'];
         $email = $_POST['email'];
     }
-    $uppdateraAnamn = "UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $UID ";
-    $uppdateraLosenord = "UPDATE anvandare SET losenord = '{$losenord}'  WHERE id = $UID ";
-    $uppdaterafnamn = "UPDATE anvandare SET fnamn = '{$fnamn}'  WHERE id = $UID ";
-    $uppdateraenamn = "UPDATE anvandare SET enamn = '{$enamn}'  WHERE id = $UID ";
-    $uppdateraemail = "UPDATE anvandare SET email = '{$email}'  WHERE id = $UID ";
+    $uppdateraAnamn = "UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $anvandarid ";
+    $uppdateraLosenord = "UPDATE anvandare SET losenord = '{$losenord}'  WHERE id = $anvandarid ";
+    $uppdaterafnamn = "UPDATE anvandare SET fnamn = '{$fnamn}'  WHERE id = $anvandarid ";
+    $uppdateraenamn = "UPDATE anvandare SET enamn = '{$enamn}'  WHERE id = $anvandarid ";
+    $uppdateraemail = "UPDATE anvandare SET email = '{$email}'  WHERE id = $anvandarid ";
     
     
     if(mysqli_query($conn, $uppdateraAnamn)&&mysqli_query($conn, $uppdateraLosenord)&&mysqli_query($conn, $uppdateraenamn)&&mysqli_query($conn, $uppdaterafnamn)&&mysqli_query($conn, $uppdateraemail)){
@@ -48,12 +48,12 @@ function redigeraKonto(){
 }
 function redigeraRoll(){
     include("dbh.inc.php");
-    if(isset($_POST['UID']) && isset($_POST['rollid'])){
-        $UID = $_POST['UID'];
+    if(isset($_POST['anvandarid']) && isset($_POST['rollid'])){
+        $anvandarid = $_POST['anvandarid'];
 	    $roll = $_POST['rollid'];
         
     }
-    $uppdateraRoll= "UPDATE anvandarroll SET rollid = '{$roll}' where anvandarid = $UID";
+    $uppdateraRoll= "UPDATE anvandarroll SET rollid = '{$roll}' where anvandarid = $anvandarid";
     
     
     
