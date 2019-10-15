@@ -23,6 +23,7 @@ function avslutaKonto(){
 
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
 
+    $superadmin = "UPDATE `kund` SET `superadmin` = '0' WHERE `kund`.`id` = $id";
     $avsluta= "";//TODO: Gör delete i en sql-sats.
 
     if(mysqli_query($conn, $avsluta)){
