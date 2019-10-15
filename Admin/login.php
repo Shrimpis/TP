@@ -7,7 +7,7 @@
       $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
       $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
       
-      $sql = "SELECT anamn, losenord FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$losenord}'";
+      $sql = "SELECT id, anamn, losenord FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$losenord}' and id='1'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       
