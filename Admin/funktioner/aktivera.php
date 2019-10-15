@@ -5,9 +5,6 @@ include("dbh.inc.php");
             case 'aktiveraTjanst':
                 aktiveraTjanst();
                 break;
-            case 'aktiveraKonto':
-                aktiveraKonto();
-                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -31,10 +28,6 @@ function aktiveraTjanst(){
     } else {
         echo "ERROR: Could not able to execute $aktivera. " . mysqli_error($conn);
     }
-
-}
-
-function aktiveraKonto(){
 
 }
 
