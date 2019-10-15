@@ -49,11 +49,11 @@
                                 <option selected>Välj...</option>
                                 <?php 
                                     include('funktioner/dbh.inc.php');
-                                    $sql = "SELECT id, fnamn, enamn, anamn FROM anvandare"; //TODO: Måste ändras så att bara  superadmins visas.
+                                    $sql = "SELECT anvandare.id, anvandare.fnamn, anvandare.enamn, anvandare.anamn FROM anvandare INNER JOIN anvandarroll ON anvandare.id = anvandarroll.anvandarId WHERE anvandarroll.rollId = 1"; //TODO: Ändra till rätt rollId.
                                     $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
                                     while($row = $result->fetch_assoc()) {
-                                        echo "<option value='". $row["id"] ."'>AnvändarID: ". $row["id"]." | ". $row["anamn"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                                        echo "<option value='". $row["anvandare.id"] ."'>AnvändarID: ". $row["id"]." | ". $row["anamn"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
                                     }
                                     echo "</table>";
                                     } else { echo "0 results"; }
