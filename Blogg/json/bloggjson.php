@@ -88,7 +88,7 @@
 
 
 
-                    $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
+                    $blogginlaggArray['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
 
 
 
@@ -101,7 +101,7 @@
                         $gillningarArray[$index]=array('anvandare'=>$row['id']);//alla gillningar i ett blogginlagg.
                         $index++;
                     }
-                    $blogginlaggArray[$i]['gillningar']=$gillningarArray;//lagger in en array med alla gillningar i blogginlagget.
+                    $blogginlaggArray['gillningar']=$gillningarArray;//lagger in en array med alla gillningar i blogginlagget.
 
 
 
