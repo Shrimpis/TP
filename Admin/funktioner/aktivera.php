@@ -24,7 +24,13 @@ function aktiveraTjanst(){
     $kalenderCheck = (isset($_POST['kalenderCheck'])) ? 1 : 0;
     $aktiv = '1'; //Aktiverar kontot.
 
-    $aktivera = "INSERT INTO kund (blogg, wiki, kalender, aktiv) VALUES ('$bloggCheck', '$wikiCheck', '$kalenderCheck', '$aktiv') WHERE id='$id'";
+    $aktivera = "UPDATE `kund` SET `blogg` = '$bloggCheck', `wiki` = '$wikiCheck', `kalender` = '$kalenderCheck', `aktiv` = '$aktiv' WHERE `kund`.`id` = $id";
+
+    if(mysqli_query($conn, $aktivera)){
+        header('location: ../index.php?funktion=aktiveraTjanst?m=success');
+    } else {
+        echo "ERROR: Could not able to execute $aktivera. " . mysqli_error($conn);
+    }
 
 }
 
