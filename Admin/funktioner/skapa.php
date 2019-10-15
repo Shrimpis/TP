@@ -7,7 +7,7 @@ include("dbh.inc.php");
 
 
     
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
             case 'skapaKonto':
                 skapaKonto();
                 break;
@@ -26,10 +26,12 @@ $conn->close();
 function skapaKonto(){
     include("dbh.inc.php");
     $uname_tagen=false;
-    if(isset($_POST['anamn'])){
-        $username= $_POST['anamn'];
+    if(isset($_POST['anamn'])&&isset($_POST['rollid'])){
+        $username = $_POST['anamn'];
+        $rollid = $_POST['rollid'];
     }
     $password = slumplosen(10);
+    
     
     $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
     while($row=$sqlcheck->fetch_assoc()){
@@ -39,9 +41,20 @@ function skapaKonto(){
     }
     if($uname_tagen==false){
         $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
+        
         var_dump($sql);
         $conn->query($sql);
-        header('Refresh: 5; URL = ../index.php');
+        
+        $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
+        if(mysqli_num_rows($result) > 0){
+            while($row=$result->fetch_assoc()){
+                $USID=$row['id'];
+                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
+                echo "<br>".$sql2;
+                $conn->query($sql2);
+                header('Refresh: 5; URL = ../index.php');
+            }
+        }
     }
     else{
         echo "användarnamnet är taget faktiskt, ifall du inte visste det (men nu vet du)!";
@@ -62,9 +75,9 @@ function slumplosen($len) {
 function skapaAKonto(){
     include("dbh.inc.php");
     $uname_tagen=false;
-    if(isset($_GET['anamn'])&&isset($_GET['rollid'])){
-        $username = $_GET['anamn'];
-        $rollid = $_GET['rollid'];
+    if(isset($_POST['anamn'])&&isset($_POST['rollid'])){
+        $username = $_POST['anamn'];
+        $rollid = $_POST['rollid'];
     }
     $password = slumplosen(10);
     
@@ -78,7 +91,17 @@ function skapaAKonto(){
         $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
         var_dump($sql);
         $conn->query($sql);
-        header('Refresh: 5; URL = ../kontoformsadmin.php');
+        $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
+        if(mysqli_num_rows($result) > 0){
+            while($row=$result->fetch_assoc()){
+                $USID=$row['id'];
+                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
+                echo "<br>".$sql2;
+                $conn->query($sql2);
+                header('Refresh: 5; URL = ../kontoformsadmin.php');
+            }
+        }
+        
     }
     else{
         echo "användarnamnet är taget faktiskt, ifall du inte visste det (men nu vet du)!";

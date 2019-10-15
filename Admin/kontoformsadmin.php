@@ -32,7 +32,7 @@
 <h4>Skapa konton för din tjänst</h4>
 
 
-<form action="funktioner/skapa.php" method="get">
+<form action="funktioner/skapa.php" method="post">
 <input type='hidden' name='funktion' value='skapaAKonto'/>
     <input type="text" name="anamn">
     
