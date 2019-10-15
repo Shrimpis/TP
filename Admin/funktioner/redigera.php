@@ -17,18 +17,20 @@ $conn->close();
 
 function redigeraKonto(){
     include("dbh.inc.php");
-    if(isset($_POST['anamn']) && isset($_POST['losenord'] && isset($_POST['UID'])){
+    if(isset($_POST['anamn']) && isset($_POST['losenord']) && isset($_POST['UID'])){
         $UID = $_POST['UID'];
 	$anamn = $_POST['anamn'];
         $losenord = $_POST['losenord'];
     }
-    $uppdateraKonto = "UPDATE anvandare SET anamn = '{$anamn}' SET losenord = '{$anamn}' WHERE UID = $UID ";
+    $uppdateraAnamn = "UPDATE anvandare SET anamn = '{$anamn}' WHERE UID = $UID ";
+    $uppdateraLosenord = "UPDATE anvandare SET losenord = '{$losenord}'  WHERE UID = $UID ";
     
-    if(mysqli_query($conn, $uppdateraKonto)){
+    
+    if(mysqli_query($conn, $uppdateraAnamn)&&mysqli_query($conn, $uppdateraLosenord)){
         echo "INFO: kontot har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
+        header('Refresh: 2; URL = ../redigerakontoform.php');
     } else {
-        echo "ERROR: Could not execute $uppdateraKonto. " . mysqli_error($conn);
+        echo "ERROR: Could not execute $uppdateraAnamn. " . mysqli_error($conn);
     }
     $conn->close();
 }
