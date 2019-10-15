@@ -18,8 +18,11 @@
             <div id='Kund". $row["id"] ."' class='collapse' aria-labelledby='Kund". $row["id"] ."' data-parent='#accordion'>
                 <div class='card-body'>
                 <p>Tjänster:</p>
-                <form>
-                  <div class='form-check'>";
+                <form action='funktioner/aktivera.php' method='POST'>
+                  <div class='form-check'>
+                  <input name='funktion' type='hidden' value='aktiveraTjanst'>
+                  <input name='id' type='hidden' value='". $row["id"] ."'>
+                  ";
 
                 $blogg = mysqli_query($conn, "SELECT blogg FROM kund WHERE id=". $row["id"] ." AND blogg = 1");
                 $wiki = mysqli_query($conn, "SELECT wiki FROM kund WHERE id=". $row["id"] ." AND wiki = 1");
