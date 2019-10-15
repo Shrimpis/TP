@@ -23,7 +23,7 @@ function avslutaKonto(){
 
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
 
-    $avsluta= "";
+    $avsluta= "";//TODO: Gör delete i en sql-sats.
 
     if(mysqli_query($conn, $avsluta)){
         header('location: ../index.php?funktion=avslutaKonto?m=success');
