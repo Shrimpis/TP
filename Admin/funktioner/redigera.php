@@ -17,8 +17,8 @@ $conn->close();
 
 function redigeraKonto(){
     include("dbh.inc.php");
-    if(isset($_POST['anamn']) && isset($_POST['losenord']) && isset($_POST['UID'])){
-        $UID = $_POST['UID'];
+    if(isset($_POST['anamn']) && isset($_POST['losenord']) && isset($_POST['id'])){
+        $UID = $_POST['id'];
 	$anamn = $_POST['anamn'];
         $losenord = $_POST['losenord'];
     }

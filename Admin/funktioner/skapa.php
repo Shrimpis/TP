@@ -72,6 +72,7 @@ function slumplosen($len) {
     }
     return $slumpstr;
 }
+//exakt kopia av skapaKonto() men med ett annat fönster som header(refresh)
 function skapaAKonto(){
     include("dbh.inc.php");
     $uname_tagen=false;
