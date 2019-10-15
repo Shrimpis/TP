@@ -23,25 +23,25 @@
             echo "Ingen licens. Kontakta adminstratör";
         }*/
 
-        if(isset($_GET['visa'])){
-            if($_GET['visa']=='anvandare'){
-                if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
-                        blog($_GET['anvandare'],$_GET['blogg'],$db);
+        if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
+            blog($_GET['anvandare'],$_GET['blogg'],$db);
 
-                }
-                else if(isset($_GET['anvandare'])){
-                    visaBloggar($_GET['anvandare'],$db);
-                }
-                else{
-                    visaAnvandare($db);
-                }
-            }
-            
         }
+        else if(isset($_GET['anvandare']) && isset($_GET['blogg']) && isset($_GET['inlagg']) ){
+                bloginlagg($_GET['anvandare'],$_GET['blogg'],$db);
+
+        }
+        else if(isset($_GET['anvandare'])){
+            visaBloggar($_GET['anvandare'],$db);
+        }
+        else{
+            visaAnvandare($db);
+        }
+            
         
         function visaBloggar($anvandarId,$db){
-            $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
-            $blogg = $db->query('select * from blogg where UID='.$anvandarId);
+            $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
+            $blogg = $db->query('select * from blogg where id='.$anvandarId);
 
             $fnamn;
             $enamn;
@@ -56,7 +56,7 @@
             $bloggar;
             $i=0;
             while($row = $blogg->fetch_assoc()) {
-                $bloggar['bloggar'][$i]=array('titel'=>$row["title"],'BID'=>$row["BID"]);
+                $bloggar['bloggar'][$i]=array('titel'=>$row["title"],'id'=>$row["id"]);
                 
                 $i++;
             }
