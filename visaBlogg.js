@@ -121,11 +121,11 @@ function recurs(kom){
     if (kom instanceof Object) {
         for (let k in kom){
             if (kom.hasOwnProperty("kommentarer")){
-                //recursive call to scan propertyconsole.log(k);
                 if(k == "kommentarer"){
-                    console.log(kom[k][index]);
                     if(kom[k][index].kommentarer.length > 0){
-                        createKommentar(kom[k][index]);
+                        for(let i = 0; i < kom[k].length; i++){
+                            createKommentar(kom[k][i]);
+                        }
                         recurs(kom[k][index]);
                     }else{
                         createKommentar(kom[k][index]);
