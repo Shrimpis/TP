@@ -137,15 +137,105 @@
                             </ul>
                             <div class='tab-content' id='myTabContent' style='padding: 10px 10px 10px 10px'>
                                 <div class='tab-pane fade show active' id='blogg". $row["id"] ."' role='tabpanel' aria-labelledby='blogg-tab'>
-                                    <p>Kundens aktiva bloggar</p>
+                                    <p>Kundens aktiva bloggar:</p>
+                                    <table class='table'>
+                                        <thead>
+                                            <tr>
+                                            <th scope='col'>#</th>
+                                            <th scope='col'>Titel</th>
+                                            <th scope='col'>Privat</th>
+                                            <th scope='col'>Inlägg</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='row'>1</th>
+                                                <td>Test blogg</td>
+                                                <td>Nej</td>
+                                                <td>1</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='row'>2</th>
+                                                <td>Test blogg 2</td>
+                                                <td>Ja</td>
+                                                <td>3</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='row'>3</th>
+                                                <td>Test blogg 3</td>
+                                                <td>Nej</td>
+                                                <td>2</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 
                                 <div class='tab-pane fade' id='wiki". $row["id"] ."' role='tabpanel' aria-labelledby='wiki-tab'>
-                                    <p>Kundens aktiva wikis</p>
+                                    <p>Kundens aktiva wikis:</p>
+                                    <table class='table'>
+                                    <thead>
+                                        <tr>
+                                        <th scope='col'>#</th>
+                                        <th scope='col'>Titel</th>
+                                        <th scope='col'>Privat</th>
+                                        <th scope='col'>Sidor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope='row'>1</th>
+                                            <td>Test wiki</td>
+                                            <td>Nej</td>
+                                            <td>7</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope='row'>2</th>
+                                            <td>Test wiki 2</td>
+                                            <td>Ja</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope='row'>3</th>
+                                            <td>Test wiki 3</td>
+                                            <td>Nej</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                 </div>
 
                                 <div class='tab-pane fade' id='kalender". $row["id"] ."' role='tabpanel' aria-labelledby='kalender-tab'>
-                                    <p>Kundens aktiva kalendrar</p>
+                                    <p>Kundens aktiva kalendrar:</p>
+                                    <table class='table'>
+                                    <thead>
+                                        <tr>
+                                        <th scope='col'>#</th>
+                                        <th scope='col'>Titel</th>
+                                        <th scope='col'>Privat</th>
+                                        <th scope='col'>Events</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope='row'>1</th>
+                                            <td>Test blogg</td>
+                                            <td>Nej</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope='row'>2</th>
+                                            <td>Test blogg 2</td>
+                                            <td>Ja</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope='row'>3</th>
+                                            <td>Test blogg 3</td>
+                                            <td>Nej</td>
+                                            <td>2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                 </div>
                             </div>
                         </div>
