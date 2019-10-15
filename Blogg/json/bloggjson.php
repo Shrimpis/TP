@@ -41,7 +41,8 @@
         
         function visaBloggar($anvandarId,$db){
             $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
-            $blogg = $db->query('select * from blogg where id='.$anvandarId);
+            $blogg = $db->query('select * from blogg where anvandarId='.$anvandarId);
+
 
             $fnamn;
             $enamn;
@@ -56,10 +57,18 @@
             $bloggar;
             $i=0;
             while($row = $blogg->fetch_assoc()) {
-                $bloggar['bloggar'][$i]=array('titel'=>$row["title"],'id'=>$row["id"]);
+                $bloggar['bloggar'][$i]=array('titel'=>$row["titel"],'anvandarId'=>$row["anvandarId"]);
                 
-                $i++;
+                $bloggId= $row['id'];
+                $bloggInlaggCount = $db->query('SELECT * FROM blogginlagg where bloggId='.$bloggId);
+                $count=0;
+                while($row = $bloggInlaggCount->fetch_assoc()) {
+                    $count++;
+                }
+                $bloggar['bloggar'][$i]['inlaggMangd']=$count;
+               $i++;
             }
+            
             $bloggar['fnamn']=$fnamn;//förnamn
             $bloggar['enamn']=$enamn;//efternamn
 
@@ -78,7 +87,7 @@
             $anvandareArray;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {
-                $anvandareArray['anvandare'][$i]=array('UID'=>$row["UID"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"]);
+                $anvandareArray['anvandare'][$i]=array('id'=>$row["id"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"]);
                 $i++;
             }
 
