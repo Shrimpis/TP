@@ -8,9 +8,9 @@ $auth = "SvvVuxb9gzQYtkjNYdEVvxnP"; //Autorisationsnyckel/Licsensnyckeln
 
 session_start();
 
-if (isset($_SESSION["licens"]) && isset($_UID["anvandare"])) {
+if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_UID["anvandare"];
+    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
     $result = $db->query($sql);
     $result = mysqli_fetch_assoc($result);
 
