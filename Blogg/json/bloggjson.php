@@ -121,10 +121,10 @@
 
         function blog($anvandarId,$bloggId,$db){
             $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
-            $blogg = $db->query('select * from blogg where id='.$bloggId);
+            $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
             $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
 
-
+            
             
 
 
@@ -203,10 +203,20 @@
             
             
 
-
+            $ii=0;
             $Bloggarray;//innehåller allt i bloggen.
             while($row=$blogg->fetch_assoc()){
-                $Bloggarray=array('titel'=>$row["titel"]);
+                //$Bloggarray=array('titel'=>$row["titel"]);
+                $Bloggarray=array('flaggad'=>$row["flaggad"]);
+
+                $tjanstId=$row['tjanstId'];
+
+                $tjanst = $db->query('select * from tjanst where id='.$tjanstId);
+                while($row=$tjanst->fetch_assoc()){
+                    $Bloggarray['titel']=$row['titel'];
+                    $Bloggarray['privat']=$row['privat'];
+                }
+                $ii++;
             }
 
 
