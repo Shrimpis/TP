@@ -16,7 +16,9 @@
                 </h5>
             </div>
             <div id='Kund". $row["id"] ."' class='collapse' aria-labelledby='Kund". $row["id"] ."' data-parent='#accordion'>
-                <div class='card-body'>
+                <div class='card-body'>";
+
+                echo "
                 <p>Tjänster:</p>
                 <form action='funktioner/aktivera.php' method='POST'>
                   <div class='form-check'>
@@ -63,6 +65,7 @@
                 if($blogg->num_rows != 0 || $wiki->num_rows != 0 || $kalender->num_rows != 0){
                     
                     if($superadmin->num_rows == 0){
+
                         echo 
                         "
                         <p>Skapa konto för Superadmin:</p>
@@ -85,7 +88,17 @@
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Skapa konto</button>
                         </form>
                         ";
+
                     } else {
+                        $deaktiverat = mysqli_query($conn, "SELECT aktiv FROM kund WHERE id=". $row["id"] ." AND aktiv=0");
+                        if($deaktiverat->num_rows != 0){
+                            echo 
+                            "
+                            <div class='alert alert-danger' role='alert'>
+                                <strong>Info:</strong> Kundens konto är deaktiverat.
+                            </div>
+                            ";
+                        }
                         echo 
                         "
                         <p>Superadmin information:</p>
@@ -106,6 +119,36 @@
                             </div>
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Redigera konto</button>
                         </form>
+                        ";
+
+                        echo
+                        "
+                        <div style='margin-top:20px;margin-bottom:20px;'>
+                            <ul class='nav nav-tabs' id='myTab' role='tablist'>
+                                <li class='nav-item'>
+                                    <a class='nav-link active' id='blogg-tab' data-toggle='tab' href='#blogg". $row["id"] ."' role='tab' aria-controls='blogg' aria-selected='true'>Blogg</a>
+                                </li>
+                                <li class='nav-item'>
+                                    <a class='nav-link' id='wiki-tab' data-toggle='tab' href='#wiki". $row["id"] ."' role='tab' aria-controls='wiki' aria-selected='false'>Wiki</a>
+                                </li>
+                                <li class='nav-item'>
+                                    <a class='nav-link' id='kalender-tab' data-toggle='tab' href='#kalender". $row["id"] ."' role='tab' aria-controls='kalender' aria-selected='false'>Kalender</a>
+                                </li>
+                            </ul>
+                            <div class='tab-content' id='myTabContent' style='padding: 10px 10px 10px 10px'>
+                                <div class='tab-pane fade show active' id='blogg". $row["id"] ."' role='tabpanel' aria-labelledby='blogg-tab'>
+                                    <p>Kundens aktiva bloggar</p>
+                                </div>
+                                
+                                <div class='tab-pane fade' id='wiki". $row["id"] ."' role='tabpanel' aria-labelledby='wiki-tab'>
+                                    <p>Kundens aktiva wikis</p>
+                                </div>
+
+                                <div class='tab-pane fade' id='kalender". $row["id"] ."' role='tabpanel' aria-labelledby='kalender-tab'>
+                                    <p>Kundens aktiva kalendrar</p>
+                                </div>
+                            </div>
+                        </div>
                         ";
                     }
 
