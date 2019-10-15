@@ -85,7 +85,7 @@ if(!isset($_SESSION['login_user'])){
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="#blogg">
-          <i class="fas fa-fw fa-rss"></i>
+          <i class="fab fa-blogger-b"></i>
           <span>Blogg</span></a>
       </li>
       <li class="nav-item">
@@ -196,7 +196,7 @@ if(!isset($_SESSION['login_user'])){
                 <!-- Card Body -->
                 <div class="card-body">
 
-                  <?php include 'includes/kundtabell.php' ?>
+                  <?php include 'includes/kundtabell2.php' ?>
 
                 </div>
               </div>

@@ -42,7 +42,16 @@
                             </div>
                           <button type="submit" class="btn btn-primary btn-sm" style="margin-top:4px;margin-bottom:10px;">Skapa konto</button>
                         </form>
-
+                        <br>
+                        <p>Konto Inställningar:</p>
+                        <div class="row">
+                          <form action="funktioner/" method="POST">
+                            <button type="button" class="btn btn-danger btn-sm">Avsluta konto</button>
+                          </form>
+                          <form action="funktioner/" method="POST">
+                            <button type="button" class="btn btn-warning btn-sm">Deaktivera konto</button>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   </div>
