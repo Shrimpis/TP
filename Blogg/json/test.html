@@ -25,9 +25,10 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var json=JSON.parse(this.responseText);
                     console.log(json);
+                    console.log(json.titel);
                 }
                 };
-                xhttp.open("GET", "bloggjson.php?anvandare=1&blogg=2", true);
+                xhttp.open("GET", "bloggjson.php?anvandare=1&blogg=2&inlagg=2", true);
                 xhttp.send();
             }
 

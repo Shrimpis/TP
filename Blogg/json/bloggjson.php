@@ -23,12 +23,13 @@
             echo "Ingen licens. Kontakta adminstratör";
         }*/
 
-        if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
-            blog($_GET['anvandare'],$_GET['blogg'],$db);
 
+        if(isset($_GET['anvandare']) && isset($_GET['blogg']) && isset($_GET['inlagg']) ){
+            blogginlagg($_GET['anvandare'],$_GET['blogg'],$_GET['inlagg'],$db);
         }
-        else if(isset($_GET['anvandare']) && isset($_GET['blogg']) && isset($_GET['inlagg']) ){
-                bloginlagg($_GET['anvandare'],$_GET['blogg'],$db);
+        else if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
+            blogg($_GET['anvandare'],$_GET['blogg'],$db);
+            
 
         }
         else if(isset($_GET['anvandare'])){
@@ -37,6 +38,157 @@
         else{
             visaAnvandare($db);
         }
+
+
+        function blogginlagg($anvandarId,$bloggId,$inlaggId,$db){
+            $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
+            $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
+            $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
+
+            
+            
+
+
+            $kommentarArray;//alla kommentarer.
+
+
+            $blogginlaggArray;//innehåller alla blogginlagg.
+            //kollar på alla bloginlagg.
+            $i=0;
+            while($row = $blogginlagg->fetch_assoc()) {
+                $id=$row["id"];//id på det inlagget som vi ar på.
+                if($id==$inlaggId){
+                    $blogginlaggArray=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
+
+
+                    
+                    //lagger in kommentarer.
+                    $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.id=anvandare.id where inlaggId='.$id); //hamtar alla kommentarer i ett bloginlagg
+                    //echo var_dump($tempKommentar);
+                    $kommentarArray=array();
+                    $index=0;
+                    while($row = $tempKommentar->fetch_assoc()) {
+                        $kommentarArray[$index]=array('id'=>$row['id'],'anvandarId'=>$row['anvandarId'],'namn'=>$row['fnamn'].' '.$row['enamn'],'innehall'=>$row['innehall'],'hierarkiId'=>$row['hierarkiId']);
+                    
+                        $index++;
+                    }
+
+                    $index=0;
+                    $kommentarArrayFull=array();
+                    for($ii=0;$ii<count($kommentarArray);$ii++){
+                        if($kommentarArray[$ii]['hierarkiId']==0){
+                            $tempKommentarer=$kommentarArray;
+
+                            //lägger kommetarer i kommentarer.
+                            $kommentarArrayFull[$index]=$tempKommentarer[$ii];
+                            $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($tempKommentarer[$ii]['id'],$tempKommentarer);
+                            $index++;
+                        }
+                    }
+
+
+
+                    $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
+
+
+
+
+                    //lagger in gillningar.
+                    $gillningar = $db->query('select * from gillningar where inlaggId='.$id);
+                    $gillningarArray=array();
+                    $index=0;
+                    while($row = $gillningar->fetch_assoc()) {
+                        $gillningarArray[$index]=array('anvandare'=>$row['id']);//alla gillningar i ett blogginlagg.
+                        $index++;
+                    }
+                    $blogginlaggArray[$i]['gillningar']=$gillningarArray;//lagger in en array med alla gillningar i blogginlagget.
+
+
+
+
+
+                    $i++;
+
+                }
+            }
+
+
+
+
+
+
+
+
+            
+
+
+            
+            
+
+            $ii=0;
+            $Bloggarray;//innehåller allt i bloggen.
+           /* while($row=$blogg->fetch_assoc()){
+                //$Bloggarray=array('titel'=>$row["titel"]);
+                $Bloggarray=array('flaggad'=>$row["flaggad"]);
+
+                $tjanstId=$row['tjanstId'];
+
+                $tjanst = $db->query('select * from tjanst where id='.$tjanstId);
+                while($row=$tjanst->fetch_assoc()){
+                    $Bloggarray['titel']=$row['titel'];
+                    $Bloggarray['privat']=$row['privat'];
+                }
+                $ii++;
+            }*/
+
+
+
+
+
+
+           /* $fnamn;
+            $enamn;
+            $i=0;
+            while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
+                $fnamn=$row["fnamn"];
+                $enamn=$row["enamn"];
+                $i++;
+            }
+            
+            $Bloggarray['fnamn']=$fnamn;//förnamn
+            $Bloggarray['enamn']=$enamn;//efternamn
+*/
+
+
+
+
+
+
+
+
+            if(isset($blogginlaggArray)){
+                $Bloggarray['bloggInlagg']=$blogginlaggArray;
+                
+                $json=json_encode($blogginlaggArray);
+                echo $json;
+            }
+
+
+
+
+
+            else{
+                $Bloggarray['bloggInlagg']=array();
+                $json=json_encode($blogginlaggArray);
+                echo $json;
+            }
+
+        }
+
+
+
+
+
             
         
         function visaBloggar($anvandarId,$db){
@@ -106,11 +258,11 @@
             $index=0;
             $kommentarArrayFull=array();
                 for($ii=0;$ii<count($minaKommentarer);$ii++){
-                    if($minaKommentarer[$ii]['hierarchyID']==$id){
+                    if($minaKommentarer[$ii]['hierarkiId']==$id){
                         $tempKommentarer=$minaKommentarer;
                         
                         $kommentarArrayFull[$index]=$tempKommentarer[$ii];
-                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['KID'],$minaKommentarer);
+                        $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['id'],$minaKommentarer);
 
                         $index++;
                     }
@@ -119,7 +271,7 @@
                 return $kommentarArrayFull;
         }
 
-        function blog($anvandarId,$bloggId,$db){
+        function blogg($anvandarId,$bloggId,$db){
             $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
             $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
             $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
