@@ -113,14 +113,36 @@
                     "
                     <p>Konto Inställningar:</p>
                     <div class='row'>
-                    <form action='funktioner/' method='POST'>
-                        <button type='button' class='btn btn-danger btn-sm'>Avsluta konto</button>
-                    </form>
-                    <form action='funktioner/' method='POST'>
-                        <button type='button' class='btn btn-warning btn-sm'>Deaktivera konto</button>
-                    </form>
-                    </div>
-                    ";
+
+                    <form action='funktioner/konto.php' method='POST'>
+                        <input type='hidden' name='funktion' value='avslutaKonto'/>
+                        <input name='id' type='hidden' value='". $row["id"] ."'>
+                        <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
+                    </form>";
+
+                    $aktiv = mysqli_query($conn, "SELECT aktiv FROM kund WHERE id=". $row["id"] ." AND aktiv=1");
+
+                    if($aktiv->num_rows != 0){
+                        echo 
+                        "
+                        <form action='funktioner/konto.php' method='POST'>
+                            <input type='hidden' name='funktion' value='deaktiveraKonto'/>
+                            <input name='id' type='hidden' value='". $row["id"] ."'>
+                            <button type='submit' class='btn btn-warning btn-sm'>Deaktivera konto</button>
+                        </form>
+                        ";
+                    } else {
+                        echo
+                        "
+                        <form action='funktioner/konto.php' method='POST'>
+                            <input type='hidden' name='funktion' value='aktiveraKonto'/>
+                            <input name='id' type='hidden' value='". $row["id"] ."'>
+                            <button type='submit' class='btn btn-success btn-sm'>Aktivera konto</button>
+                        </form>
+                        ";
+                    }
+
+                    echo "</div>";
 
                 } else {
                     echo 
