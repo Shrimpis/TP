@@ -111,9 +111,9 @@
         }
 
         function blog($anvandarId,$bloggId,$db){
-            $anvandare = $db->query('select * from anvandare where UID='.$anvandarId);
-            $blogg = $db->query('select * from blogg where BID='.$bloggId);
-            $blogginlagg = $db->query('select * from blogginlagg where BID='.$bloggId);
+            $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
+            $blogg = $db->query('select * from blogg where id='.$bloggId);
+            $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
 
 
             
@@ -126,60 +126,11 @@
             //kollar på alla bloginlagg.
             $i=0;
             while($row = $blogginlagg->fetch_assoc()) {
-                $IID=$row["IID"];//id på det inlagget som vi ar på.
-                $blogginlaggArray[$i]=array('IID'=>$IID,'datum'=>$row["datum"],'titel'=>$row["title"]);//skappar en array som innehåller datum title
+                $id=$row["id"];//id på det inlagget som vi ar på.
+                $blogginlaggArray[$i]=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
 
 
-
-
-
-
-                $rutor = $db->query('select * from rutor where IID='.$IID.' order by ordning ASC');
-                $textruta = $db->query('select * from textruta where IID='.$IID);
-                $bildruta = $db->query('select * from bildruta where IID='.$IID);
-
-
-                //lagger in rutor.
-                $rutorArray=array();
-                $index=0;
-                while($row = $rutor->fetch_assoc()) {
-                    $rutorArray[$index]=array($row['RID'],$row['ordning']);//alla rutor i ett blogginlagg.
-                    $index++;
-                }
-                $textrutaArray=array();
-                $index=0;
-                while($row = $textruta->fetch_assoc()) {
-                    $textrutaArray[$index]=array($row['RID'], $row['rubrik'], $row['text']);//alla textrutor i ett blogginlagg.
-                    $index++;
-                }
-                $bildrutaArray=array();
-                $index=0;
-                while($row = $bildruta->fetch_assoc()) {
-                    $bildrutaArray[$index]=array($row['RID'],$row['bildPath']);//alla bildrutor i ett blogginlagg.
-                    $index++;
-                }
-
-                $inlaggRutor=array();
-                for($in=0;$in<count($rutorArray);$in++){
-
-                    for($ii=0;$ii<count($textrutaArray);$ii++){//går igenom alla textrutor och kollar om dom har samma index som en av rutornas id.
-                       
-                        if($textrutaArray[$ii][0]==$rutorArray[$in][0]){
-                            $inlaggRutor[$in]=array('type'=>'textRuta','rubrik'=>$textrutaArray[$ii][1],'text'=>$textrutaArray[$ii][2],'ordning'=>$rutorArray[$in][1]);//om rutan ar en text så skappa en textruta
-                        }
-                    }
-                    for($ii=0;$ii<count($bildrutaArray);$ii++){//går igenom alla bildrutorna och kollar om dom har samma index som en av rutornas id.
-                        if($bildrutaArray[$ii][0]==$rutorArray[$in][0]){
-                            $inlaggRutor[$in]=array('type'=>'bildRuta','bild'=>$bildrutaArray[$ii][1],'ordning'=>$rutorArray[$in][1]);//om rutan ar en bild så skappa en bildruta
-                        }
-                    }
-                    
-                }
-                $blogginlaggArray[$i]['rutor']=$inlaggRutor;//lagger i alla text och bildrutor i blogginlagg.
-
-
-
-
+                /*
                 //lagger in kommentarer.
                 $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.UID=anvandare.UID where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
                 //echo var_dump($tempKommentar);
@@ -204,9 +155,6 @@
                     }
                 }
 
-                /*echo '<pre>';
-                var_dump($kommentarArray);
-                echo '</pre> <br><br>sadsadasdadadsadasdas<br>';*/
 
 
                 $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
@@ -226,7 +174,7 @@
 
 
 
-
+*/
 
                 $i++;
 
@@ -249,7 +197,7 @@
 
             $Bloggarray;//innehåller allt i bloggen.
             while($row=$blogg->fetch_assoc()){
-                $Bloggarray=array('titel'=>$row["title"]);
+                $Bloggarray=array('titel'=>$row["titel"]);
             }
 
 
