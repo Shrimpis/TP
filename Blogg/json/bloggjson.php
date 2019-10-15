@@ -41,8 +41,10 @@
         
         function visaBloggar($anvandarId,$db){
             $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
-            $blogg = $db->query('select * from blogg where anvandarId='.$anvandarId);
+            $tjänst = $db->query('select * from tjanst where anvandarId='.$anvandarId);
 
+            //$tjänstId = $db->query('select * from tjanst where id='.$anvandarId);
+            
 
             $fnamn;
             $enamn;
@@ -50,31 +52,47 @@
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
                 $fnamn=$row["fnamn"];
                 $enamn=$row["enamn"];
+                $email=$row["email"];
                 $i++;
             }
             
             //echo var_dump($anvandareArray[]);
-            $bloggar;
+            $tjänstArray;
+            $bloggArray;
+            
             $i=0;
-            while($row = $blogg->fetch_assoc()) {
-                $bloggar['bloggar'][$i]=array('titel'=>$row["titel"],'anvandarId'=>$row["anvandarId"]);
+            
+            while($rowTjänst = $tjänst->fetch_assoc()) {
+                $tjänstId=$rowTjänst['id'];
+                $blogg = $db->query('select * from blogg ');
+                while($row = $blogg->fetch_assoc()) {
+                    
+                    $bloggId=$row['tjanstId'];
+                    if($bloggId==$tjänstId){
+                        $tjänstArray['bloggar'][$i]=array('id'=>$rowTjänst["id"],'titel'=>$rowTjänst["titel"],'privat'=>$rowTjänst["privat"]);
+    
+                    }
+                    
+                }
                 
-                $bloggId= $row['id'];
+                
+                /*$bloggId= $row['id'];
                 $bloggInlaggCount = $db->query('SELECT * FROM blogginlagg where bloggId='.$bloggId);
                 $count=0;
                 while($row = $bloggInlaggCount->fetch_assoc()) {
                     $count++;
                 }
-                $bloggar['bloggar'][$i]['inlaggMangd']=$count;
+                $bloggar['bloggar'][$i]['inlaggMangd']=$count;*/
                $i++;
             }
             
-            $bloggar['fnamn']=$fnamn;//förnamn
-            $bloggar['enamn']=$enamn;//efternamn
+            $tjänstArray['fnamn']=$fnamn;//förnamn
+            $tjänstArray['enamn']=$enamn;//efternamn
+            $tjänstArray['email']=$email;//email
 
 
-            if(isset($bloggar)){
-                $json=json_encode($bloggar);
+            if(isset($tjänstArray)){
+                $json=json_encode($tjänstArray);
                 echo $json;
             }
 
@@ -87,7 +105,7 @@
             $anvandareArray;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {
-                $anvandareArray['anvandare'][$i]=array('id'=>$row["id"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"]);
+                $anvandareArray['anvandare'][$i]=array('id'=>$row["id"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"], 'email'=>$row["email"]);
                 $i++;
             }
 
