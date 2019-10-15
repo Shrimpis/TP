@@ -27,25 +27,25 @@
 
                 //Kollar om blogg tjänsten är aktiverad
                     if($blogg->num_rows == 0){
-                        echo "<input type='checkbox' class='form-check-input' id='CheckBlogg'>";
+                        echo "<input name='bloggCheck' type='checkbox' class='form-check-input' id='CheckBlogg'>";
                     } else {
-                        echo "<input type='checkbox' class='form-check-input' id='CheckBlogg' checked>";
+                        echo "<input name='bloggCheck' type='checkbox' class='form-check-input' id='CheckBlogg' checked>";
                     }
                     echo "<label class='form-check-label' for='CheckBlogg'>Blogg</label><br>";
 
                 //Kollar om wiki tjänsten är aktiverad
                     if($wiki->num_rows == 0){
-                        echo "<input type='checkbox' class='form-check-input' id='CheckWiki'>";
+                        echo "<input name='wikiCheck' type='checkbox' class='form-check-input' id='CheckWiki'>";
                     } else {
-                        echo "<input type='checkbox' class='form-check-input' id='CheckWiki' checked>";
+                        echo "<input name='wikiCheck' type='checkbox' class='form-check-input' id='CheckWiki' checked>";
                     }
                     echo "<label class='form-check-label' for='CheckWiki'>Wiki</label><br>";
 
                 //Kollar om kalender tjänsten är aktiverad
                     if($kalender->num_rows == 0){
-                        echo "<input type='checkbox' class='form-check-input' id='CheckKalender'>";
+                        echo "<input name='kalenderCheck' type='checkbox' class='form-check-input' id='CheckKalender'>";
                     } else {
-                        echo "<input type='checkbox' class='form-check-input' id='CheckKalender' checked>";
+                        echo "<input name='kalenderCheck' type='checkbox' class='form-check-input' id='CheckKalender' checked>";
                     }
                     echo "<label class='form-check-label' for='CheckKalender'>Kalender</label><br>";
 
