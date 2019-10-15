@@ -54,7 +54,7 @@
 
                     echo "
                   </div>
-                  <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:30px;'>Aktivera tjänst</button>
+                  <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:30px;'>Spara tjänst</button>
                 </form>";
                 
                 //Kollar om ett superadmin konto redan är skapat
@@ -69,6 +69,7 @@
                     
                         <form action='funktioner/skapa.php' method='POST'>
                         <input type='hidden' name='funktion' value='skapaKonto'/>
+                        <input type='hidden' name='rollid' value='1'/>
                             <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
