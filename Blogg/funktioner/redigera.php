@@ -4,13 +4,7 @@
 
 session_start();
 include("dbh.inc.php");
-if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
-    $sql = "SELECT * FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
-    $result = $conn->query($sql);
-    $result = mysqli_fetch_assoc($result);
-
-    if ($_SESSION["licens"] == $result["licens"]) {
         switch ($_POST['funktion']) {
             case 'redigeraBlogg':
                 redigeraBlogg();
@@ -27,12 +21,6 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-    } else {
-        echo "Felaktig/gammal licens. kontakta en adminstratör";
-    }
-} else {
-    echo "Ingen licens. Kontakta adminstratör";
-}
 $conn->close();
 
 function redigeraBlogg(){
@@ -41,7 +29,7 @@ function redigeraBlogg(){
         $Bid = $_POST['BID'];
         $title = $_POST['Titel'];
     }
-    $uppdateraBlogg = "UPDATE blogg SET titel = '{$title}' WHERE id = $Bid ";
+    $uppdateraBlogg = "UPDATE tjanst SET titel = '{$title}' WHERE id = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
         echo "INFO: Bloggen har redigerats.";

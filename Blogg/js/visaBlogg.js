@@ -149,14 +149,14 @@ function init() {
         if (this.readyState === 4 && this.status === 200) {
             
             jsonData = JSON.parse(this.responseText);
+            //console.log(jsonData);
             console.log(jsonData);
-            //console.log(jsonData.titel);
             createBlogg();
             recurs(jsonData.bloggInlagg[0]);
         }
     };
 
-    xhttp.open("GET", "Blogg/json/bloggjson.php?anvandare=1&blogg=2&inlagg=1", true);
+    xhttp.open("GET", "Blogg/json/bloggjson.php?anvandare=1&blogg=2&inlagg=2", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
     }

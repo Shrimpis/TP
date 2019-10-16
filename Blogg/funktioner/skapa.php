@@ -4,13 +4,8 @@
 
 session_start();
 include("dbh.inc.php");
-if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
-    $result = $conn->query($sql);
-    $result = mysqli_fetch_assoc($result);
-
-    if ($_SESSION["licens"] == $result["licens_key"]) {
+    
         switch ($_POST['funktion']) {
             case 'skapaBlogg':
                 skapaBlogg();
@@ -33,12 +28,9 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-    } else {
-        echo "Felaktig/gammal licens. kontakta en adminstratör";
-    }
-} else {
-echo "Ingen licens. Kontakta adminstratör";
-}
+    
+    }echo $_POST['UID'];
+
 $conn->close();
 
     function skapaBlogg(){
@@ -47,12 +39,11 @@ $conn->close();
         if(isset($_POST['UID']) && isset($_POST['Titel'])){
             $userid = $_POST['UID'];
             $title = $_POST['Titel'];
-            $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid)";
-            $conn->query($skapaTjanst);
-            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (mysqli_insert_id($conn))";
+            $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
+            mysqli_query($conn, $skapaTjanst);
+            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
             //$skapaBlogg = "INSERT INTO blogg(title, UID) VALUES('{$title}',$userid)";
-            $conn->query($skapaBlogg);
-            $conn->close();
+            
         }
         if(mysqli_query($conn, $skapaBlogg)){
             echo "INFO: Bloggen har skapats.";

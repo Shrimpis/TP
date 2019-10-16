@@ -5,14 +5,7 @@
 session_start();
 
 include('dbh.inc.php');
-if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
-
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
-    $result = $conn->query($sql);
-    $result = mysqli_fetch_assoc($result);
-
-    if ($_SESSION["licens"] == $result["licens_key"]) {
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
 
             case 'tabortBlogg':
                 tabortBlogg();
@@ -29,19 +22,14 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-    } else {
-        echo "Felaktig/gammal licens. kontakta en adminstratör";
-    }
-} else {
-    echo "Ingen licens. Kontakta adminstratör";
-}
 $conn->close();
 
 
 function tabortBlogg(){
     
     $BID = mysqli_real_escape_string($conn, $_POST['BID']);
-    $delBlogg = "DELETE FROM blogg WHERE id='{$BID}'";
+    $delTjanst = "DELETE FROM tjanst WHERE id='{$BID}'";
+    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$BID}'";
     $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$BID}'";
 
     $IIDarray = ($conn->query("SELECT inlaggId FROM blogginlagg WHERE bloggId ='{$BID}'"));
@@ -112,7 +100,7 @@ function loop($KID,$conn,$KIDarray,$temparray){
         
     }
 
-$looparray = ($conn->query("SELECT KID from kommentar where hierarkiId ='{$KID}'"));
+$looparray = ($conn->query("SELECT id from kommentar where hierarkiId ='{$KID}'"));
 
 $temparray = array();
 if(mysqli_num_rows($looparray) > 0)

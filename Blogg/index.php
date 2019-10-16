@@ -4,11 +4,7 @@
     session_start();
     
     
-    if(isset($_SESSION["licens"])){
-        
-    }else{
-        header("location: funktioner/loginForm.php");
-    }
+    
 ?>
 <!DOCTYPE html>
 <html class="no-js">
@@ -26,7 +22,7 @@
         <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
         
-        <script src="js/skapainlagg.js"></script>
+        <script src="js/skapa.js"></script>
     </head>
     <body>
     <div class="container">
@@ -45,7 +41,6 @@
             <!-- Skapa blogg -->
 
             <h4>Skapa en Blogg:</h4>
-                <form action="funktioner/skapaBlogg.php" method="get">
                 <form action="funktioner/skapa.php" method="POST">
                 <input type='hidden' name='funktion' value='skapaBlogg'/>
                 Namn:<input type="text" name="Titel">
@@ -71,9 +66,7 @@
                 <br><br>
             <!-- Redigera titel på en blogg -->
 
-            <h4>Redigera titel på ett inlägg</h4>
-
-            <form action="funktioner/redigerablogg.php" method="get">
+            <h4>Redigera titel på en blogg</h4>
             <form action="funktioner/redigera.php" method="POST">
                 <input type='hidden' name='funktion' value='redigeraBlogg'/>
                 Titel:
@@ -84,7 +77,7 @@
                 <select name="BID" id="BID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT id, titel, anvandarId FROM blogg";
+                    $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
@@ -108,7 +101,7 @@
                 <select name="BID" id="BID">
                     <?php 
                         include('funktioner/dbh.inc.php');
-                        $sql = "SELECT id, titel, anvandarId FROM blogg";
+                        $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
@@ -144,14 +137,13 @@
 
             <h4>Skapa ett inlägg</h4>
 
-            <form action="funktioner/skapainlagg.php" method="get">
             <form action="funktioner/skapa.php" method="POST">
             <input type='hidden' name='funktion' value='skapaInlagg'/>
                 Välj en blogg:
                 <select name="BID" id="BID">
                     <?php
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT id, titel, anvandarId FROM blogg";
+                    $sql = "SELECT id, titel, anvandarId FROM tjanst";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
@@ -186,7 +178,6 @@
 
             <h4>Redigera titel på ett inlägg</h4>
 
-            <form action="funktioner/redigera.php" method="get">
             <form action="funktioner/redigera.php" method="POST">
             <input type='hidden' name='funktion' value='redigeraInlagg'/>
                 Titel:
@@ -217,7 +208,6 @@
 
             <h4>Ta bort ett inlägg</h4>
 
-            <form action="funktioner/tabort.php" method="get">
             <form action="funktioner/tabort.php" method="POST">
             <input type='hidden' name='funktion' value='tabortInlagg'/>
                 Inlägg:
@@ -243,7 +233,6 @@
             <!-- Gilla ett inlägg -->
 
             <h4>Gilla ett inlägg</h4>
-            <form action="funktioner/gillaInlagg.php">
             <form action="funktioner/skapa.php">
             <input type='hidden' name='funktion' value='gillaInlag'/>
             Välj ett inlägg:
@@ -287,7 +276,6 @@
 
             <h4>Skapa en kommentar</h4>
 
-            <form action="funktioner/skapaKommentar.php">
             <form action="funktioner/skapa.php">
             <input type='hidden' name='funktion' value='skapaKommentar'/>
             Välj att kommentera:
@@ -349,7 +337,6 @@
 
         <h4>Redigera kommentar</h4>
 
-        <form action="funktioner/redigera.php" method="get">
         <form action="funktioner/redigera.php" method="POST">
             <input type='hidden' name='funktion' value='redigeraKommentar'/>
             <textarea name="text" rows="10" cols="30">ny text</textarea>
@@ -377,7 +364,6 @@
 
         <h4>Ta bort en kommentar</h4>
 
-        <form action="funktioner/tabort.php" method="get">
         <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortKommentar'/>
             <select name="KID">
