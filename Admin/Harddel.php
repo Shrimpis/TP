@@ -14,7 +14,7 @@
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                echo "<option value='". $row["id"] ."'>id: ". $row['id']."</option>";
+                echo "<option value='". $row["anvandarId"] ."'>id: ". $row['anvandarId']."</option>";
             }
             echo "</table>";
         } else { echo "0 results"; }

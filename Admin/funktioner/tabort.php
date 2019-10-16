@@ -49,13 +49,11 @@ function harddelkonto(){
     if(mysqli_num_rows($result) > 0){
         while($row=$result->fetch_assoc()){
             $delid = $row['id'];
-            $blogresult= $conn->query("SELECT id from blogg where id = '{$delid}'");
-            if(mysqli_num_rows($result) > 0){
-                while($row=$result->fetch_assoc()){
-                    $dellerid = $row['id'];
-                    $conn->query("DELETE FROM blogginlagg where bloggId = '{$dellerid}'");
-                }
-            }
+            
+                    
+                $conn->query("DELETE FROM blogginlagg where bloggId = '{$delid}'");
+                
+            
             $conn->query("DELETE FROM blogg WHERE id = '{$delid}'");
             $conn->query("DELETE FROM wiki WHERE id = '{$delid}'");
             $conn->query("DELETE FROM kalender WHERE id = '{$delid}'");
@@ -63,7 +61,7 @@ function harddelkonto(){
     }
     
     
-    if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)){
+    if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)){
         echo "INFO: konto deleted";
         header('Refresh: 2; URL = ../Harddel.php');
     } else {
