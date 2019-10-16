@@ -6,7 +6,7 @@ session_start();
 include("dbh.inc.php");
 if (isset($_SESSION["licens"]) && isset($_SESSION["anvandare"])) {
 
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
+    $sql = "SELECT * FROM LICENS WHERE ID =" . $_SESSION["anvandare"];
     $result = $conn->query($sql);
     $result = mysqli_fetch_assoc($result);
 
@@ -41,7 +41,7 @@ function redigeraBlogg(){
         $Bid = $_POST['BID'];
         $title = $_POST['Titel'];
     }
-    $uppdateraBlogg = "UPDATE blogg SET title = '{$title}' WHERE BID = $Bid ";
+    $uppdateraBlogg = "UPDATE blogg SET titel = '{$title}' WHERE id = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
         echo "INFO: Bloggen har redigerats.";
@@ -59,7 +59,7 @@ function redigeraKommentar(){
         $text = $_POST['text'];
     }
 
-    $uppdateraKommentar = "UPDATE kommentar SET text = '{$text}' WHERE KID = $Kid ";
+    $uppdateraKommentar = "UPDATE kommentar SET innehall = '{$text}' WHERE id = $Kid ";
 
     if(mysqli_query($conn, $uppdateraKommentar)){
         echo "INFO: Kommentaren har redigerats.";
@@ -76,7 +76,7 @@ function redigeraInlagg(){
     $iid = $_POST['IID'];
     $title = $_POST['Titel'];
     $innehall = $_POST['innehall'];
-    $uppdateraInlagg = "UPDATE blogginlagg SET title = '{$title}' innehall = '{$innehall}' WHERE IID = $iid ";
+    $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}' innehall = '{$innehall}' WHERE inlaggId = $iid ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
         echo "INFO: Inlägget har redigerats.";

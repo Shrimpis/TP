@@ -55,11 +55,11 @@
                 <select name="UID" id="UID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT UID, fnamn, enamn FROM anvandare";
+                    $sql = "SELECT id, fnamn, enamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["UID"] ."'>AnvändareID: ". $row["UID"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -85,11 +85,11 @@
                 <select name="BID" id="BID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT BID, title, UID FROM blogg";
+                    $sql = "SELECT id, titel, anvandarId FROM blogg";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["BID"] ."'>ID: ". $row["UID"]." | ". $row["title"]."</option>";
+                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ". $row["titel"]."</option>";
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
@@ -109,11 +109,11 @@
                 <select name="BID" id="BID">
                     <?php 
                         include('funktioner/dbh.inc.php');
-                        $sql = "SELECT BID, title, UID FROM blogg";
+                        $sql = "SELECT id, titel, anvandarId FROM blogg";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["BID"] ."'>ID: ". $row["UID"]." | ". $row["title"]."</option>";
+                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ". $row["titel"]."</option>";
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
@@ -152,11 +152,11 @@
                 <select name="BID" id="BID">
                     <?php
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT BID, title, UID FROM blogg";
+                    $sql = "SELECT id, titel, anvandarId FROM blogg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row["BID"] . "'>ID: " . $row["UID"] . " | " . $row["title"] . "</option>";
+                            echo "<option value='" . $row["id"] . "'>ID: " . $row["anvandarId"] . " | " . $row["titel"] . "</option>";
                         }
                         echo "</table>";
                     } else {
@@ -198,11 +198,11 @@
                 <select name="IID" id="IID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $sql = "SELECT id, bloggId, titel FROM blogginlagg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                        echo "<option value='". $row["id"] ."'>BloggID: ". $row["bloggId"]." | ". $row["titel"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -225,11 +225,11 @@
                 <select name="IID" id="IID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $sql = "SELECT id, bloggId, titel FROM blogginlagg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                        echo "<option value='". $row["id"] ."'>BloggID: ". $row["bloggId"]." | ". $row["titel"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -251,11 +251,11 @@
             <select name="IID" id="IID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $sql = "SELECT id, bloggId, titel FROM blogginlagg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                        echo "<option value='". $row["id"] ."'>BloggID: ". $row["bloggId"]." | ". $row["titel"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -267,11 +267,11 @@
             <select name="UID" id="UID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT UID, fnamn, enamn FROM anvandare";
+                    $sql = "SELECT id, fnamn, enamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["UID"] ."'>AnvändareID: ". $row["UID"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -283,59 +283,6 @@
             </form>
             <br>
             <br>
-            <!-- Redigera textruta -->
-
-            <h4>Redigera textruta</h4>
-
-            <form action="funktioner/redigera.php" method="get">
-            <form action="funktioner/redigera.php" method="POST">
-            <input type='hidden' name='funktion' value='redigeraTextruta'/>
-                <input type="text" name="Text">
-                <input type="text" name="ordning">
-                <br>
-                <select name="RID">
-                <?php
-                    include('funktioner/dbh.inc.php');
-                    $sql = "SELECT * from textruta";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["RID"] ."'>RID: ". $row['RID']."</option>";
-                        }
-                        echo "</table>";
-                        } else { echo "0 results"; }
-                    
-                ?>
-                </select>
-                <br>
-                <input type="submit" value="Redigera textruta">
-            </form>
-            <br>
-            <br>
-            <!-- Ta bort en ruta -->
-
-            <h4>Ta bort en textruta</h4>
-
-            <form action="funktioner/tabort.php" method="get">
-            <form action="funktioner/tabort.php" method="POST">
-            <input type='hidden' name='funktion' value='tabortTextruta'/>
-            <select name="RID">
-            <?php
-                include('funktioner/dbh.inc.php');
-                $sql = "SELECT * from rutor";
-                $result = $conn->query($sql);
-                while($row = $result->fetch_assoc()) {
-                    echo "<option>" . $row['RID'] . "</option>";
-                }
-                $conn->close();
-                
-            ?>
-            </select>
-            <br>
-            <br>
-            <input type="submit" value="Ta bort textruta">
-            </form>
-            </div>
             <div id="Kommentar" class="tab-pane fade">
             <!-- Skapa en kommentar -->
 
@@ -349,11 +296,11 @@
                 <option value="0">Ingen</option>
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT KID, text FROM kommentar";
+                    $sql = "SELECT id, innehall FROM kommentar";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["KID"] ."'>KID: ". $row["KID"]." | ". $row["text"]."</option>";
+                        echo "<option value='". $row["id"] ."'>KID: ". $row["id"]." | ". $row["innehall"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -365,11 +312,11 @@
             <select name="IID" id="IID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT IID, BID, title FROM blogginlagg";
+                    $sql = "SELECT id, bloggId, titel FROM blogginlagg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["IID"] ."'>BloggID: ". $row["BID"]." | ". $row["title"]."</option>";
+                        echo "<option value='". $row["id"] ."'>BloggID: ". $row["bloggId"]." | ". $row["titel"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -381,11 +328,11 @@
             <select name="UID" id="UID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT UID, fnamn, enamn FROM anvandare";
+                    $sql = "SELECT id, fnamn, enamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["UID"] ."'>AnvändareID: ". $row["UID"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -415,7 +362,7 @@
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    echo "<option value='". $row["KID"] ."'>KID: ". $row['KID']."</option>";
+                    echo "<option value='". $row["id"] ."'>KID: ". $row['id']."</option>";
                 }
                 echo "</table>";
                 } else { echo "0 results"; }
@@ -441,7 +388,7 @@
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row['KID'] . "'>" . $row['KID'] . " | " . $row['text'] . "</option>";
+                        echo "<option value='" . $row['id'] . "'>" . $row['id'] . " | " . $row['innehall'] . "</option>";
                     }
                 } else { 
                     echo "0 results"; 

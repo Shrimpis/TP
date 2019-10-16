@@ -43,15 +43,15 @@ $conn->close();
 function tabortBlogg(){
     
     $BID = mysqli_real_escape_string($conn, $_POST['BID']);
-    $delBlogg = "DELETE FROM blogg WHERE BID='{$BID}'";
-    $delInlagg = "DELETE FROM blogginlagg WHERE BID='{$BID}'";
+    $delBlogg = "DELETE FROM blogg WHERE id='{$BID}'";
+    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$BID}'";
 
-    $IIDarray = ($conn->query("SELECT IID FROM blogginlagg WHERE BID ='{$BID}'"));
+    $IIDarray = ($conn->query("SELECT inlaggId FROM blogginlagg WHERE bloggId ='{$BID}'"));
     
     while($row = $IIDarray->fetch_assoc()){
-        $IID= $row['IID'];
+        $IID= $row['id'];
     
-        $delKommentar="DELETE FROM kommentar WHERE IID=$IID";
+        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$IID";
         $conn->query($delKommentar);
         
     }
@@ -69,8 +69,8 @@ function tabortBlogg(){
 function tabortInlagg(){
     include('dbh.inc.php');
     $IID = mysqli_real_escape_string($conn, $_POST['IID']);
-    $delInlagg = "DELETE FROM blogginlagg WHERE IID='{$IID}'";
-    $delKommentar = "DELETE FROM kommentar WHERE IID=$IID";
+    $delInlagg = "DELETE FROM blogginlagg WHERE id='{$IID}'";
+    $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$IID";
 
     if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delRuta)&&mysqli_query($conn, $delText)&&mysqli_query($conn, $delKommentar)){
         echo "INFO: Blogginlagg borttaget";
@@ -94,7 +94,7 @@ function tabortKommentar(){
     
     $deleteID = implode(',',$KIDarray);
     
-    $sql = "DELETE FROM kommentar WHERE KID in ($deleteID)";
+    $sql = "DELETE FROM kommentar WHERE id in ($deleteID)";
     
     if(mysqli_query($conn, $sql)){
         echo "INFO: kommentar borttaget";
@@ -114,7 +114,7 @@ function loop($KID,$conn,$KIDarray,$temparray){
         
     }
 
-$looparray = ($conn->query("SELECT KID from kommentar where HierarchyID ='{$KID}'"));
+$looparray = ($conn->query("SELECT KID from kommentar where hierarkiId ='{$KID}'"));
 
 $temparray = array();
 if(mysqli_num_rows($looparray) > 0)
