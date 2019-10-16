@@ -67,7 +67,7 @@ function createKommentar(kom) {
             let element2;
 
             element2 = document.createElement("p");
-            element2.innerHTML = kom.namn + ": " + kom.text + " : " + kom.hierarchyID;
+            element2.innerHTML = kom.namn + ": " + kom.innehall + " : " + kom.hierarkiId;
             element.appendChild(element2);
 
             kommentar.appendChild(element);
