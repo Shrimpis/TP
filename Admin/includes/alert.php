@@ -50,4 +50,24 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         </div>
       ";
     }
+    if (strpos($url,'funktion=skapaKonto?status=success') == true) {
+        echo "
+        <div class='alert alert-success alert-dismissible fade show' role='alert'>
+            Kontot har nu skapats.
+            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span>
+            </button>
+        </div>
+      ";
+    }
+    if (strpos($url,'funktion=skapaKonto?status=error?reason=usernameTaken') == true) {
+        echo "
+        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+            <strong>ERROR:</strong> Användarnamnet är redan taget.
+            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span>
+            </button>
+        </div>
+      ";
+    }
 ?>
