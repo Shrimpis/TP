@@ -7,7 +7,7 @@
       $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
       $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
       
-      $sql = "SELECT anamn, losenord FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$losenord}'";
+      $sql = "SELECT id, anamn, losenord FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$losenord}' AND id='1'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       
@@ -32,8 +32,6 @@
     <meta name="author" content="">
 
     <title><?php include 'includes/settings.php'; echo $site_title ?> - Logga in</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
