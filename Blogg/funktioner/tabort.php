@@ -6,14 +6,7 @@ session_start();
 
 
 include('dbh.inc.php');
-if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
 
-    $sql = "SELECT *FROM LICENS WHERE ID =" . $_SESSION["UID"];
-    $result = $conn->query($sql);
-
-    $result = mysqli_fetch_assoc($result);
-
-    if ($_SESSION["licens"] == $result["licens_key"]) {
         switch ($_GET['funktion']) {
 
             case 'tabortBlogg':
@@ -31,12 +24,7 @@ if (isset($_SESSION["licens"]) && isset($_SESSION["UID"])) {
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-    } else {
-        echo "Felaktig/gammal licens. kontakta en adminstratör";
-    }
-} else {
-    echo "Ingen licens. Kontakta adminstratör";
-}
+    
 $conn->close();
 
 

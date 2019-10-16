@@ -63,13 +63,14 @@ if(!isset($_SESSION['login_user'])){
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
+          <span>Kund</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
+            <h6 class="collapse-header">Kund inställningar</h6>
+            <a class="collapse-item" href="#tjanst">Tjänster</a>
+            <a class="collapse-item" href="#tabortsuperadmin">Ta bort superadmin</a>
+            <a class="collapse-item" href="#tabortsuperadmin">Ta bort blogg</a>
           </div>
         </div>
       </li>
@@ -85,7 +86,7 @@ if(!isset($_SESSION['login_user'])){
       <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="#blogg">
-          <i class="fas fa-fw fa-rss"></i>
+          <i class="fab fa-blogger-b"></i>
           <span>Blogg</span></a>
       </li>
       <li class="nav-item">
@@ -186,6 +187,7 @@ if(!isset($_SESSION['login_user'])){
 
           <div class="row">
             <div class="col-xl-8 col-lg-7">
+            <?php include 'includes/alert.php' ?>
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -202,28 +204,8 @@ if(!isset($_SESSION['login_user'])){
               </div>
             </div>
 
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Test</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
+            <?php include "includes/bloggcard.php"; ?>
+
           </div>
 
   <!-- Logout Modal-->
@@ -246,8 +228,6 @@ if(!isset($_SESSION['login_user'])){
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="assets/js/jquery.js"></script>
-  <script src="assets/js/jquery-easing.js"></script>
   <script href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -259,7 +239,9 @@ if(!isset($_SESSION['login_user'])){
 
   <!-- Custom scripts for all pages-->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/password-generator.js"></script>
+  <script src="assets/js/jquery.js"></script>
+  <script src="assets/js/jquery-easing.js"></script>
+  <script src="assets/js/generate.js"></script>
 
 </body>
 
