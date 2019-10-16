@@ -228,8 +228,6 @@ if(!isset($_SESSION['login_user'])){
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="assets/js/jquery.js"></script>
-  <script src="assets/js/jquery-easing.js"></script>
   <script href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -241,7 +239,9 @@ if(!isset($_SESSION['login_user'])){
 
   <!-- Custom scripts for all pages-->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/password-generator.js"></script>
+  <script src="assets/js/jquery.js"></script>
+  <script src="assets/js/jquery-easing.js"></script>
+  <script src="assets/js/generate.js"></script>
 
 </body>
 
