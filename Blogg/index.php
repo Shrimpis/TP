@@ -2,13 +2,7 @@
     include("funktioner/dbh.inc.php");
     
     session_start();
-    
-    
-    if(isset($_SESSION["licens"])){
-        
-    }else{
-        header("location: funktioner/loginForm.php");
-    }
+ 
 ?>
 <!DOCTYPE html>
 <html class="no-js">
@@ -36,7 +30,7 @@
             <li class="active"><a data-toggle="tab" href="#Blogg">Blogg</a></li>
             <li><a data-toggle="tab" href="#VisaBlogg">Visa Blogg</a></li>
             <li><a data-toggle="tab" href="#Inlagg">Inlägg</a></li>
-            <li><a data-toggle="tab" href="#Kommentar">Kommentar</a></li>
+            <li><a data-toggle="tab" href="#Kommentar2">Kommentar</a></li>
         </ul>
         <div class="tab-content">
             <div id="Blogg" class="tab-pane fade in active">
@@ -281,7 +275,64 @@
             </form>
             <br>
             <br>
+<<<<<<< HEAD
+            <!-- Redigera textruta -->
+
+            <h4>Redigera textruta</h4>
+
+            <form action="funktioner/redigera.php" method="get">
+            <form action="funktioner/redigera.php" method="POST">
+            <input type='hidden' name='funktion' value='redigeraTextruta'/>
+                <input type="text" name="Text">
+                <input type="text" name="ordning">
+                <br>
+                <select name="RID">
+                <?php
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT * from textruta";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["RID"] ."'>RID: ". $row['RID']."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                    
+                ?>
+                </select>
+                <br>
+                <input type="submit" value="Redigera textruta">
+            </form>
+            <br>
+            <br>
+            <!-- Ta bort en ruta -->
+
+            <h4>Ta bort en textruta</h4>
+
+            <form action="funktioner/tabort.php" method="get">
+            <form action="funktioner/tabort.php" method="POST">
+            <input type='hidden' name='funktion' value='tabortTextruta'/>
+            <select name="RID">
+            <?php
+                include('funktioner/dbh.inc.php');
+                $sql = "SELECT * from rutor";
+                $result = $conn->query($sql);
+                while($row = $result->fetch_assoc()) {
+                    echo "<option>" . $row['RID'] . "</option>";
+                }
+                $conn->close();
+                
+            ?>
+            </select>
+            <br>
+            <br>
+            <input type="submit" value="Ta bort textruta">
+            </form>
+            </div>
+            <div id="Kommentar2" class="tab-pane fade">
+=======
             <div id="Kommentar" class="tab-pane fade">
+>>>>>>> master
             <!-- Skapa en kommentar -->
 
             <h4>Skapa en kommentar</h4>
