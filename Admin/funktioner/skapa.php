@@ -2,11 +2,6 @@
 
 session_start();
 include("dbh.inc.php");
-
-
-
-
-    
         switch ($_POST['funktion']) {
             case 'skapaKonto':
                 skapaKonto();

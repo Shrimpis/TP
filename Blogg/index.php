@@ -45,7 +45,6 @@
             <!-- Skapa blogg -->
 
             <h4>Skapa en Blogg:</h4>
-                <form action="funktioner/skapaBlogg.php" method="get">
                 <form action="funktioner/skapa.php" method="POST">
                 <input type='hidden' name='funktion' value='skapaBlogg'/>
                 Namn:<input type="text" name="Titel">
