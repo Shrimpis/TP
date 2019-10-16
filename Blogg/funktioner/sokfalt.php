@@ -13,7 +13,7 @@ include("dbh.inc.php");
         function sokFalt($sok, $conn){
             $output = '';
 
-            $query = mysqli_query($conn,"SELECT * FROM blogginlagg WHERE title LIKE '%$sok%'") or die ("Could not search");
+            $query = mysqli_query($conn,"SELECT * FROM blogginlagg WHERE titel LIKE '%$sok%'") or die ("Could not search");
             $count = mysqli_num_rows($query);
 
             if($count == 0){
@@ -21,7 +21,7 @@ include("dbh.inc.php");
             }
             else{
                while ($row = mysqli_fetch_array($query)) {
-                    $title = $row ['title'];
+                    $title = $row ['titel'];
                     
                     $output ='<div> '.$title.'</div>';
                     print ($output);

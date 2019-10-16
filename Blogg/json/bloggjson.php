@@ -58,7 +58,7 @@
             while($row = $blogginlagg->fetch_assoc()) {
                 $id=$row["id"];//id på det inlagget som vi ar på.
                 if($id==$inlaggId){
-                    $blogginlaggArray=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
+                    $blogginlaggArray=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"],'innehall'=>$row["innehall"]);//skappar en array som innehåller datum title
 
 
                     
