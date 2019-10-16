@@ -47,7 +47,10 @@ $conn->close();
         if(isset($_POST['UID']) && isset($_POST['Titel'])){
             $userid = $_POST['UID'];
             $title = $_POST['Titel'];
-            $skapaBlogg = "INSERT INTO blogg(title,UID) VALUES('{$title}',$userid)";
+            $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid)";
+            $conn->query($skapaTjanst);
+            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (mysqli_insert_id($conn))";
+            //$skapaBlogg = "INSERT INTO blogg(title, UID) VALUES('{$title}',$userid)";
             $conn->query($skapaBlogg);
             $conn->close();
         }
@@ -71,13 +74,14 @@ $conn->close();
         }
 
         $date= date("Y-m-d H:i");
-        $sql= "INSERT INTO blogginlagg(BID, datum, title) VALUES ('$blogID','$date','$title','$innehall')";
+        $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$blogID','$title','$innehall','$date')";
         $conn->query($sql);
         $conn->close();
 
     }
 
-    function skapaBild(){
+    //Bilder blev utesluten från databasen och därför funkar inte denna funktion ännu.
+    /*function skapaBild(){
 
         include('dbh.inc.php');
         $mal_dir = "bilder/";
@@ -137,7 +141,7 @@ $conn->close();
 
         $conn->close();
 
-    }
+    }*/
 
     function skapaKommentar(){
 
@@ -148,7 +152,7 @@ $conn->close();
             $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
             $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
         }
-        $skapaKommentar = "INSERT INTO kommentar (UID, IID, text, hierarchyID) VALUES ('$UID', '$IID', '{$text}', '$hierarchyID')";
+        $skapaKommentar = "INSERT INTO kommentar (användarId, inlaggId, hierarkiId, innehall) VALUES ('$UID', '$IID', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
             echo "INFO: Kommentar skapad.";
         } else{
@@ -165,17 +169,17 @@ $conn->close();
             $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
             $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
         }
-        $redan_gillat = mysqli_query($conn, "SELECT UID, IID FROM gillningar WHERE UID='$UID' AND IID='$IID'");
+        $redan_gillat = mysqli_query($conn, "SELECT anvandarId, inlaggId FROM gillningar WHERE anvandarId='$UID' AND inlaggId='$IID'");
 
         if($redan_gillat->num_rows == 0){
-            $like = "INSERT INTO gillningar (UID, IID) VALUES ('$UID', '{$IID}')";
+            $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$UID', '{$IID}')";
             if(mysqli_query($conn, $like)){
                 echo "INFO: Inlägg med id " .$IID. " gillat av användar med id " .$UID. ".";
             } else{
                 echo "ERROR: Could not able to execute $like. " . mysqli_error($conn);
             }
         } else {
-            $dislike = "DELETE FROM gillningar WHERE UID='$UID' AND IID='$IID'";
+            $dislike = "DELETE FROM gillningar WHERE anvandarId='$UID' AND inlaggId='$IID'";
             if(mysqli_query($conn, $dislike)){
                 echo "ERROR: Användaren har redan gillat. Tar bort gillning.";
             } else{
