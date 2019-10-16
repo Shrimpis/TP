@@ -44,9 +44,11 @@ function createInlagg(id) {
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
     console.log(jsonData);
-    inlagg.id = "inlagg" + id;
-
-
+    inlagg.id = "inlagg" + 1;
+    
+    let divText = document.createElement("div");
+    divText.innerHTML = jsonData.innehall;
+    inlagg.appendChild(divText);
     
     body.appendChild(inlagg);
 }
@@ -112,7 +114,7 @@ function init() {
 
             //console.log(jsonData.titel);
             createBlogg();
-            recurs(jsonData.bloggInlagg[0]);
+            recurs(jsonData);
         }
     };
 
