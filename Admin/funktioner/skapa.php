@@ -36,8 +36,6 @@ function skapaKonto(){
     }
     if($uname_tagen==false){
         $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
-        
-        var_dump($sql);
         $conn->query($sql);
         
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
@@ -45,15 +43,13 @@ function skapaKonto(){
             while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
                 $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
-                echo "<br>".$sql2;
                 $conn->query($sql2);
-                header('Refresh: 5; URL = ../index.php');
+                header('location: ../index.php?funktion=skapaKonto?status=success');
             }
         }
     }
     else{
-        echo "användarnamnet är taget faktiskt, ifall du inte visste det (men nu vet du)!";
-        header('Refresh: 5; URL = ../index.php');
+        header('location: ../index.php?funktion=skapaKonto?status=error?reason=usernameTaken');
     }
     $conn->close();
     
