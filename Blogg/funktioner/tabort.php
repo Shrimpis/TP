@@ -26,13 +26,14 @@ $conn->close();
 
 
 function tabortBlogg(){
-    
-    $BID = mysqli_real_escape_string($conn, $_POST['BID']);
+    include('dbh.inc.php');
+    $BID = $_POST['BID'];
+
     $delTjanst = "DELETE FROM tjanst WHERE id='{$BID}'";
     $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$BID}'";
     $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$BID}'";
 
-    $IIDarray = ($conn->query("SELECT inlaggId FROM blogginlagg WHERE bloggId ='{$BID}'"));
+    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$BID}'"));
     
     while($row = $IIDarray->fetch_assoc()){
         $IID= $row['id'];
@@ -41,7 +42,7 @@ function tabortBlogg(){
         $conn->query($delKommentar);
         
     }
-    if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)){
+    if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
         echo "INFO: Blogg borttagen";
         header('Refresh: 2; URL = ../index.php');
     } else {
