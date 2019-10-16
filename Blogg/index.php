@@ -19,10 +19,11 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
         <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
+        <script src="js/visaBlogg.js"></script>
         
         <script src="js/skapainlagg.js"></script>
     </head>
-    <body>
+    <body onload="init()">
     <div class="container">
         <h2>The Provider</h2>
         <p>Blogg Funktioner</p>
@@ -451,8 +452,9 @@
         </div>
         </div>
         </div>
+       
     </body>
-    <script src="js/visablogg.js"></script>
+    
     <script>
         var simplemde = new SimpleMDE({ element: document.getElementById("inlaggtext") });
         var simplemde = new SimpleMDE({ element: document.getElementById("kommentartext") });

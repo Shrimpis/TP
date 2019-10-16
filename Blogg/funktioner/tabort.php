@@ -4,6 +4,7 @@
 
 session_start();
 
+
 include('dbh.inc.php');
 
         switch ($_GET['funktion']) {
