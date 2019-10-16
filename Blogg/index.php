@@ -2,13 +2,7 @@
     include("funktioner/dbh.inc.php");
     
     session_start();
-    
-    
-    if(isset($_SESSION["licens"])){
-        
-    }else{
-        header("location: funktioner/loginForm.php");
-    }
+ 
 ?>
 <!DOCTYPE html>
 <html class="no-js">
@@ -36,7 +30,7 @@
             <li class="active"><a data-toggle="tab" href="#Blogg">Blogg</a></li>
             <li><a data-toggle="tab" href="#VisaBlogg">Visa Blogg</a></li>
             <li><a data-toggle="tab" href="#Inlagg">Inlägg</a></li>
-            <li><a data-toggle="tab" href="#Kommentar">Kommentar</a></li>
+            <li><a data-toggle="tab" href="#Kommentar2">Kommentar</a></li>
         </ul>
         <div class="tab-content">
             <div id="Blogg" class="tab-pane fade in active">
@@ -335,7 +329,7 @@
             <input type="submit" value="Ta bort textruta">
             </form>
             </div>
-            <div id="Kommentar" class="tab-pane fade">
+            <div id="Kommentar2" class="tab-pane fade">
             <!-- Skapa en kommentar -->
 
             <h4>Skapa en kommentar</h4>
