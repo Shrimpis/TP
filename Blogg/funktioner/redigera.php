@@ -18,6 +18,9 @@ include("dbh.inc.php");
             case 'redigeraInlagg':
                 redigeraTextruta();
                 break;
+            case 'privatiseraBlogg':
+                privatiseraBlogg();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -30,6 +33,23 @@ function redigeraBlogg(){
         $title = $_POST['Titel'];
     }
     $uppdateraBlogg = "UPDATE tjanst SET titel = '{$title}' WHERE id = $Bid ";
+    
+    if(mysqli_query($conn, $uppdateraBlogg)){
+        echo "INFO: Bloggen har redigerats.";
+        header('Refresh: 2; URL = ../index.php');
+    } else {
+        echo "ERROR: Could not execute $uppdateraBlogg. " . mysqli_error($conn);
+    }
+    $conn->close();
+}
+function privatiseraBlogg(){
+    include("dbh.inc.php");
+    if(isset($_POST['bloggid'])&&isset($_POST['privat'])){
+        $Bid = $_POST['bloggid'];
+        $privat = $_POST['privat'];   
+    }
+    
+    $uppdateraBlogg = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
         echo "INFO: Bloggen har redigerats.";
