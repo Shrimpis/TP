@@ -68,7 +68,7 @@
                     $kommentarArray=array();
                     $index=0;
                     while($row = $tempKommentar->fetch_assoc()) {
-                        $kommentarArray[$index]=array('id'=>$row['id'],'anvandarId'=>$row['anvandarId'],'namn'=>$row['fnamn'].' '.$row['enamn'],'innehall'=>$row['innehall'],'hierarkiId'=>$row['hierarkiId']);
+                        $kommentarArray[$index]=array('id'=>$row['id'],'anvandarId'=>$row['anvandarId'],'namn'=>$row['anamn'],'innehall'=>$row['innehall'],'hierarkiId'=>$row['hierarkiId']);
                     
                         $index++;
                     }
@@ -198,12 +198,11 @@
             //$tjänstId = $db->query('select * from tjanst where id='.$anvandarId);
             
 
-            $fnamn;
-            $enamn;
+            $anamn;
+            $email;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnamn"];
-                $enamn=$row["enamn"];
+                $anamn=$row["anamn"];
                 $email=$row["email"];
                 $i++;
             }
@@ -238,8 +237,7 @@
                $i++;
             }
             
-            $tjänstArray['fnamn']=$fnamn;//förnamn
-            $tjänstArray['enamn']=$enamn;//efternamn
+            $tjänstArray['anamn']=$anamn;//användarnamnanamn
             $tjänstArray['email']=$email;//email
 
 
@@ -257,7 +255,7 @@
             $anvandareArray;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {
-                $anvandareArray['anvandare'][$i]=array('id'=>$row["id"],'fnamn'=>$row["fnamn"],'enamn'=>$row["enamn"], 'email'=>$row["email"]);
+                $anvandareArray['anvandare'][$i]=array('id'=>$row["id"],'anamn'=>$row["anamn"], 'email'=>$row["email"]);
                 $i++;
             }
 
@@ -376,8 +374,7 @@
             $ii=0;
             $Bloggarray;//innehåller allt i bloggen.
             while($row=$blogg->fetch_assoc()){
-                //$Bloggarray=array('titel'=>$row["titel"]);
-                $Bloggarray=array('flaggad'=>$row["flaggad"]);
+                //$Bloggarray=array('flaggad'=>$row["flaggad"]);
 
                 $tjanstId=$row['tjanstId'];
 
@@ -398,13 +395,11 @@
             $enamn;
             $i=0;
             while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-                $fnamn=$row["fnamn"];
-                $enamn=$row["enamn"];
+                $anamn=$row["anamn"];
                 $i++;
             }
             
-            $Bloggarray['fnamn']=$fnamn;//förnamn
-            $Bloggarray['enamn']=$enamn;//efternamn
+            $Bloggarray['anamn']=$anamn;//användarnamn
 
 
 
