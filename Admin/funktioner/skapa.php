@@ -27,6 +27,27 @@ function skapaKonto(){
     }
     $password = slumplosen(10);
     
+    if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+            echo "CRYPT_BLOWFISH is enabled!<br>";
+        } else {
+            echo "CRYPT_BLOWFISH is NOT enabled!";
+            goto end;
+        }
+        
+        $Blowfish_Pre = '$2a$10$';
+        $Blowfish_End = '$';
+        
+        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $Chars_Len = 63;
+        
+        $Salt_Length = 21;
+        $salt = "";
+        for ($i = 0; $i < $Salt_Length; $i++) {
+            $salt .= $Allowed_Chars[mt_rand(0, $Chars_Len)];
+        }
+        $bcrypt_salt = $Blowfish_Pre . $salt . $Blowfish_End;
+        $hashed_password = crypt($password, $bcrypt_salt);
+    
     
     $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
     while($row=$sqlcheck->fetch_assoc()){
@@ -35,7 +56,7 @@ function skapaKonto(){
         }
     }
     if($uname_tagen==false){
-        $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
+        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
         $conn->query($sql);
         
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
@@ -44,7 +65,7 @@ function skapaKonto(){
                 $USID=$row['id'];
                 $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
                 $conn->query($sql2);
-                header('location: ../index.php?funktion=skapaKonto?status=success');
+                header('location: ../index.php?funktion=skapaKonto?status=success&password='.$password);
             }
         }
     }
@@ -54,8 +75,9 @@ function skapaKonto(){
     $conn->close();
     
 }
+
 function slumplosen($len) {
-    $karaktr = '?$£@!#%&0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $karaktrlen = strlen($karaktr);
     $slumpstr = '';
     for ($i = 0; $i < $len; $i++) {
@@ -63,6 +85,7 @@ function slumplosen($len) {
     }
     return $slumpstr;
 }
+
 //exakt kopia av skapaKonto() men med ett annat fönster som header(refresh)
 function skapaAKonto(){
     include("dbh.inc.php");
@@ -104,5 +127,3 @@ function skapaAKonto(){
 }
 
 
-
-?>
