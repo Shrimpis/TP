@@ -131,29 +131,13 @@
                             </ul>
                             <div class='tab-content' id='myTabContent' style='padding: 10px 10px 10px 10px'>
                                 <div class='tab-pane fade show active' id='blogg". $row["id"] ."' role='tabpanel' aria-labelledby='blogg-tab'>
-                                    <p>Kundens aktiva bloggar:</p>
+                                    <p>Kundens aktiva bloggar:</p>";
                                     
-                                    <div id='accordion2'>
-                                        <div class='card'>
+                                    
+                            include "includes/info-blogg.php";
                                         
-                                            <div class='card-header' id='headingOne'>
-                                            <h5 class='mb-0'>
-                                                <button class='btn btn-link' data-toggle='collapse' data-target='#collapseBlogg' aria-expanded='true' aria-controls='collapseBlogg'>
-                                                Blogg #1
-                                                </button>
-                                            </h5>
-                                            </div>
-
-                                            <div id='collapseBlogg' class='collapse' aria-labelledby='headingOne' data-parent='#accordion2'>
-                                                <div class='card-body'>
-                                                    <p>Information:</p>
-                                                    <p>Inställningar:</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-
+                                    
+                            echo "
                                 </div>
                                 
                                 <div class='tab-pane fade' id='wiki". $row["id"] ."' role='tabpanel' aria-labelledby='wiki-tab'>
