@@ -25,11 +25,14 @@ include("dbh.inc.php");
             case 'gillaInlagg':
                 gillaInlagg();
                 break;
+            case 'flaggaBlogg':
+                flaggaBlogg();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
     
-    }
+    
 
 $conn->close();
 
@@ -179,6 +182,33 @@ $conn->close();
         }
 
         header("location: ../index.php");
+        $conn->close();
+
+    }
+    function flaggaBlogg(){
+        include('dbh.inc.php');
+        if(isset($_POST['bloggid']) && isset($_POST['anvandarID'])){
+            $Bloggid = $_POST['bloggid']; 
+            $anvandarId = $_POST['anvandarID']; 
+        }
+        $redan_flaggat = mysqli_query($conn, "SELECT anvandarId FROM flaggadblogg WHERE anvandarId='$anvandarId' AND bloggId='$Bloggid'");
+
+
+        if($redan_flaggat->num_rows == 0){
+            $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
+            $conn->query($flagga);
+        }
+        
+        /*
+        om denna del inte är bortkommenterad tas flaggan bort om man anropar funktionen igen med samma värden.
+        else{
+            $avflagga = "DELETE FROM flaggadblogg WHERE anvandarId='$anvandarId' AND bloggId='$Bloggid'";
+            $conn->query($avflagga);
+        }
+        */
+        
+        
+        header("Location: ../index.php");
         $conn->close();
 
     }

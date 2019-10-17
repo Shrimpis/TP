@@ -117,6 +117,72 @@
                 <input type="submit" value="Ta bort blogg">
             </form>
             </div>
+            <!-- privatiserablogg -->
+            <h4>gör en Blogg privat:</h4>
+            <form action="funktioner/redigera.php" method="post">
+            <input type='hidden' name='funktion' value='privatiseraBlogg'/>
+            Välj en blogg:
+                <select name="bloggid" id="bloggid">
+                    <?php 
+                        include('funktioner/dbh.inc.php');
+                        $sql = "SELECT id, titel, anvandarId, privat FROM tjanst";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ".$row["titel"]." | "." privat: ".$row["privat"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                    ?>
+                </select>
+                <br><br>
+                <select name="privat">
+                    <option value=1>1</option>
+                    <option value=0>0</option>
+                </select>
+                <br><br>
+                <input type="submit" value="privatisera blogg">
+            </form>
+            </div>
+            <!-- flaggablogg -->
+            <h4>flagga en elak blogg:</h4>
+            <form action="funktioner/skapa.php" method="post">
+            <input type='hidden' name='funktion' value='flaggaBlogg'/>
+            Välj en blogg:
+                <select name="bloggid" id="bloggid">
+                    <?php 
+                        include('funktioner/dbh.inc.php');
+                        $sql = "SELECT id, titel, anvandarId FROM tjanst";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ".$row["titel"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                    ?>
+                </select>
+                <br><br>
+                <select name="anvandarID">
+                    <?php 
+                        include('funktioner/dbh.inc.php');
+                        $sql = "SELECT id FROM anvandare";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["id"] ."'>anvandarID: ".$row["id"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                    ?>
+                </select>
+                <br><br>
+                <input type="submit" value="flagga blogg">
+            </form>
+            </div>
             <!-- Visa Blogg -->
             <div id="VisaBlogg" class="tab-pane fade in active">
                 <h3>Visa Blogg</h3>
@@ -272,64 +338,7 @@
             </form>
             <br>
             <br>
-<<<<<<< HEAD
-            <!-- Redigera textruta -->
-
-            <h4>Redigera textruta</h4>
-
-            <form action="funktioner/redigera.php" method="get">
-            <form action="funktioner/redigera.php" method="POST">
-            <input type='hidden' name='funktion' value='redigeraTextruta'/>
-                <input type="text" name="Text">
-                <input type="text" name="ordning">
-                <br>
-                <select name="RID">
-                <?php
-                    include('funktioner/dbh.inc.php');
-                    $sql = "SELECT * from textruta";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["RID"] ."'>RID: ". $row['RID']."</option>";
-                        }
-                        echo "</table>";
-                        } else { echo "0 results"; }
-                    
-                ?>
-                </select>
-                <br>
-                <input type="submit" value="Redigera textruta">
-            </form>
-            <br>
-            <br>
-            <!-- Ta bort en ruta -->
-
-            <h4>Ta bort en textruta</h4>
-
-            <form action="funktioner/tabort.php" method="get">
-            <form action="funktioner/tabort.php" method="POST">
-            <input type='hidden' name='funktion' value='tabortTextruta'/>
-            <select name="RID">
-            <?php
-                include('funktioner/dbh.inc.php');
-                $sql = "SELECT * from rutor";
-                $result = $conn->query($sql);
-                while($row = $result->fetch_assoc()) {
-                    echo "<option>" . $row['RID'] . "</option>";
-                }
-                $conn->close();
-                
-            ?>
-            </select>
-            <br>
-            <br>
-            <input type="submit" value="Ta bort textruta">
-            </form>
-            </div>
-            <div id="Kommentar2" class="tab-pane fade">
-=======
             <div id="Kommentar" class="tab-pane fade">
->>>>>>> master
             <!-- Skapa en kommentar -->
 
             <h4>Skapa en kommentar</h4>
@@ -445,7 +454,6 @@
         </div>
         </div>
         </div>
-       
     </body>
     
     <script>
