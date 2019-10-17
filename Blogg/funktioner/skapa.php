@@ -198,13 +198,17 @@ $conn->close();
             $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
             $conn->query($flagga);
         }
+        
+        /*
+        om denna del inte är bortkommenterad tas flaggan bort om man anropar funktionen igen med samma värden.
         else{
             $avflagga = "DELETE FROM flaggadblogg WHERE anvandarId='$anvandarId' AND bloggId='$Bloggid'";
             $conn->query($avflagga);
         }
+        */
         
         
-        header("location: ../index.php");
+        header("Location: ../index.php");
         $conn->close();
 
     }
