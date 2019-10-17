@@ -73,7 +73,7 @@ function skapaKonto(){
         header('location: ../index.php?funktion=skapaKonto?status=error?reason=usernameTaken');
     }
     $conn->close();
-    
+    end:
 }
 
 function slumplosen($len) {
