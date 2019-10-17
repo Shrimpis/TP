@@ -1,6 +1,6 @@
 <?php 
     include('funktioner/dbh.inc.php');
-    $sql = "SELECT id, blogg, wiki, kalender, kontoID FROM kund";
+    $sql = "SELECT kund.id, kund.blogg, kund.wiki, kund.kalender, kund.kontoID FROM kund";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
@@ -84,7 +84,7 @@
                         ";
 
                     } else {
-                        $deaktiverat = mysqli_query($conn, "SELECT aktiv FROM anvandare WHERE id=". $row["kontoID"] ." AND aktiv=0");
+                        $deaktiverat = mysqli_query($conn, "SELECT anvandare.aktiv FROM anvandare WHERE id=". $row["kontoID"] ." AND aktiv=0");
                         if($deaktiverat->num_rows != 0){
                             echo 
                             "
@@ -133,8 +133,7 @@
                                 <div class='tab-pane fade show active' id='blogg". $row["id"] ."' role='tabpanel' aria-labelledby='blogg-tab'>
                                     <p>Kundens aktiva bloggar:</p>";
                                     
-                                    
-                            include "includes/info-blogg.php";
+                                    include "includes/info-blogg.php";
                                         
                                     
                             echo "
@@ -165,7 +164,7 @@
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
                     </form>";
 
-                    $aktiv = mysqli_query($conn, "SELECT aktiv FROM anvandare WHERE id=". $row["kontoID"] ." AND aktiv=1");
+                    $aktiv = mysqli_query($conn, "SELECT anvandare.aktiv FROM anvandare WHERE anvandare.id=". $row["kontoID"] ." AND anvandare.aktiv=1");
 
                     if($aktiv->num_rows != 0){
                         echo 
