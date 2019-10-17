@@ -40,7 +40,7 @@ function aktiveraKonto(){
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
     $aktiv = '1';
 
-    $aktivera= "UPDATE `kund` SET `aktiv` = '$aktiv' WHERE `kund`.`id` = $id";
+    $aktivera= "UPDATE `anvandare` SET `aktiv` = '$aktiv' WHERE `anvandare`.`id` = $id";
 
     if(mysqli_query($conn, $aktivera)){
         header('location: ../index.php?funktion=aktiveraKonto?status=success');
@@ -56,7 +56,7 @@ function deaktiveraKonto(){
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
     $aktiv = '0';
 
-    $deaktivera= "UPDATE `kund` SET `aktiv` = '$aktiv' WHERE `kund`.`id` = $id";
+    $deaktivera= "UPDATE `anvandare` SET `aktiv` = '$aktiv' WHERE `anvandare`.`id` = $id";
 
     if(mysqli_query($conn, $deaktivera)){
         header('location: ../index.php?funktion=deaktiveraKonto?status=success');

@@ -64,7 +64,7 @@ function slumplosen($len) {
     return $slumpstr;
 }
 //exakt kopia av skapaKonto() men med ett annat fönster som header(refresh)
-function skapaAKonto(){
+function skapaKonto(){
     include("dbh.inc.php");
     $uname_tagen=false;
     if(isset($_POST['anamn'])&&isset($_POST['rollid'])){

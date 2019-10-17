@@ -1,6 +1,6 @@
 <?php 
     include('funktioner/dbh.inc.php');
-    $sql = "SELECT id, blogg, wiki, kalender, aktiv FROM kund";
+    $sql = "SELECT id, blogg, wiki, kalender, kontoID FROM kund";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
@@ -84,7 +84,7 @@
                         ";
 
                     } else {
-                        $deaktiverat = mysqli_query($conn, "SELECT aktiv FROM kund WHERE id=". $row["id"] ." AND aktiv=0");
+                        $deaktiverat = mysqli_query($conn, "SELECT aktiv FROM anvandare WHERE id=". $row["kontoID"] ." AND aktiv=0");
                         if($deaktiverat->num_rows != 0){
                             echo 
                             "
@@ -165,14 +165,14 @@
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
                     </form>";
 
-                    $aktiv = mysqli_query($conn, "SELECT aktiv FROM kund WHERE id=". $row["id"] ." AND aktiv=1");
+                    $aktiv = mysqli_query($conn, "SELECT aktiv FROM anvandare WHERE id=". $row["kontoID"] ." AND aktiv=1");
 
                     if($aktiv->num_rows != 0){
                         echo 
                         "
                         <form action='funktioner/konto.php' method='POST'>
                             <input type='hidden' name='funktion' value='deaktiveraKonto'/>
-                            <input name='id' type='hidden' value='". $row["id"] ."'>
+                            <input name='id' type='hidden' value='". $row["kontoID"] ."'>
                             <button type='submit' class='btn btn-warning btn-sm'>Deaktivera konto</button>
                         </form>
                         ";
@@ -181,7 +181,7 @@
                         "
                         <form action='funktioner/konto.php' method='POST'>
                             <input type='hidden' name='funktion' value='aktiveraKonto'/>
-                            <input name='id' type='hidden' value='". $row["id"] ."'>
+                            <input name='id' type='hidden' value='". $row["kontoID"] ."'>
                             <button type='submit' class='btn btn-success btn-sm'>Aktivera konto</button>
                         </form>
                         ";
