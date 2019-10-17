@@ -145,6 +145,44 @@
                 <input type="submit" value="privatisera blogg">
             </form>
             </div>
+            <!-- flaggablogg -->
+            <h4>flagga en elak blogg:</h4>
+            <form action="funktioner/skapa.php" method="post">
+            <input type='hidden' name='funktion' value='flaggaBlogg'/>
+            Välj en blogg:
+                <select name="bloggid" id="bloggid">
+                    <?php 
+                        include('funktioner/dbh.inc.php');
+                        $sql = "SELECT id, titel, anvandarId FROM tjanst";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ".$row["titel"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                    ?>
+                </select>
+                <br><br>
+                <select name="anvandarID">
+                    <?php 
+                        include('funktioner/dbh.inc.php');
+                        $sql = "SELECT id FROM anvandare";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='". $row["id"] ."'>anvandarID: ".$row["id"]."</option>";
+                        }
+                        echo "</table>";
+                        } else { echo "0 results"; }
+                        $conn->close();
+                    ?>
+                </select>
+                <br><br>
+                <input type="submit" value="flagga blogg">
+            </form>
+            </div>
             <!-- Visa Blogg -->
             <div id="VisaBlogg" class="tab-pane fade in active">
                 <h3>Visa Blogg</h3>
@@ -416,7 +454,6 @@
         </div>
         </div>
         </div>
-       
     </body>
     
     <script>
