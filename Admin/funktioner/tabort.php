@@ -36,12 +36,16 @@ function tabortKonto(){
 function harddelkonto(){
     include("dbh.inc.php");
     $id = mysqli_real_escape_string($conn, $_POST['kontoID']);
+    $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
     $delkonto = "DELETE FROM anvandare WHERE id ='{$id}'";
     $delroll = "DELETE FROM anvandarroll WHERE anvandarId ='{$id}'";
     $deltjans = "DELETE FROM tjanst WHERE anvandarId ='{$id}'";
     $delkom = "DELETE FROM kommentar WHERE anvandarId ='{$id}'";
     $delgil = "DELETE FROM gillningar WHERE anvandarId ='{$id}'";
-    
+
+    $aktiv = '0';    
+    $conn->query("UPDATE kundrattigheter SET tjanst = $aktiv, superadmin = $aktiv, kontoID = $aktiv WHERE id = $kundID");
+
     $result = $conn->query("SELECT id from tjanst where anvandarId = '{$id}'");
     if(mysqli_num_rows($result) > 0){
         while($row=$result->fetch_assoc()){
@@ -50,10 +54,6 @@ function harddelkonto(){
             $conn->query("DELETE FROM blogg WHERE id = '{$delid}'");
             $conn->query("DELETE FROM wiki WHERE id = '{$delid}'");
             $conn->query("DELETE FROM kalender WHERE id = '{$delid}'");
-
-            $aktiv = '0';
-            $deaktiverakonto= mysqli_query($conn,"UPDATE `anvandare` SET `aktiv` = '$aktiv' WHERE `anvandare`.`id` = $id");
-            $deaktiveratjanst = mysqli_query($conn,"UPDATE `kundrattigheter` SET `tjanst` = '$aktiv' WHERE `kundrattigheter`.`id` = $id");
         }
     }
     
