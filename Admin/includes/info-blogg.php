@@ -122,6 +122,12 @@ if ($result2->num_rows > 0) {
             </div>
 ";
     }
+} else {
+    echo "
+    <div class='alert alert-info alert-dismissible fade show' role='alert'>
+        <strong>INFO:</strong> Kunden har inga bloggar just nu.
+    </div>
+  ";
 }
 
 ?>
