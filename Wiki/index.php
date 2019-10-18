@@ -12,7 +12,7 @@
     
         <!-- Ta bort en wiki -->
 
-        <h4>Ta bort en wikisida</h4>
+        <h4>Ta bort en wiki</h4>
 
         <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortWiki'/>
@@ -38,6 +38,37 @@
         <br>
 
     </body>
+    <br><br>
+     <!-- Ta bort en sida -->
+
+     <h4>Ta bort en sida</h4>
+
+     <form method="post" action="funktioner/tabort.php">
+     <input type='hidden' name='funktion' value='tabortWikiSida'/>
+
+            <select name="sidId">
+                <?php
+                    include("funktioner/dbh.inc.php");
+                    $sql = "SELECT * FROM wikisidor";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row['id'] . "'>" . $row['titel'] . "</option>";
+                        }
+                    } else { 
+                        echo "0 results"; 
+                    }
+                    $conn->close();
+                ?>
+            </select>
+            <input type="submit" value="Ta bort sida">
+        </form>
+<br>
+<br>
+
+</body>
+<br><br>
 
 
 
