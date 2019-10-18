@@ -41,8 +41,26 @@ if ($result2->num_rows > 0) {
 
                                         echo "
                                         </strong></p>
-                                        <p>Inlägg: <strong>2</strong></p>
-                                        <p>Kommentarer: <strong>3</strong></p>
+                                        <p>Inlägg: <strong>";
+                                        $inlagg = "SELECT bloggId FROM blogginlagg WHERE bloggId =". $row2["id"] ."";
+                                        $result3 = $conn->query($valjblogg);
+                                            if ($result3->num_rows > 0) {
+                                                echo $result3->num_rows;
+                                            } else {
+                                                echo "0";
+                                            }
+
+
+                                        echo "</strong></p>
+                                        <p>Kommentarer: <strong>";
+                                        $kommentar = "SELECT inlaggId FROM kommentar INNER JOIN blogginlagg ON blogginlagg.id = kommentar.inlaggId WHERE blogginlagg.bloggId=". $row2["id"] ."";
+                                        $result3 = $conn->query($valjblogg);
+                                            if ($result3->num_rows > 0) {
+                                                echo $result3->num_rows;
+                                            } else {
+                                                echo "0";
+                                            }
+                                        echo"</strong></p>
                                     </div>
                                 </div>
 
