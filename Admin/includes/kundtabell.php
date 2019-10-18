@@ -73,6 +73,7 @@
                         <form name='skapaSuperAdmin' action='funktioner/skapa.php' method='POST'>
                         <input type='hidden' name='funktion' value='skapaKonto'/>
                         <input type='hidden' name='rollid' value='1'/>
+                        <input type='hidden' name='id' value='". $row["id"] ."'/>
                             <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
