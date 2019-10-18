@@ -60,16 +60,16 @@ function skapaKonto(){
                 $result2 = $conn->query($anvandare);
 
                 while($row2 = $result2->fetch_assoc()) {
-                    $sql3 = mysqli_query($conn,"UPDATE `kund` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kund`.`id` = $id");
+                    $sql3 = mysqli_query($conn,"UPDATE `kundrattigheter` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kundrattigheter`.`id` = $id");
                 }
 
-                header('location = ..index?funktion=skapaKonto?status=success');
+                header('location: ../index.php?funktion=skapaKonto?status=success');
             }
         }
         
     }
     else{
-        header('location = ..index?funktion=skapaKonto?status=error?reason=usernameTaken');
+        header('location: ../index.php?funktion=skapaKonto?status=error?reason=usernameTaken');
     }
     $conn->close();
     
