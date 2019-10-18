@@ -59,7 +59,6 @@ function harddelkonto(){
     
     
     if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)){
-        echo "INFO: konto deleted";
         header('location = ../index.php?funktion=avslutaKonto?status=success');
     } else {
         echo "ERROR: Could not execute $delkonto. " . mysqli_error($conn);
