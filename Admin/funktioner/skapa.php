@@ -18,42 +18,6 @@ include("dbh.inc.php");
  
 $conn->close();
 
-function skapaKonto(){
-    include("dbh.inc.php");
-    $uname_tagen=false;
-    if(isset($_POST['anamn'])&&isset($_POST['rollid'])){
-        $username = $_POST['anamn'];
-        $rollid = $_POST['rollid'];
-    }
-    $password = slumplosen(10);
-    
-    
-    $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
-    while($row=$sqlcheck->fetch_assoc()){
-        if($username==$row['anamn']){
-            $uname_tagen=true;
-        }
-    }
-    if($uname_tagen==false){
-        $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
-        $conn->query($sql);
-        
-        $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
-        if(mysqli_num_rows($result) > 0){
-            while($row=$result->fetch_assoc()){
-                $USID=$row['id'];
-                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
-                $conn->query($sql2);
-                header('location: ../index.php?funktion=skapaKonto?status=success');
-            }
-        }
-    }
-    else{
-        header('location: ../index.php?funktion=skapaKonto?status=error?reason=usernameTaken');
-    }
-    $conn->close();
-    
-}
 function slumplosen($len) {
     $karaktr = '?$£@!#%&0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $karaktrlen = strlen($karaktr);
@@ -63,13 +27,14 @@ function slumplosen($len) {
     }
     return $slumpstr;
 }
-//exakt kopia av skapaKonto() men med ett annat fönster som header(refresh)
+
 function skapaKonto(){
     include("dbh.inc.php");
     $uname_tagen=false;
-    if(isset($_POST['anamn'])&&isset($_POST['rollid'])){
+    if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['id'])){
         $username = $_POST['anamn'];
         $rollid = $_POST['rollid'];
+        $id = $_POST['id'];
     }
     $password = slumplosen(10);
     
@@ -81,23 +46,30 @@ function skapaKonto(){
     }
     if($uname_tagen==false){
         $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
-        var_dump($sql);
         $conn->query($sql);
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
         if(mysqli_num_rows($result) > 0){
             while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
                 $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
-                echo "<br>".$sql2;
+                
                 $conn->query($sql2);
-                header('Refresh: 5; URL = ../kontoformsadmin.php');
+
+                
+                $anvandare = "SELECT anvandare.id FROM anvandare WHERE anvandare.anamn ='{$username}'";
+                $result2 = $conn->query($anvandare);
+
+                while($row2 = $result2->fetch_assoc()) {
+                    $sql3 = mysqli_query($conn,"UPDATE `kund` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kund`.`id` = $id");
+                }
+
+                header('location = ..index?funktion=skapaKonto?status=success');
             }
         }
         
     }
     else{
-        echo "användarnamnet är taget faktiskt, ifall du inte visste det (men nu vet du)!";
-        header('Refresh: 5; URL = ../kontoformsadmin.php');
+        header('location = ..index?funktion=skapaKonto?status=error?reason=usernameTaken');
     }
     $conn->close();
     
