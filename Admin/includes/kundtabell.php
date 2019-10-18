@@ -159,8 +159,8 @@
                     <div class='row'>
 
                     <form action='funktioner/konto.php' method='POST'>
-                        <input type='hidden' name='funktion' value='avslutaKonto'/>
-                        <input name='id' type='hidden' value='". $row["id"] ."'>
+                        <input type='hidden' name='funktion' value='harddelkonto'/>
+                        <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
                     </form>";
 
