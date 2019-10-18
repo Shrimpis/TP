@@ -23,7 +23,7 @@ function hideWiki(){
     include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
-
+        
     
 
         header('Refresh: 2; URL = ../index.php');
