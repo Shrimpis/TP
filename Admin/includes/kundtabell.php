@@ -158,7 +158,7 @@
                     <p>Konto Inställningar:</p>
                     <div class='row'>
 
-                    <form action='funktioner/konto.php' method='POST'>
+                    <form action='funktioner/tabort.php' method='POST'>
                         <input type='hidden' name='funktion' value='harddelkonto'/>
                         <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
