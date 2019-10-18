@@ -1,6 +1,6 @@
 <?php 
     include('funktioner/dbh.inc.php');
-    $sql = "SELECT id, blogg, wiki, kalender, aktiv FROM kund";
+    $sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
@@ -26,43 +26,25 @@
                   <input name='id' type='hidden' value='". $row["id"] ."'>
                   ";
 
-                $blogg = mysqli_query($conn, "SELECT blogg FROM kund WHERE id=". $row["id"] ." AND blogg = 1");
-                $wiki = mysqli_query($conn, "SELECT wiki FROM kund WHERE id=". $row["id"] ." AND wiki = 1");
-                $kalender = mysqli_query($conn, "SELECT kalender FROM kund WHERE id=". $row["id"] ." AND kalender = 1");
+                $tjanst = mysqli_query($conn, "SELECT tjanst FROM kundrattigheter WHERE id=". $row["id"] ." AND tjanst = 1");
 
                 //Kollar om blogg tjänsten är aktiverad
-                    if($blogg->num_rows == 0){
-                        echo "<input name='bloggCheck' type='checkbox' class='form-check-input' id='CheckBlogg'>";
+                    if($tjanst->num_rows == 0){
+                        echo "<input name='CheckTjanst' type='checkbox' class='form-check-input' id='CheckTjanst'>";
                     } else {
-                        echo "<input name='bloggCheck' type='checkbox' class='form-check-input' id='CheckBlogg' checked>";
+                        echo "<input name='CheckTjanst' type='checkbox' class='form-check-input' id='CheckTjanst' checked>";
                     }
-                    echo "<label class='form-check-label' for='CheckBlogg'>Blogg</label><br>";
-
-                //Kollar om wiki tjänsten är aktiverad
-                    if($wiki->num_rows == 0){
-                        echo "<input name='wikiCheck' type='checkbox' class='form-check-input' id='CheckWiki'>";
-                    } else {
-                        echo "<input name='wikiCheck' type='checkbox' class='form-check-input' id='CheckWiki' checked>";
-                    }
-                    echo "<label class='form-check-label' for='CheckWiki'>Wiki</label><br>";
-
-                //Kollar om kalender tjänsten är aktiverad
-                    if($kalender->num_rows == 0){
-                        echo "<input name='kalenderCheck' type='checkbox' class='form-check-input' id='CheckKalender'>";
-                    } else {
-                        echo "<input name='kalenderCheck' type='checkbox' class='form-check-input' id='CheckKalender' checked>";
-                    }
-                    echo "<label class='form-check-label' for='CheckKalender'>Kalender</label><br>";
+                    echo "<label class='form-check-label' for='CheckTjanst'>Blogg, Wiki och Kalender</label><br>";
 
                     echo "
                   </div>
-                  <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:30px;'>Spara tjänst</button>
+                  <button type='submit' class='btn btn-primary btn-sm' style='margin-top:6px;margin-bottom:30px;'>Spara tjänst</button>
                 </form>";
                 
                 //Kollar om ett superadmin konto redan är skapat
-                $superadmin = mysqli_query($conn, "SELECT superadmin FROM kund WHERE id=". $row["id"] ." AND superadmin = 1");
+                $superadmin = mysqli_query($conn, "SELECT superadmin FROM kundrattigheter WHERE id=". $row["id"] ." AND superadmin = 1");
 
-                if($blogg->num_rows != 0 || $wiki->num_rows != 0 || $kalender->num_rows != 0){
+                if($tjanst->num_rows != 0){
                     
                     if($superadmin->num_rows == 0){
 
@@ -73,6 +55,7 @@
                         <form name='skapaSuperAdmin' action='funktioner/skapa.php' method='POST'>
                         <input type='hidden' name='funktion' value='skapaKonto'/>
                         <input type='hidden' name='rollid' value='1'/>
+                        <input type='hidden' name='id' value='". $row["id"] ."'/>
                             <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
@@ -84,7 +67,7 @@
                         ";
 
                     } else {
-                        $deaktiverat = mysqli_query($conn, "SELECT aktiv FROM kund WHERE id=". $row["id"] ." AND aktiv=0");
+                        $deaktiverat = mysqli_query($conn, "SELECT anvandare.aktiv FROM anvandare WHERE id=". $row["kontoID"] ." AND aktiv=0");
                         if($deaktiverat->num_rows != 0){
                             echo 
                             "
@@ -131,105 +114,22 @@
                             </ul>
                             <div class='tab-content' id='myTabContent' style='padding: 10px 10px 10px 10px'>
                                 <div class='tab-pane fade show active' id='blogg". $row["id"] ."' role='tabpanel' aria-labelledby='blogg-tab'>
-                                    <p>Kundens aktiva bloggar:</p>
-                                    <table class='table'>
-                                        <thead>
-                                            <tr>
-                                            <th scope='col'>#</th>
-                                            <th scope='col'>Titel</th>
-                                            <th scope='col'>Privat</th>
-                                            <th scope='col'>Inlägg</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope='row'>1</th>
-                                                <td>Test blogg</td>
-                                                <td>Nej</td>
-                                                <td>1</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope='row'>2</th>
-                                                <td>Test blogg 2</td>
-                                                <td>Ja</td>
-                                                <td>3</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope='row'>3</th>
-                                                <td>Test blogg 3</td>
-                                                <td>Nej</td>
-                                                <td>2</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <p>Kundens aktiva bloggar:</p>";
+                                    
+                                    include "includes/info-blogg.php";
+                                        
+                                    
+                            echo "
                                 </div>
                                 
                                 <div class='tab-pane fade' id='wiki". $row["id"] ."' role='tabpanel' aria-labelledby='wiki-tab'>
                                     <p>Kundens aktiva wikis:</p>
-                                    <table class='table'>
-                                    <thead>
-                                        <tr>
-                                        <th scope='col'>#</th>
-                                        <th scope='col'>Titel</th>
-                                        <th scope='col'>Privat</th>
-                                        <th scope='col'>Sidor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope='row'>1</th>
-                                            <td>Test wiki</td>
-                                            <td>Nej</td>
-                                            <td>7</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope='row'>2</th>
-                                            <td>Test wiki 2</td>
-                                            <td>Ja</td>
-                                            <td>3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope='row'>3</th>
-                                            <td>Test wiki 3</td>
-                                            <td>Nej</td>
-                                            <td>1</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
                                 </div>
 
                                 <div class='tab-pane fade' id='kalender". $row["id"] ."' role='tabpanel' aria-labelledby='kalender-tab'>
                                     <p>Kundens aktiva kalendrar:</p>
-                                    <table class='table'>
-                                    <thead>
-                                        <tr>
-                                        <th scope='col'>#</th>
-                                        <th scope='col'>Titel</th>
-                                        <th scope='col'>Privat</th>
-                                        <th scope='col'>Events</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope='row'>1</th>
-                                            <td>Test blogg</td>
-                                            <td>Nej</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope='row'>2</th>
-                                            <td>Test blogg 2</td>
-                                            <td>Ja</td>
-                                            <td>3</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope='row'>3</th>
-                                            <td>Test blogg 3</td>
-                                            <td>Nej</td>
-                                            <td>2</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
                                 </div>
                             </div>
                         </div>
@@ -241,20 +141,21 @@
                     <p>Konto Inställningar:</p>
                     <div class='row'>
 
-                    <form action='funktioner/konto.php' method='POST'>
-                        <input type='hidden' name='funktion' value='avslutaKonto'/>
+                    <form action='funktioner/tabort.php' method='POST'>
+                        <input type='hidden' name='funktion' value='harddelkonto'/>
+                        <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
                         <input name='id' type='hidden' value='". $row["id"] ."'>
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
                     </form>";
 
-                    $aktiv = mysqli_query($conn, "SELECT aktiv FROM kund WHERE id=". $row["id"] ." AND aktiv=1");
+                    $aktiv = mysqli_query($conn, "SELECT anvandare.aktiv FROM anvandare WHERE anvandare.id=". $row["kontoID"] ." AND anvandare.aktiv=1");
 
                     if($aktiv->num_rows != 0){
                         echo 
                         "
                         <form action='funktioner/konto.php' method='POST'>
                             <input type='hidden' name='funktion' value='deaktiveraKonto'/>
-                            <input name='id' type='hidden' value='". $row["id"] ."'>
+                            <input name='id' type='hidden' value='". $row["kontoID"] ."'>
                             <button type='submit' class='btn btn-warning btn-sm'>Deaktivera konto</button>
                         </form>
                         ";
@@ -263,7 +164,7 @@
                         "
                         <form action='funktioner/konto.php' method='POST'>
                             <input type='hidden' name='funktion' value='aktiveraKonto'/>
-                            <input name='id' type='hidden' value='". $row["id"] ."'>
+                            <input name='id' type='hidden' value='". $row["kontoID"] ."'>
                             <button type='submit' class='btn btn-success btn-sm'>Aktivera konto</button>
                         </form>
                         ";
