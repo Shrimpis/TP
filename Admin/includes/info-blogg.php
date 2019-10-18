@@ -66,12 +66,12 @@ if ($result2->num_rows > 0) {
 
                                 <div class='tab-pane fade' id='nav-installnigar". $row2["id"] ."' role='tabpanel' aria-labelledby='nav-installnigar-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
-                                        <form action='funktioner/' method='POST' style='padding-right: 5px;'>
-                                            <input type='hidden' name='funktion' value=''/>
-                                            <input name='id' type='hidden' value=''>
+                                        <form action='../funktioner/blogg/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
+                                            <input type='hidden' name='funktion' value='tabortBlogg'/>
+                                            <input name='id' type='hidden' value='". $row2["id"] ."'>
                                             <button type='submit' class='btn btn-danger btn-sm'>Ta bort blogg</button>
                                         </form>
-                                        <form action='funktioner/' method='POST'>
+                                        <form action='../funktioner/blogg' method='POST'>
                                             <input type='hidden' name='funktion' value=''/>
                                             <input name='id' type='hidden' value=''>
                                             <button type='submit' class='btn btn-warning btn-sm'>Deaktivera blogg</button>
