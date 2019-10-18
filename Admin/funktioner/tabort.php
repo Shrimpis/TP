@@ -41,6 +41,11 @@ function harddelkonto(){
     $deltjans = "DELETE FROM tjanst WHERE anvandarId ='{$id}'";
     $delkom = "DELETE FROM kommentar WHERE anvandarId ='{$id}'";
     $delgil = "DELETE FROM gillningar WHERE anvandarId ='{$id}'";
+    
+    $aktiv = '0';
+    $deaktiverakonto= "UPDATE `anvandare` SET `aktiv` = '$aktiv' WHERE `anvandare`.`id` = $id";
+    $deaktiveratjanst = "UPDATE `kund` SET `blogg` = '$aktiv', `wiki` = '$aktiv', `kalender` = '$aktiv', `aktiv` = '$aktiv' WHERE `kund`.`id` = $id";
+    
     $result = $conn->query("SELECT id from tjanst where anvandarId = '{$id}'");
     if(mysqli_num_rows($result) > 0){
         while($row=$result->fetch_assoc()){
