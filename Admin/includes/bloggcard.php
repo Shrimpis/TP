@@ -16,11 +16,11 @@
                             <option selected>Välj...</option>
                             <?php 
                                 include('funktioner/dbh.inc.php');
-                                $sql = "SELECT id, anvandarId, titel FROM blogg";
+                                $sql = "SELECT blogg.id, blogg.tjanstId, tjanst.titel FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                 while($row = $result->fetch_assoc()) {
-                                    echo "<option value='". $row["id"] ."'>AnvändarID: ". $row["anvandarId"]." | ". $row["titel"]."</option>";
+                                    echo "<option value='". $row["id"] ."'>TjänstID: ". $row["tjanstId"]." | ". $row["titel"]."</option>";
                                 }
                                 echo "</table>";
                                 } else { echo "0 results"; }

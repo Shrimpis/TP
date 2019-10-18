@@ -5,6 +5,7 @@
 session_start();
 include("dbh.inc.php");
 
+    
         switch ($_POST['funktion']) {
             case 'skapaBlogg':
                 skapaBlogg();
@@ -24,9 +25,16 @@ include("dbh.inc.php");
             case 'gillaInlagg':
                 gillaInlagg();
                 break;
+            case 'flaggaBlogg':
+                flaggaBlogg();
+                break;
+            case 'flaggaKommentar':
+                flaggaKommentar();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
+    
     
 
 $conn->close();
@@ -37,12 +45,11 @@ $conn->close();
         if(isset($_POST['UID']) && isset($_POST['Titel'])){
             $userid = $_POST['UID'];
             $title = $_POST['Titel'];
-            $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid)";
-            $conn->query($skapaTjanst);
-            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (mysqli_insert_id($conn))";
+            $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
+            mysqli_query($conn, $skapaTjanst);
+            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
             //$skapaBlogg = "INSERT INTO blogg(title, UID) VALUES('{$title}',$userid)";
-            $conn->query($skapaBlogg);
-            $conn->close();
+            
         }
         if(mysqli_query($conn, $skapaBlogg)){
             echo "INFO: Bloggen har skapats.";
@@ -178,6 +185,60 @@ $conn->close();
         }
 
         header("location: ../index.php");
+        $conn->close();
+
+    }
+    function flaggaBlogg(){
+        include('dbh.inc.php');
+        if(isset($_POST['bloggid']) && isset($_POST['anvandarID'])){
+            $Bloggid = $_POST['bloggid']; 
+            $anvandarId = $_POST['anvandarID']; 
+        }
+        $redan_flaggat = mysqli_query($conn, "SELECT anvandarId FROM flaggadblogg WHERE anvandarId='$anvandarId' AND bloggId='$Bloggid'");
+
+
+        if($redan_flaggat->num_rows == 0){
+            $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
+            $conn->query($flagga);
+        }
+        
+        /*
+        om denna del inte är bortkommenterad tas flaggan bort om man anropar funktionen igen med samma värden.
+        else{
+            $avflagga = "DELETE FROM flaggadblogg WHERE anvandarId='$anvandarId' AND bloggId='$Bloggid'";
+            $conn->query($avflagga);
+        }
+        */
+        
+        
+        header("Location: ../index.php");
+        $conn->close();
+
+    }
+    function flaggaKommentar(){
+        include('dbh.inc.php');
+        if(isset($_POST['kommentarsid']) && isset($_POST['anvandarID'])){
+            $komid = $_POST['kommentarsid']; 
+            $anvandarId = $_POST['anvandarID']; 
+        }
+        $redan_flaggat = mysqli_query($conn, "SELECT anvandarId FROM flaggadkommentar WHERE anvandarId='$anvandarId' AND kommentarId='$komid'");
+
+
+        if($redan_flaggat->num_rows == 0){
+            $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
+            $conn->query($flagga);
+        }
+        
+        /*
+        om denna del inte är bortkommenterad tas flaggan bort om man anropar funktionen igen med samma värden.
+        else{
+            $avflagga = "DELETE FROM flaggadkommentar WHERE anvandarId='$anvandarId' AND kommentarId='$komid'";
+            $conn->query($avflagga);
+        }
+        */
+        
+        
+        header("Location: ../index.php");
         $conn->close();
 
     }
