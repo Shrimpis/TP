@@ -1,6 +1,6 @@
 <?php 
     include('funktioner/dbh.inc.php');
-    $sql = "SELECT kund.id, kund.blogg, kund.wiki, kund.kalender, kund.kontoID FROM kund";
+    $sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
@@ -26,43 +26,25 @@
                   <input name='id' type='hidden' value='". $row["id"] ."'>
                   ";
 
-                $blogg = mysqli_query($conn, "SELECT blogg FROM kund WHERE id=". $row["id"] ." AND blogg = 1");
-                $wiki = mysqli_query($conn, "SELECT wiki FROM kund WHERE id=". $row["id"] ." AND wiki = 1");
-                $kalender = mysqli_query($conn, "SELECT kalender FROM kund WHERE id=". $row["id"] ." AND kalender = 1");
+                $tjanst = mysqli_query($conn, "SELECT tjanst FROM kundrattigheter WHERE id=". $row["id"] ." AND tjanst = 1");
 
                 //Kollar om blogg tjänsten är aktiverad
-                    if($blogg->num_rows == 0){
-                        echo "<input name='bloggCheck' type='checkbox' class='form-check-input' id='CheckBlogg'>";
+                    if($tjanst->num_rows == 0){
+                        echo "<input name='CheckTjanst' type='checkbox' class='form-check-input' id='CheckTjanst'>";
                     } else {
-                        echo "<input name='bloggCheck' type='checkbox' class='form-check-input' id='CheckBlogg' checked>";
+                        echo "<input name='CheckTjanst' type='checkbox' class='form-check-input' id='CheckTjanst' checked>";
                     }
-                    echo "<label class='form-check-label' for='CheckBlogg'>Blogg</label><br>";
-
-                //Kollar om wiki tjänsten är aktiverad
-                    if($wiki->num_rows == 0){
-                        echo "<input name='wikiCheck' type='checkbox' class='form-check-input' id='CheckWiki'>";
-                    } else {
-                        echo "<input name='wikiCheck' type='checkbox' class='form-check-input' id='CheckWiki' checked>";
-                    }
-                    echo "<label class='form-check-label' for='CheckWiki'>Wiki</label><br>";
-
-                //Kollar om kalender tjänsten är aktiverad
-                    if($kalender->num_rows == 0){
-                        echo "<input name='kalenderCheck' type='checkbox' class='form-check-input' id='CheckKalender'>";
-                    } else {
-                        echo "<input name='kalenderCheck' type='checkbox' class='form-check-input' id='CheckKalender' checked>";
-                    }
-                    echo "<label class='form-check-label' for='CheckKalender'>Kalender</label><br>";
+                    echo "<label class='form-check-label' for='CheckTjanst'>Blogg, Wiki och Kalender</label><br>";
 
                     echo "
                   </div>
-                  <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:30px;'>Spara tjänst</button>
+                  <button type='submit' class='btn btn-primary btn-sm' style='margin-top:6px;margin-bottom:30px;'>Spara tjänst</button>
                 </form>";
                 
                 //Kollar om ett superadmin konto redan är skapat
-                $superadmin = mysqli_query($conn, "SELECT superadmin FROM kund WHERE id=". $row["id"] ." AND superadmin = 1");
+                $superadmin = mysqli_query($conn, "SELECT superadmin FROM kundrattigheter WHERE id=". $row["id"] ." AND superadmin = 1");
 
-                if($blogg->num_rows != 0 || $wiki->num_rows != 0 || $kalender->num_rows != 0){
+                if($tjanst->num_rows != 0){
                     
                     if($superadmin->num_rows == 0){
 
