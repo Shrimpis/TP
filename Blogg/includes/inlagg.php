@@ -94,7 +94,7 @@
 <!-- Gilla ett inlägg -->
 
 <h4>Gilla ett inlägg</h4>
-            <form action="funktioner/skapa.php">
+            <form action="funktioner/skapa.php" method="POST">
             <input type='hidden' name='funktion' value='gillaInlag'/>
             Välj ett inlägg:
             <select name="IID" id="IID">

@@ -115,3 +115,44 @@ Välj en användare:
 </form>
 <br>
 <br>
+<!-- Gilla ett inlägg -->
+
+<h4>flagga en kommentar</h4>
+            <form action="funktioner/skapa.php" method="POST">
+            <input type='hidden' name='funktion' value='flaggaKommentar'/>
+            Välj en kommentar:
+            <select name="kommentarsid">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT id,innehall FROM kommentar";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["id"] ."'>kommentar: ". $row["id"]." | ". $row["innehall"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            Välj en användare:
+            <select name="anvandarID">
+                <?php 
+                    include('funktioner/dbh.inc.php');
+                    $sql = "SELECT id, fnamn, enamn FROM anvandare";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                    }
+                    echo "</table>";
+                    } else { echo "0 results"; }
+                    $conn->close();
+                ?>
+            </select>
+            <br><br>
+            <input type="submit" value="flagga">
+            </form>
+            <br>
+            <br>

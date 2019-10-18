@@ -28,6 +28,9 @@ include("dbh.inc.php");
             case 'flaggaBlogg':
                 flaggaBlogg();
                 break;
+            case 'flaggaKommentar':
+                flaggaKommentar();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -203,6 +206,33 @@ $conn->close();
         om denna del inte är bortkommenterad tas flaggan bort om man anropar funktionen igen med samma värden.
         else{
             $avflagga = "DELETE FROM flaggadblogg WHERE anvandarId='$anvandarId' AND bloggId='$Bloggid'";
+            $conn->query($avflagga);
+        }
+        */
+        
+        
+        header("Location: ../index.php");
+        $conn->close();
+
+    }
+    function flaggaKommentar(){
+        include('dbh.inc.php');
+        if(isset($_POST['kommentarsid']) && isset($_POST['anvandarID'])){
+            $komid = $_POST['kommentarsid']; 
+            $anvandarId = $_POST['anvandarID']; 
+        }
+        $redan_flaggat = mysqli_query($conn, "SELECT anvandarId FROM flaggadkommentar WHERE anvandarId='$anvandarId' AND kommentarId='$komid'");
+
+
+        if($redan_flaggat->num_rows == 0){
+            $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
+            $conn->query($flagga);
+        }
+        
+        /*
+        om denna del inte är bortkommenterad tas flaggan bort om man anropar funktionen igen med samma värden.
+        else{
+            $avflagga = "DELETE FROM flaggadkommentar WHERE anvandarId='$anvandarId' AND kommentarId='$komid'";
             $conn->query($avflagga);
         }
         */
