@@ -144,6 +144,7 @@
                     <form action='funktioner/tabort.php' method='POST'>
                         <input type='hidden' name='funktion' value='harddelkonto'/>
                         <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
+                        <input name='id' type='hidden' value='". $row["id"] ."'>
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
                     </form>";
 
