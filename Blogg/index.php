@@ -48,7 +48,7 @@
 
             <div class="tab-pane fade" id="visa-blogg" role="tabpanel" aria-labelledby="visa-blogg-tab">
                 <?php 
-                   // include "includes/visa-blogg.php";
+                   include "includes/visa-blogg.php";
                 ?>
             </div>
             

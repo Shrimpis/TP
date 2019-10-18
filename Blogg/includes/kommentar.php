@@ -1,5 +1,5 @@
 <!-- Skapa en kommentar -->
-
+<div>
 <h4>Skapa en kommentar</h4>
 
 <form action="funktioner/skapa.php">
@@ -156,3 +156,5 @@ Välj en användare:
             </form>
             <br>
             <br>
+            
+</div>
