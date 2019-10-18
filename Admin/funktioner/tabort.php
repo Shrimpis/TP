@@ -42,10 +42,6 @@ function harddelkonto(){
     $delkom = "DELETE FROM kommentar WHERE anvandarId ='{$id}'";
     $delgil = "DELETE FROM gillningar WHERE anvandarId ='{$id}'";
     
-    $aktiv = '0';
-    $deaktiverakonto= mysqli_query($conn,"UPDATE `anvandare` SET `aktiv` = '$aktiv' WHERE `anvandare`.`id` = $id");
-    $deaktiveratjanst = mysqli_query($conn,"UPDATE `kund` SET `blogg` = '$aktiv', `wiki` = '$aktiv', `kalender` = '$aktiv', `aktiv` = '$aktiv' WHERE `kund`.`id` = $id");
-    
     $result = $conn->query("SELECT id from tjanst where anvandarId = '{$id}'");
     if(mysqli_num_rows($result) > 0){
         while($row=$result->fetch_assoc()){
@@ -54,12 +50,16 @@ function harddelkonto(){
             $conn->query("DELETE FROM blogg WHERE id = '{$delid}'");
             $conn->query("DELETE FROM wiki WHERE id = '{$delid}'");
             $conn->query("DELETE FROM kalender WHERE id = '{$delid}'");
+
+            $aktiv = '0';
+            $deaktiverakonto= mysqli_query($conn,"UPDATE `anvandare` SET `aktiv` = '$aktiv' WHERE `anvandare`.`id` = $id");
+            $deaktiveratjanst = mysqli_query($conn,"UPDATE `kundrattigheter` SET `tjanst` = '$aktiv' WHERE `kundrattigheter`.`id` = $id");
         }
     }
     
     
     if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)){
-        header('location = ../index.php?funktion=avslutaKonto?status=success');
+        header('location: ../index.php?funktion=avslutaKonto?status=success');
     } else {
         echo "ERROR: Could not execute $delkonto. " . mysqli_error($conn);
     }
