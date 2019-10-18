@@ -19,9 +19,8 @@ function aktiveraTjanst(){
     $bloggCheck = (isset($_POST['bloggCheck'])) ? 1 : 0;
     $wikiCheck = (isset($_POST['wikiCheck'])) ? 1 : 0;
     $kalenderCheck = (isset($_POST['kalenderCheck'])) ? 1 : 0;
-    $aktiv = '1'; //Aktiverar kontot.
 
-    $aktivera = "UPDATE `kund` SET `blogg` = '$bloggCheck', `wiki` = '$wikiCheck', `kalender` = '$kalenderCheck', `aktiv` = '$aktiv' WHERE `kund`.`id` = $id";
+    $aktivera = "UPDATE `kund` SET `blogg` = '$bloggCheck', `wiki` = '$wikiCheck', `kalender` = '$kalenderCheck' WHERE `kund`.`id` = $id";
 
     if(mysqli_query($conn, $aktivera)){
         header('location: ../index.php?funktion=aktiveraTjanst?m=success');
