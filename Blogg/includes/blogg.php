@@ -10,7 +10,7 @@
         Namn:<input type="text" name="Titel">
         <br><br>
         Välj en användare:
-        <select name="UID" id="UID">
+        <select name="anvandarId">
         <?php 
             include('funktioner/dbh.inc.php');
             $sql = "SELECT id, anamn FROM anvandare";
@@ -41,7 +41,7 @@
                 <br>
                 <br>
                 Blogg:
-                <select name="BID" id="BID">
+                <select name="bloggId">
                 <?php 
                     include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, titel, anvandarId FROM tjanst";
@@ -67,7 +67,7 @@
             <form action="funktioner/tabort.php" method="post">
             <input type='hidden' name='funktion' value='tabortBlogg'/>
             Välj en blogg:
-                <select name="BID" id="BID">
+                <select name="bloggId" id="bloggId">
                     <?php 
                         include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";

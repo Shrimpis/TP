@@ -48,8 +48,8 @@ $conn->close();
     function skapaBlogg(){
 
         include("dbh.inc.php");
-        if(isset($_POST['UID']) && isset($_POST['Titel'])){
-            $userid = $_POST['UID'];
+        if(isset($_POST['anvandarId']) && isset($_POST['Titel'])){
+            $userid = $_POST['anvandarId'];
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             mysqli_query($conn, $skapaTjanst);
@@ -58,7 +58,7 @@ $conn->close();
             
             
         }
-        if(mysqli_query($conn, $skapaBlogg)){
+        if(mysqli_query($conn, $skapaBlogg) && mysqli_query($conn, $skapaTjanst)){
 
             $skapaBloggJson = array(
                 'code'=> '201',
@@ -96,15 +96,45 @@ $conn->close();
     function skapaInlagg(){
 
         include("dbh.inc.php");
-        if(isset($_POST['BID']) && isset($_POST['title'])){
-            $blogID= $_POST['BID'];
+        if(isset($_POST['bloggId']) && isset($_POST['title'])){
+            $blogID= $_POST['bloggId'];
             $title= $_POST['title'];
             $innehall= $_POST['innehall'];
         }
 
         $date= date("Y-m-d H:i");
         $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$blogID','$title','$innehall','$date')";
-        $conn->query($sql);
+        
+        if(mysqli_query($conn, $sql)){
+            $skapaInlaggJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Post created',
+                'post' => array(
+                    'blogid'=>$blogID,
+                    'title'=>$title,
+                    'content'=>$innehall,
+                    'date'=>$date
+                )
+            );
+            
+            echo json_encode($skapaInlaggJson);
+        } else {
+            $skapaInlaggJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not execute',
+                'post' => array(
+                    'blogid'=>$blogID,
+                    'title'=>$title,
+                    'content'=>$innehall,
+                    'date'=>$date
+                )
+            );
+            
+            echo json_encode($skapaInlaggJsonError);
+        }
+        
         $conn->close();
 
     }
@@ -153,11 +183,11 @@ $conn->close();
         }else{
             if(move_uploaded_file($_FILES["bildRuta"]["tmp_name"], $mal_fil)){
                 
-                $sql = "INSERT INTO rutor(IID,ordning) VALUES(1,1)";
+                $sql = "INSERT INTO rutor(inlaggsId,ordning) VALUES(1,1)";
                 $conn->query($sql);
                 $RID = mysqli_insert_id($conn);
                 
-                $sql= "INSERT INTO bildRuta(RID,bildPath,IID) VALUES($RID,'$mal_fil',1)";
+                $sql= "INSERT INTO bildRuta(RID,bildPath,inlaggsId) VALUES($RID,'$mal_fil',1)";
                 
                 $conn->query($sql);
                 
@@ -175,13 +205,13 @@ $conn->close();
     function skapaKommentar(){
 
         include('dbh.inc.php');
-        if(isset($_POST['UID']) && isset($_POST['IID']) && isset($_POST['text']) && isset($_POST['hierarchyID'])){
-            $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
-            $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+        if(isset($_POST['anvandarId']) && isset($_POST['inlaggsId']) && isset($_POST['text']) && isset($_POST['hierarchyID'])){
+            $anvandarId = mysqli_real_escape_string($conn, $_POST['anvandarId']); //Användar-ID
+            $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']); //Blogginlägg-ID
             $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
             $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
         }
-        $skapaKommentar = "INSERT INTO kommentar (användarId, inlaggId, hierarkiId, innehall) VALUES ('$UID', '$IID', '$hierarchyID', '{$text}')";
+        $skapaKommentar = "INSERT INTO kommentar (användarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
             echo "INFO: Kommentar skapad.";
         } else{
@@ -219,21 +249,21 @@ $conn->close();
     function gillaInlagg(){
 
         include('dbh.inc.php');
-        if(isset($_POST['UID']) && isset($_POST['IID'])){
-            $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
-            $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+        if(isset($_POST['anvandarId']) && isset($_POST['inlaggsId'])){
+            $anvandarId = mysqli_real_escape_string($conn, $_POST['anvandarId']); //Användar-ID
+            $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']); //Blogginlägg-ID
         }
-        $redan_gillat = mysqli_query($conn, "SELECT anvandarId, inlaggId FROM gillningar WHERE anvandarId='$UID' AND inlaggId='$IID'");
+        $redan_gillat = mysqli_query($conn, "SELECT anvandarId, inlaggId FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'");
 
         if($redan_gillat->num_rows == 0){
-            $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$UID', '{$IID}')";
+            $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$anvandarId', '{$inlaggsId}')";
             if(mysqli_query($conn, $like)){
-                echo "INFO: Inlägg med id " .$IID. " gillat av användar med id " .$UID. ".";
+                echo "INFO: Inlägg med id " .$inlaggsId. " gillat av användar med id " .$anvandarId. ".";
             } else{
                 echo "ERROR: Could not able to execute $like. " . mysqli_error($conn);
             }
         } else {
-            $dislike = "DELETE FROM gillningar WHERE anvandarId='$UID' AND inlaggId='$IID'";
+            $dislike = "DELETE FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'";
             if(mysqli_query($conn, $dislike)){
                 echo "ERROR: Användaren har redan gillat. Tar bort gillning.";
             } else{

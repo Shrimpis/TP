@@ -5,7 +5,7 @@
 <form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaInlagg'/>
     Välj en blogg:
-    <select name="BID" id="BID">
+    <select name="bloggId">
         <?php
         include('funktioner/dbh.inc.php');
         $sql = "SELECT id, titel, anvandarId FROM tjanst";
@@ -41,7 +41,7 @@
     <br>
     <br>
     Inlägg:
-    <select name="IID" id="IID">
+    <select name="inlaggsId" id="inlaggsId">
     <?php 
         include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
@@ -69,7 +69,7 @@
 <form action="funktioner/tabort.php" method="POST">
 <input type='hidden' name='funktion' value='tabortInlagg'/>
     Inlägg:
-    <select name="IID" id="IID">
+    <select name="inlaggsId">
     <?php 
         include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
@@ -97,7 +97,7 @@
             <form action="funktioner/skapa.php" method="POST">
             <input type='hidden' name='funktion' value='gillaInlag'/>
             Välj ett inlägg:
-            <select name="IID" id="IID">
+            <select name="inlaggsId">
                 <?php 
                     include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, bloggId, titel FROM blogginlagg";
@@ -113,7 +113,7 @@
             </select>
             <br><br>
             Välj en användare:
-            <select name="UID" id="UID">
+            <select name="anvandarId">
                 <?php 
                     include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, anamn FROM anvandare";

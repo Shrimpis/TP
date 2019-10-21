@@ -31,8 +31,8 @@ $conn->close();
 
 function redigeraBlogg(){
     include("dbh.inc.php");
-    if(isset($_POST['BID']) && isset($_POST['Titel'])){
-        $Bid = $_POST['BID'];
+    if(isset($_POST['bloggId']) && isset($_POST['Titel'])){
+        $Bid = $_POST['bloggId'];
         $title = $_POST['Titel'];
     }
     $uppdateraBlogg = "UPDATE tjanst SET titel = '{$title}' WHERE id = $Bid ";
@@ -84,10 +84,10 @@ function redigeraKommentar(){
 function redigeraInlagg(){
     include("dbh.inc.php");
 
-    $iid = $_POST['IID'];
+    $inlaggsId = $_POST['inlaggsId'];
     $title = $_POST['Titel'];
     $innehall = $_POST['innehall'];
-    $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}' innehall = '{$innehall}' WHERE inlaggId = $iid ";
+    $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}' innehall = '{$innehall}' WHERE inlaggId = $inlaggsId ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
         echo "INFO: Inlägget har redigerats.";

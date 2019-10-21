@@ -22,7 +22,7 @@ Välj att kommentera:
 </select>
 <br><br>
 Välj ett inlägg:
-<select name="IID" id="IID">
+<select name="inlaggsId">
     <?php 
         include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
@@ -38,7 +38,7 @@ Välj ett inlägg:
 </select>
 <br><br>
 Välj en användare:
-<select name="UID" id="UID">
+<select name="anvandarId">
     <?php 
         include('funktioner/dbh.inc.php');
         $sql = "SELECT id, anamn FROM anvandare";

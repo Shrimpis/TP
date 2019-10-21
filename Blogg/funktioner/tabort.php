@@ -27,18 +27,18 @@ $conn->close();
 
 function tabortBlogg(){
     include('dbh.inc.php');
-    $BID = $_POST['BID'];
+    $bloggId = $_POST['bloggId'];
 
-    $delTjanst = "DELETE FROM tjanst WHERE id='{$BID}'";
-    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$BID}'";
-    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$BID}'";
+    $delTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
+    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
+    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
 
-    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$BID}'"));
+    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
     
     while($row = $IIDarray->fetch_assoc()){
-        $IID= $row['id'];
+        $inlaggsId= $row['id'];
     
-        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$IID";
+        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
         $conn->query($delKommentar);
         
     }
@@ -55,9 +55,9 @@ function tabortBlogg(){
 
 function tabortInlagg(){
     include('dbh.inc.php');
-    $IID = mysqli_real_escape_string($conn, $_POST['IID']);
-    $delInlagg = "DELETE FROM blogginlagg WHERE id='{$IID}'";
-    $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$IID";
+    $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
+    $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
+    $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
 
     if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delRuta)&&mysqli_query($conn, $delText)&&mysqli_query($conn, $delKommentar)){
         echo "INFO: Blogginlagg borttaget";
