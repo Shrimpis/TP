@@ -96,6 +96,28 @@ function skapaAKonto(){
     }
     $password = slumplosen(10);
     
+        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+            echo "CRYPT_BLOWFISH is enabled!<br>";
+        } else {
+            echo "CRYPT_BLOWFISH is NOT enabled!";
+            goto end;
+        }
+        
+        $Blowfish_Pre = '$2a$10$';
+        $Blowfish_End = '$';
+        
+        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $Chars_Len = 63;
+        
+        $Salt_Length = 21;
+        $salt = "";
+        for ($i = 0; $i < $Salt_Length; $i++) {
+            $salt .= $Allowed_Chars[mt_rand(0, $Chars_Len)];
+        }
+        $bcrypt_salt = $Blowfish_Pre . $salt . $Blowfish_End;
+        $hashed_password = crypt($password, $bcrypt_salt);
+        
+    
     $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
     while($row=$sqlcheck->fetch_assoc()){
         if($username==$row['anamn']){
@@ -103,7 +125,7 @@ function skapaAKonto(){
         }
     }
     if($uname_tagen==false){
-        $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
+        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt'";
         var_dump($sql);
         $conn->query($sql);
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
