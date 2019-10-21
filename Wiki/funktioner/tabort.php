@@ -46,7 +46,7 @@ function tabortWikiSida(){
 
     $result = ($conn->query("SELECT * FROM wikisidor WHERE id = '{$sidID}'"));
     
-    while($row = $result->fetch_assoc()){
+    /*while($row = $result->fetch_assoc()){
         $id=$row['id'];
         $godAv=$row['godkantAv'];
         $bidragare=$row['bidragsgivare'];
@@ -57,11 +57,9 @@ function tabortWikiSida(){
         $sql = "INSERT INTO sidversion(sidID, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('{$id}', '{$godAv}', '{$bidragare}', '{$titel}', '{$innehall}', '{$datum}')";
         
         $conn->query($sql);
-    }
+    }*/
 
     header('Refresh: 2; URL = ../index.php');
-
-    
 
     $delSida = "DELETE FROM wikisidor WHERE id = '{$sidID}'";
     $conn->query($delSida);
