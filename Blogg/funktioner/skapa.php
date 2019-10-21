@@ -54,29 +54,40 @@ $conn->close();
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             mysqli_query($conn, $skapaTjanst);
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
+
+            
             
         }
         if(mysqli_query($conn, $skapaBlogg)){
-            $skapaBloggJson->code = "201";
-            $skapaBloggJson->status = "Created";
-            $skapaBloggJson->msg = "Blogg created";
-            $skapaBloggJson->blogg = array(
-                "userid"-> $userid,
-                "titel"-> $title
+
+            $skapaBloggJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Blogg created',
+                'blogg' => array(
+                    'userid'=>$userid,
+                    'title'=>$title,
+                    'privat'=> '0'
+                )
             );
 
+            echo json_encode($skapaBloggJson);
 
-            $success = json_encode($skapaBloggJson);
-
-            echo $success;
         } else {
-            $skapaBloggJson->code = "400";
-            $skapaBloggJson->status = "Bad Request";
-            $skapaBloggJson->msg = "Could not execute";
 
-            $error = json_encode($skapaBloggJsonError);
+            $skapaBloggJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not execute',
+                'blogg' => array(
+                    'userid'=>$userid,
+                    'title'=>$title,
+                    'privat'=> '0'
+                )
+            );
 
-            echo $error;
+            echo json_encode($skapaBloggJsonError);
+
         }
         $conn->close();
 
