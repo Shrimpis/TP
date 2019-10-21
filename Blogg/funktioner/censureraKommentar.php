@@ -1,13 +1,13 @@
 <?php
-    include("dbh.inc.php");
+    
 
-    if(isset($_POST['id']) ){
-        $id = $_POST['id'];
-        
-        censureraKommentar($id,  $conn);
-    }
+    
     
     function censureraKommentar($id, $conn){
+        include("dbh.inc.php");
+        if(isset($_POST['id']) ){
+            $id = $_POST['id'];
+        }
         $kommentar = $conn->query('select * from kommentar where id ='.$id);
 
             $row = $kommentar->fetch_assoc();
@@ -34,9 +34,9 @@
             }
             
         
-        
+        $conn->close();
     }
 
-    $conn->close();
+    
 
 ?>

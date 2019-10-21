@@ -156,5 +156,19 @@ Välj en användare:
             </form>
             <br>
             <br>
+
+                <form action="funktioner/redigera.php" method="post">
+                <input type='hidden' name='funktion' value='censureraKommentar'/>
+                    
+                    Kommentar ID: <input type = "text" name = "id"  /><br />
+                    
+                    <br>
+                
+                    <input type = "submit" value = "censurera" />
+                    
+                    
+                </form>
+                
+
             
 </div>

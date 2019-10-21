@@ -54,16 +54,29 @@ $conn->close();
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             mysqli_query($conn, $skapaTjanst);
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
-            //$skapaBlogg = "INSERT INTO blogg(title, UID) VALUES('{$title}',$userid)";
             
         }
         if(mysqli_query($conn, $skapaBlogg)){
-            echo "INFO: Bloggen har skapats.";
-            header('Refresh: 2; URL = ../index.php');
-        } else {
-            $skapaBloggJson->error = "";
+            $skapaBloggJson->code = "201";
+            $skapaBloggJson->status = "Created";
+            $skapaBloggJson->msg = "Blogg created";
+            $skapaBloggJson->blogg = array(
+                "userid"-> $userid,
+                "titel"-> $title
+            );
 
-            echo "ERROR: Could not execute $skapaBlogg. " . mysqli_error($conn);
+
+            $success = json_encode($skapaBloggJson);
+
+            echo $success;
+        } else {
+            $skapaBloggJson->code = "400";
+            $skapaBloggJson->status = "Bad Request";
+            $skapaBloggJson->msg = "Could not execute";
+
+            $error = json_encode($skapaBloggJsonError);
+
+            echo $error;
         }
         $conn->close();
 
