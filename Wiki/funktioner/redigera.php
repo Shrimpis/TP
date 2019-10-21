@@ -20,7 +20,7 @@ $conn->close();
 
 
 function hideWiki(){
-    include('dbh.inc.php');
+    
     $wikiId = $_POST['wikiId'];
 
         $conn->query("UPDATE wiki SET dold=1 WHERE tjanstId = '{$wikiId}'");
@@ -31,4 +31,10 @@ function hideWiki(){
     $conn->close();
 
 }
+
+
+
+
+
+
 
