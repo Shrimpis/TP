@@ -148,18 +148,25 @@ function redigeraInlagg(){
         $redigeraInlaggJson = array(
             'code'=> '202',
             'status'=> 'Accepted',
-            'msg' => 'Comment uppdated',
+            'msg' => 'Post uppdated',
             'blogg' => array(
-                'commentID'=>$Kid
+                'postID'=>$inlaggsId
             )
         );
         
         echo json_encode($redigeraInlaggJson);
 
-        echo "INFO: Inlägget har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
     } else {
-        echo "ERROR: Could not execute $uppdateraInlagg . " . mysqli_error($conn);
+        $redigeraInlaggJson = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'postID'=>$inlaggsId
+            )
+        );
+        
+        echo json_encode($redigeraInlaggJson);
     }
     $conn->close();
 }
