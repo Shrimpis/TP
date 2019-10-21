@@ -5,6 +5,6 @@ $dbPassword = '';
 $dbName = 'the_provider';
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-mysqli_set_charset($conn, "utf8mb4");
+mysqlI_set_charset($conn, "utf8mb4");
 
 ?>

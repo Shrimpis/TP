@@ -54,8 +54,22 @@
                 $tjanstArray['wiki']=array('titel'=>$row['titel'],'privat'=>$row['privat'],'anvandarnamn'=>$anamn);
                 $wikisidor = $db->query('select * from wikisidor where wikiId='.$wikiId);
                 $id=0;
+
+
+                
+
                 while($row4=$wikisidor->fetch_assoc()){
-                    $tjanstArray['wiki']['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],$row4['datum']);
+                    $tjanstArray['wiki']['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],'datum'=>$row4['datum']);
+                    
+                    $bidragsgivareNamn = $db->query('select * from anvandare where id='.$row4['bidragsgivare']);
+                    while($row5=$bidragsgivareNamn->fetch_assoc()){
+                        $tjanstArray['wiki']['sidor'][$id]['bidragsgivareNamn']=$row5['anamn'];
+                    }
+                    $godKantAvNamn = $db->query('select * from anvandare where id='.$row4['godkantAv']);
+                    while($row6=$godKantAvNamn->fetch_assoc()){
+                        $tjanstArray['wiki']['sidor'][$id]['godKantAvNamn']=$row6['anamn'];
+                    }
+                    
                     $id++;
                 }
 
@@ -76,5 +90,3 @@
 
 
 ?>
-
-

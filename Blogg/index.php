@@ -18,9 +18,10 @@
         <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
         <script src="js/visaBlogg.js"></script>
-        <script src="js/skapa.js"></script>
+
         <script src="js/skapaBilder.js"></script>
-    </head>
+        <script src="js/skapainlagg.js"></script>
+>>>>>>> master    </head>
     <body onload="init()">
     <div class="container">
         <h2>The Provider</h2>
