@@ -19,7 +19,7 @@ include("dbh.inc.php");
 $conn->close();
 
 function slumplosen($len) {
-    $karaktr = '?$£@!#%&0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $karaktrlen = strlen($karaktr);
     $slumpstr = '';
     for ($i = 0; $i < $len; $i++) {
@@ -28,7 +28,9 @@ function slumplosen($len) {
     return $slumpstr;
 }
 
+
 function skapaKonto(){
+
     include("dbh.inc.php");
     $uname_tagen=false;
     if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['id'])){
@@ -38,6 +40,28 @@ function skapaKonto(){
     }
     $password = slumplosen(10);
     
+        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+            echo "CRYPT_BLOWFISH is enabled!<br>";
+        } else {
+            echo "CRYPT_BLOWFISH is NOT enabled!";
+            goto end;
+        }
+        
+        $Blowfish_Pre = '$2a$10$';
+        $Blowfish_End = '$';
+        
+        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $Chars_Len = 63;
+        
+        $Salt_Length = 21;
+        $salt = "";
+        for ($i = 0; $i < $Salt_Length; $i++) {
+            $salt .= $Allowed_Chars[mt_rand(0, $Chars_Len)];
+        }
+        $bcrypt_salt = $Blowfish_Pre . $salt . $Blowfish_End;
+        $hashed_password = crypt($password, $bcrypt_salt);
+        
+    
     $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
     while($row=$sqlcheck->fetch_assoc()){
         if($username==$row['anamn']){
@@ -45,7 +69,10 @@ function skapaKonto(){
         }
     }
     if($uname_tagen==false){
-        $sql= "INSERT INTO anvandare(anamn, losenord) VALUES ('$username','$password')";
+
+        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt'";
+        var_dump($sql);
+
         $conn->query($sql);
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
         if(mysqli_num_rows($result) > 0){
@@ -76,5 +103,3 @@ function skapaKonto(){
 }
 
 
-
-?>

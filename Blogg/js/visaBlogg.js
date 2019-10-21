@@ -63,7 +63,7 @@ function createKommentar(kom) {
    
 
             let element = document.createElement("div");
-            element.id = "kommentar";
+            //element.id = "kommentarKommentar";
             let element2;
 
             element2 = document.createElement("p");
@@ -123,5 +123,5 @@ function init() {
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
     }
-
+    
 //document.body.onload = function() {init();};
