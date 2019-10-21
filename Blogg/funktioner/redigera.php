@@ -114,7 +114,7 @@ function redigeraKommentar(){
             'code'=> '202',
             'status'=> 'Accepted',
             'msg' => 'Comment uppdated',
-            'blogg' => array(
+            'comment' => array(
                 'commentID'=>$Kid
             )
         );
@@ -126,7 +126,7 @@ function redigeraKommentar(){
             'code'=> '400',
             'status'=> 'Bad Request',
             'msg' => 'Could not execute',
-            'blogg' => array(
+            'comment' => array(
                 'commentID'=>$Kid
             )
         );
@@ -149,7 +149,7 @@ function redigeraInlagg(){
             'code'=> '202',
             'status'=> 'Accepted',
             'msg' => 'Post uppdated',
-            'blogg' => array(
+            'post' => array(
                 'postID'=>$inlaggsId
             )
         );
@@ -157,16 +157,16 @@ function redigeraInlagg(){
         echo json_encode($redigeraInlaggJson);
 
     } else {
-        $redigeraInlaggJson = array(
+        $redigeraInlaggJsonError = array(
             'code'=> '400',
             'status'=> 'Bad Request',
             'msg' => 'Could not execute',
-            'blogg' => array(
+            'post' => array(
                 'postID'=>$inlaggsId
             )
         );
         
-        echo json_encode($redigeraInlaggJson);
+        echo json_encode($redigeraInlaggJsonError);
     }
     $conn->close();
 }
@@ -185,18 +185,50 @@ function censureraKommentar(){
             if($censurerad==0){
                 $sql= "UPDATE kommentar SET censurerad = '1' WHERE id = $id ";
                 $conn->query($sql);
-                echo "INFO: Kommentaren är nu privat.";
+
+                $censureraKommentarJson = array(
+                    'code'=> '202',
+                    'status'=> 'Accepted',
+                    'msg' => 'Comment censored',
+                    'comment' => array(
+                        'commentID'=>$id
+                    )
+                );
+                
+                echo json_encode($censureraKommentarJson);
+
                 break;
                
             }
             else if($censurerad==1){
                 $sql= "UPDATE kommentar SET censurerad = '0' WHERE id = $id ";
                 $conn->query($sql);
-                echo "INFO: Kommentaren är nu allmän.";
+
+                $avCensureraKommentarJson = array(
+                    'code'=> '202',
+                    'status'=> 'Accepted',
+                    'msg' => 'Comment is now public',
+                    'comment' => array(
+                        'commentID'=>$id 
+                    )
+                );
+                
+                echo json_encode($avCensureraKommentarJson);
+
                break;
             }
             else{
-                echo "ERROR: kommentar typ måste vara mellan 0 och 1. " . mysqli_error($conn);
+                $censureraKommentarErrorJson = array(
+                    'code'=> '400',
+                    'status'=> 'Bad Request',
+                    'msg' => 'Could not execute',
+                    'comment' => array(
+                        'commentID'=>$id 
+                    )
+                );
+                
+                echo json_encode($censureraKommentarErrorJson);
+
                break;
             }
         }
