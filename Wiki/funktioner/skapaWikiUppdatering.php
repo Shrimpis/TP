@@ -31,7 +31,7 @@ function skapaUppdatering($conn){
         }
         else if(($roll=="1" || $roll=="3") && $sidId==$sidaId){
             echo "hej";
-            $sql= "UPDATE wikisidor SET godkantAv='$bidragsGivare',bidragsgivare='$bidragsGivare',titel='$titel',innehall='$innehall',datum='$date',dolt='0' WHERE id=$sidId";
+            $sql= "UPDATE wikisidor SET godkantAv='$bidragsGivare',bidragsgivare='$bidragsGivare',titel='$titel',innehall='$innehall',datum='$date' WHERE id=$sidId";
             $conn->query($sql);
         }
         else if(($roll!="1" || $roll!="3") && $sidId==""){
