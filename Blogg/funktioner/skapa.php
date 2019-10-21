@@ -230,7 +230,7 @@ $conn->close();
             $skapaKommentarJsonError = array(
                 'code'=> '400',
                 'status'=> 'Bad Request',
-                'msg' => 'Comment created',
+                'msg' => 'Could not executed',
                 'comment' => array(
                     'userid'=>$anvandarId,
                     'postid'=>$inlaggsId,
@@ -282,20 +282,63 @@ $conn->close();
         if($redan_gillat->num_rows == 0){
             $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$anvandarId', '{$inlaggsId}')";
             if(mysqli_query($conn, $like)){
-                echo "INFO: Inlägg med id " .$inlaggsId. " gillat av användar med id " .$anvandarId. ".";
+
+                $gillaInlaggJson = array(
+                    'code'=> '201',
+                    'status'=> 'Created',
+                    'msg' => 'Like applied',
+                    'like' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($gillaInlaggJson);
+
             } else{
-                echo "ERROR: Could not able to execute $like. " . mysqli_error($conn);
+                $gillaInlaggJsonError = array(
+                    'code'=> '400',
+                    'status'=> 'Bad Request',
+                    'msg' => 'Could not execute',
+                    'like' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($gillaInlaggJsonError);
             }
         } else {
             $dislike = "DELETE FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'";
             if(mysqli_query($conn, $dislike)){
-                echo "ERROR: Användaren har redan gillat. Tar bort gillning.";
+
+                $ogillaInlaggJson = array(
+                    'code'=> '201',
+                    'status'=> 'Created',
+                    'msg' => 'Dislike applied',
+                    'like' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($ogillaInlaggJson);
+
             } else{
-                echo "ERROR: Could not able to execute $dislike. " . mysqli_error($conn);
+                $ogillaInlaggJsonError = array(
+                    'code'=> '201',
+                    'status'=> 'Created',
+                    'msg' => 'Dislike applied',
+                    'like' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($ogillaInlaggJsonError);
             }
         }
 
-        header("location: ../index.php");
         $conn->close();
 
     }

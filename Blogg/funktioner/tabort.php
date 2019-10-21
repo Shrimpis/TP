@@ -108,7 +108,7 @@ if(mysqli_num_rows($looparray) > 0)
     while($row=$looparray->fetch_assoc()){
     
     
-        array_push($temparray,$row['kommentarId']);
+        array_push($temparray,$row['id']);
     
     
     
