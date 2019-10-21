@@ -16,7 +16,7 @@ include("dbh.inc.php");
             case 'skapaTextruta': //Ta bort
                 skapaTextruta();
                 break;
-            case 'skapaBildRuta': //Ska denna tas bort?
+            case 'skapaBildRuta': //Ta bort
                 skapaBildRuta();
                 break;
             case 'skapaKommentar':
@@ -61,6 +61,8 @@ $conn->close();
             echo "INFO: Bloggen har skapats.";
             header('Refresh: 2; URL = ../index.php');
         } else {
+            $skapaBloggJson->error = "";
+
             echo "ERROR: Could not execute $skapaBlogg. " . mysqli_error($conn);
         }
         $conn->close();
