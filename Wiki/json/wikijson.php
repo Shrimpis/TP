@@ -55,7 +55,7 @@
                 $wikisidor = $db->query('select * from wikisidor where wikiId='.$wikiId);
                 $id=0;
                 while($row4=$wikisidor->fetch_assoc()){
-                    $tjanstArray['wiki']['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],$row4['datum']);
+                    $tjanstArray['wiki']['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],'date'=>$row4['datum']);
                     $id++;
                 }
 
