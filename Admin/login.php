@@ -45,7 +45,8 @@
 
   <body class="text-center">
     <form class="form-signin" action = "" method = "post">
-      <h1 class="h3 mb-3 font-weight-normal">Logga in till Adminpanelen</h1>
+      <h1 class="h3 mb-3 font-weight-normal">Logga in till Kontrollpanelen</h1>
+      <?php include 'includes/alert.php' ?>
       <input type="text" id="anamn" name="anamn" class="form-control" placeholder="Användarnamn" required autofocus>
       <br>
       <input type="password" id="losenord" name="losenord" class="form-control" placeholder="Lösenord" required autofocus>
