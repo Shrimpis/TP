@@ -13,14 +13,17 @@ include("dbh.inc.php");
             case 'skapaInlagg':
                 skapaInlagg();
                 break;
-            case 'skapaTextruta':
+            case 'skapaTextruta': //Ta bort
                 skapaTextruta();
                 break;
-            case 'skapaBildRuta':
+            case 'skapaBildRuta': //Ska denna tas bort?
                 skapaBildRuta();
                 break;
             case 'skapaKommentar':
                 skapaKommentar();
+                break;
+            case 'skapaSokning':
+                skapaSokning();
                 break;
             case 'gillaInlagg':
                 gillaInlagg();
@@ -30,6 +33,9 @@ include("dbh.inc.php");
                 break;
             case 'flaggaKommentar':
                 flaggaKommentar();
+                break;
+            case 'sokfalt':
+                sokFalt();
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
@@ -157,6 +163,31 @@ $conn->close();
         }
         $conn->close();
 
+    }
+
+
+    function sokFalt(){
+        include("dbh.inc.php");
+        if(isset($_POST['sok'])){
+            $sok= $_POST['sok'];
+        } 
+        $output = '';
+
+        $query = mysqli_query($conn,"SELECT * FROM blogginlagg WHERE titel LIKE '%$sok%'") or die ("Could not search");
+        $count = mysqli_num_rows($query);
+
+        if($count == 0){
+            $output = "There was no search results!";
+        }
+        else{
+           while ($row = mysqli_fetch_array($query)) {
+                $title = $row ['titel'];
+                
+                $output ='<div> '.$title.'</div>';
+                print ($output);
+            }
+        }
+        $conn->close();
     }
 
     function gillaInlagg(){

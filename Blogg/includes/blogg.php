@@ -157,3 +157,20 @@
             </form>
             <br>
             <br>
+
+
+                sök efter en blogg
+
+                <form action="funktioner/skapa.php" method="post">
+                    <input type='hidden' name='funktion' value='sokfalt'/>
+            
+                    <input name="sok" type="text" size="30" placeholder="Search..."/>
+
+                    <input type="submit" value="Search"/>
+
+                
+                </form> 
+            <br>
+            <br>
+                    
+                        
