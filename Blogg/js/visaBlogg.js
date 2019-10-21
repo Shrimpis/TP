@@ -1,6 +1,5 @@
 
 let jsonData;
-let kommentarArray = new Array();
 let index = 0;
 
 function createBlogg() {
