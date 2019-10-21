@@ -41,11 +41,11 @@ Välj en användare:
 <select name="UID" id="UID">
     <?php 
         include('funktioner/dbh.inc.php');
-        $sql = "SELECT id, fnamn, enamn FROM anvandare";
+        $sql = "SELECT id, anamn FROM anvandare";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+            echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["anamn"]."</option>";
         }
         echo "</table>";
         } else { echo "0 results"; }
@@ -140,11 +140,11 @@ Välj en användare:
             <select name="anvandarID">
                 <?php 
                     include('funktioner/dbh.inc.php');
-                    $sql = "SELECT id, fnamn, enamn FROM anvandare";
+                    $sql = "SELECT id, anamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["anamn"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
