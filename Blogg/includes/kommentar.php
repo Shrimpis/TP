@@ -2,7 +2,7 @@
 <div>
 <h4>Skapa en kommentar</h4>
 
-<form action="funktioner/skapa.php">
+<form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaKommentar'/>
 Välj att kommentera:
 <select name="hierarchyID" id="hierarchyID">

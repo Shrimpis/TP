@@ -13,12 +13,6 @@ include("dbh.inc.php");
             case 'skapaInlagg':
                 skapaInlagg();
                 break;
-            case 'skapaTextruta': //Ta bort
-                skapaTextruta();
-                break;
-            case 'skapaBildRuta': //Ta bort
-                skapaBildRuta();
-                break;
             case 'skapaKommentar':
                 skapaKommentar();
                 break;
@@ -96,14 +90,14 @@ $conn->close();
     function skapaInlagg(){
 
         include("dbh.inc.php");
-        if(isset($_POST['bloggId']) && isset($_POST['title'])){
-            $blogID= $_POST['bloggId'];
-            $title= $_POST['title'];
+        if(isset($_POST['bloggId']) && isset($_POST['Title'])){
+            $bloggID= $_POST['bloggId'];
+            $title= $_POST['Title'];
             $innehall= $_POST['innehall'];
         }
 
         $date= date("Y-m-d H:i");
-        $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$blogID','$title','$innehall','$date')";
+        $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$bloggID','$title','$innehall','$date')";
         
         if(mysqli_query($conn, $sql)){
             $skapaInlaggJson = array(
@@ -111,7 +105,7 @@ $conn->close();
                 'status'=> 'Created',
                 'msg' => 'Post created',
                 'post' => array(
-                    'blogid'=>$blogID,
+                    'bloggid'=>$bloggID,
                     'title'=>$title,
                     'content'=>$innehall,
                     'date'=>$date
@@ -125,7 +119,7 @@ $conn->close();
                 'status'=> 'Bad Request',
                 'msg' => 'Could not execute',
                 'post' => array(
-                    'blogid'=>$blogID,
+                    'bloggid'=>$bloggID,
                     'title'=>$title,
                     'content'=>$innehall,
                     'date'=>$date
@@ -211,7 +205,7 @@ $conn->close();
             $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
             $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
         }
-        $skapaKommentar = "INSERT INTO kommentar (användarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
+        $skapaKommentar = "INSERT INTO kommentar (anvandarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
             $skapaKommentarJson = array(
                 'code'=> '201',
@@ -240,6 +234,7 @@ $conn->close();
             );
             
             echo json_encode($skapaKommentarJsonError);
+            
         }
         $conn->close();
 
@@ -316,7 +311,7 @@ $conn->close();
                     'code'=> '201',
                     'status'=> 'Created',
                     'msg' => 'Dislike applied',
-                    'like' => array(
+                    'dislike' => array(
                         'userid'=>$anvandarId,
                         'postid'=>$inlaggsId
                     )
@@ -326,10 +321,10 @@ $conn->close();
 
             } else{
                 $ogillaInlaggJsonError = array(
-                    'code'=> '201',
-                    'status'=> 'Created',
-                    'msg' => 'Dislike applied',
-                    'like' => array(
+                    'code'=> '400',
+                    'status'=> 'Bad Request',
+                    'msg' => 'Could not execute',
+                    'dislike' => array(
                         'userid'=>$anvandarId,
                         'postid'=>$inlaggsId
                     )
@@ -354,6 +349,18 @@ $conn->close();
         if($redan_flaggat->num_rows == 0){
             $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
             $conn->query($flagga);
+
+            $flaggaBloggJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Dislike applied',
+                'flag' => array(
+                    'userid'=>$anvandarId,
+                    'postid'=>$inlaggsId
+                )
+            );
+            
+            echo json_encode($flaggaBloggJson);
         }
         
         /*
@@ -381,6 +388,30 @@ $conn->close();
         if($redan_flaggat->num_rows == 0){
             $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
             $conn->query($flagga);
+
+            $flaggaKommentarJson = array(
+                'code'=> '202',
+                'status'=> 'Accepted',
+                'msg' => 'Comment flagged',
+                'flag' => array(
+                    'commentid'=>$komid,
+                    'userid'=>$anvandarId
+                )
+            );
+            
+            echo json_encode($flaggaKommentarJson);
+        } else {
+            $flaggaKommentarJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not executed',
+                'flag' => array(
+                    'commentid'=>$komid,
+                    'userid'=>$anvandarId
+                )
+            );
+            
+            echo json_encode($flaggaKommentarJsonError);
         }
         
         /*
@@ -390,9 +421,6 @@ $conn->close();
             $conn->query($avflagga);
         }
         */
-        
-        
-        header("Location: ../index.php");
         $conn->close();
 
     }

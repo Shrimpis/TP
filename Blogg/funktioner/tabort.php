@@ -43,10 +43,27 @@ function tabortBlogg(){
         
     }
     if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
-        echo "INFO: Blogg borttagen";
-        header('Refresh: 2; URL = ../index.php');
+        $tabortBloggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Blogg delted',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortBloggJson);
     } else {
-        echo "ERROR: Could not execute $delBlogg,$delInlagg. " . mysqli_error($conn);
+        $tabortBloggJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortBloggJsonError);
     }
 
     $conn->close();
@@ -59,11 +76,28 @@ function tabortInlagg(){
     $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
     $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
 
-    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delRuta)&&mysqli_query($conn, $delText)&&mysqli_query($conn, $delKommentar)){
-        echo "INFO: Blogginlagg borttaget";
-        header('Refresh: 2; URL = ../index.php');
+    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)){
+        $tabortInlaggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Post deleted',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortInlaggJson);
     } else {
-        echo "ERROR: Could not execute $delInlagg,$delRuta,$delText,$delKommentar. " . mysqli_error($conn);
+        $tabortInlaggJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortInlaggJsonError);
     }
 
     $conn->close();
@@ -84,9 +118,27 @@ function tabortKommentar(){
     $sql = "DELETE FROM kommentar WHERE id in ($deleteID)";
     
     if(mysqli_query($conn, $sql)){
-        echo "INFO: kommentar borttaget";
+        $tabortKommentarJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Comment deleted',
+            'blogg' => array(
+                'commentid'=>$kommentarId
+            )
+        );
+        
+        echo json_encode($tabortKommentarJson);
     } else {
-        echo "ERROR: Could not execute $delKommentar. " . mysqli_error($conn);
+        $tabortKommentarJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'commentid'=>$kommentarId
+            )
+        );
+        
+        echo json_encode($tabortKommentarJsonError);
     }
     
 

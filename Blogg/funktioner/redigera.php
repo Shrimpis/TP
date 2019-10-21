@@ -12,11 +12,8 @@ include("dbh.inc.php");
             case 'redigeraKommentar':
                 redigeraKommentar();
                 break;
-            case 'redigeraTextruta':
-                redigeraTextruta();
-                break;
             case 'redigeraInlagg':
-                redigeraTextruta();
+                redigeraInlagg();
                 break;
             case 'privatiseraBlogg':
                 privatiseraBlogg();
@@ -87,7 +84,7 @@ function redigeraInlagg(){
     $inlaggsId = $_POST['inlaggsId'];
     $title = $_POST['Titel'];
     $innehall = $_POST['innehall'];
-    $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}' innehall = '{$innehall}' WHERE inlaggId = $inlaggsId ";
+    $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}', innehall = '{$innehall}' WHERE id = $inlaggsId ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
         echo "INFO: Inlägget har redigerats.";
@@ -112,14 +109,14 @@ function censureraKommentar(){
             if($censurerad==0){
                 $sql= "UPDATE kommentar SET censurerad = '1' WHERE id = $id ";
                 $conn->query($sql);
-                echo "INFO: Kommentaren är nu public.";
+                echo "INFO: Kommentaren är nu privat.";
                 break;
                
             }
             else if($censurerad==1){
                 $sql= "UPDATE kommentar SET censurerad = '0' WHERE id = $id ";
                 $conn->query($sql);
-                echo "INFO: Kommentaren är nu privat.";
+                echo "INFO: Kommentaren är nu allmän.";
                break;
             }
             else{
