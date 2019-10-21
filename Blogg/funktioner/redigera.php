@@ -65,8 +65,8 @@ function privatiseraBlogg(){
 
 function redigeraKommentar(){
     include("dbh.inc.php");
-    if(isset($_POST['KID']) && isset($_POST['text'])){
-        $Kid = $_POST['KID'];
+    if(isset($_POST['kommentarId']) && isset($_POST['text'])){
+        $Kid = $_POST['kommentarId'];
         $text = $_POST['text'];
     }
 

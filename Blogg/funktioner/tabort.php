@@ -73,11 +73,11 @@ function tabortInlagg(){
 function tabortKommentar(){
     
     include('dbh.inc.php');
-    $KID = mysqli_real_escape_string($conn, $_REQUEST['KID']);
-    $KIDarray[0] = $KID;
+    $kommentarId = mysqli_real_escape_string($conn, $_REQUEST['kommentarId']);
+    $KIDarray[0] = $kommentarId;
     $temparray = array();
     
-    $KIDarray = loop($KID,$conn,$KIDarray,$temparray);
+    $KIDarray = loop($kommentarId,$conn,$KIDarray,$temparray);
     
     $deleteID = implode(',',$KIDarray);
     
@@ -93,7 +93,7 @@ function tabortKommentar(){
 
 }
 // tillhör tabortkommentar
-function loop($KID,$conn,$KIDarray,$temparray){
+function loop($kommentarId,$conn,$KIDarray,$temparray){
     if(count($temparray) > 0 ){
         for($i=0;$i<count($temparray);$i++){
         array_push($KIDarray,$temparray[$i]);
@@ -101,14 +101,14 @@ function loop($KID,$conn,$KIDarray,$temparray){
         
     }
 
-$looparray = ($conn->query("SELECT id from kommentar where hierarkiId ='{$KID}'"));
+$looparray = ($conn->query("SELECT id from kommentar where hierarkiId ='{$kommentarId}'"));
 
 $temparray = array();
 if(mysqli_num_rows($looparray) > 0)
     while($row=$looparray->fetch_assoc()){
     
     
-        array_push($temparray,$row['KID']);
+        array_push($temparray,$row['kommentarId']);
     
     
     

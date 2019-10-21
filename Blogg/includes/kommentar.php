@@ -13,7 +13,7 @@ Välj att kommentera:
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo "<option value='". $row["id"] ."'>KID: ". $row["id"]." | ". $row["innehall"]."</option>";
+            echo "<option value='". $row["id"] ."'>kommentarId: ". $row["id"]." | ". $row["innehall"]."</option>";
         }
         echo "</table>";
         } else { echo "0 results"; }
@@ -69,14 +69,14 @@ Välj en användare:
     <input type='hidden' name='funktion' value='redigeraKommentar'/>
     <textarea name="text" rows="10" cols="30">ny text</textarea>
     <br>
-    <select name="KID">
+    <select name="kommentarId">
     <?php
     include('funktioner/dbh.inc.php');
     $sql = "SELECT * from kommentar";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo "<option value='". $row["id"] ."'>KID: ". $row['id']."</option>";
+            echo "<option value='". $row["id"] ."'>kommentarId: ". $row['id']."</option>";
         }
         echo "</table>";
         } else { echo "0 results"; }
@@ -95,7 +95,7 @@ Välj en användare:
 
 <form action="funktioner/tabort.php" method="POST">
 <input type='hidden' name='funktion' value='tabortKommentar'/>
-    <select name="KID">
+    <select name="kommentarId">
     <?php
         include("funktioner/dbh.inc.php");
         $sql = "SELECT * from kommentar";

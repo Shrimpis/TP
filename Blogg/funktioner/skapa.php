@@ -213,9 +213,33 @@ $conn->close();
         }
         $skapaKommentar = "INSERT INTO kommentar (användarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
-            echo "INFO: Kommentar skapad.";
+            $skapaKommentarJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Comment created',
+                'comment' => array(
+                    'userid'=>$anvandarId,
+                    'postid'=>$inlaggsId,
+                    'text'=>$text,
+                    'hierarchyID'=>$hierarchyID
+                )
+            );
+            
+            echo json_encode($skapaKommentarJson);
         } else{
-            echo "ERROR: Could not able to execute $skapaKommentar. " . mysqli_error($conn);
+            $skapaKommentarJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Comment created',
+                'comment' => array(
+                    'userid'=>$anvandarId,
+                    'postid'=>$inlaggsId,
+                    'text'=>$text,
+                    'hierarchyID'=>$hierarchyID
+                )
+            );
+            
+            echo json_encode($skapaKommentarJsonError);
         }
         $conn->close();
 
