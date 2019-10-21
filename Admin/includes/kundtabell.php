@@ -86,7 +86,17 @@
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
                             </div>
-                            <input type='text' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' aria-describedby='basic-addon1'>
+                            <input type='text' value='"; 
+                            
+                            
+                            $anamn = "SELECT anvandare.id, anvandare.anamn, kundrattigheter.id FROM anvandare INNER JOIN kundrattigheter ON anvandare.id=kundrattigheter.kontoID WHERE kundrattigheter.id=". $row["id"] ."";
+                            $result5 = $conn->query($anamn);
+                            while($row5 = $result->fetch_assoc()) {
+                                echo $row5["anamn"]; //TODO: fixa så att användarnamnet visas.
+                            }
+                            
+                            
+                            echo "' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' aria-describedby='basic-addon1'>
                             </div>
                             <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
