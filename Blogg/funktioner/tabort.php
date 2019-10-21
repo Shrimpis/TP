@@ -122,7 +122,7 @@ function tabortKommentar(){
             'code'=> '202',
             'status'=> 'Accepted',
             'msg' => 'Comment deleted',
-            'blogg' => array(
+            'comment' => array(
                 'commentid'=>$kommentarId
             )
         );
@@ -133,7 +133,7 @@ function tabortKommentar(){
             'code'=> '400',
             'status'=> 'Bad',
             'msg' => 'Could not execute',
-            'blogg' => array(
+            'comment' => array(
                 'commentid'=>$kommentarId
             )
         );

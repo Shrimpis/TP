@@ -35,10 +35,31 @@ function redigeraBlogg(){
     $uppdateraBlogg = "UPDATE tjanst SET titel = '{$title}' WHERE id = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
-        echo "INFO: Bloggen har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
+
+        $redigeraBloggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Blogg edited',
+            'blogg' => array(
+                'bloggid'=>$bloggId,
+                'title'=>$title
+            )
+        );
+        
+        echo json_encode($redigeraBloggJson);
+
     } else {
-        echo "ERROR: Could not execute $uppdateraBlogg. " . mysqli_error($conn);
+        $redigeraBloggJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'bloggid'=>$bloggId,
+                'title'=>$title
+            )
+        );
+        
+        echo json_encode($redigeraBloggJsonError);
     }
     $conn->close();
 }
@@ -52,10 +73,28 @@ function privatiseraBlogg(){
     $uppdateraBlogg = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $Bid ";
     
     if(mysqli_query($conn, $uppdateraBlogg)){
-        echo "INFO: Bloggen har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
+
+        $privatiseraBloggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Blogg is now private',
+            'blogg' => array(
+                'bloggid'=>$Bid,
+            )
+        );
+        
+        echo json_encode($privatiseraBloggJson);
     } else {
-        echo "ERROR: Could not execute $uppdateraBlogg. " . mysqli_error($conn);
+        $privatiseraBloggJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'bloggid'=>$Bid,
+            )
+        );
+        
+        echo json_encode($privatiseraBloggJsonError);
     }
     $conn->close();
 }
@@ -70,10 +109,29 @@ function redigeraKommentar(){
     $uppdateraKommentar = "UPDATE kommentar SET innehall = '{$text}' WHERE id = $Kid ";
 
     if(mysqli_query($conn, $uppdateraKommentar)){
-        echo "INFO: Kommentaren har redigerats.";
-        header('Refresh: 2; URL = ../index.php');
+
+        $redigeraKommentarJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Comment uppdated',
+            'blogg' => array(
+                'commentID'=>$Kid
+            )
+        );
+        
+        echo json_encode($redigeraKommentarJson);
+
     } else {
-        echo "ERROR: Could not execute $updateraKommentar. " . mysqli_error($conn);
+        $redigeraKommentarJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'commentID'=>$Kid
+            )
+        );
+        
+        echo json_encode($redigeraKommentarJsonError);
     }
     $conn->close();
 }
@@ -87,6 +145,17 @@ function redigeraInlagg(){
     $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}', innehall = '{$innehall}' WHERE id = $inlaggsId ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
+        $redigeraInlaggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Comment uppdated',
+            'blogg' => array(
+                'commentID'=>$Kid
+            )
+        );
+        
+        echo json_encode($redigeraInlaggJson);
+
         echo "INFO: Inlägget har redigerats.";
         header('Refresh: 2; URL = ../index.php');
     } else {
