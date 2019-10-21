@@ -40,6 +40,8 @@ function tabortBlogg(){
     
         $delKommentar="DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
         $conn->query($delKommentar);
+        $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
+        $conn->query($delLike);
         
     }
     if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
