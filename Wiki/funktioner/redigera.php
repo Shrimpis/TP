@@ -83,11 +83,11 @@ function hideWiki(){
 
 function godkannUppdatering(){
     include("dbh.inc.php");
-    if(isset($_GET['uppdateringid']) && isset($_GET['sidId']) && isset($_GET['godkantAv'])){
+    if(isset($_POST['uppdateringid']) && isset($_POST['sidId']) && isset($_POST['godkantAv'])){
 
-        $uppdateringId = $_GET['uppdateringid'];
-        $sidId = $_GET['sidId'];
-        $godkantAv = $_GET['godkantAv'];
+        $uppdateringId = $_POST['uppdateringid'];
+        $sidId = $_POST['sidId'];
+        $godkantAv = $_POST['godkantAv'];
 
         if($sidId != 0){
 
@@ -181,9 +181,9 @@ function godkannUppdatering(){
                 echo json_encode($taBortUppdateringJsonError);
             }
         }else if($sidId == 0){
-            $nyWikiSida = "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT wikiId FROM wikiuppdatering WHERE id = $sidId), $godkantAv,
-            (SELECT bidragsgivare FROM wikiuppdatering WHERE id = $sidId), (SELECT titel FROM wikiuppdatering WHERE id = $sidId), (SELECT innehall FROM wikiuppdatering WHERE id = $sidId), 
-            (SELECT datum FROM wikiuppdatering WHERE id = $sidId)";
+            $nyWikiSida = "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT wikiId FROM wikiuppdatering WHERE id = $uppdateringId), $godkantAv,
+            (SELECT bidragsgivare FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT titel FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT innehall FROM wikiuppdatering WHERE id = $uppdateringId), 
+            (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId)";
             if(mysqli_query($conn, $nyWikiSida)){
                 $nyWikiSidaJson = array(
                     'code' => '201',
