@@ -68,8 +68,16 @@
                 $kommentarArray=array();
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
+                    $kommentarFlaggningar = $db->query('select * from flaggadkommentar where kommentarId='.$row['id']);
+                    $Amount=0;
+                    while($flaggadRow = $kommentarFlaggningar->fetch_assoc()) {
+                        $Amount++;
+                    }
+                    
                     $kommentarArray[$index]=array('id'=>$row['id'],'anvandarId'=>$row['anvandarId'],'namn'=>$row['anamn'],'innehall'=>$row['innehall'],'hierarkiId'=>$row['hierarkiId']);
-                
+                    $kommentarArray[$index]['flaggningar']=$Amount;
+
+
                     $index++;
                 }
 
@@ -306,6 +314,8 @@
             $id=$row["id"];//id på det inlagget som vi ar på.
             $blogginlaggArray[$i]=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
 
+            
+
 
             /*
             //lagger in kommentarer.
@@ -404,8 +414,12 @@
 
 
 
-
-
+        $bloggFlaggningar = $db->query('select * from flaggadblogg where bloggId='.$bloggId);
+        $bloggFlaggningarAmount=0;
+        while($flaggadRow = $bloggFlaggningar->fetch_assoc()) {
+            $bloggFlaggningarAmount++;
+        }
+        $Bloggarray['flaggningar']=$bloggFlaggningarAmount;
 
 
 
