@@ -7,7 +7,7 @@ function createBlogg() {
     createTitel();
     createInlagg();
     createSkribent();
-    
+
 
 }
 
@@ -39,16 +39,16 @@ function createTitel() {
 
 
 function createInlagg(id) {
-    
+
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
     console.log(jsonData);
     inlagg.id = "inlagg" + 1;
-    
+
     let divText = document.createElement("div");
     divText.innerHTML = jsonData.innehall;
     inlagg.appendChild(divText);
-    
+
     body.appendChild(inlagg);
 }
 
@@ -59,7 +59,7 @@ function createKommentar(kom) {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
 
-   
+
 
             let element = document.createElement("div");
             //element.id = "kommentarKommentar";
@@ -70,7 +70,7 @@ function createKommentar(kom) {
             element.appendChild(element2);
 
             kommentar.appendChild(element);
-  
+
 
     body.appendChild(kommentar);
 }
@@ -91,9 +91,9 @@ function recurs(kom){
                         index++;
                         recurs(kom[k]);
                     }
-                
+
                 }
-            }                
+            }
         }
     }
 }
@@ -106,7 +106,7 @@ function init() {
 
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            
+
             jsonData = JSON.parse(this.responseText);
 
             //console.log(this.responseText);
@@ -118,9 +118,9 @@ function init() {
     };
 
 
-    xhttp.open("GET", "json/bloggjson.php?anvandare=2&blogg=2&inlagg=2", true);
+    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
     }
-    
+
 //document.body.onload = function() {init();};

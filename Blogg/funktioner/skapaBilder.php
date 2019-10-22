@@ -56,11 +56,11 @@ if($uppladningOk == 0){
 
 
         $response->status = "success";
-        $response->resp = $mal_fil;
+        $response->resp ="http://10.130.216.101/TP/Blogg/funktioner/". $mal_fil;
 
 
     }else{
-        
+
     }
 }
 
