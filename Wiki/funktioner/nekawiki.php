@@ -1,6 +1,6 @@
 <?php
 
-
+nekaUppdatering();
 function nekaUppdatering(){
 
 include("dbh.inc.php");
