@@ -183,7 +183,8 @@ function godkannUppdatering(){
         }else if($sidId == 0){
             $nyWikiSida = "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT wikiId FROM wikiuppdatering WHERE id = $uppdateringId), $godkantAv,
             (SELECT bidragsgivare FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT titel FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT innehall FROM wikiuppdatering WHERE id = $uppdateringId), 
-            (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId)";
+            (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId))";
+            echo $nyWikiSida;
             if(mysqli_query($conn, $nyWikiSida)){
                 $nyWikiSidaJson = array(
                     'code' => '201',
