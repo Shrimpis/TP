@@ -1,24 +1,25 @@
 <?php
-    
-    $db=new mysqli("localhost","root","","the_provider");
+
+    $db=new mysqli("localhost","user","","TheProvider");
     $db->set_charset("utf8");
-    
+
     if($db->connect_error){
         die("Connection failed: " . $db->connect_error);
+        echo $db->connect_error;
     }
-    
+
     /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
-        
+
         $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
         $result = $db->query($sql);
         $result = mysqli_fetch_assoc($result);
-                
+
         if($_SESSION["licens"] ==  $result["licens"]){
-            
+
         }else{
             echo "Felaktig/gammal licens. kontakta en adminstratör";
         }
-        
+
     }else{
         echo "Ingen licens. Kontakta adminstratör";
     }*/
@@ -29,7 +30,7 @@
     }
     else if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
         blogg($_GET['anvandare'],$_GET['blogg'],$db);
-        
+
 
     }
     else if(isset($_GET['anvandare'])){
@@ -45,8 +46,8 @@
         $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
         $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
 
-        
-        
+
+
 
 
         $kommentarArray;//alla kommentarer.
@@ -61,7 +62,7 @@
                 $blogginlaggArray=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"],'innehall'=>$row["innehall"]);//skappar en array som innehåller datum title
 
 
-                
+
                 //lagger in kommentarer.
                 $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.id=anvandare.id where inlaggId='.$id); //hamtar alla kommentarer i ett bloginlagg
                 //echo var_dump($tempKommentar);
@@ -73,7 +74,7 @@
                     while($flaggadRow = $kommentarFlaggningar->fetch_assoc()) {
                         $Amount++;
                     }
-                    
+
                     $kommentarArray[$index]=array('id'=>$row['id'],'anvandarId'=>$row['anvandarId'],'namn'=>$row['anamn'],'innehall'=>$row['innehall'],'hierarkiId'=>$row['hierarkiId']);
                     $kommentarArray[$index]['flaggningar']=$Amount;
 
@@ -127,11 +128,11 @@
 
 
 
-        
 
 
-        
-        
+
+
+
 
         $ii=0;
         $Bloggarray;//innehåller allt i bloggen.
@@ -162,7 +163,7 @@
             $enamn=$row["enamn"];
             $i++;
         }
-        
+
         $Bloggarray['fnamn']=$fnamn;//förnamn
         $Bloggarray['enamn']=$enamn;//efternamn
 */
@@ -176,7 +177,7 @@
 
         if(isset($blogginlaggArray)){
             $Bloggarray['bloggInlagg']=$blogginlaggArray;
-            
+
             $json=json_encode($blogginlaggArray);
             echo $json;
         }
@@ -197,14 +198,14 @@
 
 
 
-        
-    
+
+
     function visaBloggar($anvandarId,$db){
         $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
         $tjänst = $db->query('select * from tjanst where anvandarId='.$anvandarId);
 
         //$tjänstId = $db->query('select * from tjanst where id='.$anvandarId);
-        
+
 
         $anamn;
         $email;
@@ -214,27 +215,27 @@
             $email=$row["email"];
             $i++;
         }
-        
+
         //echo var_dump($anvandareArray[]);
         $tjänstArray;
         $bloggArray;
-        
+
         $i=0;
-        
+
         while($rowTjänst = $tjänst->fetch_assoc()) {
             $tjänstId=$rowTjänst['id'];
             $blogg = $db->query('select * from blogg ');
             while($row = $blogg->fetch_assoc()) {
-                
+
                 $bloggId=$row['tjanstId'];
                 if($bloggId==$tjänstId){
                     $tjänstArray['bloggar'][$i]=array('id'=>$rowTjänst["id"],'titel'=>$rowTjänst["titel"],'privat'=>$rowTjänst["privat"]);
 
                 }
-                
+
             }
-            
-            
+
+
             /*$bloggId= $row['id'];
             $bloggInlaggCount = $db->query('SELECT * FROM blogginlagg where bloggId='.$bloggId);
             $count=0;
@@ -244,7 +245,7 @@
             $bloggar['bloggar'][$i]['inlaggMangd']=$count;*/
            $i++;
         }
-        
+
         $tjänstArray['anamn']=$anamn;//användarnamnanamn
         $tjänstArray['email']=$email;//email
 
@@ -277,14 +278,14 @@
 
     }
 
-    
+
     function hämtaKommentarer($id,$minaKommentarer){
         $index=0;
         $kommentarArrayFull=array();
             for($ii=0;$ii<count($minaKommentarer);$ii++){
                 if($minaKommentarer[$ii]['hierarkiId']==$id){
                     $tempKommentarer=$minaKommentarer;
-                    
+
                     $kommentarArrayFull[$index]=$tempKommentarer[$ii];
                     $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($minaKommentarer[$ii]['id'],$minaKommentarer);
 
@@ -300,8 +301,8 @@
         $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
         $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
 
-        
-        
+
+
 
 
         $kommentarArray=array();//alla kommentarer.
@@ -314,7 +315,7 @@
             $id=$row["id"];//id på det inlagget som vi ar på.
             $blogginlaggArray[$i]=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
 
-            
+
 
 
             /*
@@ -325,7 +326,7 @@
             $index=0;
             while($row = $tempKommentar->fetch_assoc()) {
                 $kommentarArray[$index]=array('KID'=>$row['KID'],'anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
-               
+
                 $index++;
             }
 
@@ -375,11 +376,11 @@
 
 
 
-        
 
 
-        
-        
+
+
+
 
         $ii=0;
         $Bloggarray;//innehåller allt i bloggen.
@@ -416,7 +417,7 @@
             $anamn=$row["anamn"];
             $i++;
         }
-        
+
         $Bloggarray['anamn']=$anamn;//användarnamn
 
 
@@ -433,7 +434,7 @@
 
         if(isset($blogginlaggArray)){
             $Bloggarray['bloggInlagg']=$blogginlaggArray;
-            
+
             $json=json_encode($Bloggarray);
             echo $json;
         }
@@ -450,7 +451,7 @@
 
     }
 
-    
+
 
 
 
@@ -464,5 +465,3 @@
 
 
 ?>
-
-
