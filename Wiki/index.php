@@ -37,7 +37,7 @@
         <br>
         <br>
 
-    </body>
+  
     <br><br>
      <!-- Ta bort en sida -->
 
@@ -67,10 +67,36 @@
 <br>
 <br>
 
-</body>
-<br><br>
+
+
+        <!-- dölj en wiki -->
+
+        <h4>Dölj en wiki</h4>
+
+        <form action="funktioner/redigera.php" method="POST">
+        <input type='hidden' name='funktion' value='hideWiki'/>
+            <select name="wikiId">
+            <?php
+                include("funktioner/dbh.inc.php");
+                $sql = "SELECT * from wiki";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId']. " Dolt: " . $row['dolt'] . "</option>";
+                    }
+                } else { 
+                    echo "0 results"; 
+                }
+                $conn->close();
+                
+            ?>
+            </select>
+            <input type="submit" value="dölj wiki">
+        </form>
+        <br>
+        <br>
 
 
 
-
+    </body>
 </html>
