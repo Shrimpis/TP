@@ -10,7 +10,7 @@ include('dbh.inc.php');
             case 'hideWiki':
                 hideWiki();
                 break;
-            case 'hidewiksid':
+            case 'hidewiksida':
                 hidewikside();
                 break;
             default:
@@ -20,14 +20,70 @@ $conn->close();
 
 
 function hideWiki(){
-    
+    include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
-        $conn->query("UPDATE wiki SET dold=1 WHERE tjanstId = '{$wikiId}'");
-        $conn->query("UPDATE wikisidor SET dold=1 WHERE wikiId = '{$wikiId}'");
+
+        $redan_dolt = $conn->query("SELECT * FROM wiki WHERE tjanstId ='{$wikiId}'");
+
+        $row = $redan_dolt->fetch_assoc();
+        $dolt=$row["dolt"];
+        while($dolt < 2){
+           
+            if($dolt==0){
+                 $conn->query("UPDATE wiki SET dolt=1 WHERE tjanstId = '{$wikiId}'");
+                 
+
+                $hidewikiJson = array(
+                    'code'=> '202',
+                    'status'=> 'Accepted',
+                    'msg' => 'wiki hidden',
+                    'wiki' => array(
+                        'wikiId'=>$wikiId
+                    )
+                );
+                
+                echo json_encode($hidewikiJson);
+
+                break;
+            }
+            else if($dolt==1){
+                $conn->query("UPDATE wiki SET dolt=0 WHERE tjanstId = '{$wikiId}'");
+
+                $unhidewikiJson = array(
+                    'code'=> '202',
+                    'status'=> 'Accepted',
+                    'msg' => 'wiki now public',
+                    'wiki' => array(
+                        'wikiId'=>$wikiId
+                    )
+                );
+                
+                echo json_encode($unhidewikiJson);
+
+               break;
+            }
+            else{
+                $censureraKommentarErrorJson = array(
+                    'code'=> '400',
+                    'status'=> 'Bad Request',
+                    'msg' => 'Could not execute',
+                    'wiki' => array(
+                        'wikiId'=>$wikiId 
+                    )
+                );
+                
+                echo json_encode($hidewikierrorJson);
+
+               break;
+            }
+               
+        }
+
+
         
 
-        header('Refresh: 2; URL = ../index.php');
+        
     $conn->close();
 
 }

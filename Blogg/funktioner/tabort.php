@@ -40,6 +40,8 @@ function tabortBlogg(){
     
         $delKommentar="DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
         $conn->query($delKommentar);
+        $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
+        $conn->query($delLike);
         
     }
     if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
@@ -75,8 +77,9 @@ function tabortInlagg(){
     $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
     $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
     $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
+    $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
 
-    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)){
+    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)&&mysqli_query($conn, $delLike)){
         $tabortInlaggJson = array(
             'code'=> '202',
             'status'=> 'Accepted',

@@ -1,10 +1,10 @@
 <?php 
-$dbServername = '10.130.216.101';
-$dbUsername = 'TheProvider';
-$dbPassword = 'lösenord';
-$dbName = 'TheProvider';
+$dbServername = 'localhost';
+$dbUsername = 'root';
+$dbPassword = '';
+$dbName = 'the_provider';
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-mysqli_set_charset($conn, "utf8mb4");
+mysqlI_set_charset($conn, "utf8mb4");
 
 ?>
