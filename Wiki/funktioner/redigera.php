@@ -31,13 +31,12 @@ function hideWiki(){
 
         $row = $redan_dolt->fetch_assoc();
         $dolt=$row["dolt"];
-        while($dolt < 2){
            
             if($dolt==0){
                  $conn->query("UPDATE wiki SET dolt=1 WHERE tjanstId = '{$wikiId}'");
                  
 
-                $hidewikiJson = array(
+                $hideWikiJson = array(
                     'code'=> '202',
                     'status'=> 'Accepted',
                     'msg' => 'wiki hidden',
@@ -46,14 +45,13 @@ function hideWiki(){
                     )
                 );
                 
-                echo json_encode($hidewikiJson);
+                echo json_encode($hideWikiJson);
 
-                break;
             }
             else if($dolt==1){
                 $conn->query("UPDATE wiki SET dolt=0 WHERE tjanstId = '{$wikiId}'");
 
-                $unhidewikiJson = array(
+                $unhideWikiJson = array(
                     'code'=> '202',
                     'status'=> 'Accepted',
                     'msg' => 'wiki now public',
@@ -62,12 +60,11 @@ function hideWiki(){
                     )
                 );
                 
-                echo json_encode($unhidewikiJson);
+                echo json_encode($unhideWikiJson);
 
-               break;
             }
             else{
-                $censureraKommentarErrorJson = array(
+                $hideWikiJsonError = array(
                     'code'=> '400',
                     'status'=> 'Bad Request',
                     'msg' => 'Could not execute',
@@ -76,12 +73,9 @@ function hideWiki(){
                     )
                 );
                 
-                echo json_encode($hidewikierrorJson);
+                echo json_encode($hideWikiJsonError);
 
-               break;
             }
-               
-        }
         
     $conn->close();
 
