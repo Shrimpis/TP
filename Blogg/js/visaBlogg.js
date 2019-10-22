@@ -1,12 +1,17 @@
 
 let jsonData;
 let index = 0;
+let agare;
+let flagga;
+let bloggTitel;
 
 function createBlogg() {
 
     createTitel();
     createInlagg();
     createSkribent();
+    createFlagga();
+
     
 
 }
@@ -18,7 +23,7 @@ function createSkribent() {
     let element = document.createElement("p");
     let div = document.createElement("div");
 
-    let skribent = document.createTextNode(jsonData.fnamn);
+    let skribent = document.createTextNode("Ägaren: " + agare);
     element.appendChild(skribent);
     div.appendChild(element);
     body.appendChild(div);
@@ -31,10 +36,22 @@ function createTitel() {
     let element = document.createElement("h1");
     let div = document.createElement("div");
 
-    let titel = document.createTextNode(jsonData.titel);
+    let titel = document.createTextNode(bloggTitel);
     element.appendChild(titel);
     div.appendChild(element);
     body.appendChild(div);
+}
+
+function createFlagga(){
+    let body = document.getElementById("flaggaContainer");
+    let element = document.createElement("p");
+    let div = document.createElement("div");
+
+    let flaggor = document.createTextNode("Flaggningar: " + flagga);
+    element.appendChild(flaggor);
+    div.appendChild(element);
+    body.appendChild(div);
+
 }
 
 
@@ -42,25 +59,30 @@ function createInlagg(id) {
     
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
-    console.log(jsonData);
+    //console.log(jsonData);
     inlagg.id = "inlagg" + 1;
     
     let divText = document.createElement("div");
     divText.innerHTML = jsonData.innehall;
     inlagg.appendChild(divText);
-    
     body.appendChild(inlagg);
+
+
+    let element = document.createElement("p");
+    let gillaContainer = document.createElement("div");
+
+    let gillningar = document.createTextNode("Gillningar: " + jsonData.gillningar.length);
+    element.appendChild(gillningar);
+    gillaContainer.appendChild(element);
+    body.appendChild(gillaContainer);
 }
 
 
 
-//Inte dynamisk
+//Dynamisk
 function createKommentar(kom) {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
-
-   
-
             let element = document.createElement("div");
             //element.id = "kommentarKommentar";
             let element2;
@@ -109,18 +131,37 @@ function init() {
             
             jsonData = JSON.parse(this.responseText);
 
-            //console.log(this.responseText);
+            console.log(jsonData);
 
-            //console.log(jsonData.titel);
+            agare = jsonData.anamn;
+            flagga = jsonData.flaggningar;
+            bloggTitel = jsonData.titel
+            next();
+        }
+    };
+    
+    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    xhttp.send();
+}
+
+function next() {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            
+            jsonData = JSON.parse(this.responseText);
+
+            console.log(jsonData);
             createBlogg();
             recurs(jsonData);
         }
     };
-
-
-    xhttp.open("GET", "json/bloggjson.php?anvandare=2&blogg=2&inlagg=2", true);
+    
+    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2&inlagg=2", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
-    }
+}
     
-//document.body.onload = function() {init();};
+    document.body.onload = function() {init();};
