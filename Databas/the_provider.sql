@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 21 okt 2019 kl 12:14
+-- Tid vid skapande: 22 okt 2019 kl 14:30
 -- Serverversion: 10.1.38-MariaDB
 -- PHP-version: 7.3.2
 
@@ -91,6 +91,18 @@ INSERT INTO `anvandarroll` (`id`, `anvandarId`, `rollId`, `tjanstId`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellstruktur `api`
+--
+
+CREATE TABLE `api` (
+  `id` int(11) NOT NULL,
+  `rattighetId` int(11) NOT NULL,
+  `nyckel` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellstruktur `blogg`
 --
 
@@ -129,6 +141,18 @@ INSERT INTO `blogginlagg` (`id`, `bloggId`, `titel`, `innehall`, `datum`) VALUES
 (1, 2, 'En dag i mitt liv', 'blah blah blah blah blah Wraith dödar mig varenda gång blah blah blah', '2019-10-02'),
 (2, 2, 'Fotboll är kul', 'Messi är en fotbollspelare som är okej enligt mig.', '2019-10-09'),
 (3, 1, 'Polkagrisar är inte så värst nyttiga...', 'Varför!?!', '2019-10-15');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellstruktur `deladeevent`
+--
+
+CREATE TABLE `deladeevent` (
+  `id` int(11) NOT NULL,
+  `deladMed` int(11) NOT NULL,
+  `eventId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -265,6 +289,18 @@ INSERT INTO `kalenderevent` (`id`, `kalenderId`, `eventId`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellstruktur `kalendersida`
+--
+
+CREATE TABLE `kalendersida` (
+  `id` int(11) NOT NULL,
+  `anvandarId` int(11) NOT NULL,
+  `kalenderId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellstruktur `kommentar`
 --
 
@@ -390,7 +426,9 @@ INSERT INTO `sidversion` (`id`, `sidId`, `godkantAv`, `bidragsgivare`, `titel`, 
 (2, 4, 11, 5, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-17'),
 (3, 6, 11, 5, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-19'),
 (4, 8, 11, 9, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', '2019-10-24'),
-(5, 1, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-09');
+(5, 1, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-09'),
+(6, 1, 1, 10, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-23'),
+(7, 1, 1, 11, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-29');
 
 -- --------------------------------------------------------
 
@@ -462,14 +500,14 @@ CREATE TABLE `wikisidor` (
 --
 
 INSERT INTO `wikisidor` (`id`, `wikiId`, `godkantAv`, `bidragsgivare`, `titel`, `innehall`, `datum`, `dolt`, `last`) VALUES
-(1, 3, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-09', 0, 0),
-(2, 4, 11, 5, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-10', 0, 0),
-(3, 6, 11, 5, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-18', 0, 0),
-(4, 8, 11, 9, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', '2019-10-15', 0, 0),
-(5, 3, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', '0000-00-00', 0, 0),
-(6, 4, 11, 5, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '0000-00-00', 0, 0),
-(7, 6, 11, 5, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '0000-00-00', 0, 0),
-(8, 8, 11, 9, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', '0000-00-00', 0, 0);
+(1, 3, 1, 11, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-29', 0, 0),
+(2, 4, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
+(3, 6, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
+(4, 8, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
+(5, 3, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
+(6, 4, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
+(7, 6, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
+(8, 8, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -492,8 +530,6 @@ CREATE TABLE `wikiuppdatering` (
 --
 
 INSERT INTO `wikiuppdatering` (`id`, `wikiId`, `sidId`, `bidragsgivare`, `titel`, `innehall`, `datum`) VALUES
-(1, 0, 3, 10, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-23'),
-(2, 0, 4, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25'),
 (3, 0, 6, 11, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-29'),
 (4, 0, 8, 11, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', '2019-10-22');
 
@@ -514,6 +550,12 @@ ALTER TABLE `anvandarroll`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index för tabell `api`
+--
+ALTER TABLE `api`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index för tabell `blogg`
 --
 ALTER TABLE `blogg`
@@ -523,6 +565,12 @@ ALTER TABLE `blogg`
 -- Index för tabell `blogginlagg`
 --
 ALTER TABLE `blogginlagg`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index för tabell `deladeevent`
+--
+ALTER TABLE `deladeevent`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -559,6 +607,12 @@ ALTER TABLE `kalender`
 -- Index för tabell `kalenderevent`
 --
 ALTER TABLE `kalenderevent`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index för tabell `kalendersida`
+--
+ALTER TABLE `kalendersida`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -632,6 +686,12 @@ ALTER TABLE `anvandarroll`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT för tabell `api`
+--
+ALTER TABLE `api`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT för tabell `blogg`
 --
 ALTER TABLE `blogg`
@@ -642,6 +702,12 @@ ALTER TABLE `blogg`
 --
 ALTER TABLE `blogginlagg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT för tabell `deladeevent`
+--
+ALTER TABLE `deladeevent`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT för tabell `event`
@@ -680,6 +746,12 @@ ALTER TABLE `kalenderevent`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT för tabell `kalendersida`
+--
+ALTER TABLE `kalendersida`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT för tabell `kommentar`
 --
 ALTER TABLE `kommentar`
@@ -707,7 +779,7 @@ ALTER TABLE `roll`
 -- AUTO_INCREMENT för tabell `sidversion`
 --
 ALTER TABLE `sidversion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT för tabell `tjanst`
