@@ -1,6 +1,6 @@
 <?php
 
-// Datasanslutning //
+// Databasanslutning //
 
 $dbServername = '10.130.216.101';
 $dbUsername = 'TheProvider';
