@@ -65,36 +65,42 @@ function redigeraBlogg(){
 }
 function privatiseraBlogg(){
     include("dbh.inc.php");
-    if(isset($_POST['bloggid'])&&isset($_POST['privat'])){
-        $Bid = $_POST['bloggid'];
+    if(isset($_POST['bloggId'])&&isset($_POST['privat'])){
+        $bloggId = $_POST['bloggId'];
         $privat = $_POST['privat'];   
     }
-    
-    $uppdateraBlogg = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $Bid ";
-    
-    if(mysqli_query($conn, $uppdateraBlogg)){
 
-        $privatiseraBloggJson = array(
+    $result = $conn->query("SELECT * FROM blogg where id= $bloggId ");
+        $row = $result->fetch_assoc();
+        $tjanstId = $row['tjanstId'];
+        $uppdateraTjanst = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $tjanstId ";
+    
+    
+    
+    
+    if(mysqli_query($conn, $uppdateraTjanst)){
+
+        $privatiseraTjanstJson = array(
             'code'=> '202',
             'status'=> 'Accepted',
-            'msg' => 'Blogg is now private',
-            'blogg' => array(
-                'bloggid'=>$Bid,
+            'msg' => 'tjanst har redigerats',
+            'tjanst' => array(
+                'bloggId'=>$bloggId,
             )
         );
         
-        echo json_encode($privatiseraBloggJson);
+        echo json_encode($privatiseraTjanstJson);
     } else {
-        $privatiseraBloggJsonError = array(
+        $privatiseraTjanstJsonError = array(
             'code'=> '400',
             'status'=> 'Bad Request',
             'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$Bid,
+            'tjanst' => array(
+                'bloggId'=>$bloggId,
             )
         );
         
-        echo json_encode($privatiseraBloggJsonError);
+        echo json_encode($privatiseraTjanstJsonError);
     }
     $conn->close();
 }
