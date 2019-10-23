@@ -16,14 +16,15 @@
 
         <form action="funktioner/skapa.php" method="POST">
         <input type='hidden' name='funktion' value='skapaKalender'/>
-            <select name="wikiId">
+        välj en användare:
+            <select name="anvandarId">
             <?php
                 include("funktioner/dbh.inc.php");
-                $sql = "SELECT * from wiki";
+                $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
+                        echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
                 } else { 
                     echo "0 results"; 
@@ -32,7 +33,11 @@
                 
             ?>
             </select>
-            <input type="submit" value="Ta bort wiki">
+            <br>
+            titel: 
+            <input type="text" name="titel">
+            <br>
+            <input type="submit" value="skapa kalender">
         </form>
         <br>
         <br>
