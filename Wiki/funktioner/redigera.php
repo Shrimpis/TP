@@ -8,10 +8,10 @@ include('dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'hideWiki':
-                hideWiki();
+                doljWiki();
                 break;
             case 'hidewiksida':
-                hidewiksida();
+                doljWikiSida();
                 break;
             case 'godkannUppdatering':
                 godkannUppdatering();
@@ -28,7 +28,7 @@ include('dbh.inc.php');
 $conn->close();
 
 
-function hideWiki(){
+function doljWiki(){
     include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
@@ -85,6 +85,35 @@ function hideWiki(){
         
     $conn->close();
 
+}
+
+function doljWikiSida(){
+
+    include('dbh.inc.php');
+
+    if(isset($_POST['id']) ){
+        $id = $_POST['id'];
+        
+        $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
+
+        $row = $wikiSida->fetch_assoc();
+        $dolj=$row["dolt"];
+
+        if($dolj==0){
+            $sql= "UPDATE wikisidor SET dolt = '1' WHERE id = $id ";
+            $conn->query($sql);
+           
+        }
+        else if($dolj==1){
+            $sql= "UPDATE wikisidor SET dolt = '0' WHERE id = $id ";
+            $conn->query($sql);
+
+        }
+
+    }
+
+    $conn->close();
+    
 }
 
 function godkannUppdatering(){

@@ -9,6 +9,8 @@ if($conn->connect_error){
 
     function doljSida($id, $conn){
 
+        include('dbh.inc.php');
+
         if(isset($_POST['id']) ){
             $id = $_POST['id'];
             
@@ -29,6 +31,8 @@ if($conn->connect_error){
             }
 
         }
+
+        $conn->close();
         
     }
 
