@@ -22,6 +22,9 @@ include('dbh.inc.php');
             case 'lasaWikiSida':
                 lasaSida();
                 break;
+            case 'privatiseraWiki':
+                privatiseraWiki();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
