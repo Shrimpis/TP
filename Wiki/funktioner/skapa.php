@@ -8,9 +8,6 @@ switch($_POST['funktion']){
     case 'skapaWiki':
         skapaWiki();
         break;
-    case 'skapaWikiSida':
-        skapaWikiSida();
-        break;
     case 'skapaWikiUppdatering':
         skapaWikiUppdatering();
         break;
@@ -48,7 +45,7 @@ function skapaWiki(){
 
 }
 
-function skapaUppdatering($conn){
+function skapaWikiUppdatering(){
 
     include('dbh.inc.php');
 
