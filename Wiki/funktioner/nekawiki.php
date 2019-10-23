@@ -4,18 +4,18 @@ nekaUppdatering();
 function nekaUppdatering(){
 
 include("dbh.inc.php");
-if(isset($_POST['sidId'])&&isset($_POST['denier'])){
+if(isset($_POST['sidId'])&&isset($_POST['nekadAv'])){
     $sidID = $_POST['sidId'];
-    $denying_me_the_rank_of_master = $_POST['denier'];
-    $its_reason_then = $_POST['reason'];
+    $nekadAv = $_POST['nekadAv'];
+    $anledning = $_POST['anledning'];
 
     $get_data=$conn->query("SELECT * FROM wikiuppdatering WHERE id='{$sidID}'");
     $row = $get_data->fetch_assoc();
     $datum = date("Y-m-d H:i");
-    $badcontributor = $row['bidragsgivare'];
+    $bidragsgivare = $row['bidragsgivare'];
     $titel = $row['titel'];
     $innehall = $row['innehall'];
-    $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum) VALUES('$sidID', '$badcontributor', '$denying_me_the_rank_of_master', '{$titel}', '{$innehall}', '{$its_reason_then}', '$datum')";
+    $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum) VALUES('$sidID', '$bidragsgivare', '$nekadAv', '{$titel}', '{$innehall}', '{$anledning}', '$datum')";
     $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id='{$sidID}'";
     if(mysqli_query($conn, $nekaUppdatering)&&mysqli_query($conn, $tabortuppdatering)){
     
@@ -23,7 +23,7 @@ if(isset($_POST['sidId'])&&isset($_POST['denier'])){
     $nekadJson = array(
         'code'=> '202',
         'status'=> 'Accepted',
-        'msg' => 'sida nekad',
+        'msg' => 'sida denied',
         'sida' => array(
             'sidId'=>$sidID
         )
