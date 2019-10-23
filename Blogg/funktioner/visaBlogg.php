@@ -12,10 +12,19 @@
                 <div id="flaggaContainer" class="flaggaContainer"></div>
                 <br><br>
                     <div id="bloggInlaggContainer" class="bloggInlaggContainer"></div>
-                        <br><br>
-                            <div id="kommentarContainer" class="kommentarContainer"></div>
         
     </div>
 </body>
-<script src="js/visaBlogg.js"></script>
+
+
+<script>
+
+    let anvandarId = <?php echo $_GET['anvandarId']?>;
+    let bloggId = <?php echo $_GET['bloggId']?>;
+
+    //console.log(bloggId);
+
+</script>
+
+<script src="../js/visaBlogg.js"></script>
 </html>
