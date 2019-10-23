@@ -6,7 +6,7 @@ let flagga;
 let bloggTitel;
 
 
-//Dynamisk
+//Dynamisk. Skriver ut vem som äger bloggen
 function createSkribent() {
     let body = document.getElementById("skribentContainer");
     let element = document.createElement("p");
@@ -19,7 +19,7 @@ function createSkribent() {
 }
 
 
-//Dynamisk
+//Dynamisk. Skapar titeln på bloggen
 function createTitel() {
     let body = document.getElementById("headerContainer");
     let element = document.createElement("h1");
@@ -44,22 +44,31 @@ function createFlagga(){
 }
 
 
+//Skapar inlägg
 function createInlagg() {
 
     let body = document.getElementById("bloggInlaggContainer");
-    let inlagg = document.createElement("div");
-    //console.log(jsonData);
-    inlagg.id = "inlagg" + 1;
 
+    //Skapar titeln till inlägget
+    let titel = document.createElement("h3");
+    let titelContainer = document.createElement("div");
+    let titelValue = document.createTextNode(jsonData.titel);
+    titel.appendChild(titelValue);
+    titelContainer.appendChild(titel);
+    body.appendChild(titelContainer);
+
+    //Skapar innehållet till inlägget
+    let inlagg = document.createElement("div");
+    inlagg.id = "inlagg" + 1;
     let divText = document.createElement("div");
     divText.innerHTML = jsonData.innehall;
     inlagg.appendChild(divText);
     body.appendChild(inlagg);
 
 
+    //skapar gillningar till inlägget
     let element = document.createElement("p");
     let gillaContainer = document.createElement("div");
-
     let gillningar = document.createTextNode("Gillningar: " + jsonData.gillningar.length);
     element.appendChild(gillningar);
     gillaContainer.appendChild(element);
