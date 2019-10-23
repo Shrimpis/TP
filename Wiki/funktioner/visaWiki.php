@@ -12,5 +12,5 @@
         
     </div>
 </body>
-<script src="js/visaWiki.js"></script>
+<script src="../js/visaWiki.js"></script>
 </html>
