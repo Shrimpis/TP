@@ -7,10 +7,10 @@ session_start();
 include('dbh.inc.php');
         switch ($_POST['funktion']) {
 
-            case 'hideWiki':
+            case 'doljWiki':
                 doljWiki();
                 break;
-            case 'hidewiksida':
+            case 'doljwiksida':
                 doljWikiSida();
                 break;
             case 'godkannUppdatering':
