@@ -7,13 +7,14 @@ if($conn->connect_error){
 }
 
 
-if(isset($_POST['id']) ){
-    $id = $_POST['id'];
-    doljSida($id, $conn);
-}
-
-
     function doljSida($id, $conn){
+
+        if(isset($_POST['id']) ){
+            $id = $_POST['id'];
+            
+
+            
+        }
         
         $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
     
