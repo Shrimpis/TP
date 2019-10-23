@@ -2,10 +2,10 @@
 
 // Databasanslutning //
 
-$dbServername = '10.130.216.101';
-$dbUsername = 'TheProvider';
-$dbPassword = 'lösenord';
-$dbName = 'TheProvider';
+$dbServername = 'localhost';
+$dbUsername = 'root';
+$dbPassword = '';
+$dbName = 'the_provider';
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 mysqli_set_charset($conn, "utf8mb4");
@@ -14,22 +14,22 @@ mysqli_set_charset($conn, "utf8mb4");
 // Början av API //
 
 
-if(!empty($_GET['key'])){ // Kollar efter api-nyckeln är tom
+if(!empty($_GET['nyckel'])){ // Kollar efter om api-nyckeln är tom
     
-    $apikey = mysqli_real_escape_string($conn,$_POST['key']);
-    $sql = "SELECT anamn FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$hashed_pass}' AND id='1'";
+    $apikey = mysqli_real_escape_string($conn,$_GET['nyckel']);
+    $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
     
     $result = mysqli_query($conn,$sql);
     $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
 
     if($count == 1){
-        if(!empty($_GET['tjanst'])){ // Kollar efter tjänst är tom
+        if(!empty($_GET['tjanst'])){ // Kollar efter om tjänst är tom
 
             switch ($_GET['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    blogg();
+                    bloggar();
                     break;
                 case 'wiki':
                     wiki();
@@ -52,9 +52,9 @@ if(!empty($_GET['key'])){ // Kollar efter api-nyckeln är tom
         }
     } else {
         $error = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Api key wrong. Contact administrator.'
+            'code'=> '401',
+            'status'=> 'Unauthorized',
+            'msg' => 'Api key is either wrong or does not exist. Contact administrator.'
         );
         
         echo json_encode($error);
@@ -72,16 +72,118 @@ if(!empty($_GET['key'])){ // Kollar efter api-nyckeln är tom
 
 // Tjänster //
 
-function blogg(){
-    echo "blogg";
+function bloggar(){
+    if($_GET['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+        include "Blogg/json/bloggjson.php";
+    } else {
+        if($_GET['typ']=='function'){ // Kollar om typen som anropas är funktion
+            
+            switch ($_GET['handling']) { // Kollar efter vilken handling som anropas
+        
+                case 'skapa':
+                    include "Blogg/funktioner/skapa.php";
+                    break;
+                case 'tabort':
+                    include "Blogg/funktioner/tabort.php";
+                    break;
+                case 'redigera':
+                    include "Blogg/funktioner/redigera.php";
+                    break;
+                default:
+                    $error = array(
+                        'code'=> '400',
+                        'status'=> 'Bad Request',
+                        'msg' => 'You must define a valid action.',
+                    );
+                    echo json_encode($error);
+            }
+
+        } else {
+            $error = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'You must define a valid type.',
+            );
+            
+            echo json_encode($error);
+        }
+    }
 }
 
 function wiki(){
-    echo "wiki";
+    if($_GET['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+        include "Wiki/json/wikijson.php";
+    } else {
+        if($_GET['typ']=='function'){ // Kollar om typen som anropas är funktion
+            
+            switch ($_GET['handling']) { // Kollar efter vilken handling som anropas
+        
+                case 'skapa':
+                    include "Wiki/funktioner/skapa.php";
+                    break;
+                case 'tabort':
+                    include "Wiki/funktioner/tabort.php";
+                    break;
+                case 'redigera':
+                    include "Wiki/funktioner/redigera.php";
+                    break;
+                default:
+                    $error = array(
+                        'code'=> '400',
+                        'status'=> 'Bad Request',
+                        'msg' => 'You must define a valid action.',
+                    );
+                    echo json_encode($error);
+            }
+
+        } else {
+            $error = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'You must define a valid type.',
+            );
+            
+            echo json_encode($error);
+        }
+    }
 }
 
 function kalender(){
-    echo "kalender";
+    if($_GET['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+        include "Kalender/json/kalenderjson.php";
+    } else {
+        if($_GET['typ']=='function'){ // Kollar om typen som anropas är funktion
+            
+            switch ($_GET['handling']) { // Kollar efter vilken handling som anropas
+        
+                case 'skapa':
+                    include "Kalender/funktioner/skapa.php";
+                    break;
+                case 'tabort':
+                    include "Kalender/funktioner/tabort.php";
+                    break;
+                case 'redigera':
+                    include "Kalender/funktioner/redigera.php";
+                    break;
+                default:
+                    $error = array(
+                        'code'=> '400',
+                        'status'=> 'Bad Request',
+                        'msg' => 'You must define a valid action.',
+                    );
+                    echo json_encode($error);
+            }
+
+        } else {
+            $error = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'You must define a valid type.',
+            );
+            
+            echo json_encode($error);
+        }
+    }
 }
 
 function error(){
