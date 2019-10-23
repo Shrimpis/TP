@@ -6,32 +6,33 @@ if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
 
+    function lasaSida(){
 
-if(isset($_POST['id']) ){
-    $id = $_POST['id'];
-    lasaSida($id, $conn);
-}
+        include('dbh.inc.php');
 
+        if(isset($_POST['id']) ){
+            $id = $_POST['id'];
 
-    function lasaSida($id, $conn){
-        
-        $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
+            $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
     
             $row = $wikiSida->fetch_assoc();
-            $låsa=$row["last"];
+            $lasa=$row["last"];
 
-            if($låsa==0){
+            if($lasa==0){
                 $sql= "UPDATE wikisidor SET wikisidor.last = '1' WHERE id = $id ";
                 $conn->query($sql);
-
-             
                
             }
-            else if($låsa==1){
+            else if($lasa==1){
                 $sql= "UPDATE wikisidor SET wikisidor.last = '0' WHERE id = $id ";
                 $conn->query($sql);
 
             }
+
+        }
+
+        $conn->close();
+        
     }
 
 ?>
