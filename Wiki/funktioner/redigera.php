@@ -19,6 +19,9 @@ include('dbh.inc.php');
             case 'nekaUppdatering':
                 nekaUppdatering();
                 break;
+            case 'lasaWikiSida':
+                lasaSida();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
