@@ -44,7 +44,7 @@ function createFlagga(){
 }
 
 
-function createInlagg(id) {
+function createInlagg() {
 
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
@@ -72,18 +72,21 @@ function createInlagg(id) {
 function createKommentar(kom) {
     let body = document.getElementById("bloggInlaggContainer");
     let kommentar = document.createElement("div");
-            let element = document.createElement("div");
-            //element.id = "kommentarKommentar";
-            let element2;
+    let element = document.createElement("div");
+    let element2;
 
-            element2 = document.createElement("p");
-            element2.innerHTML = kom.namn + ": " + kom.innehall + " : " + kom.hierarkiId;
-            element.appendChild(element2);
-
-            kommentar.appendChild(element);
-
-
+    element2 = document.createElement("p");
+    element2.innerHTML = kom.namn + ": " + kom.innehall + " : " + kom.hierarkiId;
+    element.appendChild(element2);
+    kommentar.appendChild(element);
     body.appendChild(kommentar);
+
+    let element3 = document.createElement("p");
+    let flaggaContainer = document.createElement("div");
+    element3.innerHTML = "Flaggningar: " + kom.flaggningar;
+    flaggaContainer.appendChild(element3);
+    body.appendChild(flaggaContainer);
+
 }
 
 
