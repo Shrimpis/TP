@@ -16,6 +16,9 @@ include('dbh.inc.php');
             case 'godkannUppdatering':
                 godkannUppdatering();
                 break;
+            case 'nekaUppdatering':
+                nekaUppdatering();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
