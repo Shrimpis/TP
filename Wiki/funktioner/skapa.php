@@ -14,6 +14,9 @@ switch($_POST['funktion']){
     case 'skapaWikiUppdatering':
         skapaWikiUppdatering();
         break;
+    case 'sokFalt':
+        sokFalt();
+        break;
     default:
         echo 'ERROR: Något gick fel med parametrarna i eran begäran.';
 
