@@ -43,22 +43,21 @@
             $wikiId;
             $tjanstId;//id på tjänsten
             $anamn;//användarnamn
-            while($row1=$wiki->fetch_assoc()){
+            while($row1=$wiki->fetch_assoc()){//hittar viken tjänst som sitter ihop med 
                 $tjanstId=$row1['tjanstId'];
                 $wikiId=$row1['id'];
             }
-            while($row3=$anvandare->fetch_assoc()){
+            while($row3=$anvandare->fetch_assoc()){//hämtar användarnamnet på den som har wikin.
                 $anamn=$row3['anamn'];
             }
-            if($tjanstId==$row['id']){
-                $tjanstArray['wiki']=array('titel'=>$row['titel'],'privat'=>$row['privat'],'anvandarnamn'=>$anamn);
+
+            if($tjanstId==$row['id']){//om wikin finns i tjänsten.
+                $tjanstArray['wiki']=array('titel'=>$row['titel'],'privat'=>$row['privat'],'anvandarnamn'=>$anamn);// hämtar wikin från tjänsten.
                 $wikisidor = $db->query('select * from wikisidor where wikiId='.$wikiId);
                 $id=0;
-
-
                 
 
-                while($row4=$wikisidor->fetch_assoc()){
+                while($row4=$wikisidor->fetch_assoc()){//håämtar saker från alla wikisidor.
                     $tjanstArray['wiki']['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],'datum'=>$row4['datum']);
                     
                     $bidragsgivareNamn = $db->query('select * from anvandare where id='.$row4['bidragsgivare']);
