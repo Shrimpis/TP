@@ -8,14 +8,16 @@ $dbName = 'the_provider';
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 mysqli_set_charset($conn, "utf8mb4");
 
-if(isset($_POST['anvandarId']) && isset($_POST['titel'])){
-    $userid = $_POST['anvandarId'];
-    $title = $_POST['titel'];
-    skapaWiki($userid, $title, $conn);
-}
 
+function skapaWiki(){
 
-function skapaWiki($userid, $title, $conn){
+    include('dbh.inc.php');
+
+    if(isset($_POST['anvandarId']) && isset($_POST['titel'])){
+        $userid = $_POST['anvandarId'];
+        $title = $_POST['titel'];
+    
+    }
 
     $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
     mysqli_query($conn, $skapaTjanst);
