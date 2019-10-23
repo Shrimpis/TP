@@ -92,14 +92,14 @@
             <form action="funktioner/redigera.php" method="post">
             <input type='hidden' name='funktion' value='privatiseraBlogg'/>
             Välj en blogg:
-                <select name="bloggid" id="bloggid">
+                <select name="bloggId" id="bloggId">
                     <?php 
                         include('funktioner/dbh.inc.php');
-                        $sql = "SELECT id, titel, anvandarId, privat FROM tjanst";
+                        $sql = "SELECT * FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ".$row["titel"]." | "." privat: ".$row["privat"]."</option>";
+                            echo "<option value='". $row["id"] ."'>Blogg: ".$row["titel"]." | privat: ".$row["privat"]."</option>";
                         }
                         echo "</table>";
                         } else { echo "0 results"; }

@@ -10,7 +10,9 @@ include('dbh.inc.php');
             case 'skapaKalender':
                 skapaKalender();
                 break;
-
+            case 'skapaKalendersida':
+                skapaKalendersida();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -70,4 +72,38 @@ function skapaKalender(){
         
     $conn->close();
 
+}
+function skapaKalendersida(){
+    include('dbh.inc.php');
+    if(isset($_POST['anvandarId'])&&isset($_POST['kalenderId'])){
+    $anvandarId = $_POST['anvandarId'];
+    $kalenderId = $_POST['kalenderId'];
+    }
+    $skapasida = "INSERT INTO kalendersida(anvandarId,kalenderId) VALUES($anvandarId,$kalenderId)";
+    if(mysqli_query($conn, $skapasida)){
+        $skapaKalendersidaJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'kalendersida skapad',
+            'kalendersida' => array(
+                'anvandarId'=>$anvandarId,
+                'kalenderId'=>$kalenderId
+            )
+        );
+        
+        echo json_encode($skapaKalendersidaJson);
+    }
+    else{
+        $skapaKalendersidaerrorJson = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'kalendersida' => array(
+                'anvandarId'=>$anvandarId,
+                'kalenderId'=>$kalenderId
+            )
+        );
+        
+        echo json_encode($skapaKalendersidaerrorJson);
+    }
 }
