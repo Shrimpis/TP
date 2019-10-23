@@ -5,21 +5,6 @@ let agare;
 let flagga;
 let bloggTitel;
 
-function createBlogg() {
-
-    createTitel();
-    createInlagg();
-    createSkribent();
-<<<<<<< HEAD
-
-=======
-    createFlagga();
-
-    
->>>>>>> master
-
-}
-
 
 //Dynamisk
 function createSkribent() {
@@ -59,7 +44,7 @@ function createFlagga(){
 }
 
 
-function createInlagg(id) {
+function createInlagg() {
 
     let body = document.getElementById("bloggInlaggContainer");
     let inlagg = document.createElement("div");
@@ -69,10 +54,6 @@ function createInlagg(id) {
     let divText = document.createElement("div");
     divText.innerHTML = jsonData.innehall;
     inlagg.appendChild(divText);
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     body.appendChild(inlagg);
 
 
@@ -87,28 +68,25 @@ function createInlagg(id) {
 
 
 
-//Dynamisk
+//Dynamisk. Skapar kommentarer.
 function createKommentar(kom) {
-    let body = document.getElementById("kommentarContainer");
+    let body = document.getElementById("bloggInlaggContainer");
     let kommentar = document.createElement("div");
-<<<<<<< HEAD
+    let element = document.createElement("div");
+    let element2;
 
-
-
-=======
->>>>>>> master
-            let element = document.createElement("div");
-            //element.id = "kommentarKommentar";
-            let element2;
-
-            element2 = document.createElement("p");
-            element2.innerHTML = kom.namn + ": " + kom.innehall + " : " + kom.hierarkiId;
-            element.appendChild(element2);
-
-            kommentar.appendChild(element);
-
-
+    element2 = document.createElement("p");
+    element2.innerHTML = kom.namn + ": " + kom.innehall + " : " + kom.hierarkiId;
+    element.appendChild(element2);
+    kommentar.appendChild(element);
     body.appendChild(kommentar);
+
+    let element3 = document.createElement("p");
+    let flaggaContainer = document.createElement("div");
+    element3.innerHTML = "Flaggningar: " + kom.flaggningar;
+    flaggaContainer.appendChild(element3);
+    body.appendChild(flaggaContainer);
+
 }
 
 
@@ -150,41 +128,37 @@ function init() {
             agare = jsonData.anamn;
             flagga = jsonData.flaggningar;
             bloggTitel = jsonData.titel
-            next();
+            createSkribent();
+            createFlagga();
+            createTitel();
+            for(let i = 1; i < jsonData.bloggInlagg.length; i++) {
+                next(i);
+            }
         }
     };
-    
-    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2", true);
+    xhttp.open("GET", "../json/bloggjson.php?anvandare=" + anvandarId + "&blogg=" + bloggId, true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
 }
 
-function next() {
+function next(id) {
     let xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            
+
             jsonData = JSON.parse(this.responseText);
-
-<<<<<<< HEAD
-    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2", true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhttp.send();
-    }
-
-//document.body.onload = function() {init();};
-=======
+            
             console.log(jsonData);
-            createBlogg();
+            createInlagg();
+            index = 0;
             recurs(jsonData);
         }
     };
     
-    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2&inlagg=2", true);
+    xhttp.open("GET", "../json/bloggjson.php?anvandare=" + anvandarId + "&blogg=" + bloggId + "&inlagg=" + id, true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
 }
     
     document.body.onload = function() {init();};
->>>>>>> master

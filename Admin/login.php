@@ -6,12 +6,13 @@
       
         $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
         $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
+        echo $anamn . " : ". $losenord;
       
         $Blowfish_Pre = '$2a$10$';
         $Blowfish_End = '$';
         $hashed_pass = crypt($losenord, $Blowfish_Pre . $salt . $Blowfish_End);
       
-        $sql = "SELECT anamn FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$hashed_pass}' AND id='1'";
+        $sql = "SELECT anamn FROM anvandare WHERE anamn = '{$anamn}' AND losenord = '{$losenord}' AND id='1'";
         $result = mysqli_query($conn,$sql);
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       
