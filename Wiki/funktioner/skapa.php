@@ -104,7 +104,7 @@ function sokFalt(){
     
     
         }else if($count == 0){
-            $output = "There was no search results!";
+            echo "There was no search results!";
         }
 
     } 
