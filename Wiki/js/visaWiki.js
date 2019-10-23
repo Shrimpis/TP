@@ -82,7 +82,7 @@ function init() {
         }
     };
 
-    xhttp.open("GET", "json/wikijson.php?anvandare=1", true);
+    xhttp.open("GET", "../json/wikijson.php?anvandare=" + anvandarId , true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
     }
