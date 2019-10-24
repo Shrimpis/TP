@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Värd: 127.0.0.1
--- Tid vid skapande: 22 okt 2019 kl 14:30
--- Serverversion: 10.1.38-MariaDB
--- PHP-version: 7.3.2
+-- Värd: localhost
+-- Tid vid skapande: 24 okt 2019 kl 14:54
+-- Serverversion: 10.4.8-MariaDB
+-- PHP-version: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databas: `the_provider`
+-- Databas: `TheProvider`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `anvandare` (
   `salt` varchar(30) DEFAULT NULL,
   `anamn` varchar(25) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `aktiv` tinyint(1) NOT NULL DEFAULT '1'
+  `aktiv` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -79,7 +79,7 @@ INSERT INTO `anvandarroll` (`id`, `anvandarId`, `rollId`, `tjanstId`) VALUES
 (3, 3, 2, 2),
 (4, 4, 4, 2),
 (5, 5, 5, 2),
-(6, 6, 2, 2),
+(6, 6, 6, 2),
 (7, 7, 4, 1),
 (8, 8, 3, 4),
 (9, 9, 4, 2),
@@ -97,8 +97,16 @@ INSERT INTO `anvandarroll` (`id`, `anvandarId`, `rollId`, `tjanstId`) VALUES
 CREATE TABLE `api` (
   `id` int(11) NOT NULL,
   `rattighetId` int(11) NOT NULL,
-  `nyckel` varchar(10) NOT NULL
+  `nyckel` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumpning av Data i tabell `api`
+--
+
+INSERT INTO `api` (`id`, `rattighetId`, `nyckel`) VALUES
+(1, 1, 'JIOAJWWNPA259FB2'),
+(2, 2, '436jqgf8h28IWGui');
 
 -- --------------------------------------------------------
 
@@ -141,18 +149,6 @@ INSERT INTO `blogginlagg` (`id`, `bloggId`, `titel`, `innehall`, `datum`) VALUES
 (1, 2, 'En dag i mitt liv', 'blah blah blah blah blah Wraith dödar mig varenda gång blah blah blah', '2019-10-02'),
 (2, 2, 'Fotboll är kul', 'Messi är en fotbollspelare som är okej enligt mig.', '2019-10-09'),
 (3, 1, 'Polkagrisar är inte så värst nyttiga...', 'Varför!?!', '2019-10-15');
-
--- --------------------------------------------------------
-
---
--- Tabellstruktur `deladeevent`
---
-
-CREATE TABLE `deladeevent` (
-  `id` int(11) NOT NULL,
-  `deladMed` int(11) NOT NULL,
-  `eventId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -220,6 +216,15 @@ CREATE TABLE `flaggadkommentar` (
   `anvandarId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumpning av Data i tabell `flaggadkommentar`
+--
+
+INSERT INTO `flaggadkommentar` (`id`, `kommentarId`, `anvandarId`) VALUES
+(1, 3, 1),
+(2, 4, 1),
+(3, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -271,20 +276,22 @@ INSERT INTO `kalender` (`id`, `tjanstId`) VALUES
 CREATE TABLE `kalenderevent` (
   `id` int(11) NOT NULL,
   `kalenderId` int(11) NOT NULL,
-  `eventId` int(11) NOT NULL
+  `eventId` int(11) NOT NULL,
+  `anledning` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumpning av Data i tabell `kalenderevent`
 --
 
-INSERT INTO `kalenderevent` (`id`, `kalenderId`, `eventId`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 2, 3),
-(4, 1, 4),
-(5, 2, 5),
-(6, 1, 6);
+INSERT INTO `kalenderevent` (`id`, `kalenderId`, `eventId`, `anledning`, `status`) VALUES
+(1, 1, 1, '', 0),
+(2, 1, 2, '', 0),
+(3, 2, 3, '', 0),
+(4, 1, 4, '', 0),
+(5, 2, 5, '', 0),
+(6, 1, 6, '', 0);
 
 -- --------------------------------------------------------
 
@@ -297,6 +304,16 @@ CREATE TABLE `kalendersida` (
   `anvandarId` int(11) NOT NULL,
   `kalenderId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumpning av Data i tabell `kalendersida`
+--
+
+INSERT INTO `kalendersida` (`id`, `anvandarId`, `kalenderId`) VALUES
+(1, 1, 1),
+(2, 6, 1),
+(3, 12, 2),
+(4, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -344,7 +361,7 @@ CREATE TABLE `kundrattigheter` (
 
 INSERT INTO `kundrattigheter` (`id`, `tjanst`, `superadmin`, `kontoId`) VALUES
 (1, 1, 1, 1),
-(2, 0, 0, 0),
+(2, 1, 1, 13),
 (3, 0, 0, 0),
 (4, 0, 0, 0),
 (5, 0, 0, 0);
@@ -568,12 +585,6 @@ ALTER TABLE `blogginlagg`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index för tabell `deladeevent`
---
-ALTER TABLE `deladeevent`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index för tabell `event`
 --
 ALTER TABLE `event`
@@ -689,7 +700,7 @@ ALTER TABLE `anvandarroll`
 -- AUTO_INCREMENT för tabell `api`
 --
 ALTER TABLE `api`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT för tabell `blogg`
@@ -702,12 +713,6 @@ ALTER TABLE `blogg`
 --
 ALTER TABLE `blogginlagg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT för tabell `deladeevent`
---
-ALTER TABLE `deladeevent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT för tabell `event`
@@ -725,7 +730,7 @@ ALTER TABLE `flaggadblogg`
 -- AUTO_INCREMENT för tabell `flaggadkommentar`
 --
 ALTER TABLE `flaggadkommentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT för tabell `gillningar`
@@ -749,7 +754,7 @@ ALTER TABLE `kalenderevent`
 -- AUTO_INCREMENT för tabell `kalendersida`
 --
 ALTER TABLE `kalendersida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT för tabell `kommentar`
