@@ -1,6 +1,6 @@
 <?php
 
-    $db=new mysqli("localhost","root","","the_provider");
+    $db=new mysqli("localhost","root","","TheProvider");
     $db->set_charset("utf8");
 
     if($db->connect_error){
