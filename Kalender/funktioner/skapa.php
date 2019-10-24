@@ -13,6 +13,9 @@ include('dbh.inc.php');
             case 'skapaKalendersida':
                 skapaKalendersida();
                 break;
+            case 'skapaKalenderevent':
+                skapaKalenderevent();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -105,5 +108,46 @@ function skapaKalendersida(){
         );
         
         echo json_encode($skapaKalendersidaerrorJson);
+    }
+}
+
+function skapaKalenderevent(){
+    include('dbh.inc.php');
+    if(isset($_POST['titel'])&&isset($_POST['startTid'])&&isset($_POST['slutTid'])&&isset($_POST['anvandarId'])&&isset($_POST['innehall'])&&isset($_POST['kalenderId'])){
+    $titel = $_POST['titel'];
+    $innehall = $_POST['innehall'];
+    $start = $_POST['startTid'];
+    $anvandarId = $_POST['anvandarId'];
+    $slut = $_POST['slutTid'];
+    $kalenderId = $_POST['kalenderId'];
+    }
+$skapaevent = "INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')";
+    if(mysqli_query($conn, $skapaevent)){
+        echo $innehall."<br>";
+        $skapaKalendereventJson = array(
+            'kod'=> '202',
+            'status'=> 'Accepterat',
+            'meddelande' => 'kalenderevent skapad',
+            'kalenderevent' => array(
+                'anvandarId'=>$anvandarId,
+                'titel'=>$titel
+            )
+        );
+        
+        echo json_encode($skapaKalendereventJson);
+    }
+    else{
+        echo $skapaevent."<br>";
+        $skapaKalendereventerrorJson = array(
+            'kod'=> '400',
+            'status'=> 'felaktig forfragan',
+            'meddelande' => 'kunde inte exekvera',
+            'kalenderevent' => array(
+                'anvandarId'=>$anvandarId,
+                'titel'=>$titel
+            )
+        );
+        
+        echo json_encode($skapaKalendereventerrorJson);
     }
 }
