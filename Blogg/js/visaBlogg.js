@@ -57,6 +57,14 @@ function createInlagg() {
     titelContainer.appendChild(titel);
     body.appendChild(titelContainer);
 
+    //Skapar datumet till inlägget
+    let datumElement = document.createElement("h");
+    let datumContainer = document.createElement("div");
+    let datumValue = document.createTextNode(jsonData.datum);
+    datumElement.appendChild(datumValue);
+    datumContainer.appendChild(datumElement);
+    body.appendChild(datumContainer);
+
     //Skapar innehållet till inlägget
     let inlagg = document.createElement("div");
     inlagg.id = "inlagg" + 1;
