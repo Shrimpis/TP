@@ -143,6 +143,30 @@
         </form>
         <br>
         <br>
+        <!-- tabort kalender -->
 
+        <h4>Tabort kalender</h4>
+
+        <form action="funktioner/tabort.php" method="POST">
+        <input type='hidden' name='funktion' value='tabortKalender'/>
+        kalender: 
+            <select name="kalenderId">
+            <?php
+                include("funktioner/dbh.inc.php");
+                $sql = "SELECT * from kalender";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
+                    }
+                } else { 
+                    echo "0 results"; 
+                }
+                $conn->close();
+                
+            ?>
+            </select>
+            <input type="submit" value="ta bort kalender">
+        </form>
     </body>
 </html>
