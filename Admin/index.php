@@ -193,13 +193,31 @@ if(!isset($_SESSION['login_user'])){
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Kundtjänster</h6>
-                  <div class="dropdown no-arrow">
+                  <div class="d-flex flex-row-reverse bd-highlight">
+                    <div class="p-2 bd-highlight" style="margin-bottom:-10px;">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Att Visa</label>
+                        </div>
+                        <form action="index.php" method="get">
+                          <select name="limit" class="custom-select" id="inputGroupSelect01" onchange='if(this.value != 0) { this.form.submit(); }'>
+                            <option selected>Välj...</option>
+                            <option value="1">1</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                          </select>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
 
                   <?php include 'includes/kundtabell.php' ?>
+
+                  <?php include 'includes/pagination.php' ?>
 
                 </div>
               </div>

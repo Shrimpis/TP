@@ -1,7 +1,29 @@
 <?php 
     include('funktioner/dbh.inc.php');
-    $sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter";
-    $result = $conn->query($sql);
+
+    $total_pages = $conn->query('SELECT COUNT(*) FROM kundrattigheter')->fetch_row()[0];
+
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+
+    if(isset($_GET['limit'])){
+        $num_results_on_page = $_GET['limit'];
+    } else {
+        $num_results_on_page = 5; //Kundgräns på hur många kunder som ska visas i vyn.
+    }
+
+
+    //$sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?";
+    //$result = $conn->query($sql);
+
+    if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?')){
+        $calc_page = ($page - 1) * $num_results_on_page;
+        $stmt->bind_param('ii', $calc_page, $num_results_on_page);
+        $stmt->execute(); 
+        // Get the results...
+        $result = $stmt->get_result();
+        $stmt->close();
+    }
+
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo 
@@ -89,9 +111,9 @@
                             <input type='text' value='"; 
                             
                             
-                            $anamn = "SELECT anvandare.id, anvandare.anamn, kundrattigheter.id FROM anvandare INNER JOIN kundrattigheter ON anvandare.id=kundrattigheter.kontoID WHERE kundrattigheter.id=". $row["id"] ."";
+                            $anamn = "SELECT anvandare.id, anvandare.anamn, kundrattigheter.id FROM anvandare INNER JOIN kundrattigheter ON anvandare.id=kundrattigheter.kontoID WHERE kundrattigheter.id=". $row["kontoID"] ."";
                             $result5 = $conn->query($anamn);
-                            while($row5 = $result->fetch_assoc()) {
+                            while($row5 = $result5->fetch_assoc()) {
                                 echo $row5["anamn"]; //TODO: fixa så att användarnamnet visas.
                             }
                             
@@ -201,6 +223,14 @@
 
     }
     echo "</table>";
-    } else { echo "0 results"; }
+    
+    } else { 
+        echo 
+        "
+        <div class='alert alert-primary' style='text-align:center;' role='alert'>
+            Inga resultat på sida ".$_GET['page']."
+        </div>
+        ";
+    }
     $conn->close();
 ?>
