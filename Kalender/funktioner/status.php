@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 include("./dbh.inc.php");
-
+$_SESSION["UID"] = 1;
 if (!$conn) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
     echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
@@ -12,9 +12,17 @@ mysqlI_set_charset($conn, "utf8mb4");
 
 
 
-if(isset($_GET["kalenderid"])){
+if(isset($_SESSION["UID"])){
 
-$id = $_GET["kalenderid"];
+$sql = "SELECT *from kalendersida where anvandarId=".$_SESSION["UID"];
+
+if(mysqli_query($conn, $sql)){
+  $result = $conn->query($sql);
+}
+
+$kalender = $result->fetch_assoc();
+
+$id = $kalender["kalenderId"];
 
   $sql = "SELECT * FROM kalenderevent inner join event on event.ID=kalenderevent.eventId inner join anvandare on event.skapadAv=anvandare.Id where kalenderId = $id AND status=0";
   if(mysqli_query($conn, $sql)){
@@ -27,4 +35,3 @@ $id = $_GET["kalenderid"];
   }
 
 }
-?>
