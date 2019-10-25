@@ -158,7 +158,7 @@
         <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortKalender'/>
         kalender:
-            <select name="kalenderId">
+            <select name="tjanstId">
             <?php
                 include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
