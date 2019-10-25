@@ -4,23 +4,21 @@
 
 session_start();
 
-include('dbh.inc.php');
+include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortWiki':
-                tabortWiki();
+                tabortWiki($conn);
                 break;
             case 'tabortWikiSida':
-                tabortWikiSida();
+                tabortWikiSida($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-$conn->close();
 
-
-function tabortWiki(){
-    include('dbh.inc.php');
+function tabortWiki($conn){
+    //-include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
     $delTjanst = "DELETE FROM tjanst WHERE id='{$wikiId}'";
@@ -39,8 +37,8 @@ function tabortWiki(){
 
 }
 
-function tabortWikiSida(){
-    include('dbh.inc.php');
+function tabortWikiSida($conn){
+    //-include('dbh.inc.php');
 
     $sidID = $_POST["sidId"];
 

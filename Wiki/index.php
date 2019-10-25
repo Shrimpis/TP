@@ -1,5 +1,5 @@
 <?php 
-    include("funktioner/dbh.inc.php");
+    include("../Databas/dbh.inc.php");
     
     session_start();
 ?>
@@ -18,7 +18,8 @@
         <input type='hidden' name='funktion' value='tabortWiki'/>
             <select name="wikiId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from wiki";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -48,7 +49,8 @@
 
             <select name="sidId">
                 <?php
-                    include("funktioner/dbh.inc.php");
+                $conn;
+                    //-include("funktioner/dbh.inc.php");
                     $sql = "SELECT * FROM wikisidor";
                     $result = $conn->query($sql);
 
@@ -77,7 +79,8 @@
         <input type='hidden' name='funktion' value='hideWiki'/>
             <select name="wikiId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from wiki";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -104,7 +107,8 @@
         <input type='hidden' name='funktion' value='nekaUppdatering'/>
             <select name="sidId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from wikiuppdatering";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -123,7 +127,8 @@
             <br>
             <select name="denier">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {

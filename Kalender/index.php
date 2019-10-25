@@ -1,6 +1,12 @@
+<<<<<<< HEAD
+<?php 
+    //-include("funktioner/dbh.inc.php");
+    include("../../Databas/dbh.inc.php");
+=======
 <?php
     include("funktioner/dbh.inc.php");
 
+>>>>>>> 1cf2a235d4fbd9944df7216aaed54e49750d3d81
     session_start();
 ?>
 <!DOCTYPE html>
@@ -19,7 +25,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -51,7 +58,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -69,7 +77,8 @@
             kalender:
             <select name="kalenderId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -98,7 +107,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -116,7 +126,8 @@
             kalender:
             <select name="kalenderId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {

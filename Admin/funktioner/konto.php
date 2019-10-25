@@ -1,25 +1,23 @@
 <?php 
 
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
         switch ($_POST['funktion']) {
             case 'avslutaKonto':
-                avslutaKonto();
+                avslutaKonto($conn);
                 break;
             case 'aktiveraKonto':
-                aktiveraKonto();
+                aktiveraKonto($conn);
                 break;
             case 'deaktiveraKonto':
-                deaktiveraKonto();
+                deaktiveraKonto($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
     
- 
-$conn->close();
-
-function avslutaKonto(){
-    include("dbh.inc.php");
+  
+function avslutaKonto($conn){
+    //-include("../../Databas/dbh.inc.php");
 
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
 
@@ -34,8 +32,8 @@ function avslutaKonto(){
     $conn->close();
 }
 
-function aktiveraKonto(){
-    include("dbh.inc.php");
+function aktiveraKonto($conn){
+    //-include("../../Databas/dbh.inc.php");
 
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
     $aktiv = '1';
@@ -50,8 +48,8 @@ function aktiveraKonto(){
     $conn->close();
 }
 
-function deaktiveraKonto(){
-    include("dbh.inc.php");
+function deaktiveraKonto($conn){
+    //-include("../../Databas/dbh.inc.php");
 
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
     $aktiv = '0';

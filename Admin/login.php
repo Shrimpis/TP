@@ -1,5 +1,5 @@
 <?php 
-    include ('includes/dbh.inc.php');
+    include("../Databas/dbh.inc.php");
     session_start();
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
