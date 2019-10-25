@@ -3,7 +3,7 @@
 session_start();
 include('./Databas/dbh.inc.php');
 
-switch($_GET['funktion']){
+switch($_POST['funktion']){
 
     case 'skapaWiki':
         skapaWiki($conn);
@@ -24,9 +24,9 @@ function skapaWiki($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_GET['anvandarId']) && isset($_GET['titel'])){
-        $userid = $_GET['anvandarId'];
-        $title = $_GET['titel'];
+    if(isset($_POST['anvandarId']) && isset($_POST['titel'])){
+        $userid = $_POST['anvandarId'];
+        $title = $_POST['titel'];
         //var_dump($conn);
         $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
         mysqli_query($conn, $skapaTjanst);
@@ -48,14 +48,14 @@ function skapaWikiUppdatering($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_GET['wikiId']) && isset($_GET['sidId']) && isset($_GET['bidragsgivare']) &&isset($_GET['titel']) &&isset($_GET['innehall'])){
+    if(isset($_POST['wikiId']) && isset($_POST['sidId']) && isset($_POST['bidragsgivare']) &&isset($_POST['titel']) &&isset($_POST['innehall'])){
 
         //var_dump($conn);
-        $wikiId= $_GET['wikiId'];
-        $sidId= $_GET['sidId'];
-        $bidragsGivare= $_GET['bidragsgivare'];
-        $titel= $_GET['titel'];
-        $innehall= $_GET['innehall'];
+        $wikiId= $_POST['wikiId'];
+        $sidId= $_POST['sidId'];
+        $bidragsGivare= $_POST['bidragsgivare'];
+        $titel= $_POST['titel'];
+        $innehall= $_POST['innehall'];
 
         $anvandarroll = $conn->query('select * from anvandarroll where anvandarId='.$bidragsGivare);
         if($sidId!=""){
@@ -95,9 +95,9 @@ function sokFalt($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_GET['sok'])){
+    if(isset($_POST['sok'])){
           
-        $sok= $_GET['sok'];
+        $sok= $_POST['sok'];
     
         $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE titel LIKE '%$sok%'") or die ("Could not search");
         if($count = mysqli_num_rows($query)){

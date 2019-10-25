@@ -6,7 +6,7 @@ session_start();
 
 include('./Databas/dbh.inc.php');   
 
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
 
             case 'doljWiki':
                 doljWiki($conn);
@@ -33,7 +33,7 @@ include('./Databas/dbh.inc.php');
 
 function doljWiki($conn){
     //-include('dbh.inc.php');
-    $wikiId = $_GET['wikiId'];
+    $wikiId = $_POST['wikiId'];
 
 
         $redan_dolt = $conn->query("SELECT * FROM wiki WHERE id ='{$wikiId}'");
@@ -95,8 +95,8 @@ function doljWikiSida($conn){
     //-include('dbh.inc.php');
 
     var_dump($conn);
-    if(isset($_GET['id']) ){
-        $id = $_GET['id'];
+    if(isset($_POST['id']) ){
+        $id = $_POST['id'];
         
         $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
 
@@ -124,10 +124,10 @@ function godkannUppdatering($conn){
 
     
     //-include("dbh.inc.php");
-    if(isset($_GET['uppdateringid']) && isset($_GET['sidId']) && isset($_GET['godkantAv'])){
-        $uppdateringId = $_GET['uppdateringid'];
-        $sidId = $_GET['sidId'];
-        $godkantAv = $_GET['godkantAv'];
+    if(isset($_POST['uppdateringid']) && isset($_POST['sidId']) && isset($_POST['godkantAv'])){
+        $uppdateringId = $_POST['uppdateringid'];
+        $sidId = $_POST['sidId'];
+        $godkantAv = $_POST['godkantAv'];
 
         if($sidId != 0){
             
@@ -260,11 +260,11 @@ function godkannUppdatering($conn){
 function nekaUppdatering($conn){
 
     //-include("dbh.inc.php");
-    if(isset($_GET['id'])&&isset($_GET['nekadAv'])){
-        $id = $_GET['id'];
-        $nekadAv = $_GET['nekadAv'];
-        if(isset($_GET['anledning'])){
-            $anledning = $_GET['anledning'];
+    if(isset($_POST['id'])&&isset($_POST['nekadAv'])){
+        $id = $_POST['id'];
+        $nekadAv = $_POST['nekadAv'];
+        if(isset($_POST['anledning'])){
+            $anledning = $_POST['anledning'];
         }
         else{
             $anledning = "angavs ej";
@@ -320,8 +320,8 @@ function nekaUppdatering($conn){
 
         //-include('dbh.inc.php');
 
-        if(isset($_GET['id']) ){
-            $id = $_GET['id'];
+        if(isset($_POST['id']) ){
+            $id = $_POST['id'];
 
             $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
     
@@ -347,9 +347,9 @@ function nekaUppdatering($conn){
 
     function privatiseraWiki($conn){
         //-include("dbh.inc.php");
-        if(isset($_GET['wikiId'])&&isset($_GET['privat'])){
-            $wikiId = $_GET['wikiId'];
-            $privat = $_GET['privat'];   
+        if(isset($_POST['wikiId'])&&isset($_POST['privat'])){
+            $wikiId = $_POST['wikiId'];
+            $privat = $_POST['privat'];   
         }
     
         $result = $conn->query("SELECT * FROM wiki where id= $wikiId ");
