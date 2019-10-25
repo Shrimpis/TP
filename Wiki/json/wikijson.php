@@ -1,5 +1,9 @@
 <?php
-    
+    include("../../json/felhantering.php");
+
+
+
+
     $db=new mysqli("localhost","root","","the_provider");
     $db->set_charset("utf8");
     
@@ -24,15 +28,18 @@
     }*/
 
 
-    if(isset($_GET['anvandare'])){
-        wiki($_GET['anvandare'],$db);
+   
+    if(isset($_GET['anvandare']) && isset($_GET['wiki'])){
+        wiki($_GET['anvandare'],$_GET['wiki'],$db);
     }
-    else if(isset($_GET['anvandare']) && isset($_GET['s'])){
-        wiki($_GET['anvandare'],$db);
+    else if(isset($_GET['anvandare'])){
+        //wiki($_GET['anvandare'],$db);
+    }
+    else{
+        hantering('400','du har inga post variabler.',);
     }
 
-
-    function wiki($anvandarId,$db){
+    function wiki($anvandarId,$wikiId,$db){
         $tjanst = $db->query('select * from tjanst where anvandarId='.$anvandarId);
         $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
         $wiki = $db->query('select * from wiki');
