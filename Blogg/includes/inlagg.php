@@ -2,12 +2,17 @@
 
 <h4>Skapa ett inlägg</h4>
 
+<?php
+    include("../../Databas/dbh.inc.php");
+?>
+
 <form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaInlagg'/>
     Välj en blogg:
     <select name="bloggId">
         <?php
-        include('funktioner/dbh.inc.php');
+        $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, titel, anvandarId FROM tjanst";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -44,7 +49,8 @@
     Inlägg:
     <select name="inlaggsId" id="inlaggsId">
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -74,7 +80,8 @@
     Inlägg:
     <select name="inlaggsId">
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -102,7 +109,8 @@
             Välj ett inlägg:
             <select name="inlaggsId">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, bloggId, titel FROM blogginlagg";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
@@ -118,7 +126,8 @@
             Välj en användare:
             <select name="anvandarId">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, anamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {

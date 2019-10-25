@@ -1,29 +1,28 @@
 <?php
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
 
 switch($_POST['funktion']){
 
     case 'skapaWiki':
-        skapaWiki();
+        skapaWiki($conn);
         break;
     case 'skapaWikiUppdatering':
-        skapaWikiUppdatering();
+        skapaWikiUppdatering($conn);
         break;
     case 'sokFalt':
-        sokFalt();
+        sokFalt($conn);
         break;
     default:
         echo 'ERROR: Något gick fel med parametrarna i eran begäran.';
 
 }
 
-$conn->close();
 
-function skapaWiki(){
+function skapaWiki($conn){
 
-    include('dbh.inc.php');
+    //-include('dbh.inc.php');
 
     if(isset($_POST['anvandarId']) && isset($_POST['titel'])){
         $userid = $_POST['anvandarId'];
@@ -45,9 +44,9 @@ function skapaWiki(){
 
 }
 
-function skapaWikiUppdatering(){
+function skapaWikiUppdatering($conn){
 
-    include('dbh.inc.php');
+    //-include('dbh.inc.php');
 
     if(isset($_POST['wikiId']) && isset($_POST['sidId']) && isset($_POST['bidragsgivare']) &&isset($_POST['titel']) &&isset($_POST['innehall'])){
         $wikiId= $_POST['wikiId'];
@@ -90,9 +89,9 @@ function skapaWikiUppdatering(){
 
 }
 
-function sokFalt(){
+function sokFalt($conn){
 
-    include('dbh.inc.php');
+    //-include('dbh.inc.php');
 
     if(isset($_POST['sok'])){
           
