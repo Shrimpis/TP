@@ -25,22 +25,18 @@ function skapaUppdatering($conn){
 
     $date= date("Y-m-d H:i");
         if(($roll=="1" || $roll=="3") && $sidId==""){
-            echo "no";
             $sql= "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$bidragsGivare','$bidragsGivare', '$titel','$innehall','$date')";
             $conn->query($sql);
         }
         else if(($roll=="1" || $roll=="3") && $sidId==$sidaId){
-            echo "hej";
             $sql= "UPDATE wikisidor SET godkantAv='$bidragsGivare',bidragsgivare='$bidragsGivare',titel='$titel',innehall='$innehall',datum='$date' WHERE id=$sidId";
             $conn->query($sql);
         }
         else if(($roll!="1" || $roll!="3") && $sidId==""){
-            echo "hej1";
             $sql= "INSERT INTO wikiuppdatering(wikiId, sidId, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$sidId','$bidragsGivare', '$titel','$innehall','$date')";
             $conn->query($sql);
         }
         else{
-            echo "inserted";
             $sql= "INSERT INTO wikiuppdatering(wikiId, sidId, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$sidId','$bidragsGivare', '$titel','$innehall','$date')";
             $conn->query($sql);
         }
