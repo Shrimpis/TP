@@ -119,9 +119,19 @@ function skapaKalenderevent($conn){
     $slut = $_POST['slutTid'];
     $kalenderId = $_POST['kalenderId'];
     }
-$skapaevent = "INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')";
-    if(mysqli_query($conn, $skapaevent)){
-        echo $innehall."<br>";
+        $conn->query("INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
+        $sql="SELECT * FROM event WHERE skapadAv = $anvandarId AND titel= '{$titel}' AND startTid = '{$start}'";
+        $result = $conn->query($sql);
+        
+        while($row = $result->fetch_assoc()){
+        $evId = $row['id'];
+        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,$evId,0)";
+        }
+        
+        
+        
+    if(mysqli_query($conn, $skapakalev)){
+        
         $skapaKalendereventJson = array(
             'kod'=> '202',
             'status'=> 'Accepterat',
@@ -135,7 +145,7 @@ $skapaevent = "INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUE
         echo json_encode($skapaKalendereventJson);
     }
     else{
-        echo $skapaevent."<br>";
+        
         $skapaKalendereventerrorJson = array(
             'kod'=> '400',
             'status'=> 'felaktig forfragan',

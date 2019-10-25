@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <?php 
     //-include("funktioner/dbh.inc.php");
     include("../../Databas/dbh.inc.php");
+=======
+<?php
+    include("funktioner/dbh.inc.php");
+
+>>>>>>> 1cf2a235d4fbd9944df7216aaed54e49750d3d81
     session_start();
 ?>
 <!DOCTYPE html>
@@ -9,7 +15,7 @@
 
     </head>
     <body>
-    
+
         <!-- skapa kalender -->
 
         <h4>Skapa kalender</h4>
@@ -27,15 +33,15 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
-            titel: 
+            titel:
             <input type="text" name="titel">
             <br>
             <input type="submit" value="skapa kalender">
@@ -60,15 +66,15 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
-            kalender: 
+            kalender:
             <select name="kalenderId">
             <?php
             $conn;
@@ -79,11 +85,11 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
@@ -91,7 +97,7 @@
         </form>
         <br>
         <br>
-
+        
         <!-- skapa event -->
 
         <h4>Skapa kalenderevent</h4>
@@ -109,15 +115,15 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
-            kalender: 
+            kalender:
             <select name="kalenderId">
             <?php
             $conn;
@@ -128,11 +134,11 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
@@ -148,6 +154,30 @@
         </form>
         <br>
         <br>
+        <!-- tabort kalender -->
 
+        <h4>Tabort kalender</h4>
+
+        <form action="funktioner/tabort.php" method="POST">
+        <input type='hidden' name='funktion' value='tabortKalender'/>
+        kalender:
+            <select name="kalenderId">
+            <?php
+                include("funktioner/dbh.inc.php");
+                $sql = "SELECT * from kalender";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
+                    }
+                } else {
+                    echo "0 results";
+                }
+                $conn->close();
+
+            ?>
+            </select>
+            <input type="submit" value="ta bort kalender">
+        </form>
     </body>
 </html>
