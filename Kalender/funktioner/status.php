@@ -1,16 +1,17 @@
 <?php
 session_start();
-include("./dbh.inc.php");
+include "./dbh.inc.php";
+
 $_SESSION["UID"] = 1;
+
 if (!$conn) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
     echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
     echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
     exit;
 }
+
 mysqlI_set_charset($conn, "utf8mb4");
-
-
 
 if(isset($_SESSION["UID"])){
 
@@ -24,18 +25,35 @@ $kalender = $result->fetch_assoc();
 
 $id = $kalender["kalenderId"];
 
-  $sql = "SELECT * FROM kalenderevent inner join event on event.ID=kalenderevent.eventId inner join anvandare on event.skapadAv=anvandare.Id where kalenderId = $id AND status=0";
+  $sql = "SELECT event.titel, event.startTid, event.slutTid, anvandare.anamn, kalenderevent.id as 'kalenderID' FROM kalenderevent inner join event on event.ID=kalenderevent.eventId inner join anvandare on event.skapadAv=anvandare.Id where kalenderId = $id AND status=0";
   if(mysqli_query($conn, $sql)){
     $result = $conn->query($sql);
   }
+
+
   while($row = mysqli_fetch_assoc($result)){
 
     echo "du har blivit inbjuden till ".$row["titel"]." av ".$row["anamn"]." klockan: ".$row["startTid"]." : ".$row["slutTid"] ."<br>";
-    echo "<button>Neka</button>   <button>Accpetera</button><br>";
+    echo "<button onclick=status(2,".$row["kalenderID"].")>Neka</button> <button onclick=status(1,".$row["kalenderID"].")>acceptera</button><br>";
   }
 
-}else if(isset($_SESSION["UID"]) && $_GET["status"] && $_GET["status"] < 3 && $_GET["status"] >= 0){
 
-  
+}else if(isset($_SESSION["UID"]) && isset($_GET["status"]) && isset($_GET["kalenderID"])){
+
+  echo "test";
+  if(isset($_GET["anledning"])){
+
+    $status = $_GET["status"];
+    $anledning = $_GET["anledning"];
+    $id = $_GET["kalenderID"];
+
+    $sql = "update kalenderevent set anledning='{$anledning}', status=".$status." where id=".$id;
+    if(mysqli_query($conn, $sql)){
+      $conn->query($sql);
+    }
+    header("Refresh:0");
+
+  }
+
 
 }
