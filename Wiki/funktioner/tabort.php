@@ -13,6 +13,7 @@ include('../../Databas/dbh.inc.php');
             case 'tabortWikiSida':
                 tabortWikiSida($conn);
                 break;
+            
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -62,3 +63,4 @@ function tabortWikiSida($conn){
     $delSida = "DELETE FROM wikisidor WHERE id = '{$sidID}'";
     $conn->query($delSida);
 }
+
