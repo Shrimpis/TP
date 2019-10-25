@@ -15,9 +15,7 @@ include("../../Databas/dbh.inc.php");
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
     
- 
-$conn->close();
-
+  
 function avslutaKonto($conn){
     //-include("../../Databas/dbh.inc.php");
 

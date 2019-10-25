@@ -4,7 +4,8 @@
 
 session_start();
 
-include('../../Databas/dbh.inc.php');   
+include('/opt/lampp/htdocs/TP/TP/Databas/dbh.inc.php');   
+
         switch ($_GET['funktion']) {
 
             case 'doljWiki':
@@ -28,7 +29,6 @@ include('../../Databas/dbh.inc.php');
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-$conn->close();
 
 
 function doljWiki($conn){
@@ -120,15 +120,16 @@ function doljWikiSida($conn){
 }
 
 function godkannUppdatering($conn){
+
+    
     //-include("dbh.inc.php");
     if(isset($_GET['uppdateringid']) && isset($_GET['sidId']) && isset($_GET['godkantAv'])){
-
         $uppdateringId = $_GET['uppdateringid'];
         $sidId = $_GET['sidId'];
         $godkantAv = $_GET['godkantAv'];
 
         if($sidId != 0){
-
+            
             $skickaVersion = "INSERT INTO sidversion(sidId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT id FROM wikisidor WHERE id = $sidId),
             (SELECT godkantAv FROM wikisidor WHERE id = $sidId), (SELECT bidragsgivare FROM wikisidor WHERE id = $sidId), (SELECT titel FROM wikisidor WHERE id = $sidId),
             (SELECT innehall FROM wikisidor WHERE id = $sidId), (SELECT datum FROM wikisidor WHERE id = $sidId))";
@@ -137,7 +138,7 @@ function godkannUppdatering($conn){
             titel = (SELECT titel FROM wikiuppdatering WHERE id = $uppdateringId), innehall = (SELECT innehall FROM wikiuppdatering WHERE id = $uppdateringId),
             datum = (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId) WHERE id = $sidId";
             
-            $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $sidId";
+            $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $uppdateringId";
 
             if(mysqli_query($conn, $skickaVersion)){
                 $skickaVersionJson = array(

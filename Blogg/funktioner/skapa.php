@@ -36,8 +36,7 @@ include("../../Databas/dbh.inc.php");
         }
     
     
-
-$conn->close();
+ 
 
     function skapaBlogg($conn){
 

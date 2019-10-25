@@ -14,9 +14,7 @@ include("../../Databas/dbh.inc.php");
             echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
     }
     
- 
-$conn->close();
-
+  
 function tabortKonto($conn){
     //-include("../../Databas/dbh.inc.php");
     $UID = mysqli_real_escape_string($conn, $_POST['anvandarid']);

@@ -18,9 +18,7 @@ include('../../Databas/dbh.inc.php');
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
-$conn->close();
-
+        } 
 function skapaKalender($conn){
     //-include('dbh.inc.php');
     $anvandarId = $_POST['anvandarId'];

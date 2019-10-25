@@ -15,9 +15,7 @@ include("../../Databas/dbh.inc.php");
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
                 break;
-        }
-   
-$conn->close();
+        } 
 
 function redigeraKonto($conn){
     //include("../../Databas/dbh.inc.php");

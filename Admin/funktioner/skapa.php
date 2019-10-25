@@ -12,8 +12,7 @@ include("../../Databas/dbh.inc.php");
                 break;
         }
     
- 
-$conn->close();
+  
 
 function slumplosen($len) {
     $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

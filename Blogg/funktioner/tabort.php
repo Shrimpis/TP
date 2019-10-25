@@ -21,8 +21,7 @@ include("../../Databas/dbh.inc.php");
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
-$conn->close();
+        } 
 
 
 function tabortBlogg($conn){

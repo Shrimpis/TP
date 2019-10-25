@@ -19,7 +19,6 @@ switch($_POST['funktion']){
 
 }
 
-$conn->close();
 
 function skapaWiki($conn){
 
