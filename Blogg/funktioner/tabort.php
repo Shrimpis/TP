@@ -4,20 +4,20 @@
 
 session_start();
 
-include('dbh.inc.php');
+include("../../Databas/dbh.inc.php");
         switch ($_POST['funktion']) {
 
             case 'tabortBlogg':
-                tabortBlogg();
+                tabortBlogg($conn);
                 break;
             case 'tabortInlagg':
-                tabortInlagg();
+                tabortInlagg($conn);
                 break;
             case 'tabortKommentar':
-                tabortKommentar();
+                tabortKommentar($conn);
                 break;
             case 'tabortTextruta':
-                tabortTextruta();
+                tabortTextruta($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
@@ -25,8 +25,8 @@ include('dbh.inc.php');
 $conn->close();
 
 
-function tabortBlogg(){
-    include('dbh.inc.php');
+function tabortBlogg($conn){
+    //-include("../../Databas/dbh.inc.php");
     $bloggId = $_POST['bloggId'];
 
     $delTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
@@ -72,8 +72,8 @@ function tabortBlogg(){
 
 }
 
-function tabortInlagg(){
-    include('dbh.inc.php');
+function tabortInlagg($conn){
+    //-include("../../Databas/dbh.inc.php");
     $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
     $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
     $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
@@ -107,9 +107,9 @@ function tabortInlagg(){
 
 }
 
-function tabortKommentar(){
+function tabortKommentar($conn){
     
-    include('dbh.inc.php');
+    //-include("../../Databas/dbh.inc.php");
     $kommentarId = mysqli_real_escape_string($conn, $_REQUEST['kommentarId']);
     $KIDarray[0] = $kommentarId;
     $temparray = array();

@@ -4,26 +4,26 @@
 
 session_start();
 
-include('dbh.inc.php');
-        switch ($_POST['funktion']) {
+include('../../Databas/dbh.inc.php');   
+        switch ($_GET['funktion']) {
 
             case 'doljWiki':
-                doljWiki();
+                doljWiki($conn);
                 break;
             case 'doljwiksida':
-                doljWikiSida();
+                doljWikiSida($conn);
                 break;
             case 'godkannUppdatering':
-                godkannUppdatering();
+                godkannUppdatering($conn);
                 break;
             case 'nekaUppdatering':
-                nekaUppdatering();
+                nekaUppdatering($conn);
                 break;
             case 'lasaWikiSida':
-                lasaSida();
+                lasaSida($conn);
                 break;
             case 'privatiseraWiki':
-                privatiseraWiki();
+                privatiseraWiki($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
@@ -31,9 +31,9 @@ include('dbh.inc.php');
 $conn->close();
 
 
-function doljWiki(){
-    include('dbh.inc.php');
-    $wikiId = $_POST['wikiId'];
+function doljWiki($conn){
+    //-include('dbh.inc.php');
+    $wikiId = $_GET['wikiId'];
 
 
         $redan_dolt = $conn->query("SELECT * FROM wiki WHERE tjanstId ='{$wikiId}'");
@@ -90,12 +90,12 @@ function doljWiki(){
 
 }
 
-function doljWikiSida(){
+function doljWikiSida($conn){
 
-    include('dbh.inc.php');
+    //-include('dbh.inc.php');
 
-    if(isset($_POST['id']) ){
-        $id = $_POST['id'];
+    if(isset($_GET['id']) ){
+        $id = $_GET['id'];
         
         $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
 
@@ -119,13 +119,13 @@ function doljWikiSida(){
     
 }
 
-function godkannUppdatering(){
-    include("dbh.inc.php");
-    if(isset($_POST['uppdateringid']) && isset($_POST['sidId']) && isset($_POST['godkantAv'])){
+function godkannUppdatering($conn){
+    //-include("dbh.inc.php");
+    if(isset($_GET['uppdateringid']) && isset($_GET['sidId']) && isset($_GET['godkantAv'])){
 
-        $uppdateringId = $_POST['uppdateringid'];
-        $sidId = $_POST['sidId'];
-        $godkantAv = $_POST['godkantAv'];
+        $uppdateringId = $_GET['uppdateringid'];
+        $sidId = $_GET['sidId'];
+        $godkantAv = $_GET['godkantAv'];
 
         if($sidId != 0){
 
@@ -253,13 +253,13 @@ function godkannUppdatering(){
     $conn->close();
 }
 
-function nekaUppdatering(){
+function nekaUppdatering($conn){
 
-    include("dbh.inc.php");
-    if(isset($_POST['sidId'])&&isset($_POST['nekadAv'])){
-        $sidID = $_POST['sidId'];
-        $nekadAv = $_POST['nekadAv'];
-        $anledning = $_POST['anledning'];
+    //-include("dbh.inc.php");
+    if(isset($_GET['sidId'])&&isset($_GET['nekadAv'])){
+        $sidID = $_GET['sidId'];
+        $nekadAv = $_GET['nekadAv'];
+        $anledning = $_GET['anledning'];
     
         $get_data=$conn->query("SELECT * FROM wikiuppdatering WHERE id='{$sidID}'");
         $row = $get_data->fetch_assoc();
@@ -305,12 +305,12 @@ function nekaUppdatering(){
     
     }
 
-    function lasaSida(){
+    function lasaSida($conn){
 
-        include('dbh.inc.php');
+        //-include('dbh.inc.php');
 
-        if(isset($_POST['id']) ){
-            $id = $_POST['id'];
+        if(isset($_GET['id']) ){
+            $id = $_GET['id'];
 
             $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
     
@@ -334,11 +334,11 @@ function nekaUppdatering(){
         
     }
 
-    function privatiseraWiki(){
-        include("dbh.inc.php");
-        if(isset($_POST['WikiId'])&&isset($_POST['privat'])){
-            $WikiId = $_POST['WikiId'];
-            $privat = $_POST['privat'];   
+    function privatiseraWiki($conn){
+        //-include("dbh.inc.php");
+        if(isset($_GET['WikiId'])&&isset($_GET['privat'])){
+            $WikiId = $_GET['WikiId'];
+            $privat = $_GET['privat'];   
         }
     
         $result = $conn->query("SELECT * FROM Wiki where id= $WikiId ");

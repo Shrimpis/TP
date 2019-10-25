@@ -1,19 +1,20 @@
 <?php 
 
-include("dbh.inc.php");
-        switch ($_POST['funktion']) {
-            case 'aktiveraTjanst':
-                aktiveraTjanst();
-                break;
-            default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
+include("../../Databas/dbh.inc.php");
+
+    switch ($_POST['funktion']) {
+        case 'aktiveraTjanst':
+            aktiveraTjanst($conn);
+            break;
+        default:
+            echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+    }
     
  
 $conn->close();
 
-function aktiveraTjanst(){
-    include("dbh.inc.php");
+function aktiveraTjanst($conn){
+   //- include("../../Databas/dbh.inc.php");
 
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
     $tjanst = (isset($_POST['CheckTjanst'])) ? 1 : 0;

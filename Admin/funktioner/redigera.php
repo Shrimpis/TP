@@ -3,14 +3,14 @@
 // Funktion för redigera //
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
 
         switch ($_POST['funktion']) {
             case 'redigeraKonto':
-                redigeraKonto();
+                redigeraKonto($conn);
                 break;
             case 'redigeraRoll':
-                redigeraRoll();
+                redigeraRoll($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
@@ -19,8 +19,8 @@ include("dbh.inc.php");
    
 $conn->close();
 
-function redigeraKonto(){
-    include("dbh.inc.php");
+function redigeraKonto($conn){
+    //include("../../Databas/dbh.inc.php");
     if(isset($_POST['anvandarid'])){
         $anvandarid = $_POST['anvandarid'];
 
@@ -56,8 +56,8 @@ function redigeraKonto(){
     
     $conn->close();
 }
-function redigeraRoll(){
-    include("dbh.inc.php");
+function redigeraRoll($conn){
+    //include("../../Databas/dbh.inc.php");
     if(isset($_POST['anvandarid']) && isset($_POST['rollid'])){
         $anvandarid = $_POST['anvandarid'];
 	    $roll = $_POST['rollid'];

@@ -4,25 +4,25 @@
 
 session_start();
 
-include('dbh.inc.php');
+include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'skapaKalender':
-                skapaKalender();
+                skapaKalender($conn);
                 break;
             case 'skapaKalendersida':
-                skapaKalendersida();
+                skapaKalendersida($conn);
                 break;
             case 'skapaKalenderevent':
-                skapaKalenderevent();
+                skapaKalenderevent($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
 $conn->close();
 
-function skapaKalender(){
-    include('dbh.inc.php');
+function skapaKalender($conn){
+    //-include('dbh.inc.php');
     $anvandarId = $_POST['anvandarId'];
     $titel = $_POST['titel'];
 
@@ -76,8 +76,8 @@ function skapaKalender(){
     $conn->close();
 
 }
-function skapaKalendersida(){
-    include('dbh.inc.php');
+function skapaKalendersida($conn){
+    //-include('dbh.inc.php');
     if(isset($_POST['anvandarId'])&&isset($_POST['kalenderId'])){
     $anvandarId = $_POST['anvandarId'];
     $kalenderId = $_POST['kalenderId'];
@@ -111,8 +111,8 @@ function skapaKalendersida(){
     }
 }
 
-function skapaKalenderevent(){
-    include('dbh.inc.php');
+function skapaKalenderevent($conn){
+    //-include('dbh.inc.php');
     if(isset($_POST['titel'])&&isset($_POST['startTid'])&&isset($_POST['slutTid'])&&isset($_POST['anvandarId'])&&isset($_POST['innehall'])&&isset($_POST['kalenderId'])){
     $titel = $_POST['titel'];
     $innehall = $_POST['innehall'];

@@ -1,5 +1,5 @@
 <?php 
-    include('funktioner/dbh.inc.php');
+    include("../../Databas/dbh.inc.php");
     $sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {

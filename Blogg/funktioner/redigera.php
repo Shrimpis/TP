@@ -3,31 +3,31 @@
 // Funktion för redigera //
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
 
         switch ($_POST['funktion']) {
             case 'redigeraBlogg':
-                redigeraBlogg();
+                redigeraBlogg($conn);
                 break;
             case 'redigeraKommentar':
-                redigeraKommentar();
+                redigeraKommentar($conn);
                 break;
             case 'redigeraInlagg':
-                redigeraInlagg();
+                redigeraInlagg($conn);
                 break;
             case 'privatiseraBlogg':
-                privatiseraBlogg();
+                privatiseraBlogg($conn);
                 break;
             case 'censureraKommentar':
-                censureraKommentar();
+                censureraKommentar($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
 $conn->close();
 
-function redigeraBlogg(){
-    include("dbh.inc.php");
+function redigeraBlogg($conn){
+    //- include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId']) && isset($_POST['Titel'])){
         $Bid = $_POST['bloggId'];
         $title = $_POST['Titel'];
@@ -63,8 +63,8 @@ function redigeraBlogg(){
     }
     $conn->close();
 }
-function privatiseraBlogg(){
-    include("dbh.inc.php");
+function privatiseraBlogg($conn){
+    //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId'])&&isset($_POST['privat'])){
         $bloggId = $_POST['bloggId'];
         $privat = $_POST['privat'];   
@@ -105,8 +105,8 @@ function privatiseraBlogg(){
     $conn->close();
 }
 
-function redigeraKommentar(){
-    include("dbh.inc.php");
+function redigeraKommentar($conn){
+    //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['kommentarId']) && isset($_POST['text'])){
         $Kid = $_POST['kommentarId'];
         $text = $_POST['text'];
@@ -142,8 +142,8 @@ function redigeraKommentar(){
     $conn->close();
 }
 
-function redigeraInlagg(){
-    include("dbh.inc.php");
+function redigeraInlagg($conn){
+    //-include("../../Databas/dbh.inc.php");
 
     $inlaggsId = $_POST['inlaggsId'];
     $title = $_POST['Titel'];
@@ -177,8 +177,8 @@ function redigeraInlagg(){
     $conn->close();
 }
 
-function censureraKommentar(){
-    include("dbh.inc.php");
+function censureraKommentar($conn){
+    //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['id']) ){
         $id = $_POST['id'];
     }
