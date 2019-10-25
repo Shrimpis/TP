@@ -41,7 +41,7 @@ $id = $kalender["kalenderId"];
 }else if(isset($_SESSION["UID"]) && isset($_GET["status"]) && isset($_GET["kalenderID"])){
 
   echo "test";
-  if(isset($_GET["anledning"])){
+  if(isset($_GET["anledning"]) && $_GET["status"] == 2){
 
     $status = $_GET["status"];
     $anledning = $_GET["anledning"];
@@ -53,6 +53,26 @@ $id = $kalender["kalenderId"];
     }
     header("Refresh:0");
 
+  }else if($_GET["status"] == 2){
+
+        $status = $_GET["status"];
+        $id = $_GET["kalenderID"];
+
+        $sql = "update kalenderevent set status=".$status." where id=".$id;
+        if(mysqli_query($conn, $sql)){
+          $conn->query($sql);
+        }
+        header("Refresh:0");
+  }else{
+
+        $status = $_GET["status"];
+        $id = $_GET["kalenderID"];
+
+        $sql = "update kalenderevent set status=".$status." where id=".$id;
+        if(mysqli_query($conn, $sql)){
+          $conn->query($sql);
+        }
+        header("Refresh:0");
   }
 
 
