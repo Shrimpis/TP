@@ -1,12 +1,8 @@
-<<<<<<< HEAD
+
 <?php 
     //-include("funktioner/dbh.inc.php");
     include("../../Databas/dbh.inc.php");
-=======
-<?php
-    include("funktioner/dbh.inc.php");
 
->>>>>>> 1cf2a235d4fbd9944df7216aaed54e49750d3d81
     session_start();
 ?>
 <!DOCTYPE html>
@@ -126,13 +122,14 @@
             kalender:
             <select name="kalenderId">
             <?php
+
             $conn;
                 //-include("funktioner/dbh.inc.php");
-                $sql = "SELECT * from kalender";
+                $sql = "SELECT * from kalendersida";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
+                        echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
                 } else {
                     echo "0 results";
