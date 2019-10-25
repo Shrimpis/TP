@@ -1,13 +1,10 @@
 <?php 
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
         switch ($_POST['funktion']) {
             case 'skapaKonto':
-                skapaKonto();
-                break;
-            case 'skapaAKonto':
-                skapaAKonto();
+                skapaKonto($conn);
                 break;
 
             default:    
@@ -15,8 +12,7 @@ include("dbh.inc.php");
                 break;
         }
     
- 
-$conn->close();
+  
 
 function slumplosen($len) {
     $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -29,9 +25,9 @@ function slumplosen($len) {
 }
 
 
-function skapaKonto(){
+function skapaKonto($conn){
 
-    include("dbh.inc.php");
+    //-include("../../Databas/dbh.inc.php");
     $uname_tagen=false;
     if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['id'])){
         $username = $_POST['anamn'];

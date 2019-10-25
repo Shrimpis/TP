@@ -5,7 +5,7 @@
             Välj en Wiki:
                 <select name="WikiId" id="WikiId">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                        include('../Databas/dbh.inc.php');
                         $sql = "SELECT * FROM Wiki INNER JOIN tjanst ON Wiki.tjanstId = tjanst.id";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {

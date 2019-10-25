@@ -1,5 +1,9 @@
 <!-- Redigera konto -->
 
+<?php
+    include("../Databas/dbh.inc.php");
+?>
+
 <h4>Redigera kontoredigerare (User)</h4>
 
 
@@ -17,7 +21,8 @@
     <br>
     <select name="anvandarid">
     <?php
-        include('funktioner/dbh.inc.php');
+        $conn;
+        //-include("../Databas/dbh.inc.php");
         $sql = "SELECT * from anvandare where aktiv = true";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -49,7 +54,8 @@
     <br>
     <select name="rollid">
     <?php
-        include('funktioner/dbh.inc.php');
+        $conn;
+        //-include("../Databas/dbh.inc.php");
         $sql = "SELECT * from roll where id != 1";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -77,7 +83,8 @@
     <br>
     <select name="anvandarid">
     <?php
-        include('funktioner/dbh.inc.php');
+        $conn;
+        //-include("../Databas/dbh.inc.php");
         $sql = "SELECT * from anvandare where aktiv = true";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -106,7 +113,8 @@
     <br>
     <select name="anvandarid">
     <?php
-        include('funktioner/dbh.inc.php');
+        $conn;
+        //-include("../Databas/dbh.inc.php");
         $sql = "SELECT * from anvandare where aktiv = true";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {

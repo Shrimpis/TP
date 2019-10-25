@@ -2,21 +2,15 @@
 
 // Databasanslutning //
 
-$dbServername = 'localhost';
-$dbUsername = 'root';
-$dbPassword = '';
-$dbName = 'the_provider';
-
-$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-mysqli_set_charset($conn, "utf8mb4");
+include("Databas/dbh.inc.php");
 
 
 // Början av API //
 
 
-if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+if(!empty($_GET['nyckel'])){ // Kollar efter om api-nyckeln är tom
     
-    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+    $apikey = mysqli_real_escape_string($conn,$_GET['nyckel']);
     $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
     
     $result = mysqli_query($conn,$sql);
@@ -24,9 +18,9 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     $count = mysqli_num_rows($result);
 
     if($count == 1){
-        if(!empty($_POST['tjanst'])){ // Kollar efter om tjänst är tom
+        if(!empty($_GET['tjanst'])){ // Kollar efter om tjänst är tom
 
-            switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
+            switch ($_GET['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
                     bloggar();
@@ -73,12 +67,12 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
 // Tjänster //
 
 function bloggar(){
-    if($_POST['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+    if($_GET['typ']=='JSON'){ // Kollar om typen som anropas är JSON
         include "Blogg/json/bloggjson.php";
     } else {
-        if($_POST['typ']=='function'){ // Kollar om typen som anropas är funktion
+        if($_GET['typ']=='function'){ // Kollar om typen som anropas är funktion
             
-            switch ($_POST['handling']) { // Kollar efter vilken handling som anropas
+            switch ($_GET['handling']) { // Kollar efter vilken handling som anropas
         
                 case 'skapa':
                     include "Blogg/funktioner/skapa.php";
@@ -111,12 +105,12 @@ function bloggar(){
 }
 
 function wiki(){
-    if($_POST['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+    if($_GET['typ']=='JSON'){ // Kollar om typen som anropas är JSON
         include "Wiki/json/wikijson.php";
     } else {
-        if($_POST['typ']=='function'){ // Kollar om typen som anropas är funktion
+        if($_GET['typ']=='function'){ // Kollar om typen som anropas är funktion
             
-            switch ($_POST['handling']) { // Kollar efter vilken handling som anropas
+            switch ($_GET['handling']) { // Kollar efter vilken handling som anropas
         
                 case 'skapa':
                     include "Wiki/funktioner/skapa.php";
@@ -149,12 +143,12 @@ function wiki(){
 }
 
 function kalender(){
-    if($_POST['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+    if($_GET['typ']=='JSON'){ // Kollar om typen som anropas är JSON
         include "Kalender/json/kalenderjson.php";
     } else {
-        if($_POST['typ']=='function'){ // Kollar om typen som anropas är funktion
+        if($_GET['typ']=='function'){ // Kollar om typen som anropas är funktion
             
-            switch ($_POST['handling']) { // Kollar efter vilken handling som anropas
+            switch ($_GET['handling']) { // Kollar efter vilken handling som anropas
         
                 case 'skapa':
                     include "Kalender/funktioner/skapa.php";

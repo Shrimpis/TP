@@ -3,45 +3,44 @@
 // Funktion för skapa //
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
 
     
         switch ($_POST['funktion']) {
             case 'skapaBlogg':
-                skapaBlogg();
+                skapaBlogg($conn);
                 break;
             case 'skapaInlagg':
-                skapaInlagg();
+                skapaInlagg($conn);
                 break;
             case 'skapaKommentar':
-                skapaKommentar();
+                skapaKommentar($conn);
                 break;
             case 'skapaSokning':
-                skapaSokning();
+                skapaSokning($conn);
                 break;
             case 'gillaInlagg':
-                gillaInlagg();
+                gillaInlagg($conn);
                 break;
             case 'flaggaBlogg':
-                flaggaBlogg();
+                flaggaBlogg($conn);
                 break;
             case 'flaggaKommentar':
-                flaggaKommentar();
+                flaggaKommentar($conn);
                 break;
             case 'sokfalt':
-                sokFalt();
+                sokFalt($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
     
     
+ 
 
-$conn->close();
+    function skapaBlogg($conn){
 
-    function skapaBlogg(){
-
-        include("dbh.inc.php");
+       //- include("../../Databas/dbh.inc.php");
         if(isset($_POST['anvandarId']) && isset($_POST['Titel'])){
             $userid = $_POST['anvandarId'];
             $title = $_POST['Titel'];
@@ -87,9 +86,9 @@ $conn->close();
 
     }
 
-    function skapaInlagg(){
+    function skapaInlagg($conn){
 
-        include("dbh.inc.php");
+        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['bloggId']) && isset($_POST['Title'])){
             $bloggID= $_POST['bloggId'];
             $title= $_POST['Title'];
@@ -133,72 +132,9 @@ $conn->close();
 
     }
 
-    //Bilder blev utesluten från databasen och därför funkar inte denna funktion ännu.
-    /*function skapaBild(){
+    function skapaKommentar($conn){
 
-        include('dbh.inc.php');
-        $mal_dir = "bilder/";
-        $mal_fil = $mal_dir . basename($_FILES["bildRuta"]["name"]);
-        $uppladningOk = 1;
-        $bildFilTyp = strtolower(pathinfo($mal_fil,PATHINFO_EXTENSION));       
-        if(!file_exists($mal_dir)){
-            mkdir($mal_fil,0777,true);
-        }
-        if(isset($_POST["submit"])){
-            $kontroll = getimagesize($_FILES["bildRuta"]["tmp_name"]);
-            
-            if($kontroll !== false){
-                
-                $uppladningOk = 1;
-            }else{
-                $uppladningOk  = 0;
-            }
-            
-        }
-        //om filen redan finns
-        if(file_exists($mal_fil)){
-            $uppladningOk = 0;
-            echo "shit";
-        }
-        //Max storlek på bild
-        if($_FILES["bildRuta"]["size"] > 500000){
-            
-            $uppladningOk = 0;
-            
-        }
-        //Kollar så att det är giltiga fil extensions
-        if($bildFilTyp != "jpg" && $bildFilTyp != "png" && $bildFilTyp != "gif" && $bildFilTyp != "jpeg"){
-            $uppladningOk = 0;
-            echo "fel bild format";
-        }
-        //kollar om det dök upp något fel annars går den vidare
-        if($uppladningOk == 0){
-            echo "FEL";
-        }else{
-            if(move_uploaded_file($_FILES["bildRuta"]["tmp_name"], $mal_fil)){
-                
-                $sql = "INSERT INTO rutor(inlaggsId,ordning) VALUES(1,1)";
-                $conn->query($sql);
-                $RID = mysqli_insert_id($conn);
-                
-                $sql= "INSERT INTO bildRuta(RID,bildPath,inlaggsId) VALUES($RID,'$mal_fil',1)";
-                
-                $conn->query($sql);
-                
-                
-                echo "gick";
-            }else{
-                echo "fel";
-            }
-        }
-
-        $conn->close();
-
-    }*/
-
-    function skapaKommentar(){
-
-        include('dbh.inc.php');
+        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['anvandarId']) && isset($_POST['inlaggsId']) && isset($_POST['text']) && isset($_POST['hierarchyID'])){
             $anvandarId = mysqli_real_escape_string($conn, $_POST['anvandarId']); //Användar-ID
             $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']); //Blogginlägg-ID
@@ -241,8 +177,8 @@ $conn->close();
     }
 
 
-    function sokFalt(){
-        include("dbh.inc.php");
+    function sokFalt($conn){
+        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['sok'])){
             $sok= $_POST['sok'];
         } 
@@ -265,9 +201,9 @@ $conn->close();
         $conn->close();
     }
 
-    function gillaInlagg(){
+    function gillaInlagg($conn){
 
-        include('dbh.inc.php');
+        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['anvandarId']) && isset($_POST['inlaggsId'])){
             $anvandarId = mysqli_real_escape_string($conn, $_POST['anvandarId']); //Användar-ID
             $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']); //Blogginlägg-ID
@@ -337,8 +273,8 @@ $conn->close();
         $conn->close();
 
     }
-    function flaggaBlogg(){
-        include('dbh.inc.php');
+    function flaggaBlogg($conn){
+        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['bloggid']) && isset($_POST['anvandarID'])){
             $Bloggid = $_POST['bloggid']; 
             $anvandarId = $_POST['anvandarID']; 
@@ -376,8 +312,8 @@ $conn->close();
         $conn->close();
 
     }
-    function flaggaKommentar(){
-        include('dbh.inc.php');
+    function flaggaKommentar($conn){
+        //-include('dbh.inc.php');
         if(isset($_POST['kommentarsid']) && isset($_POST['anvandarID'])){
             $komid = $_POST['kommentarsid']; 
             $anvandarId = $_POST['anvandarID']; 

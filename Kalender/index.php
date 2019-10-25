@@ -1,5 +1,7 @@
-<?php
-    include("funktioner/dbh.inc.php");
+
+<?php 
+    //-include("funktioner/dbh.inc.php");
+    include("../../Databas/dbh.inc.php");
 
     session_start();
 ?>
@@ -19,7 +21,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -51,7 +54,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -69,7 +73,8 @@
             kalender:
             <select name="kalenderId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -98,7 +103,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -116,7 +122,9 @@
             kalender:
             <select name="kalenderId">
             <?php
-                include("funktioner/dbh.inc.php");
+
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalendersida";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
