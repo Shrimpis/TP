@@ -14,11 +14,23 @@ function hantering($code,$msg){
     if($code=='204'){
         $status='No Content';
     }
+    if($code == '301'){
+        $status = 'Move Permanently';
+    }
     if($code=='400'){
         $status='Bad Request';
     }
-    $hideWikiJson = array('code'=> $code,'status'=> $status,'msg' => $msg);
-    echo json_encode($hideWikiJson);
+    if($code = '401'){
+        $status = 'Unauthorized';
+    }
+    if($code == '404'){
+        $status = 'Not Found';
+    }
+    if($code == '415'){
+        $status = 'Unsupported Media Type';
+    }
+    $errorJson = array('code'=> $code,'status'=> $status,'msg' => $msg);
+    echo json_encode($errorJson);
 }
 
 ?>
