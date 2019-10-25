@@ -18,7 +18,7 @@ function aktiveraTjanst(){
     $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
     $tjanst = (isset($_POST['CheckTjanst'])) ? 1 : 0;
 
-    $aktivera = "UPDATE `kundrattigheter` SET `tjanst` = '$tjanst' WHERE `kundrattigheter`.`id` = $id";
+    $aktivera = "INSERT INTO kundrattigheter(id,tjanst, superadmin, kontoId) VALUES ($id ,$tjanst, '0', '0')";
 
     if(mysqli_query($conn, $aktivera)){
         header('location: ../index.php?funktion=aktiveraTjanst?m=success');
