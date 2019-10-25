@@ -2,6 +2,10 @@
 session_start();
 include "./dbh.inc.php";
 
+$completresponse = Array();
+$jsonRespBody = Array();
+$jsonResp;
+
 $_SESSION["UID"] = 1;
 
 if (!$conn) {
@@ -32,10 +36,21 @@ $id = $kalender["kalenderId"];
 
 
   while($row = mysqli_fetch_assoc($result)){
+    $jsonResp = new stdClass();
+    $jsonResp->code = "200";
+    $jsonResp->status ="OK";
+    $jsonResp->msg = "Lyckades";
+    $jsonResp->invite = "du har blivit inbjuden till ".$row["titel"]." av ".$row["anamn"]." klockan: ".$row["startTid"]." : ".$row["slutTid"] ."<br>";
+
+    $jsonRespBody[] = $jsonResp;
 
     echo "du har blivit inbjuden till ".$row["titel"]." av ".$row["anamn"]." klockan: ".$row["startTid"]." : ".$row["slutTid"] ."<br>";
     echo "<button onclick=status(2,".$row["kalenderID"].")>Neka</button> <button onclick=status(1,".$row["kalenderID"].")>acceptera</button><br>";
   }
+  $completresponse->code = "200";
+  $completresponse->status = "OK";
+  $completresponse->msg = "Lyckades";
+  $completresponse->events = $jsonRespBody;
 
 
 }else if(isset($_SESSION["UID"]) && isset($_GET["status"]) && isset($_GET["kalenderID"])){
@@ -50,6 +65,11 @@ $id = $kalender["kalenderId"];
     $sql = "update kalenderevent set anledning='{$anledning}', status=".$status." where id=".$id;
     if(mysqli_query($conn, $sql)){
       $conn->query($sql);
+
+      $completresponse->code = "200";
+      $completresponse->status = "OK";
+      $completresponse->msg = "Lyckades";
+
     }
     header("Refresh:0");
 
@@ -61,6 +81,9 @@ $id = $kalender["kalenderId"];
         $sql = "update kalenderevent set status=".$status." where id=".$id;
         if(mysqli_query($conn, $sql)){
           $conn->query($sql);
+          $completresponse->code = "200";
+          $completresponse->status = "OK";
+          $completresponse->msg = "Lyckades";
         }
         header("Refresh:0");
   }else{
@@ -71,9 +94,20 @@ $id = $kalender["kalenderId"];
         $sql = "update kalenderevent set status=".$status." where id=".$id;
         if(mysqli_query($conn, $sql)){
           $conn->query($sql);
+          $completresponse->code = "200";
+          $completresponse->status = "OK";
+          $completresponse->msg = "Lyckades";
         }
         header("Refresh:0");
   }
 
 
+}else{
+  $completresponse->code = "400";
+  $completresponse->status = "Dålig begäran";
+  $completresponse->msg = "För få argument";
 }
+
+$json = json_encode($completresponse);
+
+echo $json;
