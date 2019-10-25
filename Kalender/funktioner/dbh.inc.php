@@ -1,10 +1,9 @@
-<?php 
+<?php
 $dbServername = 'localhost';
-$dbUsername = 'root';
+$dbUsername = 'user';
 $dbPassword = '';
-$dbName = 'the_provider';
+$dbName = 'TheProvider';
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 mysqlI_set_charset($conn, "utf8mb4");
-
 ?>
