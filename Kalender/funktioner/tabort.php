@@ -8,7 +8,10 @@ include('./Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortKalender':
-                tabortKalender();
+                tabortKalender($conn);
+                break;
+            case 'tabortKalendersida':
+                tabortKalendersida($conn);
                 break;
             case 'tabortEvent':
                 tabortEvent($conn);
@@ -20,9 +23,12 @@ include('./Databas/dbh.inc.php');
 
 
 
-function tabortKalender(){
-    //include('dbh.inc.php');
-    $kalenderId = $_POST['kalenderId'];
+tkalendersida
+
+function tabortKalender($conn){
+    
+    $tjanstId = $_POST['tjanstId'];
+
 
         
 
@@ -95,7 +101,70 @@ function tabortKalender(){
                
         
         
-    $conn->close();
+    
+}
+function tabortKalendersida($conn){
+
+            if(isset($_POST['sidId'])){
+                $sidId = $_POST['sidId'];  
+                      
+                $get_kalevid = $conn->query("SELECT * FROM kalenderevent WHERE kalenderId = $sidId");
+                
+                        
+                    while($row = $get_kalevid->fetch_assoc()){
+                        $eventId = $row['eventId'];
+                        echo $eventId;
+                        $conn->query("DELETE FROM event WHERE id = $eventId");
+                    }
+                $conn->query("DELETE FROM kalenderevent WHERE kalenderId =$sidId");
+                        
+                    
+                    
+                
+
+                
+
+                $sql = "DELETE FROM kalendersida WHERE id = '{$sidId}'";
+                   $conn->query($sql);
+
+                
+                
+
+                $tabortKalendersidaJson = array(
+                    'kod'=> '202',
+                    'status'=> 'Accepterad',
+                    'meddelande' => 'kalendersida borttagen',
+                    'kalendersida' => array(
+                        'kalendersidId'=>$sidId
+
+                    )
+                );
+                
+                echo json_encode($tabortKalendersidaJson);
+ 
+                
+                
+            }
+            else{
+                
+                $tabortKalendersidaerrorJson = array(
+                    'kod'=> '400',
+                    'status'=> 'felaktig forfragan',
+                    'meddelande' => 'kunde ej exekvera',
+                    'kalendersida' => array(
+                        'kalendersidId'=>$sidId
+
+                    )
+                );
+                
+                echo json_encode($tabortKalendersidaerrorJson);
+
+               
+            }
+               
+        
+        
+    
 }
 function tabortEvent($conn){
     //include('dbh.inc.php');
