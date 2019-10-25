@@ -22,7 +22,7 @@ include("../../Databas/dbh.inc.php");
                 censureraKommentar($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
         } 
 
 function redigeraBlogg($conn){
@@ -35,30 +35,12 @@ function redigeraBlogg($conn){
     
     if(mysqli_query($conn, $uppdateraBlogg)){
 
-        $redigeraBloggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Blogg edited',
-            'blogg' => array(
-                'bloggid'=>$bloggId,
-                'title'=>$title
-            )
-        );
-        
-        echo json_encode($redigeraBloggJson);
+        hantering('202','Bloggen är ändrad.',);
 
     } else {
-        $redigeraBloggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$bloggId,
-                'title'=>$title
-            )
-        );
+
+        hantering('400','Kunde inte uppdatera bloggen',);
         
-        echo json_encode($redigeraBloggJsonError);
     }
     $conn->close();
 }
