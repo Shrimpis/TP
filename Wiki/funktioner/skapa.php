@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-include("../../Databas/dbh.inc.php");
+include('./Databas/dbh.inc.php');
 
-switch($_POST['funktion']){
+switch($_GET['funktion']){
 
     case 'skapaWiki':
         skapaWiki($conn);
@@ -24,10 +24,10 @@ function skapaWiki($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_POST['anvandarId']) && isset($_POST['titel'])){
-        $userid = $_POST['anvandarId'];
-        $title = $_POST['titel'];
-
+    if(isset($_GET['anvandarId']) && isset($_GET['titel'])){
+        $userid = $_GET['anvandarId'];
+        $title = $_GET['titel'];
+        //var_dump($conn);
         $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
         mysqli_query($conn, $skapaTjanst);
         $skapaWiki = "INSERT INTO wiki(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
@@ -48,12 +48,14 @@ function skapaWikiUppdatering($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_POST['wikiId']) && isset($_POST['sidId']) && isset($_POST['bidragsgivare']) &&isset($_POST['titel']) &&isset($_POST['innehall'])){
-        $wikiId= $_POST['wikiId'];
-        $sidId= $_POST['sidId'];
-        $bidragsGivare= $_POST['bidragsgivare'];
-        $titel= $_POST['titel'];
-        $innehall= $_POST['innehall'];
+    if(isset($_GET['wikiId']) && isset($_GET['sidId']) && isset($_GET['bidragsgivare']) &&isset($_GET['titel']) &&isset($_GET['innehall'])){
+
+        //var_dump($conn);
+        $wikiId= $_GET['wikiId'];
+        $sidId= $_GET['sidId'];
+        $bidragsGivare= $_GET['bidragsgivare'];
+        $titel= $_GET['titel'];
+        $innehall= $_GET['innehall'];
 
         $anvandarroll = $conn->query('select * from anvandarroll where anvandarId='.$bidragsGivare);
         if($sidId!=""){
@@ -93,9 +95,9 @@ function sokFalt($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_POST['sok'])){
+    if(isset($_GET['sok'])){
           
-        $sok= $_POST['sok'];
+        $sok= $_GET['sok'];
     
         $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE titel LIKE '%$sok%'") or die ("Could not search");
         if($count = mysqli_num_rows($query)){
