@@ -12,7 +12,7 @@ mysqlI_set_charset($conn, "utf8mb4");
 
 
 
-if(isset($_SESSION["UID"]) && $_GET["status"]){
+if(isset($_SESSION["UID"])){
 
 $sql = "SELECT *from kalendersida where anvandarId=".$_SESSION["UID"];
 
@@ -33,5 +33,9 @@ $id = $kalender["kalenderId"];
     echo "du har blivit inbjuden till ".$row["titel"]." av ".$row["anamn"]." klockan: ".$row["startTid"]." : ".$row["slutTid"] ."<br>";
     echo "<button>Neka</button>   <button>Accpetera</button><br>";
   }
+
+}else if(isset($_SESSION["UID"]) && $_GET["status"] && $_GET["status"] < 3 && $_GET["status"] >= 0){
+
+  
 
 }
