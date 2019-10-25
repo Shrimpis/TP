@@ -1,6 +1,6 @@
 
 
-function statusAndra(status){
+function statusAndra(status,id){
 
 let http = new XMLHttpRequest();
 
@@ -13,7 +13,7 @@ http.onreadystatechange = function ({
   }
 
 
-http.open("GET","status.php?status="+status,true);
+http.open("GET","status.php?status="+status+"&kalenderID="+id,true);
 http.send();
 });
 
