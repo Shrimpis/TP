@@ -13,6 +13,9 @@ include('dbh.inc.php');
             case 'skapaKalendersida':
                 skapaKalendersida();
                 break;
+            case 'skapaKalenderevent':
+                skapaKalenderevent();
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
@@ -107,3 +110,4 @@ function skapaKalendersida(){
         echo json_encode($skapaKalendersidaerrorJson);
     }
 }
+
