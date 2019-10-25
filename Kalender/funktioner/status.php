@@ -12,7 +12,7 @@ mysqlI_set_charset($conn, "utf8mb4");
 
 
 
-if(isset($_SESSION["UID"])){
+if(isset($_SESSION["UID"]) && $_GET["status"]){
 
 $sql = "SELECT *from kalendersida where anvandarId=".$_SESSION["UID"];
 
