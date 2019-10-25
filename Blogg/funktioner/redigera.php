@@ -22,7 +22,7 @@ include("../../Databas/dbh.inc.php");
                 censureraKommentar($conn);
                 break;
             default:
-                hantering('400','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
+                hantering('404','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
         } 
 
 function redigeraBlogg($conn){
@@ -61,27 +61,12 @@ function privatiseraBlogg($conn){
     
     if(mysqli_query($conn, $uppdateraTjanst)){
 
-        $privatiseraTjanstJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'tjanst har redigerats',
-            'tjanst' => array(
-                'bloggId'=>$bloggId,
-            )
-        );
+        hantering('200','Blogg privatiserad',);
         
-        echo json_encode($privatiseraTjanstJson);
     } else {
-        $privatiseraTjanstJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'tjanst' => array(
-                'bloggId'=>$bloggId,
-            )
-        );
-        
-        echo json_encode($privatiseraTjanstJsonError);
+
+        hantering('400','Blogg kunde inte privatiseras',);
+
     }
     $conn->close();
 }
@@ -97,28 +82,12 @@ function redigeraKommentar($conn){
 
     if(mysqli_query($conn, $uppdateraKommentar)){
 
-        $redigeraKommentarJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Comment uppdated',
-            'comment' => array(
-                'commentID'=>$Kid
-            )
-        );
-        
-        echo json_encode($redigeraKommentarJson);
+        hantering('200','Kommentar har redigerats',);
 
     } else {
-        $redigeraKommentarJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'comment' => array(
-                'commentID'=>$Kid
-            )
-        );
-        
-        echo json_encode($redigeraKommentarJsonError);
+
+        hantering('400','Kommentar kunde inte redigeras',);
+
     }
     $conn->close();
 }
@@ -132,28 +101,13 @@ function redigeraInlagg($conn){
     $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}', innehall = '{$innehall}' WHERE id = $inlaggsId ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
-        $redigeraInlaggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Post uppdated',
-            'post' => array(
-                'postID'=>$inlaggsId
-            )
-        );
-        
-        echo json_encode($redigeraInlaggJson);
+
+        hantering('200','Inlägget har redigerats',);
 
     } else {
-        $redigeraInlaggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'post' => array(
-                'postID'=>$inlaggsId
-            )
-        );
-        
-        echo json_encode($redigeraInlaggJsonError);
+
+        hantering('400','Inlägg kunde inte redigeras',);
+
     }
     $conn->close();
 }
@@ -173,16 +127,7 @@ function censureraKommentar($conn){
                 $sql= "UPDATE kommentar SET censurerad = '1' WHERE id = $id ";
                 $conn->query($sql);
 
-                $censureraKommentarJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'Comment censored',
-                    'comment' => array(
-                        'commentID'=>$id
-                    )
-                );
-                
-                echo json_encode($censureraKommentarJson);
+                hantering('200','Kommentaren har censurerats',);
 
                 break;
                
