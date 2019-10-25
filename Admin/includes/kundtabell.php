@@ -1,7 +1,20 @@
 <?php 
+    
+    // The Provider Cusomers databasanslutning//
+
+    $dbServername2 = 'localhost';
+    $dbUsername2 = 'root';
+    $dbPassword2 = '';
+    $dbName2 = 'customers';
+
+    $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
+    mysqli_set_charset($conn2, "utf8mb4");
+
     include('funktioner/dbh.inc.php');
 
-    $total_pages = $conn->query('SELECT COUNT(*) FROM kundrattigheter')->fetch_row()[0];
+    // Kundtabellfunktioner //
+
+    $total_pages = $conn2->query('SELECT COUNT(*) FROM customers')->fetch_row()[0];
 
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 
@@ -15,13 +28,17 @@
     //$sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?";
     //$result = $conn->query($sql);
 
-    if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?')){
+    //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
+
+    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, the_provider.kundrattigheter.kontoID FROM customers.customers LEFT JOIN the_provider.kundrattigheter ON customers.customers.id = the_provider.kundrattigheter.id ORDER BY customers.customers.id LIMIT ?,?')){
         $calc_page = ($page - 1) * $num_results_on_page;
         $stmt->bind_param('ii', $calc_page, $num_results_on_page);
         $stmt->execute(); 
         // Get the results...
         $result = $stmt->get_result();
         $stmt->close();
+    } else {
+        echo "error";
     }
 
     if ($result->num_rows > 0) {
@@ -33,7 +50,7 @@
             <div class='card-header' id='headingThree'>
                 <h5 class='mb-0'>
                 <button class='btn btn-link collapsed' data-toggle='collapse' data-target='#Kund". $row["id"] ."' aria-expanded='false' aria-controls='collapseThree'>
-                    Kund #". $row["id"] ."
+                    Kund #". $row["id"] ." - ". $row["namn"] ."
                 </button>
                 </h5>
             </div>
