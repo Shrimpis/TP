@@ -5,6 +5,7 @@
 session_start();
 
 include('./Databas/dbh.inc.php');
+include("../../json/felhantering.php");
         switch ($_POST['funktion']) {
 
             case 'aktiveraEvent':
@@ -38,7 +39,7 @@ include('./Databas/dbh.inc.php');
                     }
 
                     else{
-                        echo "hej";
+                        hantering('400','Event id finns inte i database.',);
                     }
                 }
                 
