@@ -31,6 +31,13 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         </div>
       ";
     }
+    if (strpos($url,'funktion=search?status=failed') == true) {
+        echo "
+        <div class='alert alert-warningalert-dismissible fade show' role='alert'>
+            Sökfälten är tomma.
+        </div>
+      ";
+    }
     if (strpos($url,'funktion=aktiveraKonto?status=success') == true) {
         echo "
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
