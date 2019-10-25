@@ -4,24 +4,25 @@
 
 session_start();
 
-include('../../Databas/dbh.inc.php');
+include('./Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortKalender':
                 tabortKalender();
                 break;
-
+            case 'tabortEvent':
+                tabortEvent($conn);
+                break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-$conn->close();
 
 
 
 
 function tabortKalender(){
-    include('dbh.inc.php');
-    $tjanstId = $_POST['tjanstId'];
+    //include('dbh.inc.php');
+    $kalenderId = $_POST['kalenderId'];
 
         
 
@@ -95,4 +96,28 @@ function tabortKalender(){
         
         
     $conn->close();
+}
+function tabortEvent($conn){
+    //include('dbh.inc.php');
+    if(isset($_POST['id']) ){
+        $id = $_POST['id'];
+        
+    }
+    $event = $conn->query('select * from event where id ='.$id);
+
+    $row=$event->fetch_assoc();
+
+    $eventId=$row['id'];
+
+    if($id==$eventId ){
+        
+        $sql = "DELETE FROM event WHERE id='{$id}'";
+        $conn->query($sql);
+    }
+    else{
+        
+        include("./json/felhantering.php");
+        hantering('400','Event id existerar inte på databasen.',);
+    }
+    $conn->close();  
 }

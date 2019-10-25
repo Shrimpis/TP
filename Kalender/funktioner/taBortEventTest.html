@@ -9,7 +9,12 @@
 <body>
 
     
-    <form action ="taBortEvent.php" method = "post">
+    <form action="/theProvider/api.php" method="POST">
+            <input type='hidden' name='nyckel' value='436jqgf8h28IWGui'/>
+          	<input type='hidden' name='tjanst' value='kalender'/>
+        	<input type='hidden' name='typ' value='function'/>
+            <input type='hidden' name='handling' value='tabort'/>
+            <input type='hidden' name='funktion' value='tabortEvent'/>
         Event ID: <input name="id" type="text" size="30"/><br>
 
         <input type="submit" value="Remove"/>
