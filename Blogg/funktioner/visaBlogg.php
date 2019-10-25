@@ -21,8 +21,7 @@
 
     let anvandarId = <?php echo $_GET['anvandarId']?>;
     let bloggId = <?php echo $_GET['bloggId']?>;
-
-    //console.log(bloggId);
+    
 
 </script>
 
