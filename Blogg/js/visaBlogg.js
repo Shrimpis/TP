@@ -45,21 +45,31 @@ function createFlagga(){
 
 
 //Skapar inlägg
-function createInlagg() {
+function createInlagg(id) {
 
     let body = document.getElementById("bloggInlaggContainer");
 
     //Skapar titeln till inlägget
     let titel = document.createElement("h3");
     let titelContainer = document.createElement("div");
+    titelContainer.id = "titelContainer" + id;
     let titelValue = document.createTextNode(jsonData.titel);
     titel.appendChild(titelValue);
     titelContainer.appendChild(titel);
     body.appendChild(titelContainer);
 
+    //Skapar datumet till inlägget
+    let datumElement = document.createElement("h");
+    let datumContainer = document.createElement("div");
+    datumContainer.id = "datumContainer" + id;
+    let datumValue = document.createTextNode(jsonData.datum);
+    datumElement.appendChild(datumValue);
+    datumContainer.appendChild(datumElement);
+    body.appendChild(datumContainer);
+
     //Skapar innehållet till inlägget
     let inlagg = document.createElement("div");
-    inlagg.id = "inlagg" + 1;
+    inlagg.id = "inlagg" + id;
     let divText = document.createElement("div");
     divText.innerHTML = jsonData.innehall;
     inlagg.appendChild(divText);
@@ -69,6 +79,7 @@ function createInlagg() {
     //skapar gillningar till inlägget
     let element = document.createElement("p");
     let gillaContainer = document.createElement("div");
+    gillaContainer.id = "gillaContainer" + id;
     let gillningar = document.createTextNode("Gillningar: " + jsonData.gillningar.length);
     element.appendChild(gillningar);
     gillaContainer.appendChild(element);
@@ -140,7 +151,7 @@ function init() {
             createSkribent();
             createFlagga();
             createTitel();
-            for(let i = 1; i < jsonData.bloggInlagg.length; i++) {
+            for(let i = 1; i <= jsonData.bloggInlagg.length; i++) {
                 next(i);
             }
         }
@@ -158,8 +169,8 @@ function next(id) {
 
             jsonData = JSON.parse(this.responseText);
             
-            console.log(jsonData);
-            createInlagg();
+            //console.log(jsonData);
+            createInlagg(id);
             index = 0;
             recurs(jsonData);
         }
