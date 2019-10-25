@@ -1,6 +1,6 @@
-<?php 
+<?php
     include("funktioner/dbh.inc.php");
-    
+
     session_start();
 ?>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 
     </head>
     <body>
-    
+
         <!-- skapa kalender -->
 
         <h4>Skapa kalender</h4>
@@ -26,15 +26,15 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
-            titel: 
+            titel:
             <input type="text" name="titel">
             <br>
             <input type="submit" value="skapa kalender">
@@ -58,15 +58,15 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
-            kalender: 
+            kalender:
             <select name="kalenderId">
             <?php
                 include("funktioner/dbh.inc.php");
@@ -76,11 +76,11 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
@@ -88,7 +88,7 @@
         </form>
         <br>
         <br>
-
+        
         <!-- skapa event -->
 
         <h4>Skapa kalenderevent</h4>
@@ -105,15 +105,15 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
-            kalender: 
+            kalender:
             <select name="kalenderId">
             <?php
                 include("funktioner/dbh.inc.php");
@@ -123,11 +123,11 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <br>
@@ -149,7 +149,7 @@
 
         <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortKalender'/>
-        kalender: 
+        kalender:
             <select name="kalenderId">
             <?php
                 include("funktioner/dbh.inc.php");
@@ -159,11 +159,11 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
                     }
-                } else { 
-                    echo "0 results"; 
+                } else {
+                    echo "0 results";
                 }
                 $conn->close();
-                
+
             ?>
             </select>
             <input type="submit" value="ta bort kalender">
