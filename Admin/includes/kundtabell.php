@@ -1,6 +1,6 @@
 <?php 
     
-    // The Provider Cusomers databasanslutning//
+    // The Provider customers databasanslutning //
 
     $dbServername2 = 'localhost';
     $dbUsername2 = 'root';
@@ -30,7 +30,9 @@
 
     //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
 
-    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, the_provider.kundrattigheter.kontoID FROM customers.customers LEFT JOIN the_provider.kundrattigheter ON customers.customers.id = the_provider.kundrattigheter.id ORDER BY customers.customers.id LIMIT ?,?')){
+    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, the_provider.kundrattigheter.kontoID 
+                                FROM customers.customers LEFT JOIN the_provider.kundrattigheter ON customers.customers.id = the_provider.kundrattigheter.id 
+                                ORDER BY customers.customers.id LIMIT ?,?')){
         $calc_page = ($page - 1) * $num_results_on_page;
         $stmt->bind_param('ii', $calc_page, $num_results_on_page);
         $stmt->execute(); 
@@ -38,7 +40,7 @@
         $result = $stmt->get_result();
         $stmt->close();
     } else {
-        echo "error";
+        echo "Problem med att hämta kunder från databasen.";
     }
 
     if ($result->num_rows > 0) {
