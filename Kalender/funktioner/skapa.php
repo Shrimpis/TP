@@ -82,7 +82,11 @@ function skapaKalendersida(){
     $anvandarId = $_POST['anvandarId'];
     $kalenderId = $_POST['kalenderId'];
     }
-    $skapasida = "INSERT INTO kalendersida(anvandarId,kalenderId) VALUES($anvandarId,$kalenderId)";
+
+    $get_kalid = $conn->query("SELECT * FROM kalender where tjanstId = $kalenderId");
+    $row = $get_kalid->fetch_assoc();
+    $kalid = $row['id'];
+    $skapasida = "INSERT INTO kalendersida(anvandarId,kalenderId) VALUES($anvandarId,$kalid)";
     if(mysqli_query($conn, $skapasida)){
         $skapaKalendersidaJson = array(
             'code'=> '202',
@@ -121,15 +125,18 @@ function skapaKalenderevent(){
     $slut = $_POST['slutTid'];
     $kalenderId = $_POST['kalenderId'];
     }
-        $conn->query("INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
+        mysqli_query($conn,"INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
+        /*
+        Denna bortkommenterade kod gör samma sak som mysqli_insert_id men om fler funktioner använder mysqli kanske det inte fungerar, då kan vi behöva använda denna kod igen. Däremot kan det bli fel med denna kod om en person lyckas dubbelskicka ett event. 
         $sql="SELECT * FROM event WHERE skapadAv = $anvandarId AND titel= '{$titel}' AND startTid = '{$start}'";
         $result = $conn->query($sql);
         
         while($row = $result->fetch_assoc()){
         $evId = $row['id'];
-        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,$evId,0)";
-        }
         
+        }
+        */
+        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,". mysqli_insert_id($conn).",0)";
         
         
     if(mysqli_query($conn, $skapakalev)){
