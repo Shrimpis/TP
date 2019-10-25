@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 <?php 
     //-include("funktioner/dbh.inc.php");
     include("../../Databas/dbh.inc.php");
-=======
-<?php
-    include("funktioner/dbh.inc.php");
-
->>>>>>> 1cf2a235d4fbd9944df7216aaed54e49750d3d81
     session_start();
 ?>
 <!DOCTYPE html>

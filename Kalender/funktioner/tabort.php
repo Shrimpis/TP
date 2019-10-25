@@ -13,9 +13,6 @@ include('../../Databas/dbh.inc.php');
 
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-<<<<<<< HEAD
-        } 
-=======
         }
 $conn->close();
 
@@ -81,4 +78,3 @@ function tabortKalender(){
         
     $conn->close();
 }
->>>>>>> 1cf2a235d4fbd9944df7216aaed54e49750d3d81

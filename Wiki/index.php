@@ -85,7 +85,7 @@
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId']. " Dolt: " . $row['dolt'] . "</option>";
+                        echo "<option value='" . $row['id'] . "'>" . $row['id']. " Dolt: " . $row['dolt'] . "</option>";
                     }
                 } else { 
                     echo "0 results"; 
@@ -105,7 +105,7 @@
 
         <form action="funktioner/nekawiki.php" method="POST">
         <input type='hidden' name='funktion' value='nekaUppdatering'/>
-            <select name="sidId">
+            <select name="id">
             <?php
             $conn;
                 //-include("funktioner/dbh.inc.php");
