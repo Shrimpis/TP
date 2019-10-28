@@ -3,7 +3,7 @@
 // Funktioner för att skapa
 
 session_start();
-
+include("./json/felhantering.php");
 include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
@@ -17,7 +17,8 @@ include('../../Databas/dbh.inc.php');
                 skapaKalenderevent($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+                break;
         } 
 function skapaKalender($conn){
     //-include('dbh.inc.php');
@@ -34,12 +35,11 @@ function skapaKalender($conn){
                 $sql = "INSERT INTO kalender(tjanstId) VALUES(". mysqli_insert_id($conn).")";
                    $conn->query($sql);
                 
-                   include("./json/felhantering.php");
+                   
                    hantering('202','Ny kalender skapad');
             }
             else{
                 
-                include("./json/felhantering.php");
                 hantering('400','kunde inte exekvera');
             }
                
@@ -60,11 +60,9 @@ function skapaKalendersida($conn){
     $kalid = $row['id'];
     $skapasida = "INSERT INTO kalendersida(anvandarId,kalenderId) VALUES($anvandarId,$kalid)";
     if(mysqli_query($conn, $skapasida)){
-        include("./json/felhantering.php");
         hantering('202','Ny kalendersida skapad');
     }
     else{
-        include("./json/felhantering.php");
         hantering('400','kunde inte exekvera');
     }
 }
@@ -94,12 +92,10 @@ function skapaKalenderevent($conn){
         
         
     if(mysqli_query($conn, $skapakalev)){
-        include("./json/felhantering.php");
         hantering('202','Ny event skapad');
         
     }
     else{
-        include("./json/felhantering.php");
         hantering('400','kunde inte exekvera');
     }
 }

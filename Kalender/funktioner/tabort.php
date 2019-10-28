@@ -3,7 +3,7 @@
 // Funktioner för att ta bort
 
 session_start();
-
+include("./json/felhantering.php");
 include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
@@ -17,7 +17,6 @@ include('../../Databas/dbh.inc.php');
                 tabortEvent($conn);
                 break;
             default:
-                include("./json/felhantering.php");
                 hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
                 break;
 
@@ -66,12 +65,10 @@ function tabortKalender($conn){
 
                 $sql = "DELETE FROM kalender WHERE tjanstId = '{$tjanstId}'";
                 $conn->query($sql);
-                include("./json/felhantering.php");
                 hantering('202','Tog bort kalender');
             }
             else{
                 
-                include("./json/felhantering.php");
                 hantering('400','kunde ej exekvera',);
 
                
@@ -104,11 +101,9 @@ function tabortKalendersida($conn){
 
                 $sql = "DELETE FROM kalendersida WHERE id = '{$sidId}'";
                 $conn->query($sql);
-                include("./json/felhantering.php");
                 hantering('202','Tog bort kalendersida');
             }
             else{
-                include("./json/felhantering.php");
                 hantering('400','kunde ej exekvera',);
             }
                
@@ -124,14 +119,12 @@ function tabortEvent($conn){
     $sql = "DELETE FROM event WHERE id='{$id}'";
 
     if(mysqli_query($sql)){
-        include("./json/felhantering.php");
         hantering('202','tog bort event');
         
         
     }
     else{
         
-        include("./json/felhantering.php");
         hantering('400','Event id existerar inte på databasen.',);
     }
     }  
