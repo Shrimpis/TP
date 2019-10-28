@@ -32,7 +32,7 @@ include("../../json/felhantering.php");
                 sokFalt($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
         }
     
     
@@ -45,41 +45,27 @@ include("../../json/felhantering.php");
             $userid = $_POST['anvandarId'];
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
-            mysqli_query($conn, $skapaTjanst);
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
 
             
             
         }
-        if(mysqli_query($conn, $skapaBlogg) && mysqli_query($conn, $skapaTjanst)){
+        if(mysqli_query($conn, $skapaTjanst)){
 
-            $skapaBloggJson = array(
-                'code'=> '201',
-                'status'=> 'Created',
-                'msg' => 'Blogg created',
-                'blogg' => array(
-                    'userid'=>$userid,
-                    'title'=>$title,
-                    'privat'=> '0'
-                )
-            );
-
-            echo json_encode($skapaBloggJson);
+            hantering('200','Tjänsten har skapats',);
 
         } else {
 
-            $skapaBloggJsonError = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Could not execute',
-                'blogg' => array(
-                    'userid'=>$userid,
-                    'title'=>$title,
-                    'privat'=> '0'
-                )
-            );
+            hantering('400','Tjänsten kunde inte skapas',);
 
-            echo json_encode($skapaBloggJsonError);
+        }
+        if(mysqli_query($conn, $skapaBlogg)){
+
+            hantering('200','Bloggen har skapats',);
+
+        }else{
+
+            hantering('400','Bloggen kunde inte skapas',);
 
         }
         $conn->close();
@@ -99,33 +85,13 @@ include("../../json/felhantering.php");
         $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$bloggID','$title','$innehall','$date')";
         
         if(mysqli_query($conn, $sql)){
-            $skapaInlaggJson = array(
-                'code'=> '201',
-                'status'=> 'Created',
-                'msg' => 'Post created',
-                'post' => array(
-                    'bloggid'=>$bloggID,
-                    'title'=>$title,
-                    'content'=>$innehall,
-                    'date'=>$date
-                )
-            );
+
+            hantering('200','Blogginlägget har skapats',);
             
-            echo json_encode($skapaInlaggJson);
         } else {
-            $skapaInlaggJsonError = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Could not execute',
-                'post' => array(
-                    'bloggid'=>$bloggID,
-                    'title'=>$title,
-                    'content'=>$innehall,
-                    'date'=>$date
-                )
-            );
+
+            hantering('400','Bloginlägget kunde inte skapas',);
             
-            echo json_encode($skapaInlaggJsonError);
         }
         
         $conn->close();
@@ -143,33 +109,12 @@ include("../../json/felhantering.php");
         }
         $skapaKommentar = "INSERT INTO kommentar (anvandarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
-            $skapaKommentarJson = array(
-                'code'=> '201',
-                'status'=> 'Created',
-                'msg' => 'Comment created',
-                'comment' => array(
-                    'userid'=>$anvandarId,
-                    'postid'=>$inlaggsId,
-                    'text'=>$text,
-                    'hierarchyID'=>$hierarchyID
-                )
-            );
-            
-            echo json_encode($skapaKommentarJson);
+
+            hantering('200','Kommentar har skapats',);
+
         } else{
-            $skapaKommentarJsonError = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Could not executed',
-                'comment' => array(
-                    'userid'=>$anvandarId,
-                    'postid'=>$inlaggsId,
-                    'text'=>$text,
-                    'hierarchyID'=>$hierarchyID
-                )
-            );
-            
-            echo json_encode($skapaKommentarJsonError);
+
+            hantering('400','Kommentar kunde inte skapas',);
             
         }
         $conn->close();
@@ -178,7 +123,6 @@ include("../../json/felhantering.php");
 
 
     function sokFalt($conn){
-        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['sok'])){
             $sok= $_POST['sok'];
         } 
@@ -197,6 +141,7 @@ include("../../json/felhantering.php");
                 $output ='<div> '.$title.'</div>';
                 print ($output);
             }
+            hantering('200','Din förfrågan lyckades',);
         }
         $conn->close();
     }
@@ -214,59 +159,23 @@ include("../../json/felhantering.php");
             $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$anvandarId', '{$inlaggsId}')";
             if(mysqli_query($conn, $like)){
 
-                $gillaInlaggJson = array(
-                    'code'=> '201',
-                    'status'=> 'Created',
-                    'msg' => 'Like applied',
-                    'like' => array(
-                        'userid'=>$anvandarId,
-                        'postid'=>$inlaggsId
-                    )
-                );
-                
-                echo json_encode($gillaInlaggJson);
+                hantering('200','Inlägget har gillats',);
 
             } else{
-                $gillaInlaggJsonError = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'like' => array(
-                        'userid'=>$anvandarId,
-                        'postid'=>$inlaggsId
-                    )
-                );
-                
-                echo json_encode($gillaInlaggJsonError);
+
+                hantering('400','Inlägget kunde inte gillas',);
+
             }
         } else {
             $dislike = "DELETE FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'";
             if(mysqli_query($conn, $dislike)){
 
-                $ogillaInlaggJson = array(
-                    'code'=> '201',
-                    'status'=> 'Created',
-                    'msg' => 'Dislike applied',
-                    'dislike' => array(
-                        'userid'=>$anvandarId,
-                        'postid'=>$inlaggsId
-                    )
-                );
-                
-                echo json_encode($ogillaInlaggJson);
+                hantering('200','Inlägget gillas inte längre',);
 
             } else{
-                $ogillaInlaggJsonError = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'dislike' => array(
-                        'userid'=>$anvandarId,
-                        'postid'=>$inlaggsId
-                    )
-                );
-                
-                echo json_encode($ogillaInlaggJsonError);
+
+                hantering('400','Kunde inte ångra gilla statusen på inlägget',);
+
             }
         }
 
@@ -286,17 +195,12 @@ include("../../json/felhantering.php");
             $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
             $conn->query($flagga);
 
-            $flaggaBloggJson = array(
-                'code'=> '201',
-                'status'=> 'Created',
-                'msg' => 'Dislike applied',
-                'flag' => array(
-                    'userid'=>$anvandarId,
-                    'postid'=>$inlaggsId
-                )
-            );
-            
-            echo json_encode($flaggaBloggJson);
+            hantering('200','Bloggen flaggades',);
+
+        }else{
+
+            hantering('400','Kunde inte flagga bloggen',);
+
         }
         
         /*
@@ -307,8 +211,6 @@ include("../../json/felhantering.php");
         }
         */
         
-        
-        header("Location: ../index.php");
         $conn->close();
 
     }
@@ -325,29 +227,12 @@ include("../../json/felhantering.php");
             $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
             $conn->query($flagga);
 
-            $flaggaKommentarJson = array(
-                'code'=> '202',
-                'status'=> 'Accepted',
-                'msg' => 'Comment flagged',
-                'flag' => array(
-                    'commentid'=>$komid,
-                    'userid'=>$anvandarId
-                )
-            );
-            
-            echo json_encode($flaggaKommentarJson);
+            hantering('200','Kommentaren flaggades',);
+
         } else {
-            $flaggaKommentarJsonError = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Could not executed',
-                'flag' => array(
-                    'commentid'=>$komid,
-                    'userid'=>$anvandarId
-                )
-            );
-            
-            echo json_encode($flaggaKommentarJsonError);
+
+            hantering('400','Kommentaren kunde inte flaggas',);
+
         }
         
         /*
