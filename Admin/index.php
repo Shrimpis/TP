@@ -129,13 +129,13 @@ if(!isset($_SESSION['login_user'])){
           </button>
 
           <!-- Topbar Search -->
-          <form action="" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form action="funktioner/search.php" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" name="id" class="form-control bg-light border-0 small" placeholder="Kundnr" aria-label="Search" aria-describedby="basic-addon2">
               <input type="text" name="namn" class="form-control bg-light border-0 small" placeholder="Namn" aria-label="Search" aria-describedby="basic-addon2">
               <input type="text" name="anamn" class="form-control bg-light border-0 small" placeholder="Användarnamn" aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                   <i class="fas fa-search fa-sm"></i>
                   Sök
                 </button>
