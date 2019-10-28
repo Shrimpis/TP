@@ -86,6 +86,16 @@ function skapaKonto($conn){
                     $sql3 = mysqli_query($conn,"UPDATE `kundrattigheter` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kundrattigheter`.`id` = $id");
                 }
 
+                // Skapar API-nyckel //
+
+                $rattighetId = $_POST['id'];
+
+                $nyckel = slumplosen(16);
+
+                $skapaAPI = "INSERT INTO api(rattighetId, nyckel) VALUES ('$rattighetId','$nyckel')";
+
+                $conn->query($skapaAPI);
+
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }
         }

@@ -1,7 +1,48 @@
 <?php 
+    
+    // The Provider customers databasanslutning //
+
+    $dbServername2 = 'localhost';
+    $dbUsername2 = 'root';
+    $dbPassword2 = '';
+    $dbName2 = 'customers';
+
+    $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
+    mysqli_set_charset($conn2, "utf8mb4");
+
     include("../../Databas/dbh.inc.php");
-    $sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter";
-    $result = $conn->query($sql);
+
+    // Kundtabellfunktioner //
+
+    $total_pages = $conn2->query('SELECT COUNT(*) FROM customers')->fetch_row()[0];
+
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+
+    if(isset($_GET['limit'])){
+        $num_results_on_page = $_GET['limit'];
+    } else {
+        $num_results_on_page = 5; //Kundgräns på hur många kunder som ska visas i vyn.
+    }
+
+
+    //$sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?";
+    //$result = $conn->query($sql);
+
+    //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
+
+    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, the_provider.kundrattigheter.kontoID 
+                                FROM customers.customers LEFT JOIN the_provider.kundrattigheter ON customers.customers.id = the_provider.kundrattigheter.id 
+                                ORDER BY customers.customers.id LIMIT ?,?')){
+        $calc_page = ($page - 1) * $num_results_on_page;
+        $stmt->bind_param('ii', $calc_page, $num_results_on_page);
+        $stmt->execute(); 
+        // Get the results...
+        $result = $stmt->get_result();
+        $stmt->close();
+    } else {
+        echo "Problem med att hämta kunder från databasen.";
+    }
+
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo 
@@ -11,7 +52,7 @@
             <div class='card-header' id='headingThree'>
                 <h5 class='mb-0'>
                 <button class='btn btn-link collapsed' data-toggle='collapse' data-target='#Kund". $row["id"] ."' aria-expanded='false' aria-controls='collapseThree'>
-                    Kund #". $row["id"] ."
+                    Kund #". $row["id"] ." - ". $row["namn"] ."
                 </button>
                 </h5>
             </div>
@@ -60,7 +101,7 @@
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
                             </div>
-                            <input type='text' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' aria-describedby='basic-addon1' required autofocus>
+                            <input type='text' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' value='Superadmin-".$row["namn"]."".$row["id"]."' aria-describedby='basic-addon1' required autofocus>
                             </div>
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Skapa konto</button>
                         </form>
@@ -86,7 +127,11 @@
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
                             </div>
-                            <input type='text' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' aria-describedby='basic-addon1'>
+                            <input type='text' value='"; 
+                            
+                            include "show-username.php";
+                            
+                            echo "' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' aria-describedby='basic-addon1'>
                             </div>
                             <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
@@ -96,6 +141,22 @@
                             </div>
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Redigera konto</button>
                         </form>
+                        ";
+
+                        echo 
+                        "
+                        <div style='margin-top:10px;'>
+                            <p>API-Nyckel:</p>
+                    
+
+                            <div class='input-group mb-3'>
+                                <input type='password' class='form-control' aria-label='api' name='anamn' data-toggle='password' value='"; 
+
+                                include "show-api.php";
+
+                                echo "' aria-describedby='basic-addon1'>
+                            </div>
+                        </div>
                         ";
 
                         echo
@@ -191,6 +252,14 @@
 
     }
     echo "</table>";
-    } else { echo "0 results"; }
+    
+    } else { 
+        echo 
+        "
+        <div class='alert alert-primary' style='text-align:center;' role='alert'>
+            Inga resultat på sida ".$_GET['page']."
+        </div>
+        ";
+    }
     $conn->close();
 ?>
