@@ -13,10 +13,11 @@ include("./json/felhantering.php");
                 break;
             case 'redigeraEvent':
                 redigeraEvent($conn);
-            break;
+                break;
 
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
+                break;
         }
 
 
@@ -42,7 +43,7 @@ include("./json/felhantering.php");
                     }
 
                     else{
-                        hantering('400','Event id finns inte i database.',);
+                        hantering('400','Event id finns inte i databasen.',);
                         break;
                     }
                 }
@@ -71,7 +72,7 @@ include("./json/felhantering.php");
                     }
                     
                     else{
-                        hantering('400','Event id finns inte i database.',);
+                        hantering('400','Event id finns inte i databasen',);
                         break;
                     }
                 }
