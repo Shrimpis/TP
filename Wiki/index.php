@@ -219,9 +219,9 @@
             ?>
             </select>
             <br>
-            <input type="text" name="reason">
+            <input type="text" name="anledning">
             <br>
-            <select name="denier">
+            <select name="nekadAv">
             <?php
             $conn;
                 //-include("funktioner/dbh.inc.php");
@@ -234,12 +234,14 @@
                 } else { 
                     echo "0 results"; 
                 }
-                $conn->close();
+
                 
             ?>
             </select>
             <br>
-            <input type="submit" value="neka wiki">
+           
+            <br>
+            <input type="submit" value="neka wikiuppdatering">
         </form>
         <br>
         <br>
