@@ -1,5 +1,5 @@
 <?php 
-$dbServername = '10.130.216.101';
+$dbServername = 'localhost';
 $dbUsername = 'TheProvider';
 $dbPassword = 'lösenord';
 $dbName = 'TheProvider';

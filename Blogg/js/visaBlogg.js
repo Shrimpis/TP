@@ -10,13 +10,10 @@ function createBlogg() {
     createTitel();
     createInlagg();
     createSkribent();
-<<<<<<< HEAD
-
-=======
     createFlagga();
 
     
->>>>>>> master
+
 
 }
 
@@ -69,10 +66,10 @@ function createInlagg(id) {
     let divText = document.createElement("div");
     divText.innerHTML = jsonData.innehall;
     inlagg.appendChild(divText);
-<<<<<<< HEAD
 
-=======
->>>>>>> master
+
+
+
     body.appendChild(inlagg);
 
 
@@ -91,12 +88,11 @@ function createInlagg(id) {
 function createKommentar(kom) {
     let body = document.getElementById("kommentarContainer");
     let kommentar = document.createElement("div");
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> master
+
+
             let element = document.createElement("div");
             //element.id = "kommentarKommentar";
             let element2;
@@ -166,25 +162,13 @@ function next() {
         if (this.readyState === 4 && this.status === 200) {
             
             jsonData = JSON.parse(this.responseText);
-
-<<<<<<< HEAD
-    xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2", true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhttp.send();
-    }
-
-//document.body.onload = function() {init();};
-=======
-            console.log(jsonData);
-            createBlogg();
-            recurs(jsonData);
-        }
-    };
-    
+	    createBlogg();
+	    recurs(jsonData);
+	}
     xhttp.open("GET", "json/bloggjson.php?anvandare=1&blogg=2&inlagg=2", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhttp.send();
-}
-    
-    document.body.onload = function() {init();};
->>>>>>> master
+    }
+    }
+   // document.body.onload = function() {init();};
+
