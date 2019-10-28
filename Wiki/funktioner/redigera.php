@@ -278,7 +278,7 @@ function nekaUppdatering($conn){
         $titel = $row['titel'];
         $innehall = $row['innehall'];
         $wikiId = $row['wikiId'];
-        $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum) VALUES($id, $bidragsgivare, $nekadAv, '{$titel}', '{$innehall}', '{$anledning}', '$datum')";
+        $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum, wikiId) VALUES($id, $bidragsgivare, $nekadAv, '{$titel}', '{$innehall}', '{$anledning}', '$datum', $wikiId)";
         $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id=$id";
         if(mysqli_query($conn, $nekaUppdatering)&&mysqli_query($conn, $tabortuppdatering)){
         

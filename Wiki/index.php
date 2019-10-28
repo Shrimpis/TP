@@ -219,9 +219,9 @@
             ?>
             </select>
             <br>
-            <input type="text" name="reason">
+            <input type="text" name="anledning">
             <br>
-            <select name="denier">
+            <select name="nekadAv">
             <?php
             $conn;
                 //-include("funktioner/dbh.inc.php");
