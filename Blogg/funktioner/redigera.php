@@ -136,20 +136,13 @@ function censureraKommentar($conn){
                 $sql= "UPDATE kommentar SET censurerad = '0' WHERE id = $id ";
                 $conn->query($sql);
 
-                $avCensureraKommentarJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'Comment is now public',
-                    'comment' => array(
-                        'commentID'=>$id 
-                    )
-                );
-                
-                echo json_encode($avCensureraKommentarJson);
+                hantering('200','Kommentaren är inte censurerad längre',);
 
                break;
             }
             else{
+
+                hantering('400','Kommentaren kunde inte censureras',);
                 $censureraKommentarErrorJson = array(
                     'code'=> '400',
                     'status'=> 'Bad Request',
