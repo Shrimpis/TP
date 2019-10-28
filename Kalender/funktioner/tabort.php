@@ -170,23 +170,19 @@ function tabortEvent($conn){
     //include('dbh.inc.php');
     if(isset($_POST['id']) ){
         $id = $_POST['id'];
+
+    $sql = "DELETE FROM event WHERE id='{$id}'";
+
+    if(mysqli_query($sql)){
+        include("./json/felhantering.php");
+        hantering('202','tog bort event');
         
-    }
-    $event = $conn->query('select * from event where id ='.$id);
-
-    $row=$event->fetch_assoc();
-
-    $eventId=$row['id'];
-
-    if($id==$eventId ){
         
-        $sql = "DELETE FROM event WHERE id='{$id}'";
-        $conn->query($sql);
     }
     else{
         
         include("./json/felhantering.php");
         hantering('400','Event id existerar inte på databasen.',);
     }
-    $conn->close();  
+    }  
 }
