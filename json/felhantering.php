@@ -17,8 +17,8 @@ function hantering($code,$msg){
     if($code=='400'){
         $status='Bad Request';
     }
-    $hideWikiJson = array('code'=> $code,'status'=> $status,'msg' => $msg);
-    echo json_encode($hideWikiJson);
+    $errorJson = array('code'=> $code,'status'=> $status,'msg' => $msg);
+    echo json_encode($errorJson);
 }
 
 ?>

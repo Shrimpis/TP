@@ -3,7 +3,7 @@
 // Funktioner för att ta bort
 
 session_start();
-
+include("./json/felhantering.php");
 include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
@@ -17,7 +17,9 @@ include('../../Databas/dbh.inc.php');
                 tabortEvent($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
+                break;
+
         }
 
 
@@ -62,39 +64,12 @@ function tabortKalender($conn){
                 
 
                 $sql = "DELETE FROM kalender WHERE tjanstId = '{$tjanstId}'";
-                   $conn->query($sql);
-
-                
-                
-
-                $tabortKalenderJson = array(
-                    'kod'=> '202',
-                    'status'=> 'Accepterad',
-                    'meddelande' => 'kalender borttagen',
-                    'kalender' => array(
-                        'kalenderId'=>$tjanstId
-
-                    )
-                );
-                
-                echo json_encode($tabortKalenderJson);
- 
-                
-                
+                $conn->query($sql);
+                hantering('202','Tog bort kalender');
             }
             else{
                 
-                $tabortKalendererrorJson = array(
-                    'kod'=> '400',
-                    'status'=> 'felaktig forfragan',
-                    'meddelande' => 'kunde ej exekvera',
-                    'kalender' => array(
-                        'kalenderId'=>$tjanstId
-
-                    )
-                );
-                
-                echo json_encode($tabortKalendererrorJson);
+                hantering('400','kunde ej exekvera',);
 
                
             }
@@ -125,41 +100,11 @@ function tabortKalendersida($conn){
                 
 
                 $sql = "DELETE FROM kalendersida WHERE id = '{$sidId}'";
-                   $conn->query($sql);
-
-                
-                
-
-                $tabortKalendersidaJson = array(
-                    'kod'=> '202',
-                    'status'=> 'Accepterad',
-                    'meddelande' => 'kalendersida borttagen',
-                    'kalendersida' => array(
-                        'kalendersidId'=>$sidId
-
-                    )
-                );
-                
-                echo json_encode($tabortKalendersidaJson);
- 
-                
-                
+                $conn->query($sql);
+                hantering('202','Tog bort kalendersida');
             }
             else{
-                
-                $tabortKalendersidaerrorJson = array(
-                    'kod'=> '400',
-                    'status'=> 'felaktig forfragan',
-                    'meddelande' => 'kunde ej exekvera',
-                    'kalendersida' => array(
-                        'kalendersidId'=>$sidId
-
-                    )
-                );
-                
-                echo json_encode($tabortKalendersidaerrorJson);
-
-               
+                hantering('400','kunde ej exekvera',);
             }
                
         
@@ -174,14 +119,12 @@ function tabortEvent($conn){
     $sql = "DELETE FROM event WHERE id='{$id}'";
 
     if(mysqli_query($sql)){
-        include("./json/felhantering.php");
         hantering('202','tog bort event');
         
         
     }
     else{
         
-        include("./json/felhantering.php");
         hantering('400','Event id existerar inte på databasen.',);
     }
     }  

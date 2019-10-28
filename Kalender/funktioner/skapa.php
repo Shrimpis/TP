@@ -3,7 +3,7 @@
 // Funktioner för att skapa
 
 session_start();
-
+include("./json/felhantering.php");
 include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
@@ -17,7 +17,8 @@ include('../../Databas/dbh.inc.php');
                 skapaKalenderevent($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+                break;
         } 
 function skapaKalender($conn){
     //-include('dbh.inc.php');
@@ -34,39 +35,12 @@ function skapaKalender($conn){
                 $sql = "INSERT INTO kalender(tjanstId) VALUES(". mysqli_insert_id($conn).")";
                    $conn->query($sql);
                 
-
-                $skapaKalenderJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'kalender skapad',
-                    'kalender' => array(
-                        'anvandarId'=>$anvandarId,
-                        'titel'=>$titel,
-                        'privat'=> '1'
-                    )
-                );
-                
-                echo json_encode($skapaKalenderJson);
- 
-                
-                
+                   
+                   hantering('202','Ny kalender skapad');
             }
             else{
                 
-                $skapaKalendererrorJson = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'kalender' => array(
-                        'anvandarId'=>$anvandarId,
-                        'titel'=>$titel,
-                        'privat'=> '1'
-                    )
-                );
-                
-                echo json_encode($skapaKalendererrorJson);
-
-               
+                hantering('400','kunde inte exekvera');
             }
                
         
@@ -86,30 +60,10 @@ function skapaKalendersida($conn){
     $kalid = $row['id'];
     $skapasida = "INSERT INTO kalendersida(anvandarId,kalenderId) VALUES($anvandarId,$kalid)";
     if(mysqli_query($conn, $skapasida)){
-        $skapaKalendersidaJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'kalendersida skapad',
-            'kalendersida' => array(
-                'anvandarId'=>$anvandarId,
-                'kalenderId'=>$kalenderId
-            )
-        );
-        
-        echo json_encode($skapaKalendersidaJson);
+        hantering('202','Ny kalendersida skapad');
     }
     else{
-        $skapaKalendersidaerrorJson = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'kalendersida' => array(
-                'anvandarId'=>$anvandarId,
-                'kalenderId'=>$kalenderId
-            )
-        );
-        
-        echo json_encode($skapaKalendersidaerrorJson);
+        hantering('400','kunde inte exekvera');
     }
 }
 
@@ -138,31 +92,10 @@ function skapaKalenderevent($conn){
         
         
     if(mysqli_query($conn, $skapakalev)){
+        hantering('202','Ny event skapad');
         
-        $skapaKalendereventJson = array(
-            'kod'=> '202',
-            'status'=> 'Accepterat',
-            'meddelande' => 'kalenderevent skapad',
-            'kalenderevent' => array(
-                'anvandarId'=>$anvandarId,
-                'titel'=>$titel
-            )
-        );
-        
-        echo json_encode($skapaKalendereventJson);
     }
     else{
-        
-        $skapaKalendereventerrorJson = array(
-            'kod'=> '400',
-            'status'=> 'felaktig forfragan',
-            'meddelande' => 'kunde inte exekvera',
-            'kalenderevent' => array(
-                'anvandarId'=>$anvandarId,
-                'titel'=>$titel
-            )
-        );
-        
-        echo json_encode($skapaKalendereventerrorJson);
+        hantering('400','kunde inte exekvera');
     }
 }
