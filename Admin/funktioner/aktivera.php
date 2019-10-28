@@ -15,15 +15,21 @@ $conn->close();
 function aktiveraTjanst(){
     include("dbh.inc.php");
 
-    $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
+    $id = $_POST['id']; //Kund-ID
     $tjanst = (isset($_POST['CheckTjanst'])) ? 1 : 0;
 
-    $aktivera = "INSERT INTO kundrattigheter(id,tjanst, superadmin, kontoId) VALUES ($id ,$tjanst, '0', '0')";
+    $result = ($conn->query("SELECT id FROM kundrattigheter WHERE id=$id"));
 
-    if(mysqli_query($conn, $aktivera)){
+    if(mysqli_num_rows($result) > 0){
+        $aktivera = "UPDATE `kundrattigheter` SET `tjanst` = '$tjanst', `superadmin` = '0', `kontoId` = '0' WHERE `kundrattigheter`.`id` = $id ";
+        $conn->query($aktivera);
+
         header('location: ../index.php?funktion=aktiveraTjanst?m=success');
     } else {
-        echo "ERROR: Could not able to execute $aktivera. " . mysqli_error($conn);
+        $aktivera = "INSERT INTO kundrattigheter(id,tjanst, superadmin, kontoId) VALUES ($id ,$tjanst, '0', '0')";
+        $conn->query($aktivera);
+        
+        header('location: ../index.php?funktion=aktiveraTjanst?m=success');
     }
 
 }
