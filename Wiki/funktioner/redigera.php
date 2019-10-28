@@ -262,6 +262,7 @@ function nekaUppdatering($conn){
     if(isset($_POST['id'])&&isset($_POST['nekadAv'])){
         $id = $_POST['id'];
         $nekadAv = $_POST['nekadAv'];
+        
         if(isset($_POST['anledning'])){
             $anledning = $_POST['anledning'];
         }
@@ -269,13 +270,14 @@ function nekaUppdatering($conn){
             $anledning = "angavs ej";
         }
         
-    
+        
         $get_data=$conn->query("SELECT * FROM wikiuppdatering WHERE id=$id");
         $row = $get_data->fetch_assoc();
         $datum = date("Y-m-d");
         $bidragsgivare = $row['bidragsgivare'];
         $titel = $row['titel'];
         $innehall = $row['innehall'];
+        $wikiId = $row['wikiId'];
         $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum) VALUES($id, $bidragsgivare, $nekadAv, '{$titel}', '{$innehall}', '{$anledning}', '$datum')";
         $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id=$id";
         if(mysqli_query($conn, $nekaUppdatering)&&mysqli_query($conn, $tabortuppdatering)){

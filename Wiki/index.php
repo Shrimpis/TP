@@ -234,12 +234,14 @@
                 } else { 
                     echo "0 results"; 
                 }
-                $conn->close();
+
                 
             ?>
             </select>
             <br>
-            <input type="submit" value="neka wiki">
+           
+            <br>
+            <input type="submit" value="neka wikiuppdatering">
         </form>
         <br>
         <br>
