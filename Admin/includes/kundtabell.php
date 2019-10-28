@@ -10,7 +10,7 @@
     $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
     mysqli_set_charset($conn2, "utf8mb4");
 
-    include("../../Databas/dbh.inc.php");
+    include("../Databas/dbh.inc.php");
 
     // Kundtabellfunktioner //
 
@@ -30,8 +30,8 @@
 
     //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
 
-    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, the_provider.kundrattigheter.kontoID 
-                                FROM customers.customers LEFT JOIN the_provider.kundrattigheter ON customers.customers.id = the_provider.kundrattigheter.id 
+    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, theprovider.kundrattigheter.kontoID 
+                                FROM customers.customers LEFT JOIN theprovider.kundrattigheter ON customers.customers.id = theprovider.kundrattigheter.id 
                                 ORDER BY customers.customers.id LIMIT ?,?')){
         $calc_page = ($page - 1) * $num_results_on_page;
         $stmt->bind_param('ii', $calc_page, $num_results_on_page);

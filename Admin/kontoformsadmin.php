@@ -102,6 +102,36 @@
 </form>
 <br>
 <br>
+<!-- avaktivera konto (Sadmin) -->
+
+<h4>harddel konto (TP)</h4>
+
+
+<form action="funktioner/tabort.php" method="POST">
+<input type='hidden' name='funktion' value='harddelKonto'/>
+
+    <br>
+    <select name="kontoID">
+    <?php
+        $conn;
+        //-include("../Databas/dbh.inc.php");
+        $sql = "SELECT * from anvandare where aktiv = true";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<option value='". $row["id"] ."'>id: ". $row['id']."</option>";
+            }
+            echo "</table>";
+        } else { echo "0 results"; }
+        
+        
+    ?>
+    </select>
+    <br>
+    <input type="submit" value="harddel konto">
+</form>
+<br>
+<br>
 <!-- Redigera konto (user) -->
 
 <h4>Redigera kontoredigerare (Sadmin)</h4>
