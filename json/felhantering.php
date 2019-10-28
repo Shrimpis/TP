@@ -30,6 +30,7 @@ function hantering($code,$msg){
         $status = 'Unsupported Media Type';
     }
     $errorJson = array('code'=> $code,'status'=> $status,'msg' => $msg);
+    http_response_code($code);
     echo json_encode($errorJson);
 }
 
