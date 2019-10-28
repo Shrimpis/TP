@@ -5,7 +5,7 @@
 session_start();
 
 include("../../Databas/dbh.inc.php");
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
 
             case 'tabortBlogg':
                 tabortBlogg($conn);
@@ -26,8 +26,8 @@ include("../../Databas/dbh.inc.php");
 
 function tabortBlogg($conn){
     //-include("../../Databas/dbh.inc.php");
-    if(isset($_GET['bloggId'])){
-    $bloggId = $_GET['bloggId'];
+    if(isset($_POST['bloggId'])){
+    $bloggId = $_POST['bloggId'];
 
     $taBortTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
     $taBortFlaggningBlogg = "DELETE FROM flaggadblogg WHERE bloggId = '{$bloggId}'";
@@ -125,12 +125,13 @@ function tabortBlogg($conn){
 
 function tabortInlagg($conn){
     //-include("../../Databas/dbh.inc.php");
-    $inlaggsId = mysqli_real_escape_string($conn, $_GET['inlaggsId']);
+    $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
     $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
     $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
     $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
 
     if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)){
+
         $tabortInlaggJson = array(
             'code'=> '202',
             'status'=> 'Accepted',
@@ -170,7 +171,7 @@ function tabortInlagg($conn){
 function tabortKommentar($conn){
     
     //-include("../../Databas/dbh.inc.php");
-    $kommentarId = mysqli_real_escape_string($conn, $_REQUEST['kommentarId']);
+    $kommentarId = mysqli_real_escape_string($conn, $_POST['kommentarId']);
     $KIDarray[0] = $kommentarId;
     $temparray = array();
     
@@ -181,27 +182,13 @@ function tabortKommentar($conn){
     $sql = "DELETE FROM kommentar WHERE id in ($deleteID)";
     
     if(mysqli_query($conn, $sql)){
-        $tabortKommentarJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Comment deleted',
-            'comment' => array(
-                'commentid'=>$kommentarId
-            )
-        );
-        
-        echo json_encode($tabortKommentarJson);
+
+        hantering('200','Kommentaren har tagits bort',);
+
     } else {
-        $tabortKommentarJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad',
-            'msg' => 'Could not execute',
-            'comment' => array(
-                'commentid'=>$kommentarId
-            )
-        );
-        
-        echo json_encode($tabortKommentarJsonError);
+
+        hantering('400','Kommentaren kunde inte tas bort',);
+
     }
     
 
@@ -222,12 +209,7 @@ $temparray = array();
 if(mysqli_num_rows($looparray) > 0)
     while($row=$looparray->fetch_assoc()){
     
-    
         array_push($temparray,$row['id']);
-    
-    
-    
-    
     
     }
 
@@ -236,14 +218,6 @@ if(mysqli_num_rows($looparray) > 0)
         return loop($temparray[0],$conn,$KIDarray,$temparray);
     }
 
-
-
-
-    //cred to Brandon 4 code help big thx
-
-
-
-    
     return $KIDarray;  
 }
 
