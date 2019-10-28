@@ -66,7 +66,6 @@ include("./json/felhantering.php");
                     if($id==$eventId){
                         
                         $sql= "UPDATE event SET titel='$titel', innehall='$innehall', startTid='$startTid', slutTid='$slutTid' WHERE id =$id ";
-                        echo $sql;
                         $conn->query($sql);
                         break;
                     }
