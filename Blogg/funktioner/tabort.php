@@ -5,7 +5,7 @@
 session_start();
 
 include("../../Databas/dbh.inc.php");
-        switch ($_POST['funktion']) {
+        switch ($_GET['funktion']) {
 
             case 'tabortBlogg':
                 tabortBlogg($conn);
@@ -26,16 +26,44 @@ include("../../Databas/dbh.inc.php");
 
 function tabortBlogg($conn){
     //-include("../../Databas/dbh.inc.php");
-    if(isset($_POST['bloggId'])){
-    $bloggId = $_POST['bloggId'];
+    if(isset($_GET['bloggId'])){
+    $bloggId = $_GET['bloggId'];
 
     $taBortTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
+    $taBortFlaggningBlogg = "DELETE FROM flaggadblogg WHERE bloggId = '{$bloggId}'";
     $taBortBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
     $taBortInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
-    $inlaggsId = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
-    $taBortKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
-    $taBortLike = "DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
+    $inlaggsId = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId = $bloggId"));
+    $kommentarId = ($conn->query("SELECT id FROM kommentar WHERE inlaggId = $inlaggsId"));
+    $taBortFlaggningKommentar = "DELETE FROM flaggadkommentar WHERE kommentarId = '{$kommentarId}'";
+    $taBortKommentar = "DELETE FROM kommentar WHERE inlaggId = $inlaggsId";
+    $taBortLike = "DELETE FROM gillningar WHERE inlaggId = $inlaggsId";
 
+    
+
+    if(mysqli_query($conn, $taBortFlaggningBlogg)){
+
+        hantering('200','Flaggning på bloggen har tagits bort',);
+
+    }else{
+
+        hantering('400','Flaggning på bloggen kunde inte tas bort',);
+
+    }
+    while($row = $kommentarId->fetch_assoc()){
+        $kommentarId = $row['id'];
+
+        if(mysqli_query($conn, $taBortFlaggningKommentar)){
+
+            hantering('200','Flaggningen på kommentaren har tagits bort',);
+
+        }else{
+
+            hantering('400','Flaggningen på kommentaren kunde inte tas bort',);
+
+        }
+
+    }
     while($row = $inlaggsId->fetch_assoc()){
         $inlaggsId= $row['id'];
     
@@ -97,12 +125,12 @@ function tabortBlogg($conn){
 
 function tabortInlagg($conn){
     //-include("../../Databas/dbh.inc.php");
-    $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
+    $inlaggsId = mysqli_real_escape_string($conn, $_GET['inlaggsId']);
     $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
     $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
     $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
 
-    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)&&mysqli_query($conn, $delLike)){
+    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)){
         $tabortInlaggJson = array(
             'code'=> '202',
             'status'=> 'Accepted',
@@ -124,6 +152,15 @@ function tabortInlagg($conn){
         );
         
         echo json_encode($tabortInlaggJsonError);
+    }
+    if(mysqli_query($conn, $delLike)){
+
+
+
+    }else{
+
+
+
     }
 
     $conn->close();
