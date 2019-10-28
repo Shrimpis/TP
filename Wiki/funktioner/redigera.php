@@ -4,7 +4,7 @@
 
 session_start();
 
-include('./Databas/dbh.inc.php');   
+include('../../Databas/dbh.inc.php');   
 
         switch ($_POST['funktion']) {
 
@@ -94,7 +94,6 @@ function doljWikiSida($conn){
 
     //-include('dbh.inc.php');
 
-    var_dump($conn);
     if(isset($_POST['id']) ){
         $id = $_POST['id'];
         
@@ -350,7 +349,8 @@ function nekaUppdatering($conn){
         if(isset($_POST['wikiId'])&&isset($_POST['privat'])){
             $wikiId = $_POST['wikiId'];
             $privat = $_POST['privat'];   
-        }
+echo $_POST['wikiId'];        }
+
     
         $result = $conn->query("SELECT * FROM wiki where id= $wikiId ");
             $row = $result->fetch_assoc();
