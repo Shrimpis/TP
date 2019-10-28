@@ -26,21 +26,38 @@ include("../../Databas/dbh.inc.php");
 
 function tabortBlogg($conn){
     //-include("../../Databas/dbh.inc.php");
+    if(isset($_POST['bloggId'])){
     $bloggId = $_POST['bloggId'];
 
     $delTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
     $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
     $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
+    $inlaggsId = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
+    $taBortKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
+    $taBortLike = "DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
 
-    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
-    
-    while($row = $IIDarray->fetch_assoc()){
+    while($row = $inlaggsId->fetch_assoc()){
         $inlaggsId= $row['id'];
     
-        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
-        $conn->query($delKommentar);
-        $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
-        $conn->query($delLike);
+        if(mysqli_query($conn, $taBortKommentar)){
+
+            hantering('200','Kommentaren togs bort',);
+
+        }else{
+
+            hantering('400','Kommentaren kunde inte tas bort',);
+            return;
+
+        }
+        if(mysqli_query($conn, $taBortLike)){
+
+            hantering('200','Inlägget gillas inte längre',);
+
+        }else{
+
+            hantering('400','Kunde inte ändra gilla statusen på inlägget',);
+
+        }
         
     }
     if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
@@ -66,6 +83,7 @@ function tabortBlogg($conn){
         
         echo json_encode($tabortBloggJsonError);
     }
+}
 
     $conn->close();
 
