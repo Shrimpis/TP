@@ -184,7 +184,7 @@
 
         <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortKalendersida'/>
-        kalender:
+        kalendersida:
             <select name="sidId">
             <?php
                 include("funktioner/dbh.inc.php");

@@ -4,7 +4,7 @@
 
 session_start();
 
-include('./Databas/dbh.inc.php');
+include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortKalender':
@@ -23,7 +23,7 @@ include('./Databas/dbh.inc.php');
 
 
 
-tkalendersida
+
 
 function tabortKalender($conn){
     
