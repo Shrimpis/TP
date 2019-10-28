@@ -4,7 +4,7 @@
 
 session_start();
 
-include('./Databas/dbh.inc.php');
+include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortWiki':
