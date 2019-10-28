@@ -4,6 +4,7 @@
 
 session_start();
 include("../../Databas/dbh.inc.php");
+include("../../json/felhantering.php");
 
         switch ($_POST['funktion']) {
             case 'redigeraBlogg':
