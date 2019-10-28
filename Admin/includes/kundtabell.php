@@ -14,6 +14,12 @@
 
     // Kundtabellfunktioner //
 
+    if(isset($_GET['search'])){
+        $search = $_GET['search'];
+    } else {
+        $search = "";
+    }
+
     $total_pages = $conn2->query('SELECT COUNT(*) FROM customers')->fetch_row()[0];
 
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -24,15 +30,10 @@
         $num_results_on_page = 5; //Kundgräns på hur många kunder som ska visas i vyn.
     }
 
-
-    //$sql = "SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?";
-    //$result = $conn->query($sql);
-
-    //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
-
-    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, TheProvider.kundrattigheter.kontoID 
+    if($stmt = $conn2->prepare("SELECT customers.customers.id, customers.customers.namn, TheProvider.kundrattigheter.kontoID 
                                 FROM customers.customers LEFT JOIN TheProvider.kundrattigheter ON customers.customers.id = TheProvider.kundrattigheter.id 
-                                ORDER BY customers.customers.id LIMIT ?,?')){
+                                WHERE customers.customers.namn LIKE '%$search%' OR customers.customers.id LIKE '%$search%'
+                                ORDER BY customers.customers.id LIMIT ?,?")){
         $calc_page = ($page - 1) * $num_results_on_page;
         $stmt->bind_param('ii', $calc_page, $num_results_on_page);
         $stmt->execute(); 
@@ -257,7 +258,15 @@
         echo 
         "
         <div class='alert alert-primary' style='text-align:center;' role='alert'>
-            Inga resultat på sida ".$_GET['page']."
+        ";
+
+            if(empty($_GET['search'])){
+                echo "Inga resultat på sida ".$_GET['page']."";
+            } else {
+                echo "Det finns inga resultat för din sökning.";
+            }
+            
+        echo "
         </div>
         ";
     }
