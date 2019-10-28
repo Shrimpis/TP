@@ -129,13 +129,7 @@
                             </div>
                             <input type='text' value='"; 
                             
-                            
-                            $anamn = "SELECT anvandare.id, anvandare.anamn, kundrattigheter.id FROM anvandare INNER JOIN kundrattigheter ON anvandare.id=kundrattigheter.kontoID WHERE kundrattigheter.id=". $row["kontoID"] ."";
-                            $result5 = $conn->query($anamn);
-                            while($row5 = $result5->fetch_assoc()) {
-                                echo $row5["anamn"]; //TODO: fixa så att användarnamnet visas.
-                            }
-                            
+                            include "show-username.php";
                             
                             echo "' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' aria-describedby='basic-addon1'>
                             </div>
@@ -147,6 +141,22 @@
                             </div>
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Redigera konto</button>
                         </form>
+                        ";
+
+                        echo 
+                        "
+                        <div style='margin-top:10px;'>
+                            <p>API-Nyckel:</p>
+                    
+
+                            <div class='input-group mb-3'>
+                                <input type='password' class='form-control' aria-label='api' name='anamn' data-toggle='password' value='"; 
+
+                                include "show-api.php";
+
+                                echo "' aria-describedby='basic-addon1'>
+                            </div>
+                        </div>
                         ";
 
                         echo
