@@ -1,24 +1,22 @@
 <?php 
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
 
     switch ($_POST['funktion']) {
         case 'tabortKonto':
-            tabortKonto();
+            tabortKonto($conn);
             break;
         case 'harddelkonto':
-            harddelkonto();
+            harddelkonto($conn);
             break;
         default:
             echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
     }
     
- 
-$conn->close();
-
-function tabortKonto(){
-    include("dbh.inc.php");
+  
+function tabortKonto($conn){
+    //-include("../../Databas/dbh.inc.php");
     $UID = mysqli_real_escape_string($conn, $_POST['anvandarid']);
     $delkonto = "UPDATE anvandare SET aktiv = false WHERE id='{$UID}'";
     
@@ -33,8 +31,8 @@ function tabortKonto(){
     $conn->close();
 
 }
-function harddelkonto(){
-    include("dbh.inc.php");
+function harddelkonto($conn){
+    //-include("../../Databas/dbh.inc.php");
     $id = mysqli_real_escape_string($conn, $_POST['kontoID']);
     $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
     $delkonto = "DELETE FROM anvandare WHERE id ='{$id}'";

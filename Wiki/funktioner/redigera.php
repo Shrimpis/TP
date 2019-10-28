@@ -4,40 +4,48 @@
 
 session_start();
 
-include('dbh.inc.php');
+include('../../Databas/dbh.inc.php');   
+
         switch ($_POST['funktion']) {
 
-            case 'hideWiki':
-                hideWiki();
+            case 'doljWiki':
+                doljWiki($conn);
                 break;
-            case 'hidewiksida':
-                hidewikside();
+            case 'doljWikiSida':
+                doljWikiSida($conn);
                 break;
             case 'godkannUppdatering':
-                godkannUppdatering();
+                godkannUppdatering($conn);
+                break;
+            case 'nekaUppdatering':
+                nekaUppdatering($conn);
+                break;
+            case 'lasaWikiSida':
+                lasaWikiSida($conn);
+                break;
+            case 'privatiseraWiki':
+                privatiseraWiki($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-$conn->close();
 
 
-function hideWiki(){
-    include('dbh.inc.php');
+function doljWiki($conn){
+    //-include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
 
-        $redan_dolt = $conn->query("SELECT * FROM wiki WHERE tjanstId ='{$wikiId}'");
+        $redan_dolt = $conn->query("SELECT * FROM wiki WHERE id ='{$wikiId}'");
 
         $row = $redan_dolt->fetch_assoc();
         $dolt=$row["dolt"];
-        while($dolt < 2){
            
             if($dolt==0){
-                 $conn->query("UPDATE wiki SET dolt=1 WHERE tjanstId = '{$wikiId}'");
+                 $conn->query("UPDATE wiki SET dolt=1 WHERE id = '{$wikiId}'");
                  
 
-                $hidewikiJson = array(
+                $hideWikiJson = array(
                     'code'=> '202',
                     'status'=> 'Accepted',
                     'msg' => 'wiki hidden',
@@ -46,14 +54,13 @@ function hideWiki(){
                     )
                 );
                 
-                echo json_encode($hidewikiJson);
+                echo json_encode($hideWikiJson);
 
-                break;
             }
             else if($dolt==1){
-                $conn->query("UPDATE wiki SET dolt=0 WHERE tjanstId = '{$wikiId}'");
+                $conn->query("UPDATE wiki SET dolt=0 WHERE id = '{$wikiId}'");
 
-                $unhidewikiJson = array(
+                $unhideWikiJson = array(
                     'code'=> '202',
                     'status'=> 'Accepted',
                     'msg' => 'wiki now public',
@@ -62,12 +69,11 @@ function hideWiki(){
                     )
                 );
                 
-                echo json_encode($unhidewikiJson);
+                echo json_encode($unhideWikiJson);
 
-               break;
             }
             else{
-                $censureraKommentarErrorJson = array(
+                $hideWikiJsonError = array(
                     'code'=> '400',
                     'status'=> 'Bad Request',
                     'msg' => 'Could not execute',
@@ -76,27 +82,54 @@ function hideWiki(){
                     )
                 );
                 
-                echo json_encode($hidewikierrorJson);
+                echo json_encode($hideWikiJsonError);
 
-               break;
             }
-               
-        }
         
     $conn->close();
 
 }
 
-function godkannUppdatering(){
-    include("dbh.inc.php");
-    if(isset($_GET['uppdateringid']) && isset($_GET['sidId']) && isset($_GET['godkantAv'])){
+function doljWikiSida($conn){
 
-        $uppdateringId = $_GET['uppdateringid'];
-        $sidId = $_GET['sidId'];
-        $godkantAv = $_GET['godkantAv'];
+    //-include('dbh.inc.php');
+
+    if(isset($_POST['id']) ){
+        $id = $_POST['id'];
+        
+        $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
+
+        $row = $wikiSida->fetch_assoc();
+        $dolj=$row["dolt"];
+
+        if($dolj==0){
+            $sql= "UPDATE wikisidor SET dolt = 1 WHERE id = $id ";
+            $conn->query($sql);
+           
+        }
+        else if($dolj==1){
+            $sql= "UPDATE wikisidor SET dolt = 0 WHERE id = $id ";
+            $conn->query($sql);
+
+        }
+
+    }
+
+    $conn->close();
+    
+}
+
+function godkannUppdatering($conn){
+
+    
+    //-include("dbh.inc.php");
+    if(isset($_POST['uppdateringid']) && isset($_POST['sidId']) && isset($_POST['godkantAv'])){
+        $uppdateringId = $_POST['uppdateringid'];
+        $sidId = $_POST['sidId'];
+        $godkantAv = $_POST['godkantAv'];
 
         if($sidId != 0){
-
+            
             $skickaVersion = "INSERT INTO sidversion(sidId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT id FROM wikisidor WHERE id = $sidId),
             (SELECT godkantAv FROM wikisidor WHERE id = $sidId), (SELECT bidragsgivare FROM wikisidor WHERE id = $sidId), (SELECT titel FROM wikisidor WHERE id = $sidId),
             (SELECT innehall FROM wikisidor WHERE id = $sidId), (SELECT datum FROM wikisidor WHERE id = $sidId))";
@@ -105,7 +138,7 @@ function godkannUppdatering(){
             titel = (SELECT titel FROM wikiuppdatering WHERE id = $uppdateringId), innehall = (SELECT innehall FROM wikiuppdatering WHERE id = $uppdateringId),
             datum = (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId) WHERE id = $sidId";
             
-            $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $sidId";
+            $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $uppdateringId";
 
             if(mysqli_query($conn, $skickaVersion)){
                 $skickaVersionJson = array(
@@ -187,9 +220,12 @@ function godkannUppdatering(){
                 echo json_encode($taBortUppdateringJsonError);
             }
         }else if($sidId == 0){
-            $nyWikiSida = "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT wikiId FROM wikiuppdatering WHERE id = $sidId), $godkantAv,
-            (SELECT bidragsgivare FROM wikiuppdatering WHERE id = $sidId), (SELECT titel FROM wikiuppdatering WHERE id = $sidId), (SELECT innehall FROM wikiuppdatering WHERE id = $sidId), 
-            (SELECT datum FROM wikiuppdatering WHERE id = $sidId)";
+            $nyWikiSida = "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT wikiId FROM wikiuppdatering WHERE id = $uppdateringId), $godkantAv,
+            (SELECT bidragsgivare FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT titel FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT innehall FROM wikiuppdatering WHERE id = $uppdateringId), 
+            (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId))";
+            $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $uppdateringId";
+
+
             if(mysqli_query($conn, $nyWikiSida)){
                 $nyWikiSidaJson = array(
                     'code' => '201',
@@ -219,3 +255,136 @@ function godkannUppdatering(){
     }
     $conn->close();
 }
+
+function nekaUppdatering($conn){
+
+    //-include("dbh.inc.php");
+    if(isset($_POST['id'])&&isset($_POST['nekadAv'])){
+        $id = $_POST['id'];
+        $nekadAv = $_POST['nekadAv'];
+        
+        if(isset($_POST['anledning'])){
+            $anledning = $_POST['anledning'];
+        }
+        else{
+            $anledning = "angavs ej";
+        }
+        
+        
+        $get_data=$conn->query("SELECT * FROM wikiuppdatering WHERE id=$id");
+        $row = $get_data->fetch_assoc();
+        $datum = date("Y-m-d");
+        $bidragsgivare = $row['bidragsgivare'];
+        $titel = $row['titel'];
+        $innehall = $row['innehall'];
+        $wikiId = $row['wikiId'];
+        $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum, wikiId) VALUES($id, $bidragsgivare, $nekadAv, '{$titel}', '{$innehall}', '{$anledning}', '$datum', $wikiId)";
+        $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id=$id";
+        if(mysqli_query($conn, $nekaUppdatering)&&mysqli_query($conn, $tabortuppdatering)){
+        
+        
+        $nekadJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'sida denied',
+            'sida' => array(
+                'sidId'=>$id
+            )
+        );
+        
+        echo json_encode($nekadJson);
+        
+        
+        }
+        else{
+            echo $nekaUppdatering . " " . $tabortuppdatering . " ";
+            $nekadJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not execute',
+                'sida' => array(
+                    'sidId'=>$id
+                )
+            );
+            
+            echo json_encode($nekadJsonError);
+           
+        }
+    
+    }
+    
+    $conn->close();
+    
+    }
+
+    function lasaWikiSida($conn){
+
+        //-include('dbh.inc.php');
+
+        if(isset($_POST['id']) ){
+            $id = $_POST['id'];
+
+            $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
+    
+            $row = $wikiSida->fetch_assoc();
+            $lasa=$row["last"];
+
+            if($lasa==0){
+                $sql= "UPDATE wikisidor SET wikisidor.last = 1 WHERE id = $id ";
+                $conn->query($sql);
+               
+            }
+            else if($lasa==1){
+                $sql= "UPDATE wikisidor SET wikisidor.last = 0 WHERE id = $id ";
+                $conn->query($sql);
+
+            }
+
+        }
+
+        $conn->close();
+        
+    }
+
+    function privatiseraWiki($conn){
+        //-include("dbh.inc.php");
+        if(isset($_POST['wikiId'])&&isset($_POST['privat'])){
+            $wikiId = $_POST['wikiId'];
+            $privat = $_POST['privat'];   
+echo $_POST['wikiId'];        }
+
+    
+        $result = $conn->query("SELECT * FROM wiki where id= $wikiId ");
+            $row = $result->fetch_assoc();
+            $tjanstId = $row['tjanstId'];
+            $uppdateraTjanst = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $tjanstId ";
+        
+        
+        
+        
+        if(mysqli_query($conn, $uppdateraTjanst)){
+    
+            $privatiseraTjanstJson = array(
+                'code'=> '202',
+                'status'=> 'Accepted',
+                'msg' => 'tjanst har redigerats',
+                'tjanst' => array(
+                    'wikiId'=>$wikiId,
+                )
+            );
+            
+            echo json_encode($privatiseraTjanstJson);
+        } else {
+            $privatiseraTjanstJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not execute',
+                'tjanst' => array(
+                    'wikiId'=>$wikiId,
+                )
+            );
+            
+            echo json_encode($privatiseraTjanstJsonError);
+        }
+        $conn->close();
+    }

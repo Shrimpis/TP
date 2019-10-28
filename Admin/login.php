@@ -1,11 +1,12 @@
 <?php 
-    include ('includes/dbh.inc.php');
+    include("../Databas/dbh.inc.php");
     session_start();
    
     if($_SERVER["REQUEST_METHOD"] == "POST") {
       
         $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
         $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
+        echo $anamn . " : ". $losenord;
       
         $Blowfish_Pre = '$2a$10$';
         $Blowfish_End = '$';

@@ -12,5 +12,14 @@
         
     </div>
 </body>
-<script src="js/visaWiki.js"></script>
+
+<script>
+
+    let anvandarId = <?php echo $_GET['anvandarId'] ?>;
+
+
+</script>
+
+
+<script src="../js/visaWiki.js"></script>
 </html>

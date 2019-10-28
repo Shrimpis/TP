@@ -2,13 +2,18 @@
 <div>
 <h4>Skapa en kommentar</h4>
 
+<?php
+    include("../../Databas/dbh.inc.php");
+?>
+
 <form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaKommentar'/>
 Välj att kommentera:
 <select name="hierarchyID" id="hierarchyID">
     <option value="0">Ingen</option>
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, innehall FROM kommentar";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -24,7 +29,8 @@ Välj att kommentera:
 Välj ett inlägg:
 <select name="inlaggsId">
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -40,7 +46,8 @@ Välj ett inlägg:
 Välj en användare:
 <select name="anvandarId">
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, anamn FROM anvandare";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -71,7 +78,8 @@ Välj en användare:
     <br>
     <select name="kommentarId">
     <?php
-    include('funktioner/dbh.inc.php');
+    $conn;
+    //-include('funktioner/dbh.inc.php');
     $sql = "SELECT * from kommentar";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -97,7 +105,8 @@ Välj en användare:
 <input type='hidden' name='funktion' value='tabortKommentar'/>
     <select name="kommentarId">
     <?php
-        include("funktioner/dbh.inc.php");
+    $conn;
+        //-include("funktioner/dbh.inc.php");
         $sql = "SELECT * from kommentar";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -123,7 +132,8 @@ Välj en användare:
             Välj en kommentar:
             <select name="kommentarsid">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id,innehall FROM kommentar";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
@@ -139,7 +149,8 @@ Välj en användare:
             Välj en användare:
             <select name="anvandarID">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, anamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {

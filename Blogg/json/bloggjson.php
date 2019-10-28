@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
     $db=new mysqli("localhost","TheProvider","lösenord","TheProvider");
+=======
+    $db=new mysqli("localhost","root","","TheProvider");
+>>>>>>> 9981f68c589da848b0ba77fb419c2e17e606c11d
     $db->set_charset("utf8");
 
     if($db->connect_error){
@@ -69,9 +73,9 @@
                 $kommentarArray=array();
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarFlaggningar = $db->query('select * from flaggadkommentar where kommentarId='.$row['id']);
+                    $kommentarFlaggningar = $db->query('select * from flaggadkommentar where kommentarId='.$row['id']);//alla flaggningar för kommentarer.
                     $Amount=0;
-                    while($flaggadRow = $kommentarFlaggningar->fetch_assoc()) {
+                    while($flaggadRow = $kommentarFlaggningar->fetch_assoc()) {//hur många flaggningar för kommentaren.
                         $Amount++;
                     }
 
