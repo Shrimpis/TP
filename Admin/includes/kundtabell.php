@@ -10,7 +10,7 @@
     $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
     mysqli_set_charset($conn2, "utf8mb4");
 
-    include('funktioner/dbh.inc.php');
+    include("../../Databas/dbh.inc.php");
 
     // Kundtabellfunktioner //
 
