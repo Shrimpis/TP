@@ -29,9 +29,9 @@ function tabortBlogg($conn){
     if(isset($_POST['bloggId'])){
     $bloggId = $_POST['bloggId'];
 
-    $delTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
-    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
-    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
+    $taBortTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
+    $taBortBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
+    $taBortInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
     $inlaggsId = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
     $taBortKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
     $taBortLike = "DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
@@ -56,33 +56,39 @@ function tabortBlogg($conn){
         }else{
 
             hantering('400','Kunde inte ändra gilla statusen på inlägget',);
+            return;
 
         }
         
     }
-    if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
-        $tabortBloggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Blogg delted',
-            'blogg' => array(
-                'bloggid'=>$bloggId
-            )
-        );
+    if(mysqli_query($conn, $taBortInlagg)){
+
+        hantering('200','Blogginlägget har tagits bort',);
+
+    }else{
+
+        hantering('400','Blogginlägget kunde inte tas bort',);
         
-        echo json_encode($tabortBloggJson);
-    } else {
-        $tabortBloggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$bloggId
-            )
-        );
-        
-        echo json_encode($tabortBloggJsonError);
     }
+    if(mysqli_query($conn, $taBortBlogg)){
+
+        hantering('200','Bloggen har tagits bort',);
+
+    } else {
+
+        hantering('400','Bloggen kunde inte tas bort',);
+
+    }
+    if(mysqli_query($conn, $taBortTjanst)){
+
+        hantering('200','Tjänsten har tagits bort',);
+
+    }else{
+
+        hantering('400','Tjänsten kunde inte tas bort',);
+
+    }
+
 }
 
     $conn->close();
