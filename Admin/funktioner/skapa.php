@@ -19,7 +19,7 @@ include("dbh.inc.php");
 $conn->close();
 
 function slumplosen($len) {
-    $karaktr = '?$£@!#%&0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $karaktrlen = strlen($karaktr);
     $slumpstr = '';
     for ($i = 0; $i < $len; $i++) {
@@ -62,6 +62,16 @@ function skapaKonto(){
                 while($row2 = $result2->fetch_assoc()) {
                     $sql3 = mysqli_query($conn,"UPDATE `kundrattigheter` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kundrattigheter`.`id` = $id");
                 }
+
+                // Skapar API-nyckel //
+
+                $rattighetId = $_POST['id'];
+
+                $nyckel = slumplosen(16);
+
+                $skapaAPI = "INSERT INTO api(rattighetId, nyckel) VALUES ('$rattighetId','$nyckel')";
+
+                $conn->query($skapaAPI);
 
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }
