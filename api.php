@@ -1,8 +1,11 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
 
 // Databasanslutning //
 
 include("Databas/dbh.inc.php");
+include("json/felhantering.php");
 
 
 // Början av API //
@@ -32,36 +35,18 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
                     kalender();
                     break;
                 default:
-                    error();
+                    hantering('404','Funktionen som anropades existerar inte. Vänligen kontrollera dokumentation.');
             }
         
-        } else {
-            $error = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Tjanst must be defined'
-            );
-            
-            echo json_encode($error);
+        } else {            
+            hantering('400','Tjanst måste vara definierad.');
         }
-    } else {
-        $error = array(
-            'code'=> '401',
-            'status'=> 'Unauthorized',
-            'msg' => 'Api key is either wrong or does not exist. Contact administrator.'
-        );
-        
-        echo json_encode($error);
+    } else {        
+        hantering('401','Api-nyckeln är antingen fel eller finns inte. Kontakta administratör.');
     }
 
 } else {
-    $error = array(
-        'code'=> '400',
-        'status'=> 'Bad Request',
-        'msg' => 'Api key must be defined'
-    );
-    
-    echo json_encode($error);
+    hantering('401','Api-nyckeln är inte definerad.');
 }
 
 // Tjänster //
@@ -84,22 +69,11 @@ function bloggar(){
                     include "Blogg/funktioner/redigera.php";
                     break;
                 default:
-                    $error = array(
-                        'code'=> '400',
-                        'status'=> 'Bad Request',
-                        'msg' => 'You must define a valid action.',
-                    );
-                    echo json_encode($error);
+                    hantering('400','Du måste definiera en giltig åtgärd.');
             }
 
         } else {
-            $error = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'You must define a valid type.',
-            );
-            
-            echo json_encode($error);
+            hantering('400','Du måste definiera en giltig typ.');
         }
     }
 }
@@ -122,22 +96,11 @@ function wiki(){
                     include "Wiki/funktioner/redigera.php";
                     break;
                 default:
-                    $error = array(
-                        'code'=> '400',
-                        'status'=> 'Bad Request',
-                        'msg' => 'You must define a valid action.',
-                    );
-                    echo json_encode($error);
+                    hantering('400','Du måste definiera en giltig åtgärd.');
             }
 
         } else {
-            $error = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'You must define a valid type.',
-            );
-            
-            echo json_encode($error);
+            hantering('400','Du måste definiera en giltig typ.');
         }
     }
 }
@@ -160,34 +123,13 @@ function kalender(){
                     include "Kalender/funktioner/redigera.php";
                     break;
                 default:
-                    $error = array(
-                        'code'=> '400',
-                        'status'=> 'Bad Request',
-                        'msg' => 'You must define a valid action.',
-                    );
-                    echo json_encode($error);
+                    hantering('400','Du måste definiera en giltig åtgärd.');
             }
 
         } else {
-            $error = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'You must define a valid type.',
-            );
-            
-            echo json_encode($error);
+            hantering('400','Du måste definiera en giltig åtgärd.');
         }
     }
-}
-
-function error(){
-    $error = array(
-        'code'=> '400',
-        'status'=> 'Bad Request',
-        'msg' => 'Could not execute.',
-    );
-    
-    echo json_encode($error);
 }
 
 ?>
