@@ -3,193 +3,278 @@
 // Funktion för skapa //
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
 
     
         switch ($_POST['funktion']) {
             case 'skapaBlogg':
-                skapaBlogg();
+                skapaBlogg($conn);
                 break;
             case 'skapaInlagg':
-                skapaInlagg();
-                break;
-            case 'skapaTextruta':
-                skapaTextruta();
-                break;
-            case 'skapaBildRuta':
-                skapaBildRuta();
+                skapaInlagg($conn);
                 break;
             case 'skapaKommentar':
-                skapaKommentar();
+                skapaKommentar($conn);
+                break;
+            case 'skapaSokning':
+                skapaSokning($conn);
                 break;
             case 'gillaInlagg':
-                gillaInlagg();
+                gillaInlagg($conn);
                 break;
             case 'flaggaBlogg':
-                flaggaBlogg();
+                flaggaBlogg($conn);
                 break;
             case 'flaggaKommentar':
-                flaggaKommentar();
+                flaggaKommentar($conn);
+                break;
+            case 'sokfalt':
+                sokFalt($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
     
     
+ 
 
-$conn->close();
+    function skapaBlogg($conn){
 
-    function skapaBlogg(){
-
-        include("dbh.inc.php");
-        if(isset($_POST['UID']) && isset($_POST['Titel'])){
-            $userid = $_POST['UID'];
+       //- include("../../Databas/dbh.inc.php");
+        if(isset($_POST['anvandarId']) && isset($_POST['Titel'])){
+            $userid = $_POST['anvandarId'];
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             mysqli_query($conn, $skapaTjanst);
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
-            //$skapaBlogg = "INSERT INTO blogg(title, UID) VALUES('{$title}',$userid)";
+
+            
             
         }
-        if(mysqli_query($conn, $skapaBlogg)){
-            echo "INFO: Bloggen har skapats.";
-            header('Refresh: 2; URL = ../index.php');
+        if(mysqli_query($conn, $skapaBlogg) && mysqli_query($conn, $skapaTjanst)){
+
+            $skapaBloggJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Blogg created',
+                'blogg' => array(
+                    'userid'=>$userid,
+                    'title'=>$title,
+                    'privat'=> '0'
+                )
+            );
+
+            echo json_encode($skapaBloggJson);
+
         } else {
-            echo "ERROR: Could not execute $skapaBlogg. " . mysqli_error($conn);
+
+            $skapaBloggJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not execute',
+                'blogg' => array(
+                    'userid'=>$userid,
+                    'title'=>$title,
+                    'privat'=> '0'
+                )
+            );
+
+            echo json_encode($skapaBloggJsonError);
+
         }
         $conn->close();
 
     }
 
-    function skapaInlagg(){
+    function skapaInlagg($conn){
 
-        include("dbh.inc.php");
-        if(isset($_POST['BID']) && isset($_POST['title'])){
-            $blogID= $_POST['BID'];
-            $title= $_POST['title'];
+        //-include("../../Databas/dbh.inc.php");
+        if(isset($_POST['bloggId']) && isset($_POST['Title'])){
+            $bloggID= $_POST['bloggId'];
+            $title= $_POST['Title'];
             $innehall= $_POST['innehall'];
         }
 
         $date= date("Y-m-d H:i");
-        $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$blogID','$title','$innehall','$date')";
-        $conn->query($sql);
+        $sql= "INSERT INTO blogginlagg(bloggId, titel, innehall, datum) VALUES ('$bloggID','$title','$innehall','$date')";
+        
+        if(mysqli_query($conn, $sql)){
+            $skapaInlaggJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Post created',
+                'post' => array(
+                    'bloggid'=>$bloggID,
+                    'title'=>$title,
+                    'content'=>$innehall,
+                    'date'=>$date
+                )
+            );
+            
+            echo json_encode($skapaInlaggJson);
+        } else {
+            $skapaInlaggJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not execute',
+                'post' => array(
+                    'bloggid'=>$bloggID,
+                    'title'=>$title,
+                    'content'=>$innehall,
+                    'date'=>$date
+                )
+            );
+            
+            echo json_encode($skapaInlaggJsonError);
+        }
+        
         $conn->close();
 
     }
 
-    //Bilder blev utesluten från databasen och därför funkar inte denna funktion ännu.
-    /*function skapaBild(){
+    function skapaKommentar($conn){
 
-        include('dbh.inc.php');
-        $mal_dir = "bilder/";
-        $mal_fil = $mal_dir . basename($_FILES["bildRuta"]["name"]);
-        $uppladningOk = 1;
-        $bildFilTyp = strtolower(pathinfo($mal_fil,PATHINFO_EXTENSION));       
-        if(!file_exists($mal_dir)){
-            mkdir($mal_fil,0777,true);
-        }
-        if(isset($_POST["submit"])){
-            $kontroll = getimagesize($_FILES["bildRuta"]["tmp_name"]);
-            
-            if($kontroll !== false){
-                
-                $uppladningOk = 1;
-            }else{
-                $uppladningOk  = 0;
-            }
-            
-        }
-        //om filen redan finns
-        if(file_exists($mal_fil)){
-            $uppladningOk = 0;
-            echo "shit";
-        }
-        //Max storlek på bild
-        if($_FILES["bildRuta"]["size"] > 500000){
-            
-            $uppladningOk = 0;
-            
-        }
-        //Kollar så att det är giltiga fil extensions
-        if($bildFilTyp != "jpg" && $bildFilTyp != "png" && $bildFilTyp != "gif" && $bildFilTyp != "jpeg"){
-            $uppladningOk = 0;
-            echo "fel bild format";
-        }
-        //kollar om det dök upp något fel annars går den vidare
-        if($uppladningOk == 0){
-            echo "FEL";
-        }else{
-            if(move_uploaded_file($_FILES["bildRuta"]["tmp_name"], $mal_fil)){
-                
-                $sql = "INSERT INTO rutor(IID,ordning) VALUES(1,1)";
-                $conn->query($sql);
-                $RID = mysqli_insert_id($conn);
-                
-                $sql= "INSERT INTO bildRuta(RID,bildPath,IID) VALUES($RID,'$mal_fil',1)";
-                
-                $conn->query($sql);
-                
-                
-                echo "gick";
-            }else{
-                echo "fel";
-            }
-        }
-
-        $conn->close();
-
-    }*/
-
-    function skapaKommentar(){
-
-        include('dbh.inc.php');
-        if(isset($_POST['UID']) && isset($_POST['IID']) && isset($_POST['text']) && isset($_POST['hierarchyID'])){
-            $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
-            $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+        //-include("../../Databas/dbh.inc.php");
+        if(isset($_POST['anvandarId']) && isset($_POST['inlaggsId']) && isset($_POST['text']) && isset($_POST['hierarchyID'])){
+            $anvandarId = mysqli_real_escape_string($conn, $_POST['anvandarId']); //Användar-ID
+            $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']); //Blogginlägg-ID
             $text = mysqli_real_escape_string($conn, $_POST['text']); //Kommentar text
             $hierarchyID = mysqli_real_escape_string($conn, $_POST['hierarchyID']);
         }
-        $skapaKommentar = "INSERT INTO kommentar (användarId, inlaggId, hierarkiId, innehall) VALUES ('$UID', '$IID', '$hierarchyID', '{$text}')";
+        $skapaKommentar = "INSERT INTO kommentar (anvandarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
-            echo "INFO: Kommentar skapad.";
+            $skapaKommentarJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Comment created',
+                'comment' => array(
+                    'userid'=>$anvandarId,
+                    'postid'=>$inlaggsId,
+                    'text'=>$text,
+                    'hierarchyID'=>$hierarchyID
+                )
+            );
+            
+            echo json_encode($skapaKommentarJson);
         } else{
-            echo "ERROR: Could not able to execute $skapaKommentar. " . mysqli_error($conn);
+            $skapaKommentarJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not executed',
+                'comment' => array(
+                    'userid'=>$anvandarId,
+                    'postid'=>$inlaggsId,
+                    'text'=>$text,
+                    'hierarchyID'=>$hierarchyID
+                )
+            );
+            
+            echo json_encode($skapaKommentarJsonError);
+            
         }
         $conn->close();
 
     }
 
-    function gillaInlagg(){
 
-        include('dbh.inc.php');
-        if(isset($_POST['UID']) && isset($_POST['IID'])){
-            $UID = mysqli_real_escape_string($conn, $_POST['UID']); //Användar-ID
-            $IID = mysqli_real_escape_string($conn, $_POST['IID']); //Blogginlägg-ID
+    function sokFalt($conn){
+        //-include("../../Databas/dbh.inc.php");
+        if(isset($_POST['sok'])){
+            $sok= $_POST['sok'];
+        } 
+        $output = '';
+
+        $query = mysqli_query($conn,"SELECT * FROM blogginlagg WHERE titel LIKE '%$sok%'") or die ("Could not search");
+        $count = mysqli_num_rows($query);
+
+        if($count == 0){
+            $output = "There was no search results!";
         }
-        $redan_gillat = mysqli_query($conn, "SELECT anvandarId, inlaggId FROM gillningar WHERE anvandarId='$UID' AND inlaggId='$IID'");
+        else{
+           while ($row = mysqli_fetch_array($query)) {
+                $title = $row ['titel'];
+                
+                $output ='<div> '.$title.'</div>';
+                print ($output);
+            }
+        }
+        $conn->close();
+    }
+
+    function gillaInlagg($conn){
+
+        //-include("../../Databas/dbh.inc.php");
+        if(isset($_POST['anvandarId']) && isset($_POST['inlaggsId'])){
+            $anvandarId = mysqli_real_escape_string($conn, $_POST['anvandarId']); //Användar-ID
+            $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']); //Blogginlägg-ID
+        }
+        $redan_gillat = mysqli_query($conn, "SELECT anvandarId, inlaggId FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'");
 
         if($redan_gillat->num_rows == 0){
-            $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$UID', '{$IID}')";
+            $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$anvandarId', '{$inlaggsId}')";
             if(mysqli_query($conn, $like)){
-                echo "INFO: Inlägg med id " .$IID. " gillat av användar med id " .$UID. ".";
+
+                $gillaInlaggJson = array(
+                    'code'=> '201',
+                    'status'=> 'Created',
+                    'msg' => 'Like applied',
+                    'like' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($gillaInlaggJson);
+
             } else{
-                echo "ERROR: Could not able to execute $like. " . mysqli_error($conn);
+                $gillaInlaggJsonError = array(
+                    'code'=> '400',
+                    'status'=> 'Bad Request',
+                    'msg' => 'Could not execute',
+                    'like' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($gillaInlaggJsonError);
             }
         } else {
-            $dislike = "DELETE FROM gillningar WHERE anvandarId='$UID' AND inlaggId='$IID'";
+            $dislike = "DELETE FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'";
             if(mysqli_query($conn, $dislike)){
-                echo "ERROR: Användaren har redan gillat. Tar bort gillning.";
+
+                $ogillaInlaggJson = array(
+                    'code'=> '201',
+                    'status'=> 'Created',
+                    'msg' => 'Dislike applied',
+                    'dislike' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($ogillaInlaggJson);
+
             } else{
-                echo "ERROR: Could not able to execute $dislike. " . mysqli_error($conn);
+                $ogillaInlaggJsonError = array(
+                    'code'=> '400',
+                    'status'=> 'Bad Request',
+                    'msg' => 'Could not execute',
+                    'dislike' => array(
+                        'userid'=>$anvandarId,
+                        'postid'=>$inlaggsId
+                    )
+                );
+                
+                echo json_encode($ogillaInlaggJsonError);
             }
         }
 
-        header("location: ../index.php");
         $conn->close();
 
     }
-    function flaggaBlogg(){
-        include('dbh.inc.php');
+    function flaggaBlogg($conn){
+        //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['bloggid']) && isset($_POST['anvandarID'])){
             $Bloggid = $_POST['bloggid']; 
             $anvandarId = $_POST['anvandarID']; 
@@ -200,6 +285,18 @@ $conn->close();
         if($redan_flaggat->num_rows == 0){
             $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
             $conn->query($flagga);
+
+            $flaggaBloggJson = array(
+                'code'=> '201',
+                'status'=> 'Created',
+                'msg' => 'Dislike applied',
+                'flag' => array(
+                    'userid'=>$anvandarId,
+                    'postid'=>$inlaggsId
+                )
+            );
+            
+            echo json_encode($flaggaBloggJson);
         }
         
         /*
@@ -215,8 +312,8 @@ $conn->close();
         $conn->close();
 
     }
-    function flaggaKommentar(){
-        include('dbh.inc.php');
+    function flaggaKommentar($conn){
+        //-include('dbh.inc.php');
         if(isset($_POST['kommentarsid']) && isset($_POST['anvandarID'])){
             $komid = $_POST['kommentarsid']; 
             $anvandarId = $_POST['anvandarID']; 
@@ -227,6 +324,30 @@ $conn->close();
         if($redan_flaggat->num_rows == 0){
             $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
             $conn->query($flagga);
+
+            $flaggaKommentarJson = array(
+                'code'=> '202',
+                'status'=> 'Accepted',
+                'msg' => 'Comment flagged',
+                'flag' => array(
+                    'commentid'=>$komid,
+                    'userid'=>$anvandarId
+                )
+            );
+            
+            echo json_encode($flaggaKommentarJson);
+        } else {
+            $flaggaKommentarJsonError = array(
+                'code'=> '400',
+                'status'=> 'Bad Request',
+                'msg' => 'Could not executed',
+                'flag' => array(
+                    'commentid'=>$komid,
+                    'userid'=>$anvandarId
+                )
+            );
+            
+            echo json_encode($flaggaKommentarJsonError);
         }
         
         /*
@@ -236,9 +357,6 @@ $conn->close();
             $conn->query($avflagga);
         }
         */
-        
-        
-        header("Location: ../index.php");
         $conn->close();
 
     }

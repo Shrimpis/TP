@@ -1,19 +1,24 @@
 <!-- Skapa en kommentar -->
-
+<div>
 <h4>Skapa en kommentar</h4>
 
-<form action="funktioner/skapa.php">
+<?php
+    include("../../Databas/dbh.inc.php");
+?>
+
+<form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaKommentar'/>
 Välj att kommentera:
 <select name="hierarchyID" id="hierarchyID">
     <option value="0">Ingen</option>
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, innehall FROM kommentar";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo "<option value='". $row["id"] ."'>KID: ". $row["id"]." | ". $row["innehall"]."</option>";
+            echo "<option value='". $row["id"] ."'>kommentarId: ". $row["id"]." | ". $row["innehall"]."</option>";
         }
         echo "</table>";
         } else { echo "0 results"; }
@@ -22,9 +27,10 @@ Välj att kommentera:
 </select>
 <br><br>
 Välj ett inlägg:
-<select name="IID" id="IID">
+<select name="inlaggsId">
     <?php 
-        include('funktioner/dbh.inc.php');
+    $conn;
+        //-include('funktioner/dbh.inc.php');
         $sql = "SELECT id, bloggId, titel FROM blogginlagg";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -38,14 +44,15 @@ Välj ett inlägg:
 </select>
 <br><br>
 Välj en användare:
-<select name="UID" id="UID">
+<select name="anvandarId">
     <?php 
-        include('funktioner/dbh.inc.php');
-        $sql = "SELECT id, fnamn, enamn FROM anvandare";
+    $conn;
+        //-include('funktioner/dbh.inc.php');
+        $sql = "SELECT id, anamn FROM anvandare";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+            echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["anamn"]."</option>";
         }
         echo "</table>";
         } else { echo "0 results"; }
@@ -69,14 +76,15 @@ Välj en användare:
     <input type='hidden' name='funktion' value='redigeraKommentar'/>
     <textarea name="text" rows="10" cols="30">ny text</textarea>
     <br>
-    <select name="KID">
+    <select name="kommentarId">
     <?php
-    include('funktioner/dbh.inc.php');
+    $conn;
+    //-include('funktioner/dbh.inc.php');
     $sql = "SELECT * from kommentar";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            echo "<option value='". $row["id"] ."'>KID: ". $row['id']."</option>";
+            echo "<option value='". $row["id"] ."'>kommentarId: ". $row['id']."</option>";
         }
         echo "</table>";
         } else { echo "0 results"; }
@@ -95,9 +103,10 @@ Välj en användare:
 
 <form action="funktioner/tabort.php" method="POST">
 <input type='hidden' name='funktion' value='tabortKommentar'/>
-    <select name="KID">
+    <select name="kommentarId">
     <?php
-        include("funktioner/dbh.inc.php");
+    $conn;
+        //-include("funktioner/dbh.inc.php");
         $sql = "SELECT * from kommentar";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
@@ -123,7 +132,8 @@ Välj en användare:
             Välj en kommentar:
             <select name="kommentarsid">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id,innehall FROM kommentar";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
@@ -139,12 +149,13 @@ Välj en användare:
             Välj en användare:
             <select name="anvandarID">
                 <?php 
-                    include('funktioner/dbh.inc.php');
-                    $sql = "SELECT id, fnamn, enamn FROM anvandare";
+                $conn;
+                    //-include('funktioner/dbh.inc.php');
+                    $sql = "SELECT id, anamn FROM anvandare";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                        echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["anamn"]."</option>";
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
@@ -156,3 +167,19 @@ Välj en användare:
             </form>
             <br>
             <br>
+
+                <form action="funktioner/redigera.php" method="post">
+                <input type='hidden' name='funktion' value='censureraKommentar'/>
+                    
+                    Kommentar ID: <input type = "text" name = "id"  /><br />
+                    
+                    <br>
+                
+                    <input type = "submit" value = "censurera" />
+                    
+                    
+                </form>
+                
+
+            
+</div>

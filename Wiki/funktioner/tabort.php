@@ -4,23 +4,22 @@
 
 session_start();
 
-include('dbh.inc.php');
+include('./Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortWiki':
-                tabortWiki();
+                tabortWiki($conn);
                 break;
             case 'tabortWikiSida':
-                tabortWikiSida();
+                tabortWikiSida($conn);
                 break;
+            
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
         }
-$conn->close();
 
-
-function tabortWiki(){
-    include('dbh.inc.php');
+function tabortWiki($conn){
+    //-include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
     $delTjanst = "DELETE FROM tjanst WHERE id='{$wikiId}'";
@@ -39,14 +38,14 @@ function tabortWiki(){
 
 }
 
-function tabortWikiSida(){
-    include('dbh.inc.php');
+function tabortWikiSida($conn){
+    //-include('dbh.inc.php');
 
     $sidID = $_POST["sidId"];
 
     $result = ($conn->query("SELECT * FROM wikisidor WHERE id = '{$sidID}'"));
     
-    while($row = $result->fetch_assoc()){
+    /*while($row = $result->fetch_assoc()){
         $id=$row['id'];
         $godAv=$row['godkantAv'];
         $bidragare=$row['bidragsgivare'];
@@ -57,12 +56,11 @@ function tabortWikiSida(){
         $sql = "INSERT INTO sidversion(sidID, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('{$id}', '{$godAv}', '{$bidragare}', '{$titel}', '{$innehall}', '{$datum}')";
         
         $conn->query($sql);
-    }
+    }*/
 
     header('Refresh: 2; URL = ../index.php');
-
-    
 
     $delSida = "DELETE FROM wikisidor WHERE id = '{$sidID}'";
     $conn->query($delSida);
 }
+

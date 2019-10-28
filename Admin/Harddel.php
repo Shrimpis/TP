@@ -9,7 +9,7 @@
     <br>
     <select name="anvandarid">
     <?php
-        include('funktioner/dbh.inc.php');
+        include("../Databas/dbh.inc.php");
         $sql = "SELECT * FROM anvandare INNER JOIN anvandarroll ON anvandare.id = anvandarroll.anvandarId WHERE anvandarroll.rollId = 1";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {

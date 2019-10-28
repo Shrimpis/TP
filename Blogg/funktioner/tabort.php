@@ -4,96 +4,150 @@
 
 session_start();
 
-include('dbh.inc.php');
+include("../../Databas/dbh.inc.php");
         switch ($_POST['funktion']) {
 
             case 'tabortBlogg':
-                tabortBlogg();
+                tabortBlogg($conn);
                 break;
             case 'tabortInlagg':
-                tabortInlagg();
+                tabortInlagg($conn);
                 break;
             case 'tabortKommentar':
-                tabortKommentar();
+                tabortKommentar($conn);
                 break;
             case 'tabortTextruta':
-                tabortTextruta();
+                tabortTextruta($conn);
                 break;
             default:
                 echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
-$conn->close();
+        } 
 
 
-function tabortBlogg(){
-    include('dbh.inc.php');
-    $BID = $_POST['BID'];
+function tabortBlogg($conn){
+    //-include("../../Databas/dbh.inc.php");
+    $bloggId = $_POST['bloggId'];
 
-    $delTjanst = "DELETE FROM tjanst WHERE id='{$BID}'";
-    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$BID}'";
-    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$BID}'";
+    $delTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
+    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
+    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
 
-    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$BID}'"));
+    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
     
     while($row = $IIDarray->fetch_assoc()){
-        $IID= $row['id'];
+        $inlaggsId= $row['id'];
     
-        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$IID";
+        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
         $conn->query($delKommentar);
+        $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
+        $conn->query($delLike);
         
     }
     if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
-        echo "INFO: Blogg borttagen";
-        header('Refresh: 2; URL = ../index.php');
+        $tabortBloggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Blogg delted',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortBloggJson);
     } else {
-        echo "ERROR: Could not execute $delBlogg,$delInlagg. " . mysqli_error($conn);
+        $tabortBloggJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortBloggJsonError);
     }
 
     $conn->close();
 
 }
 
-function tabortInlagg(){
-    include('dbh.inc.php');
-    $IID = mysqli_real_escape_string($conn, $_POST['IID']);
-    $delInlagg = "DELETE FROM blogginlagg WHERE id='{$IID}'";
-    $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$IID";
+function tabortInlagg($conn){
+    //-include("../../Databas/dbh.inc.php");
+    $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
+    $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
+    $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
+    $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
 
-    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delRuta)&&mysqli_query($conn, $delText)&&mysqli_query($conn, $delKommentar)){
-        echo "INFO: Blogginlagg borttaget";
-        header('Refresh: 2; URL = ../index.php');
+    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)&&mysqli_query($conn, $delLike)){
+        $tabortInlaggJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Post deleted',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortInlaggJson);
     } else {
-        echo "ERROR: Could not execute $delInlagg,$delRuta,$delText,$delKommentar. " . mysqli_error($conn);
+        $tabortInlaggJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad Request',
+            'msg' => 'Could not execute',
+            'blogg' => array(
+                'bloggid'=>$bloggId
+            )
+        );
+        
+        echo json_encode($tabortInlaggJsonError);
     }
 
     $conn->close();
 
 }
 
-function tabortKommentar(){
+function tabortKommentar($conn){
     
-    include('dbh.inc.php');
-    $KID = mysqli_real_escape_string($conn, $_REQUEST['KID']);
-    $KIDarray[0] = $KID;
+    //-include("../../Databas/dbh.inc.php");
+    $kommentarId = mysqli_real_escape_string($conn, $_REQUEST['kommentarId']);
+    $KIDarray[0] = $kommentarId;
     $temparray = array();
     
-    $KIDarray = loop($KID,$conn,$KIDarray,$temparray);
+    $KIDarray = loop($kommentarId,$conn,$KIDarray,$temparray);
     
     $deleteID = implode(',',$KIDarray);
     
     $sql = "DELETE FROM kommentar WHERE id in ($deleteID)";
     
     if(mysqli_query($conn, $sql)){
-        echo "INFO: kommentar borttaget";
+        $tabortKommentarJson = array(
+            'code'=> '202',
+            'status'=> 'Accepted',
+            'msg' => 'Comment deleted',
+            'comment' => array(
+                'commentid'=>$kommentarId
+            )
+        );
+        
+        echo json_encode($tabortKommentarJson);
     } else {
-        echo "ERROR: Could not execute $delKommentar. " . mysqli_error($conn);
+        $tabortKommentarJsonError = array(
+            'code'=> '400',
+            'status'=> 'Bad',
+            'msg' => 'Could not execute',
+            'comment' => array(
+                'commentid'=>$kommentarId
+            )
+        );
+        
+        echo json_encode($tabortKommentarJsonError);
     }
     
 
 
 }
 // tillhör tabortkommentar
-function loop($KID,$conn,$KIDarray,$temparray){
+function loop($kommentarId,$conn,$KIDarray,$temparray){
     if(count($temparray) > 0 ){
         for($i=0;$i<count($temparray);$i++){
         array_push($KIDarray,$temparray[$i]);
@@ -101,14 +155,14 @@ function loop($KID,$conn,$KIDarray,$temparray){
         
     }
 
-$looparray = ($conn->query("SELECT id from kommentar where hierarkiId ='{$KID}'"));
+$looparray = ($conn->query("SELECT id from kommentar where hierarkiId ='{$kommentarId}'"));
 
 $temparray = array();
 if(mysqli_num_rows($looparray) > 0)
     while($row=$looparray->fetch_assoc()){
     
     
-        array_push($temparray,$row['KID']);
+        array_push($temparray,$row['id']);
     
     
     

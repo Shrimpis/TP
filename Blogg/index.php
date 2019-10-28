@@ -1,6 +1,6 @@
-<?php 
+<?php
     include("funktioner/dbh.inc.php");
-    
+
     session_start();
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,9 @@
         <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
         <script src="js/visaBlogg.js"></script>
-        <script src="js/skapa.js"></script>
+
+        <script src="js/skapaBilder.js"></script>
+        <script src="js/skapainlagg.js"></script>
     </head>
     <body onload="init()">
     <div class="container">
@@ -41,25 +43,25 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade active" id="blogg" role="tabpanel" aria-labelledby="blogg-tab">
-                <?php 
+                <?php
                     include "includes/blogg.php";
                 ?>
             </div>
 
             <div class="tab-pane fade" id="visa-blogg" role="tabpanel" aria-labelledby="visa-blogg-tab">
-                <?php 
-                   // include "includes/visa-blogg.php";
+                <?php
+                   include "includes/visa-blogg.php";
                 ?>
             </div>
-            
+
             <div class="tab-pane fade" id="inlagg" role="tabpanel" aria-labelledby="inlagg-tab">
-                <?php 
+                <?php
                     include "includes/inlagg.php";
                 ?>
             </div>
-            
+
             <div class="tab-pane fade" id="kommentar" role="tabpanel" aria-labelledby="kommentar-tab">
-                <?php 
+                <?php
                     include "includes/kommentar.php";
                 ?>
             </div>

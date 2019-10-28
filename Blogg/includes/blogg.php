@@ -1,6 +1,8 @@
 <h3>Blogg</h3>
     <br>
-
+<?php
+    include('../../Databas/dbh.inc.php');
+?>
 
     <!-- Skapa blogg -->
 
@@ -10,14 +12,15 @@
         Namn:<input type="text" name="Titel">
         <br><br>
         Välj en användare:
-        <select name="UID" id="UID">
+        <select name="anvandarId">
         <?php 
-            include('funktioner/dbh.inc.php');
-            $sql = "SELECT id, fnamn, enamn FROM anvandare";
+            $conn;
+            //-include('funktioner/dbh.inc.php');
+            $sql = "SELECT id, anamn FROM anvandare";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                echo "<option value='". $row["id"] ."'>AnvändareID: ". $row["id"]. " | ". $row["anamn"]."</option>";
             }
             echo "</table>";
             } else { echo "0 results"; }
@@ -41,9 +44,10 @@
                 <br>
                 <br>
                 Blogg:
-                <select name="BID" id="BID">
+                <select name="bloggId">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                    $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -67,9 +71,10 @@
             <form action="funktioner/tabort.php" method="post">
             <input type='hidden' name='funktion' value='tabortBlogg'/>
             Välj en blogg:
-                <select name="BID" id="BID">
+                <select name="bloggId" id="bloggId">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                        $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -92,14 +97,15 @@
             <form action="funktioner/redigera.php" method="post">
             <input type='hidden' name='funktion' value='privatiseraBlogg'/>
             Välj en blogg:
-                <select name="bloggid" id="bloggid">
+                <select name="bloggId" id="bloggId">
                     <?php 
-                        include('funktioner/dbh.inc.php');
-                        $sql = "SELECT id, titel, anvandarId, privat FROM tjanst";
+                        $conn;
+                        //-include('funktioner/dbh.inc.php');
+                        $sql = "SELECT * FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ".$row["titel"]." | "." privat: ".$row["privat"]."</option>";
+                            echo "<option value='". $row["id"] ."'>Blogg: ".$row["titel"]." | privat: ".$row["privat"]."</option>";
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
@@ -125,7 +131,8 @@
             Välj en blogg:
                 <select name="bloggid" id="bloggid">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                        $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -140,7 +147,8 @@
                 <br><br>
                 <select name="anvandarID">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                    $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id FROM anvandare";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -157,3 +165,20 @@
             </form>
             <br>
             <br>
+
+
+                sök efter en blogg
+
+                <form action="funktioner/skapa.php" method="post">
+                    <input type='hidden' name='funktion' value='sokfalt'/>
+            
+                    <input name="sok" type="text" size="30" placeholder="Search..."/>
+
+                    <input type="submit" value="Search"/>
+
+                
+                </form> 
+            <br>
+            <br>
+                    
+                        
