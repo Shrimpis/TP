@@ -33,8 +33,11 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     }
     if (strpos($url,'funktion=search?status=failed') == true) {
         echo "
-        <div class='alert alert-warningalert-dismissible fade show' role='alert'>
-            Sökfälten är tomma.
+        <div class='alert alert-info alert-dismissible fade show' role='alert'>
+            <strong>Info:</strong> Sökfälten är tomma. Vänligen välj en sökterm vid nästa sökning.
+            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span>
+            </button>
         </div>
       ";
     }
