@@ -1,10 +1,10 @@
 
 
 function statusAndra(status,id){
-
+console.log("test");
 let http = new XMLHttpRequest();
 
-http.onreadystatechange = function ({
+http.onreadystatechange = function () {
 
   if(this.status = 200 && this.readyState == 4){
 
@@ -13,8 +13,8 @@ http.onreadystatechange = function ({
   }
 
 
-http.open("GET","status.php?status="+status+"&kalenderID="+id,true);
+http.open("GET","../funktioner/status.php?status="+status+"&kalenderID="+id,true);
 http.send();
-});
+};
 
 }

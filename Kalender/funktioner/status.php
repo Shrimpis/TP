@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <script src="../js/status.js"></script>
+
+</head>
+
+<body>
+
 <?php
 session_start();
 include "./dbh.inc.php";
@@ -17,7 +29,56 @@ if (!$conn) {
 
 mysqlI_set_charset($conn, "utf8mb4");
 
-if(isset($_SESSION["UID"])){
+if(isset($_SESSION["UID"]) && isset($_GET["status"]) && isset($_GET["kalenderID"])){
+
+  echo "test";
+  if(isset($_GET["anledning"]) && $_GET["status"] == 2){
+
+    $status = $_GET["status"];
+    $anledning = $_GET["anledning"];
+    $id = $_GET["kalenderID"];
+
+    $sql = "update kalenderevent set anledning='{$anledning}', status=".$status." where id=".$id;
+    if(mysqli_query($conn, $sql)){
+      $conn->query($sql);
+
+      $completresponse->code = "200";
+      $completresponse->status = "OK";
+      $completresponse->msg = "Lyckades";
+
+    }
+    header("Refresh:0; url=status.php");
+
+  }else if($_GET["status"] == 2){
+
+        $status = $_GET["status"];
+        $id = $_GET["kalenderID"];
+
+        $sql = "update kalenderevent set status=".$status." where id=".$id;
+        if(mysqli_query($conn, $sql)){
+          $conn->query($sql);
+          $completresponse->code = "200";
+          $completresponse->status = "OK";
+          $completresponse->msg = "Lyckades";
+        }
+        header("Refresh:0; url=status.php");
+  }else{
+
+        $status = $_GET["status"];
+        $id = $_GET["kalenderID"];
+
+        $sql = "update kalenderevent set status=".$status." where id=".$id;
+        if(mysqli_query($conn, $sql)){
+          $conn->query($sql);
+          $completresponse->code = "200";
+          $completresponse->status = "OK";
+          $completresponse->msg = "Lyckades";
+        }
+        header("Refresh:0; url=status.php");
+  }
+
+
+}else if(isset($_SESSION["UID"])){
 
 $sql = "SELECT *from kalendersida where anvandarId=".$_SESSION["UID"];
 
@@ -40,66 +101,20 @@ $id = $kalender["kalenderId"];
     $jsonResp->code = "200";
     $jsonResp->status ="OK";
     $jsonResp->msg = "Lyckades";
-    $jsonResp->invite = "du har blivit inbjuden till ".$row["titel"]." av ".$row["anamn"]." klockan: ".$row["startTid"]." : ".$row["slutTid"] ."<br>";
+    $jsonResp->title = $row["titel"];
+    $jsonResp->namn = $row["anamn"];
+    $jsonResp->start = $row["startTid"];
+    $jsonResp->slut = $row["slutTid"];
 
     $jsonRespBody[] = $jsonResp;
 
     echo "du har blivit inbjuden till ".$row["titel"]." av ".$row["anamn"]." klockan: ".$row["startTid"]." : ".$row["slutTid"] ."<br>";
-    echo "<button onclick=status(2,".$row["kalenderID"].")>Neka</button> <button onclick=status(1,".$row["kalenderID"].")>acceptera</button><br>";
+    echo "<button onclick=statusAndra(2,".$row["kalenderID"].")>Neka</button> <button onclick=statusAndra(1,".$row["kalenderID"].")>acceptera</button><br>";
   }
   $completresponse->code = "200";
   $completresponse->status = "OK";
   $completresponse->msg = "Lyckades";
   $completresponse->events = $jsonRespBody;
-
-
-}else if(isset($_SESSION["UID"]) && isset($_GET["status"]) && isset($_GET["kalenderID"])){
-
-  echo "test";
-  if(isset($_GET["anledning"]) && $_GET["status"] == 2){
-
-    $status = $_GET["status"];
-    $anledning = $_GET["anledning"];
-    $id = $_GET["kalenderID"];
-
-    $sql = "update kalenderevent set anledning='{$anledning}', status=".$status." where id=".$id;
-    if(mysqli_query($conn, $sql)){
-      $conn->query($sql);
-
-      $completresponse->code = "200";
-      $completresponse->status = "OK";
-      $completresponse->msg = "Lyckades";
-
-    }
-    header("Refresh:0");
-
-  }else if($_GET["status"] == 2){
-
-        $status = $_GET["status"];
-        $id = $_GET["kalenderID"];
-
-        $sql = "update kalenderevent set status=".$status." where id=".$id;
-        if(mysqli_query($conn, $sql)){
-          $conn->query($sql);
-          $completresponse->code = "200";
-          $completresponse->status = "OK";
-          $completresponse->msg = "Lyckades";
-        }
-        header("Refresh:0");
-  }else{
-
-        $status = $_GET["status"];
-        $id = $_GET["kalenderID"];
-
-        $sql = "update kalenderevent set status=".$status." where id=".$id;
-        if(mysqli_query($conn, $sql)){
-          $conn->query($sql);
-          $completresponse->code = "200";
-          $completresponse->status = "OK";
-          $completresponse->msg = "Lyckades";
-        }
-        header("Refresh:0");
-  }
 
 
 }else{
@@ -108,6 +123,12 @@ $id = $kalender["kalenderId"];
   $completresponse->msg = "För få argument";
 }
 
+
 $json = json_encode($completresponse);
 
 echo $json;
+?>
+
+</body>
+
+</html>
