@@ -64,7 +64,7 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     if (strpos($url,'funktion=aktiveraTjanst?m=success') == true) {
         echo "
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
-            Tjänsten eller tjänsterna har nu ändrats för kunden.
+            Tjänsterna har nu ändrats för kunden.
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                 <span aria-hidden='true'>&times;</span>
             </button>

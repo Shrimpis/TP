@@ -57,7 +57,7 @@ if(!isset($_SESSION['login_user'])){
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Inställningar
+        Kundtjänster
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -81,10 +81,51 @@ if(!isset($_SESSION['login_user'])){
 
       <!-- Heading -->
       <div class="sidebar-heading">
+        Övrigt
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+          <i class="far fa-question-circle"></i>
+          <span>Hjälp</span>
+        </a>
+        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h1 class="collapse-header">API</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-API">Hur man använder vår API</a>
+            <h1 class="collapse-header">Blogg</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Blogg:-Skapa,-Redigera-och-ta-bort">Skapa, Redigera och ta bort</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Blogg:-JSON">JSON</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-visa-Blogg">Visa</a>
+            <h1 class="collapse-header">Wiki</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Wiki:-Skapa,-Redigera-och-Tabort">Skapa, Redigera och ta bort</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Wiki:-Json">JSON</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-visa-Wiki">Visa</a>
+            <h1 class="collapse-header">Kalender</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/">Skapa, Redigera och ta bort</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/">JSON</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/">Visa</a>
+            <h1 class="collapse-header">Övrigt</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Statuskoder">Statuskoder</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Variabellista">Variabellista</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Licensavtal">Licensavtal</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <div class="sidebar-heading" style="text-align:center;">
+        <p>&copy; <?php echo date("Y"); ?> The Provider</p>
+      </div>
+
+      <!--
+      <div class="sidebar-heading">
         Historik
       </div>
 
-      <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="#blogg">
           <i class="fab fa-blogger-b"></i>
@@ -99,7 +140,7 @@ if(!isset($_SESSION['login_user'])){
         <a class="nav-link" href="#wiki">
           <i class="fab fa-fw fa-wikipedia-w"></i>
           <span>Wiki</span></a>
-      </li>
+      </li>-->
 
 
 
@@ -129,11 +170,9 @@ if(!isset($_SESSION['login_user'])){
           </button>
 
           <!-- Topbar Search -->
-          <form action="funktioner/search.php" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form action="" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-              <input type="text" name="id" class="form-control bg-light border-0 small" placeholder="Kundnr" aria-label="Search" aria-describedby="basic-addon2">
-              <input type="text" name="namn" class="form-control bg-light border-0 small" placeholder="Namn" aria-label="Search" aria-describedby="basic-addon2">
-              <input type="text" name="anamn" class="form-control bg-light border-0 small" placeholder="Användarnamn" aria-label="Search" aria-describedby="basic-addon2">
+              <input type="text" name="search" class="form-control bg-light border-0 small" placeholder="ID, namn..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">
                   <i class="fas fa-search fa-sm"></i>
@@ -220,7 +259,11 @@ if(!isset($_SESSION['login_user'])){
 
                   <?php include 'includes/kundtabell.php' ?>
 
-                  <?php include 'includes/pagination.php' ?>
+                  <?php 
+                    if(empty($_GET['search'])){
+                      include 'includes/pagination.php';
+                    }
+                  ?>
 
                 </div>
               </div>
