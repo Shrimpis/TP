@@ -57,7 +57,7 @@ if(!isset($_SESSION['login_user'])){
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Inställningar
+        Kundtjänster
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -81,10 +81,51 @@ if(!isset($_SESSION['login_user'])){
 
       <!-- Heading -->
       <div class="sidebar-heading">
+        Övrigt
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+          <i class="far fa-question-circle"></i>
+          <span>Hjälp</span>
+        </a>
+        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h1 class="collapse-header">API</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-API">Hur man använder vår API</a>
+            <h1 class="collapse-header">Blogg</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Blogg:-Skapa,-Redigera-och-ta-bort">Skapa, Redigera och ta bort</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Blogg:-JSON">JSON</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-visa-Blogg">Visa</a>
+            <h1 class="collapse-header">Wiki</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Wiki:-Skapa,-Redigera-och-Tabort">Skapa, Redigera och ta bort</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-Wiki:-Json">JSON</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Funktioner-f%C3%B6r-visa-Wiki">Visa</a>
+            <h1 class="collapse-header">Kalender</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/">Skapa, Redigera och ta bort</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/">JSON</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/">Visa</a>
+            <h1 class="collapse-header">Övrigt</h1>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Statuskoder">Statuskoder</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Variabellista">Variabellista</a>
+              <a class="collapse-item navbaritems" target="_blank" href="https://github.com/Shrimpis/TP/wiki/Licensavtal">Licensavtal</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <div class="sidebar-heading" style="text-align:center;">
+        <p>&copy; <?php echo date("Y"); ?> The Provider</p>
+      </div>
+
+      <!--
+      <div class="sidebar-heading">
         Historik
       </div>
 
-      <!-- Nav Item -->
       <li class="nav-item">
         <a class="nav-link" href="#blogg">
           <i class="fab fa-blogger-b"></i>
@@ -99,7 +140,7 @@ if(!isset($_SESSION['login_user'])){
         <a class="nav-link" href="#wiki">
           <i class="fab fa-fw fa-wikipedia-w"></i>
           <span>Wiki</span></a>
-      </li>
+      </li>-->
 
 
 
