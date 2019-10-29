@@ -46,7 +46,7 @@ function skapaKonto($conn){
         $Blowfish_Pre = '$2a$10$';
         $Blowfish_End = '$';
         
-        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $Chars_Len = 63;
         
         $Salt_Length = 21;
@@ -95,6 +95,12 @@ function skapaKonto($conn){
                 $skapaAPI = "INSERT INTO api(rattighetId, nyckel) VALUES ('$rattighetId','$nyckel')";
 
                 $conn->query($skapaAPI);
+
+                // Skapar mappar för bilder //
+
+                mkdir('Bilder/'+ $username);
+                mkdir('Bilder/'+ $username + '/Blogg');
+                mkdir('Bilder/'+ $username + '/Wiki');
 
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }
