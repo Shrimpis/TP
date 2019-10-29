@@ -3,31 +3,31 @@
 // Funktion för redigera //
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
+include("../../json/felhantering.php");
 
         switch ($_POST['funktion']) {
             case 'redigeraBlogg':
-                redigeraBlogg();
+                redigeraBlogg($conn);
                 break;
             case 'redigeraKommentar':
-                redigeraKommentar();
+                redigeraKommentar($conn);
                 break;
             case 'redigeraInlagg':
-                redigeraInlagg();
+                redigeraInlagg($conn);
                 break;
             case 'privatiseraBlogg':
-                privatiseraBlogg();
+                privatiseraBlogg($conn);
                 break;
             case 'censureraKommentar':
-                censureraKommentar();
+                censureraKommentar($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
-$conn->close();
+                hantering('404','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
+        } 
 
-function redigeraBlogg(){
-    include("dbh.inc.php");
+function redigeraBlogg($conn){
+    //- include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId']) && isset($_POST['Titel'])){
         $Bid = $_POST['bloggId'];
         $title = $_POST['Titel'];
@@ -36,35 +36,17 @@ function redigeraBlogg(){
     
     if(mysqli_query($conn, $uppdateraBlogg)){
 
-        $redigeraBloggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Blogg edited',
-            'blogg' => array(
-                'bloggid'=>$bloggId,
-                'title'=>$title
-            )
-        );
-        
-        echo json_encode($redigeraBloggJson);
+        hantering('200','Bloggen är ändrad.',);
 
     } else {
-        $redigeraBloggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$bloggId,
-                'title'=>$title
-            )
-        );
+
+        hantering('400','Kunde inte uppdatera bloggen',);
         
-        echo json_encode($redigeraBloggJsonError);
     }
     $conn->close();
 }
-function privatiseraBlogg(){
-    include("dbh.inc.php");
+function privatiseraBlogg($conn){
+    //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId'])&&isset($_POST['privat'])){
         $bloggId = $_POST['bloggId'];
         $privat = $_POST['privat'];   
@@ -80,33 +62,18 @@ function privatiseraBlogg(){
     
     if(mysqli_query($conn, $uppdateraTjanst)){
 
-        $privatiseraTjanstJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'tjanst har redigerats',
-            'tjanst' => array(
-                'bloggId'=>$bloggId,
-            )
-        );
+        hantering('200','Blogg privatiserad',);
         
-        echo json_encode($privatiseraTjanstJson);
     } else {
-        $privatiseraTjanstJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'tjanst' => array(
-                'bloggId'=>$bloggId,
-            )
-        );
-        
-        echo json_encode($privatiseraTjanstJsonError);
+
+        hantering('400','Blogg kunde inte privatiseras',);
+
     }
     $conn->close();
 }
 
-function redigeraKommentar(){
-    include("dbh.inc.php");
+function redigeraKommentar($conn){
+    //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['kommentarId']) && isset($_POST['text'])){
         $Kid = $_POST['kommentarId'];
         $text = $_POST['text'];
@@ -116,34 +83,18 @@ function redigeraKommentar(){
 
     if(mysqli_query($conn, $uppdateraKommentar)){
 
-        $redigeraKommentarJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Comment uppdated',
-            'comment' => array(
-                'commentID'=>$Kid
-            )
-        );
-        
-        echo json_encode($redigeraKommentarJson);
+        hantering('200','Kommentar har redigerats',);
 
     } else {
-        $redigeraKommentarJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'comment' => array(
-                'commentID'=>$Kid
-            )
-        );
-        
-        echo json_encode($redigeraKommentarJsonError);
+
+        hantering('400','Kommentar kunde inte redigeras',);
+
     }
     $conn->close();
 }
 
-function redigeraInlagg(){
-    include("dbh.inc.php");
+function redigeraInlagg($conn){
+    //-include("../../Databas/dbh.inc.php");
 
     $inlaggsId = $_POST['inlaggsId'];
     $title = $_POST['Titel'];
@@ -151,34 +102,19 @@ function redigeraInlagg(){
     $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}', innehall = '{$innehall}' WHERE id = $inlaggsId ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
-        $redigeraInlaggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Post uppdated',
-            'post' => array(
-                'postID'=>$inlaggsId
-            )
-        );
-        
-        echo json_encode($redigeraInlaggJson);
+
+        hantering('200','Inlägget har redigerats',);
 
     } else {
-        $redigeraInlaggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'post' => array(
-                'postID'=>$inlaggsId
-            )
-        );
-        
-        echo json_encode($redigeraInlaggJsonError);
+
+        hantering('400','Inlägg kunde inte redigeras',);
+
     }
     $conn->close();
 }
 
-function censureraKommentar(){
-    include("dbh.inc.php");
+function censureraKommentar($conn){
+    //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['id']) ){
         $id = $_POST['id'];
     }
@@ -192,48 +128,20 @@ function censureraKommentar(){
                 $sql= "UPDATE kommentar SET censurerad = '1' WHERE id = $id ";
                 $conn->query($sql);
 
-                $censureraKommentarJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'Comment censored',
-                    'comment' => array(
-                        'commentID'=>$id
-                    )
-                );
-                
-                echo json_encode($censureraKommentarJson);
+                hantering('200','Kommentaren har censurerats',);
 
                 break;
                
-            }
-            else if($censurerad==1){
+            }else if($censurerad==1){
                 $sql= "UPDATE kommentar SET censurerad = '0' WHERE id = $id ";
                 $conn->query($sql);
 
-                $avCensureraKommentarJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'Comment is now public',
-                    'comment' => array(
-                        'commentID'=>$id 
-                    )
-                );
-                
-                echo json_encode($avCensureraKommentarJson);
+                hantering('200','Kommentaren är inte censurerad längre',);
 
                break;
-            }
-            else{
-                $censureraKommentarErrorJson = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'comment' => array(
-                        'commentID'=>$id 
-                    )
-                );
-                
-                echo json_encode($censureraKommentarErrorJson);
+            }else{
+
+                hantering('400','Kommentaren kunde inte censureras',);
 
                break;
             }

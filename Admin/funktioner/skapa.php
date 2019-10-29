@@ -1,13 +1,10 @@
 <?php 
 
 session_start();
-include("dbh.inc.php");
+include("../../Databas/dbh.inc.php");
         switch ($_POST['funktion']) {
             case 'skapaKonto':
-                skapaKonto();
-                break;
-            case 'skapaAKonto':
-                skapaAKonto();
+                skapaKonto($conn);
                 break;
 
             default:    
@@ -15,8 +12,7 @@ include("dbh.inc.php");
                 break;
         }
     
- 
-$conn->close();
+  
 
 function slumplosen($len) {
     $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -29,9 +25,9 @@ function slumplosen($len) {
 }
 
 
-function skapaKonto(){
+function skapaKonto($conn){
 
-    include("dbh.inc.php");
+    //-include("../../Databas/dbh.inc.php");
     $uname_tagen=false;
     if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['id'])){
         $username = $_POST['anamn'];
@@ -44,13 +40,13 @@ function skapaKonto(){
             echo "CRYPT_BLOWFISH is enabled!<br>";
         } else {
             echo "CRYPT_BLOWFISH is NOT enabled!";
-            goto end;
+            
         }
         
         $Blowfish_Pre = '$2a$10$';
         $Blowfish_End = '$';
         
-        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
+        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $Chars_Len = 63;
         
         $Salt_Length = 21;
@@ -89,6 +85,22 @@ function skapaKonto(){
                 while($row2 = $result2->fetch_assoc()) {
                     $sql3 = mysqli_query($conn,"UPDATE `kundrattigheter` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kundrattigheter`.`id` = $id");
                 }
+
+                // Skapar API-nyckel //
+
+                $rattighetId = $_POST['id'];
+
+                $nyckel = slumplosen(16);
+
+                $skapaAPI = "INSERT INTO api(rattighetId, nyckel) VALUES ('$rattighetId','$nyckel')";
+
+                $conn->query($skapaAPI);
+
+                // Skapar mappar för bilder //
+
+                mkdir('Bilder/'+ $username);
+                mkdir('Bilder/'+ $username + '/Blogg');
+                mkdir('Bilder/'+ $username + '/Wiki');
 
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }

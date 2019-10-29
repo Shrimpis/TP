@@ -1,6 +1,8 @@
 <h3>Blogg</h3>
     <br>
-
+<?php
+    include('../../Databas/dbh.inc.php');
+?>
 
     <!-- Skapa blogg -->
 
@@ -12,7 +14,8 @@
         Välj en användare:
         <select name="anvandarId">
         <?php 
-            include('funktioner/dbh.inc.php');
+            $conn;
+            //-include('funktioner/dbh.inc.php');
             $sql = "SELECT id, anamn FROM anvandare";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -43,7 +46,8 @@
                 Blogg:
                 <select name="bloggId">
                 <?php 
-                    include('funktioner/dbh.inc.php');
+                    $conn;
+                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -69,7 +73,8 @@
             Välj en blogg:
                 <select name="bloggId" id="bloggId">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                        $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -94,7 +99,8 @@
             Välj en blogg:
                 <select name="bloggId" id="bloggId">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                        $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT * FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -125,7 +131,8 @@
             Välj en blogg:
                 <select name="bloggid" id="bloggid">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                        $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -140,7 +147,8 @@
                 <br><br>
                 <select name="anvandarID">
                     <?php 
-                        include('funktioner/dbh.inc.php');
+                    $conn;
+                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id FROM anvandare";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {

@@ -1,29 +1,35 @@
 <?php 
 
-include("dbh.inc.php");
-        switch ($_POST['funktion']) {
-            case 'aktiveraTjanst':
-                aktiveraTjanst();
-                break;
-            default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
+include("../../Databas/dbh.inc.php");
+
+    switch ($_POST['funktion']) {
+        case 'aktiveraTjanst':
+            aktiveraTjanst($conn);
+            break;
+        default:
+            echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+    }
     
- 
-$conn->close();
+  
 
-function aktiveraTjanst(){
-    include("dbh.inc.php");
+function aktiveraTjanst($conn){
+   //- include("../../Databas/dbh.inc.php");
 
-    $id = mysqli_real_escape_string($conn, $_POST['id']); //Kund-ID
+    $id = $_POST['id']; //Kund-ID
     $tjanst = (isset($_POST['CheckTjanst'])) ? 1 : 0;
 
-    $aktivera = "UPDATE `kundrattigheter` SET `tjanst` = '$tjanst' WHERE `kundrattigheter`.`id` = $id";
+    $result = ($conn->query("SELECT id FROM kundrattigheter WHERE id=$id"));
 
-    if(mysqli_query($conn, $aktivera)){
+    if(mysqli_num_rows($result) > 0){
+        $aktivera = "UPDATE `kundrattigheter` SET `tjanst` = '$tjanst', `superadmin` = '0', `kontoId` = '0' WHERE `kundrattigheter`.`id` = $id ";
+        $conn->query($aktivera);
+
         header('location: ../index.php?funktion=aktiveraTjanst?m=success');
     } else {
-        echo "ERROR: Could not able to execute $aktivera. " . mysqli_error($conn);
+        $aktivera = "INSERT INTO kundrattigheter(id,tjanst, superadmin, kontoId) VALUES ($id ,$tjanst, '0', '0')";
+        $conn->query($aktivera);
+        
+        header('location: ../index.php?funktion=aktiveraTjanst?m=success');
     }
 
 }

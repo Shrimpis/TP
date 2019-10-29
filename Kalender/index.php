@@ -1,5 +1,7 @@
-<?php
-    include("funktioner/dbh.inc.php");
+
+<?php 
+    //-include("funktioner/dbh.inc.php");
+    include("../Databas/dbh.inc.php");
 
     session_start();
 ?>
@@ -19,7 +21,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -29,7 +32,7 @@
                 } else {
                     echo "0 results";
                 }
-                $conn->close();
+                
 
             ?>
             </select>
@@ -51,7 +54,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -61,7 +65,7 @@
                 } else {
                     echo "0 results";
                 }
-                $conn->close();
+                
 
             ?>
             </select>
@@ -69,7 +73,8 @@
             kalender:
             <select name="kalenderId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -79,7 +84,7 @@
                 } else {
                     echo "0 results";
                 }
-                $conn->close();
+                
 
             ?>
             </select>
@@ -98,7 +103,8 @@
         välj en användare:
             <select name="anvandarId">
             <?php
-                include("funktioner/dbh.inc.php");
+            $conn;
+                //-include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from anvandare";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -108,7 +114,7 @@
                 } else {
                     echo "0 results";
                 }
-                $conn->close();
+                
 
             ?>
             </select>
@@ -116,17 +122,19 @@
             kalender:
             <select name="kalenderId">
             <?php
-                include("funktioner/dbh.inc.php");
-                $sql = "SELECT * from kalender";
+
+            $conn;
+                //-include("funktioner/dbh.inc.php");
+                $sql = "SELECT * from kalendersida";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row['tjanstId'] . "'>" . $row['tjanstId'] . "</option>";
+                        echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
                 } else {
                     echo "0 results";
                 }
-                $conn->close();
+                
 
             ?>
             </select>
@@ -150,7 +158,7 @@
         <form action="funktioner/tabort.php" method="POST">
         <input type='hidden' name='funktion' value='tabortKalender'/>
         kalender:
-            <select name="kalenderId">
+            <select name="tjanstId">
             <?php
                 include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
@@ -162,11 +170,40 @@
                 } else {
                     echo "0 results";
                 }
-                $conn->close();
+                
 
             ?>
             </select>
             <input type="submit" value="ta bort kalender">
         </form>
+        <br>
+        <br>
+        <!-- tabort kalendersida -->
+
+        <h4>Tabort kalendersida</h4>
+
+        <form action="funktioner/tabort.php" method="POST">
+        <input type='hidden' name='funktion' value='tabortKalendersida'/>
+        kalendersida:
+            <select name="sidId">
+            <?php
+                include("funktioner/dbh.inc.php");
+                $sql = "SELECT * from kalendersida";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
+                    }
+                } else {
+                    echo "0 results";
+                }
+                
+
+            ?>
+            </select>
+            <input type="submit" value="ta bort kalendersida">
+        </form>
+        <br>
+        <br>
     </body>
 </html>

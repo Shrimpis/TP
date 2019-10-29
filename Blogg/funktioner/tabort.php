@@ -4,154 +4,100 @@
 
 session_start();
 
-include('dbh.inc.php');
+include("../../Databas/dbh.inc.php");
         switch ($_POST['funktion']) {
 
             case 'tabortBlogg':
-                tabortBlogg();
+                tabortBlogg($conn);
                 break;
             case 'tabortInlagg':
-                tabortInlagg();
+                tabortInlagg($conn);
                 break;
             case 'tabortKommentar':
-                tabortKommentar();
+                tabortKommentar($conn);
                 break;
             case 'tabortTextruta':
-                tabortTextruta();
+                tabortTextruta($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
-        }
-$conn->close();
+                hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
+        } 
 
 
-function tabortBlogg(){
-    include('dbh.inc.php');
+function tabortBlogg($conn){
+    //-include("../../Databas/dbh.inc.php");
+    if(isset($_POST['bloggId'])){
     $bloggId = $_POST['bloggId'];
 
-    $delTjanst = "DELETE FROM tjanst WHERE id='{$bloggId}'";
-    $delBlogg = "DELETE FROM blogg WHERE tjanstId='{$bloggId}'";
-    $delInlagg = "DELETE FROM blogginlagg WHERE bloggId='{$bloggId}'";
+    $tjanstId = ($conn->query("SELECT tjanstId FROM blogg WHERE id = $bloggId"));
+    $taBortBlogg = "DELETE FROM tjanst WHERE id='{$tjanstId}'";
 
-    $IIDarray = ($conn->query("SELECT id FROM blogginlagg WHERE bloggId ='{$bloggId}'"));
-    
-    while($row = $IIDarray->fetch_assoc()){
-        $inlaggsId= $row['id'];
-    
-        $delKommentar="DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
-        $conn->query($delKommentar);
-        $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
-        $conn->query($delLike);
-        
+    if(mysqli_query($conn, $taBortBlogg)){
+
+        hantering('204','Bloggen har tagits bort',);
+
+    }else{
+
+        hantering('400','Bloggen kunde inte tas bort',);
+
     }
-    if(mysqli_query($conn, $delBlogg)&&mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delTjanst)){
-        $tabortBloggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Blogg delted',
-            'blogg' => array(
-                'bloggid'=>$bloggId
-            )
-        );
-        
-        echo json_encode($tabortBloggJson);
-    } else {
-        $tabortBloggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$bloggId
-            )
-        );
-        
-        echo json_encode($tabortBloggJsonError);
-    }
+
+}
 
     $conn->close();
 
 }
 
-function tabortInlagg(){
-    include('dbh.inc.php');
+function tabortInlagg($conn){
+  
     $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
-    $delInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
-    $delKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
-    $delLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
+    $taBortInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
 
-    if(mysqli_query($conn, $delInlagg)&&mysqli_query($conn, $delKommentar)&&mysqli_query($conn, $delLike)){
-        $tabortInlaggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Post deleted',
-            'blogg' => array(
-                'bloggid'=>$bloggId
-            )
-        );
-        
-        echo json_encode($tabortInlaggJson);
-    } else {
-        $tabortInlaggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$bloggId
-            )
-        );
-        
-        echo json_encode($tabortInlaggJsonError);
+    if(mysqli_query($conn, $taBortInlagg)){
+
+        hantering('204','Bloggen har tagits bort',);
+
+    }else{
+
+        hantering('400','Bloggen har tagits bort',);
+
     }
 
     $conn->close();
 
 }
 
-function tabortKommentar(){
+function tabortKommentar($conn){
     
-    include('dbh.inc.php');
-    $kommentarId = mysqli_real_escape_string($conn, $_REQUEST['kommentarId']);
-    $KIDarray[0] = $kommentarId;
+    //-include("../../Databas/dbh.inc.php");
+    $kommentarId = mysqli_real_escape_string($conn, $_POST['kommentarId']);
+    $kommentarIDArray[0] = $kommentarId;
     $temparray = array();
     
-    $KIDarray = loop($kommentarId,$conn,$KIDarray,$temparray);
+    $kommentarIDArray = loop($kommentarId,$conn,$kommentarIDArray,$temparray);
     
-    $deleteID = implode(',',$KIDarray);
+    $taBortID = implode(',',$kommentarIDArray);
     
-    $sql = "DELETE FROM kommentar WHERE id in ($deleteID)";
+    $taBortKommentar = "DELETE FROM kommentar WHERE id in ($taBortID)";
     
-    if(mysqli_query($conn, $sql)){
-        $tabortKommentarJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Comment deleted',
-            'comment' => array(
-                'commentid'=>$kommentarId
-            )
-        );
-        
-        echo json_encode($tabortKommentarJson);
+    if(mysqli_query($conn, $taBortKommentar)){
+
+        hantering('204','Kommentaren har tagits bort',);
+
     } else {
-        $tabortKommentarJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad',
-            'msg' => 'Could not execute',
-            'comment' => array(
-                'commentid'=>$kommentarId
-            )
-        );
-        
-        echo json_encode($tabortKommentarJsonError);
+
+        hantering('400','Kommentaren kunde inte tas bort',);
+
     }
     
 
 
 }
 // tillhör tabortkommentar
-function loop($kommentarId,$conn,$KIDarray,$temparray){
+function loop($kommentarId,$conn,$kommentarIDArray,$temparray){
     if(count($temparray) > 0 ){
         for($i=0;$i<count($temparray);$i++){
-        array_push($KIDarray,$temparray[$i]);
+        array_push($kommentarIDArray,$temparray[$i]);
         }
         
     }
@@ -162,29 +108,16 @@ $temparray = array();
 if(mysqli_num_rows($looparray) > 0)
     while($row=$looparray->fetch_assoc()){
     
-    
         array_push($temparray,$row['id']);
-    
-    
-    
-    
     
     }
 
     if(count($temparray)>0){
         
-        return loop($temparray[0],$conn,$KIDarray,$temparray);
+        return loop($temparray[0],$conn,$kommentarIDArray,$temparray);
     }
 
-
-
-
-    //cred to Brandon 4 code help big thx
-
-
-
-    
-    return $KIDarray;  
+    return $kommentarIDArray;  
 }
 
 ?>
