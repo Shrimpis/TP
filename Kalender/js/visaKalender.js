@@ -14,6 +14,16 @@ function getTitel(){
     body.appendChild(titelCon);
 }
 
+function getAgare(){
+    let body = document.getElementById("agareContainer");
+    let agare = document.createElement("p");
+    let agareCon = document.createElement("div");
+    let agareValue = document.createTextNode(json.anamn);
+    agare.appendChild(agareValue);
+    agareCon.appendChild(agare);
+    body.appendChild(agareCon);
+}
+
 function getEvent(i){
 
     //Skapar titeln till eventet
@@ -24,6 +34,14 @@ function getEvent(i){
     titel.appendChild(titelValue);
     titelCon.appendChild(titel);
     body.appendChild(titelCon);
+
+    //Skapa skapare
+    let skapare = document.createElement("p");
+    let skapareCon = document.createElement("div");
+    let skapareValue = document.createTextNode("Skapad av: " + json.event[i].skapadAv);
+    skapare.appendChild(skapareValue);
+    skapareCon.appendChild(skapare);
+    body.appendChild(skapareCon);
 
     //Skapa innehåll till eventet
     let innehall = document.createElement("p");
@@ -43,28 +61,6 @@ function getEvent(i){
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function init(){
     var xhttp = new XMLHttpRequest();
 
@@ -75,7 +71,6 @@ function init(){
             console.log(json.titel);
 
             getTitel();
-            
             next();
         }
     };
@@ -93,6 +88,7 @@ function next(){
             json = JSON.parse(this.responseText);
             console.log(json);
 
+            getAgare();
             for(let i = 0; i < json.event.length; i++) {
                 getEvent(i);
             }

@@ -7,7 +7,7 @@
 <body>
     <div id="kalenderContainer" class="kalenderContainer">
         <div id="titelContainer" class="titelContainer"></div>
-        <div id="sidContainer" class="sidContainer"></div>
+        <div id="agareContainer" class="agareContainer"></div>
         <br><br>
         <div id="eventContainer" class="eventContainer"></div>
     </div>    
