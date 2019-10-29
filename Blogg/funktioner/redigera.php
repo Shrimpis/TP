@@ -4,6 +4,7 @@
 
 session_start();
 include("../../Databas/dbh.inc.php");
+include("../../json/felhantering.php");
 
         switch ($_POST['funktion']) {
             case 'redigeraBlogg':
@@ -22,7 +23,7 @@ include("../../Databas/dbh.inc.php");
                 censureraKommentar($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('404','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
         } 
 
 function redigeraBlogg($conn){
@@ -35,30 +36,12 @@ function redigeraBlogg($conn){
     
     if(mysqli_query($conn, $uppdateraBlogg)){
 
-        $redigeraBloggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Blogg edited',
-            'blogg' => array(
-                'bloggid'=>$bloggId,
-                'title'=>$title
-            )
-        );
-        
-        echo json_encode($redigeraBloggJson);
+        hantering('200','Bloggen är ändrad.',);
 
     } else {
-        $redigeraBloggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'blogg' => array(
-                'bloggid'=>$bloggId,
-                'title'=>$title
-            )
-        );
+
+        hantering('400','Kunde inte uppdatera bloggen',);
         
-        echo json_encode($redigeraBloggJsonError);
     }
     $conn->close();
 }
@@ -79,27 +62,12 @@ function privatiseraBlogg($conn){
     
     if(mysqli_query($conn, $uppdateraTjanst)){
 
-        $privatiseraTjanstJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'tjanst har redigerats',
-            'tjanst' => array(
-                'bloggId'=>$bloggId,
-            )
-        );
+        hantering('200','Blogg privatiserad',);
         
-        echo json_encode($privatiseraTjanstJson);
     } else {
-        $privatiseraTjanstJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'tjanst' => array(
-                'bloggId'=>$bloggId,
-            )
-        );
-        
-        echo json_encode($privatiseraTjanstJsonError);
+
+        hantering('400','Blogg kunde inte privatiseras',);
+
     }
     $conn->close();
 }
@@ -115,28 +83,12 @@ function redigeraKommentar($conn){
 
     if(mysqli_query($conn, $uppdateraKommentar)){
 
-        $redigeraKommentarJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Comment uppdated',
-            'comment' => array(
-                'commentID'=>$Kid
-            )
-        );
-        
-        echo json_encode($redigeraKommentarJson);
+        hantering('200','Kommentar har redigerats',);
 
     } else {
-        $redigeraKommentarJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'comment' => array(
-                'commentID'=>$Kid
-            )
-        );
-        
-        echo json_encode($redigeraKommentarJsonError);
+
+        hantering('400','Kommentar kunde inte redigeras',);
+
     }
     $conn->close();
 }
@@ -150,28 +102,13 @@ function redigeraInlagg($conn){
     $uppdateraInlagg = "UPDATE blogginlagg SET titel = '{$title}', innehall = '{$innehall}' WHERE id = $inlaggsId ";
     
     if(mysqli_query($conn, $uppdateraInlagg )){
-        $redigeraInlaggJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'Post uppdated',
-            'post' => array(
-                'postID'=>$inlaggsId
-            )
-        );
-        
-        echo json_encode($redigeraInlaggJson);
+
+        hantering('200','Inlägget har redigerats',);
 
     } else {
-        $redigeraInlaggJsonError = array(
-            'code'=> '400',
-            'status'=> 'Bad Request',
-            'msg' => 'Could not execute',
-            'post' => array(
-                'postID'=>$inlaggsId
-            )
-        );
-        
-        echo json_encode($redigeraInlaggJsonError);
+
+        hantering('400','Inlägg kunde inte redigeras',);
+
     }
     $conn->close();
 }
@@ -191,48 +128,20 @@ function censureraKommentar($conn){
                 $sql= "UPDATE kommentar SET censurerad = '1' WHERE id = $id ";
                 $conn->query($sql);
 
-                $censureraKommentarJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'Comment censored',
-                    'comment' => array(
-                        'commentID'=>$id
-                    )
-                );
-                
-                echo json_encode($censureraKommentarJson);
+                hantering('200','Kommentaren har censurerats',);
 
                 break;
                
-            }
-            else if($censurerad==1){
+            }else if($censurerad==1){
                 $sql= "UPDATE kommentar SET censurerad = '0' WHERE id = $id ";
                 $conn->query($sql);
 
-                $avCensureraKommentarJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'Comment is now public',
-                    'comment' => array(
-                        'commentID'=>$id 
-                    )
-                );
-                
-                echo json_encode($avCensureraKommentarJson);
+                hantering('200','Kommentaren är inte censurerad längre',);
 
                break;
-            }
-            else{
-                $censureraKommentarErrorJson = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'comment' => array(
-                        'commentID'=>$id 
-                    )
-                );
-                
-                echo json_encode($censureraKommentarErrorJson);
+            }else{
+
+                hantering('400','Kommentaren kunde inte censureras',);
 
                break;
             }
