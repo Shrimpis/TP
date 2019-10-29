@@ -15,7 +15,7 @@
                         <select class="selectpicker show-tick" data-live-search="true" id="inputGroupSelect01" name="UID" id="UID">
                             <option selected>Välj...</option>
                             <?php 
-                                include("../../Databas/dbh.inc.php");
+                                include("../Databas/dbh.inc.php");
                                 $sql = "SELECT blogg.id, blogg.tjanstId, tjanst.titel FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
@@ -48,7 +48,7 @@
                             <select class="selectpicker show-tick" data-live-search="true" id="inputGroupSelect01" name="UID" id="UID">
                                 <option selected>Välj...</option>
                                 <?php 
-                                    include("../../Databas/dbh.inc.php");
+                                    include("../Databas/dbh.inc.php");
                                     $sql = "SELECT anvandare.id, anvandare.fnamn, anvandare.enamn, anvandare.anamn FROM anvandare INNER JOIN anvandarroll ON anvandare.id = anvandarroll.anvandarId WHERE anvandarroll.rollId = 1 AND anvandare.id <> 1"; //TODO: Ändra till rätt rollId.
                                     $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
