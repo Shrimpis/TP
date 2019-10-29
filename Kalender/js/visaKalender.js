@@ -75,7 +75,7 @@ function init(){
         }
     };
 
-    xhttp.open("POST", "json/kalenderjson.php", true);
+    xhttp.open("POST", "../json/kalenderjson.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("anvandare=" + anvandarId + "&kalender=" + kalenderId);
 }
@@ -96,7 +96,7 @@ function next(){
         }
     };
 
-    xhttp.open("POST", "json/kalenderjson.php", true);
+    xhttp.open("POST", "../json/kalenderjson.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("anvandare=" + anvandarId + "&kalenderSida=" + sidId);
 }
