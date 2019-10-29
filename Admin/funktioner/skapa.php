@@ -96,10 +96,19 @@ function skapaKonto($conn){
 
                 // Skapar mappar för bilder //
 
-                $structure = '../Bilder/';
+                $owner = 'theprovider';
 
-                if(!mkdir($structure + 'Wiki/'+ $username, 0700, true) && !mkdir($structure + 'Blogg/'+ $username, 0700, true)){
-                    die('Failed to create folders.');
+                $blogg = '/var/www/html/TP/Bilder/Blogg/'.$username.'';
+                $wiki = '/var/www/html/TP/Bilder/Wiki/'.$username.'';
+
+                if(!mkdir($blogg, 0777, true)){
+                    chown($blogg, $owner);
+                    header('location: ../index.php?funktion=skapaKonto?status=failed?reason=blogg_folder+exists');
+                }
+
+                if(!mkdir($wiki, 0777, true)){
+                    chown($wiki, $owner);
+                    header('location: ../index.php?funktion=skapaKonto?status=failed?reason=wiki_folder+exists');
                 }
 
                 header('location: ../index.php?funktion=skapaKonto?status=success');
