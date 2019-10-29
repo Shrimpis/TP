@@ -3,7 +3,7 @@
 // Funktioner för att ta bort
 
 session_start();
-include("./json/felhantering.php");
+include("../../json/felhantering.php");
 include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
@@ -43,16 +43,13 @@ function tabortKalender($conn){
                 while($row=$get_result->fetch_assoc()){
                     $id=$row['id']; 
                     $get_kalsid = $conn->query("SELECT * FROM kalendersida WHERE kalenderId = $id");
-                    echo $id;
                     while($row = $get_kalsid->fetch_assoc()){
                         $kalsidID = $row['id'];
-                        echo $kalsidID;
                         $get_kalevid = $conn->query("SELECT * FROM kalenderevent WHERE kalenderId = $kalsidID");
                      
                         
                         while($row = $get_kalevid->fetch_assoc()){
                             $eventId = $row['eventId'];
-                            echo $eventId;
                             $conn->query("DELETE FROM event WHERE id = $eventId");
                         }
                         $conn->query("DELETE FROM kalenderevent WHERE kalenderId =$kalsidID");
@@ -88,7 +85,6 @@ function tabortKalendersida($conn){
                         
                     while($row = $get_kalevid->fetch_assoc()){
                         $eventId = $row['eventId'];
-                        echo $eventId;
                         $conn->query("DELETE FROM event WHERE id = $eventId");
                     }
                 $conn->query("DELETE FROM kalenderevent WHERE kalenderId =$sidId");

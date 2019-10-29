@@ -1,7 +1,8 @@
 <?php
 
 session_start();
-include('./Databas/dbh.inc.php');
+include('../../Databas/dbh.inc.php');
+include("../../json/felhantering.php");
 
 switch($_POST['funktion']){
 
@@ -15,7 +16,8 @@ switch($_POST['funktion']){
         sokFalt($conn);
         break;
     default:
-        echo 'ERROR: Något gick fel med parametrarna i eran begäran.';
+        hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+        break;
 
 }
 
@@ -33,10 +35,10 @@ function skapaWiki($conn){
         $skapaWiki = "INSERT INTO wiki(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
     
         if(mysqli_query($conn, $skapaWiki)){
-            echo "INFO: Wikin har skapats.";
+            hantering('201','wiki skapad');
         } 
         else {
-            echo "ERROR: Could not execute $skapaWiki. " . mysqli_error($conn);
+            hantering('400','kunde ej exekvera');
         }
     
     }
@@ -70,19 +72,26 @@ function skapaWikiUppdatering($conn){
         $date= date("Y-m-d H:i");
             if(($roll=="1" || $roll=="3") && $sidId==""){
                 $sql= "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$bidragsGivare','$bidragsGivare', '$titel','$innehall','$date')";
-                $conn->query($sql);
+                
+                
             }
             else if(($roll=="1" || $roll=="3") && $sidId==$sidaId){
                 $sql= "UPDATE wikisidor SET godkantAv='$bidragsGivare',bidragsgivare='$bidragsGivare',titel='$titel',innehall='$innehall',datum='$date' WHERE id=$sidId";
-                $conn->query($sql);
+                
             }
             else if(($roll!="1" || $roll!="3") && $sidId==""){
                 $sql= "INSERT INTO wikiuppdatering(wikiId, sidId, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$sidId','$bidragsGivare', '$titel','$innehall','$date')";
-                $conn->query($sql);
+                
             }
             else{
                 $sql= "INSERT INTO wikiuppdatering(wikiId, sidId, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$sidId','$bidragsGivare', '$titel','$innehall','$date')";
-                $conn->query($sql);
+                
+            }
+            if(mysqli_query($sql)){
+                hantering('201','skapade uppdatering');
+            }
+            else{
+                hantering('400','kunde ej exekvera');
             }
         
     }
@@ -101,11 +110,13 @@ function sokFalt($conn){
     
         $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE titel LIKE '%$sok%'") or die ("Could not search");
         if($count = mysqli_num_rows($query)){
-    
+            $result = 'hittade wikisida: '.$row['titel'];
+            hantering('201',$result);
+            
     
     
         }else if($count == 0){
-            echo "There was no search results!";
+            hantering('201','hittade inget');
         }
 
     } 

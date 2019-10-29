@@ -28,7 +28,6 @@
     }*/
 
 
-   
     if(isset($_POST['anvandare']) && isset($_POST['kalenderSida'])){
         kalender($_POST['anvandare'],$_POST['kalenderSida'],$conn);
     }
@@ -47,7 +46,13 @@
         $tjanstArray=array();
         $kalenderSida = $conn->query('select * from kalendersida where id='.$kalenderSidaId);
         while($row=$kalenderSida->fetch_assoc()){
-            $tjanstArray=array('anvandarId'=>$row['anvandarId']);
+
+            $anamn;
+            while($namn=$anvandare->fetch_assoc()){
+                $anamn=$namn['anamn'];
+            }
+            
+            $tjanstArray=array('anvandarId'=>$anamn);
 
             $kalenderevent = $conn->query('select * from kalenderevent where kalenderId='.$kalenderSidaId);
             $eventIds=array();
@@ -71,7 +76,16 @@
         while($row=$events->fetch_assoc()){
             for($i=0;$i<count($eventIds);$i++){
                 if($eventIds[$i]==$row['id']){
-                    $tjanstArray['event'][$ii]=array('id'=>$row['id'],'skapadAv'=>$row['skapadAv'],'titel'=>$row['titel'],'innehall'=>$row['innehall'],'startTid'=>$row['startTid'],'slutTid'=>$row['slutTid'],'aktiv'=>$row['aktiv']);
+
+
+                    $anvandare = $conn->query('select * from anvandare where id='.$row['skapadAv']);
+                    $anamn;
+                    while($namn=$anvandare->fetch_assoc()){
+                        $anamn=$namn['anamn'];
+                    }
+
+
+                    $tjanstArray['event'][$ii]=array('id'=>$row['id'],'skapadAv'=>$anamn,'titel'=>$row['titel'],'innehall'=>$row['innehall'],'startTid'=>$row['startTid'],'slutTid'=>$row['slutTid'],'aktiv'=>$row['aktiv']);
                     $ii++;
                 }
                 $i++;
@@ -121,7 +135,16 @@
                     $kalenderSida = $conn->query('select * from kalendersida where kalenderId='.$kalenderId);
                     $i=0;
                     while($row5=$kalenderSida->fetch_assoc()){
-                        $tjanstArray['sidor'][$i]=array('id'=>$row5['id']);
+
+
+                        $anvandare = $conn->query('select * from anvandare where id='.$row5['anvandarId']);
+                        $anamn;
+                        while($namn=$anvandare->fetch_assoc()){
+                            $anamn=$namn['anamn'];
+                        }
+
+
+                        $tjanstArray['sidor'][$i]=array('id'=>$row5['id'],'anamn'=>$anamn);
                         $i++;
                     }
 

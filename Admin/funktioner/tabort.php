@@ -12,8 +12,7 @@ include("../../json/felhantering.php");
             harddelkonto($conn);
             break;
         default:
-            echo "jeh";
-            // hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+            hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
             break;
     }
     
