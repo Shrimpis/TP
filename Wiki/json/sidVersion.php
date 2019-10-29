@@ -8,9 +8,9 @@ if($conn->connect_error){
 }
 
 
-if(isset($_GET['sidId'])){
+if(isset($_POST['sidId'])){
     
-    sidVersion($_GET['sidId'],$conn);
+    sidVersion($_POST['sidId'],$conn);
 }
 
 function sidVersion($sidId,$conn){

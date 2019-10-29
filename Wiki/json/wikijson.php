@@ -29,11 +29,11 @@
 
 
    
-    if(isset($_GET['anvandare']) && isset($_GET['wiki'])){
-        wiki($_GET['anvandare'],$_GET['wiki'],$conn);
+    if(isset($_POST['anvandare']) && isset($_POST['wiki'])){
+        wiki($_POST['anvandare'],$_POST['wiki'],$conn);
     }
-    else if(isset($_GET['anvandare'])){
-        wikis($_GET['anvandare'],$conn);
+    else if(isset($_POST['anvandare'])){
+        wikis($_POST['anvandare'],$conn);
     }
     else{
         hantering('400','inga post variabler är satta.',);
@@ -62,7 +62,7 @@
                 
                 
                 while($row4=$wikisidor->fetch_assoc()){//håämtar saker från alla wikisidor.
-                    $tjanstArray['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],'datum'=>$row4['datum']);
+                    $tjanstArray['sidor'][$id]=array('id'=>$row4['id'],'godkantAv'=>$row4['godkantAv'],'bidragsgivare'=>$row4['bidragsgivare'],'titel'=>$row4['titel'],'innehall'=>$row4['innehall'],'datum'=>$row4['datum'],'dolt'=>$row4['dolt'],'last'=>$row4['last']);
                     
                     $bidragsgivareNamn = $conn->query('select * from anvandare where id='.$row4['bidragsgivare']);
                     while($row5=$bidragsgivareNamn->fetch_assoc()){
@@ -112,7 +112,7 @@
                 
                
                 if($row1['tjanstId']==$row['id']){//om wikin finns i tjänsten.
-                    $tjanstArray['wiki'][$i]=array('titel'=>$row['titel'],'privat'=>$row['privat']);// hämtar wikin från tjänsten.
+                    $tjanstArray['wiki'][$i]=array('id'=>$row1['id'],'titel'=>$row['titel'],'privat'=>$row['privat']);// hämtar wikin från tjänsten.
                     $wikisidor = $conn->query('select * from wikisidor where wikiId='.$wikiId);
                     $id=0;
                     
