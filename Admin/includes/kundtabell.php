@@ -185,13 +185,18 @@
                                 </div>
                                 
                                 <div class='tab-pane fade' id='wiki". $row["id"] ."' role='tabpanel' aria-labelledby='wiki-tab'>
-                                    <p>Kundens aktiva wikis:</p>
+                                    <p>Kundens aktiva wikis:</p>";
 
-                                </div>
+                                    include "includes/info-wiki.php";
+
+                            echo "</div>
 
                                 <div class='tab-pane fade' id='kalender". $row["id"] ."' role='tabpanel' aria-labelledby='kalender-tab'>
-                                    <p>Kundens aktiva kalendrar:</p>
+                                    <p>Kundens aktiva kalendrar:</p>";
 
+                                    include "includes/info-kalender.php";
+
+                            echo "
                                 </div>
                             </div>
                         </div>
