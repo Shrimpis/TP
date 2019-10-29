@@ -108,7 +108,7 @@
 
 
 <form action="funktioner/tabort.php" method="POST">
-<input type='hidden' name='funktion' value='harddelKonto'/>
+<input type='hidden' name='funktion' value='harddelkonto'/>
 
     <br>
     <select name="kontoID">

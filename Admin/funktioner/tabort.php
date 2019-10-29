@@ -2,6 +2,7 @@
 
 session_start();
 include("../../Databas/dbh.inc.php");
+include("../../json/felhantering.php");
 
     switch ($_POST['funktion']) {
         case 'tabortKonto':
@@ -11,6 +12,7 @@ include("../../Databas/dbh.inc.php");
             harddelkonto($conn);
             break;
         default:
+            echo "jeh";
             // hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
             break;
     }
@@ -32,9 +34,10 @@ function tabortKonto($conn){
 
 }
 function harddelkonto($conn){
+    echo "hej";
     //-include("../../Databas/dbh.inc.php");
     $id = mysqli_real_escape_string($conn, $_POST['kontoID']);
-    $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
+    // $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
     
     $delkonto = "DELETE FROM anvandare WHERE id ='{$id}'";
     $delroll = "DELETE FROM anvandarroll WHERE anvandarId ='{$id}'";
@@ -44,9 +47,9 @@ function harddelkonto($conn){
     $delflagb = "DELETE FROM flaggadblogg WHERE anvandarId = $id";
     $delflagk = "DELETE FROM flaggadkommentar WHERE anvandarId = $id";
 
-    $aktiv = '0';    
-    mysqli_query($conn,"UPDATE kundrattigheter SET tjanst = $aktiv, superadmin = $aktiv, kontoID = $aktiv WHERE id = $kundID");
-    echo mysqli_error($conn);
+    // $aktiv = '0';    
+    // mysqli_query($conn,"UPDATE kundrattigheter SET tjanst = $aktiv, superadmin = $aktiv, kontoID = $aktiv WHERE id = $kundID");
+    // echo mysqli_error($conn);
     $result = mysqli_query($conn,"SELECT id from tjanst where anvandarId = '{$id}'");
     echo mysqli_error($conn);
     if(mysqli_num_rows($result) > 0){
@@ -70,7 +73,7 @@ function harddelkonto($conn){
             }
             mysqli_query($conn,"DELETE FROM blogg WHERE tjanstId = '{$delid}'");
             echo mysqli_error($conn);
-            $result = mysqli_query($conn,"SELECT * FROM blogg WHERE tjanstId = '{$delid}'");
+            $result = mysqli_query($conn,"SELECT * FROM wiki WHERE tjanstId = '{$delid}'");
             echo mysqli_error($conn);
             while($row = $result->fetch_assoc()){
                 $wid = $row['id'];
@@ -83,7 +86,7 @@ function harddelkonto($conn){
             }
             mysqli_query($conn,"DELETE FROM wiki WHERE tjanstId = '{$delid}'");
             echo mysqli_error($conn);
-            $result = mysqli_query($conn,"SELECT * FROM blogg WHERE tjanstId = '{$delid}'");
+            $result = mysqli_query($conn,"SELECT * FROM kalender WHERE tjanstId = '{$delid}'");
             echo mysqli_error($conn);
             while($row = $result->fetch_assoc()){
                 $kid = $row['id'];
@@ -111,7 +114,7 @@ function harddelkonto($conn){
     
     
     if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)&&mysqli_query($conn, $delflagb)&&mysqli_query($conn, $delflagk)){
-        header('location: ../index.php?funktion=avslutaKonto?status=success');
+        // header('location: ../index.php?funktion=avslutaKonto?status=success');
     } else {
         // hantering('400','fel');
         echo mysqli_error($conn);
