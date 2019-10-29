@@ -121,7 +121,7 @@
                     $kalenderSida = $conn->query('select * from kalendersida where kalenderId='.$kalenderId);
                     $i=0;
                     while($row5=$kalenderSida->fetch_assoc()){
-                        $tjanstArray['sidor'][$i]=array('id'=>$row5['id']);
+                        $tjanstArray['sidor'][$i]=array('id'=>$row5['id'],'titel'=>$row5['titel']);
                         $i++;
                     }
 
