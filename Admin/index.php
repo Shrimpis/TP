@@ -129,12 +129,15 @@ if(!isset($_SESSION['login_user'])){
           </button>
 
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form action="funktioner/search.php" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Sök efter..." aria-label="Search" aria-describedby="basic-addon2">
+              <input type="text" name="id" class="form-control bg-light border-0 small" placeholder="Kundnr" aria-label="Search" aria-describedby="basic-addon2">
+              <input type="text" name="namn" class="form-control bg-light border-0 small" placeholder="Namn" aria-label="Search" aria-describedby="basic-addon2">
+              <input type="text" name="anamn" class="form-control bg-light border-0 small" placeholder="Användarnamn" aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                   <i class="fas fa-search fa-sm"></i>
+                  Sök
                 </button>
               </div>
             </div>
@@ -193,13 +196,31 @@ if(!isset($_SESSION['login_user'])){
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Kundtjänster</h6>
-                  <div class="dropdown no-arrow">
+                  <div class="d-flex flex-row-reverse bd-highlight">
+                    <div class="p-2 bd-highlight" style="margin-bottom:-10px;">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Att Visa</label>
+                        </div>
+                        <form action="index.php" method="get">
+                          <select name="limit" class="custom-select" id="inputGroupSelect01" onchange='if(this.value != 0) { this.form.submit(); }'>
+                            <option selected>Välj...</option>
+                            <option value="1">1</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                          </select>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
 
                   <?php include 'includes/kundtabell.php' ?>
+
+                  <?php include 'includes/pagination.php' ?>
 
                 </div>
               </div>
@@ -235,6 +256,9 @@ if(!isset($_SESSION['login_user'])){
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
 
   <!-- Core plugin JavaScript-->
   <script href="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>

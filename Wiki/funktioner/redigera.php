@@ -4,14 +4,14 @@
 
 session_start();
 
-include('/opt/lampp/htdocs/TP/TP/Databas/dbh.inc.php');   
+include('../../Databas/dbh.inc.php');   
 
-        switch ($_GET['funktion']) {
+        switch ($_POST['funktion']) {
 
             case 'doljWiki':
                 doljWiki($conn);
                 break;
-            case 'doljwiksida':
+            case 'doljWikiSida':
                 doljWikiSida($conn);
                 break;
             case 'godkannUppdatering':
@@ -21,7 +21,7 @@ include('/opt/lampp/htdocs/TP/TP/Databas/dbh.inc.php');
                 nekaUppdatering($conn);
                 break;
             case 'lasaWikiSida':
-                lasaSida($conn);
+                lasaWikiSida($conn);
                 break;
             case 'privatiseraWiki':
                 privatiseraWiki($conn);
@@ -33,16 +33,16 @@ include('/opt/lampp/htdocs/TP/TP/Databas/dbh.inc.php');
 
 function doljWiki($conn){
     //-include('dbh.inc.php');
-    $wikiId = $_GET['wikiId'];
+    $wikiId = $_POST['wikiId'];
 
 
-        $redan_dolt = $conn->query("SELECT * FROM wiki WHERE tjanstId ='{$wikiId}'");
+        $redan_dolt = $conn->query("SELECT * FROM wiki WHERE id ='{$wikiId}'");
 
         $row = $redan_dolt->fetch_assoc();
         $dolt=$row["dolt"];
            
             if($dolt==0){
-                 $conn->query("UPDATE wiki SET dolt=1 WHERE tjanstId = '{$wikiId}'");
+                 $conn->query("UPDATE wiki SET dolt=1 WHERE id = '{$wikiId}'");
                  
 
                 $hideWikiJson = array(
@@ -58,7 +58,7 @@ function doljWiki($conn){
 
             }
             else if($dolt==1){
-                $conn->query("UPDATE wiki SET dolt=0 WHERE tjanstId = '{$wikiId}'");
+                $conn->query("UPDATE wiki SET dolt=0 WHERE id = '{$wikiId}'");
 
                 $unhideWikiJson = array(
                     'code'=> '202',
@@ -94,8 +94,8 @@ function doljWikiSida($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_GET['id']) ){
-        $id = $_GET['id'];
+    if(isset($_POST['id']) ){
+        $id = $_POST['id'];
         
         $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
 
@@ -103,12 +103,12 @@ function doljWikiSida($conn){
         $dolj=$row["dolt"];
 
         if($dolj==0){
-            $sql= "UPDATE wikisidor SET dolt = '1' WHERE id = $id ";
+            $sql= "UPDATE wikisidor SET dolt = 1 WHERE id = $id ";
             $conn->query($sql);
            
         }
         else if($dolj==1){
-            $sql= "UPDATE wikisidor SET dolt = '0' WHERE id = $id ";
+            $sql= "UPDATE wikisidor SET dolt = 0 WHERE id = $id ";
             $conn->query($sql);
 
         }
@@ -123,10 +123,10 @@ function godkannUppdatering($conn){
 
     
     //-include("dbh.inc.php");
-    if(isset($_GET['uppdateringid']) && isset($_GET['sidId']) && isset($_GET['godkantAv'])){
-        $uppdateringId = $_GET['uppdateringid'];
-        $sidId = $_GET['sidId'];
-        $godkantAv = $_GET['godkantAv'];
+    if(isset($_POST['uppdateringid']) && isset($_POST['sidId']) && isset($_POST['godkantAv'])){
+        $uppdateringId = $_POST['uppdateringid'];
+        $sidId = $_POST['sidId'];
+        $godkantAv = $_POST['godkantAv'];
 
         if($sidId != 0){
             
@@ -224,6 +224,8 @@ function godkannUppdatering($conn){
             (SELECT bidragsgivare FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT titel FROM wikiuppdatering WHERE id = $uppdateringId), (SELECT innehall FROM wikiuppdatering WHERE id = $uppdateringId), 
             (SELECT datum FROM wikiuppdatering WHERE id = $uppdateringId))";
             $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $uppdateringId";
+
+
             if(mysqli_query($conn, $nyWikiSida)){
                 $nyWikiSidaJson = array(
                     'code' => '201',
@@ -257,19 +259,27 @@ function godkannUppdatering($conn){
 function nekaUppdatering($conn){
 
     //-include("dbh.inc.php");
-    if(isset($_GET['sidId'])&&isset($_GET['nekadAv'])){
-        $sidID = $_GET['sidId'];
-        $nekadAv = $_GET['nekadAv'];
-        $anledning = $_GET['anledning'];
-    
-        $get_data=$conn->query("SELECT * FROM wikiuppdatering WHERE id='{$sidID}'");
+    if(isset($_POST['id'])&&isset($_POST['nekadAv'])){
+        $id = $_POST['id'];
+        $nekadAv = $_POST['nekadAv'];
+        
+        if(isset($_POST['anledning'])){
+            $anledning = $_POST['anledning'];
+        }
+        else{
+            $anledning = "angavs ej";
+        }
+        
+        
+        $get_data=$conn->query("SELECT * FROM wikiuppdatering WHERE id=$id");
         $row = $get_data->fetch_assoc();
-        $datum = date("Y-m-d H:i");
+        $datum = date("Y-m-d");
         $bidragsgivare = $row['bidragsgivare'];
         $titel = $row['titel'];
         $innehall = $row['innehall'];
-        $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum) VALUES('$sidID', '$bidragsgivare', '$nekadAv', '{$titel}', '{$innehall}', '{$anledning}', '$datum')";
-        $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id='{$sidID}'";
+        $wikiId = $row['wikiId'];
+        $nekaUppdatering = "INSERT INTO nekadwikiuppdatering(sidId, bidragsgivare, nekadAv, titel, innehall, anledning, datum, wikiId) VALUES($id, $bidragsgivare, $nekadAv, '{$titel}', '{$innehall}', '{$anledning}', '$datum', $wikiId)";
+        $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id=$id";
         if(mysqli_query($conn, $nekaUppdatering)&&mysqli_query($conn, $tabortuppdatering)){
         
         
@@ -278,7 +288,7 @@ function nekaUppdatering($conn){
             'status'=> 'Accepted',
             'msg' => 'sida denied',
             'sida' => array(
-                'sidId'=>$sidID
+                'sidId'=>$id
             )
         );
         
@@ -287,12 +297,13 @@ function nekaUppdatering($conn){
         
         }
         else{
+            echo $nekaUppdatering . " " . $tabortuppdatering . " ";
             $nekadJsonError = array(
                 'code'=> '400',
                 'status'=> 'Bad Request',
                 'msg' => 'Could not execute',
                 'sida' => array(
-                    'sidId'=>$sidID
+                    'sidId'=>$id
                 )
             );
             
@@ -306,12 +317,12 @@ function nekaUppdatering($conn){
     
     }
 
-    function lasaSida($conn){
+    function lasaWikiSida($conn){
 
         //-include('dbh.inc.php');
 
-        if(isset($_GET['id']) ){
-            $id = $_GET['id'];
+        if(isset($_POST['id']) ){
+            $id = $_POST['id'];
 
             $wikiSida = $conn->query('select * from wikisidor where id ='.$id);
     
@@ -319,12 +330,12 @@ function nekaUppdatering($conn){
             $lasa=$row["last"];
 
             if($lasa==0){
-                $sql= "UPDATE wikisidor SET wikisidor.last = '1' WHERE id = $id ";
+                $sql= "UPDATE wikisidor SET wikisidor.last = 1 WHERE id = $id ";
                 $conn->query($sql);
                
             }
             else if($lasa==1){
-                $sql= "UPDATE wikisidor SET wikisidor.last = '0' WHERE id = $id ";
+                $sql= "UPDATE wikisidor SET wikisidor.last = 0 WHERE id = $id ";
                 $conn->query($sql);
 
             }
@@ -337,12 +348,13 @@ function nekaUppdatering($conn){
 
     function privatiseraWiki($conn){
         //-include("dbh.inc.php");
-        if(isset($_GET['WikiId'])&&isset($_GET['privat'])){
-            $WikiId = $_GET['WikiId'];
-            $privat = $_GET['privat'];   
-        }
+        if(isset($_POST['wikiId'])&&isset($_POST['privat'])){
+            $wikiId = $_POST['wikiId'];
+            $privat = $_POST['privat'];   
+echo $_POST['wikiId'];        }
+
     
-        $result = $conn->query("SELECT * FROM Wiki where id= $WikiId ");
+        $result = $conn->query("SELECT * FROM wiki where id= $wikiId ");
             $row = $result->fetch_assoc();
             $tjanstId = $row['tjanstId'];
             $uppdateraTjanst = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $tjanstId ";
@@ -357,7 +369,7 @@ function nekaUppdatering($conn){
                 'status'=> 'Accepted',
                 'msg' => 'tjanst har redigerats',
                 'tjanst' => array(
-                    'WikiId'=>$WikiId,
+                    'wikiId'=>$wikiId,
                 )
             );
             
@@ -368,7 +380,7 @@ function nekaUppdatering($conn){
                 'status'=> 'Bad Request',
                 'msg' => 'Could not execute',
                 'tjanst' => array(
-                    'WikiId'=>$WikiId,
+                    'wikiId'=>$wikiId,
                 )
             );
             

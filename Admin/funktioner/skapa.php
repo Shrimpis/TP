@@ -40,7 +40,7 @@ function skapaKonto($conn){
             echo "CRYPT_BLOWFISH is enabled!<br>";
         } else {
             echo "CRYPT_BLOWFISH is NOT enabled!";
-            goto end;
+            
         }
         
         $Blowfish_Pre = '$2a$10$';
@@ -85,6 +85,16 @@ function skapaKonto($conn){
                 while($row2 = $result2->fetch_assoc()) {
                     $sql3 = mysqli_query($conn,"UPDATE `kundrattigheter` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kundrattigheter`.`id` = $id");
                 }
+
+                // Skapar API-nyckel //
+
+                $rattighetId = $_POST['id'];
+
+                $nyckel = slumplosen(16);
+
+                $skapaAPI = "INSERT INTO api(rattighetId, nyckel) VALUES ('$rattighetId','$nyckel')";
+
+                $conn->query($skapaAPI);
 
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }

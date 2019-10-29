@@ -24,7 +24,7 @@ if ($result2->num_rows > 0) {
                                 <div class='nav nav-tabs' id='nav-tab' role='tablist'>
                                 <a class='nav-item nav-link active' id='nav-information-tab' data-toggle='tab' href='#nav-information". $row2["id"] ."' role='tab' aria-controls='nav-information' aria-selected='true'>Information</a>
                                 <a class='nav-item nav-link' id='nav-installnigar-tab' data-toggle='tab' href='#nav-installnigar". $row2["id"] ."' role='tab' aria-controls='nav-installnigar' aria-selected='false'>Inställningar</a>
-                                <a class='nav-item nav-link' id='nav-flagg-tab' data-toggle='tab' href='#nav-flagg". $row2["id"] ."' role='tab' aria-controls='nav-flagg' aria-selected='false'>Flaggningar</a>
+                                <a class='nav-item nav-link' id='nav-flagg-tab' data-toggle='tab' href='#nav-flagg". $row2["id"] ."' role='tab' aria-controls='nav-flagg' aria-selected='false'>Flaggningar (<font color='red'>". $row2["flaggad"] ."</font>)</a>
                                 </div>
                             </nav>
                             <div class='tab-content' id='nav-tabContent'>

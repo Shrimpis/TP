@@ -3,26 +3,34 @@
 // Funktioner för att ta bort
 
 session_start();
-
-include('./Databas/dbh.inc.php');
+include("./json/felhantering.php");
+include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
 
             case 'tabortKalender':
-                tabortKalender();
+                tabortKalender($conn);
+                break;
+            case 'tabortKalendersida':
+                tabortKalendersida($conn);
                 break;
             case 'tabortEvent':
                 tabortEvent($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
+                break;
+
         }
 
 
 
 
-function tabortKalender(){
-    //include('dbh.inc.php');
-    $kalenderId = $_POST['kalenderId'];
+
+
+function tabortKalender($conn){
+    
+    $tjanstId = $_POST['tjanstId'];
+
 
         
 
@@ -56,68 +64,68 @@ function tabortKalender(){
                 
 
                 $sql = "DELETE FROM kalender WHERE tjanstId = '{$tjanstId}'";
-                   $conn->query($sql);
-
-                
-                
-
-                $tabortKalenderJson = array(
-                    'kod'=> '202',
-                    'status'=> 'Accepterad',
-                    'meddelande' => 'kalender borttagen',
-                    'kalender' => array(
-                        'kalenderId'=>$tjanstId
-
-                    )
-                );
-                
-                echo json_encode($tabortKalenderJson);
- 
-                
-                
+                $conn->query($sql);
+                hantering('202','Tog bort kalender');
             }
             else{
                 
-                $tabortKalendererrorJson = array(
-                    'kod'=> '400',
-                    'status'=> 'felaktig forfragan',
-                    'meddelande' => 'kunde ej exekvera',
-                    'kalender' => array(
-                        'kalenderId'=>$tjanstId
-
-                    )
-                );
-                
-                echo json_encode($tabortKalendererrorJson);
+                hantering('400','kunde ej exekvera',);
 
                
             }
                
         
         
-    $conn->close();
+    
+}
+function tabortKalendersida($conn){
+
+            if(isset($_POST['sidId'])){
+                $sidId = $_POST['sidId'];  
+                      
+                $get_kalevid = $conn->query("SELECT * FROM kalenderevent WHERE kalenderId = $sidId");
+                
+                        
+                    while($row = $get_kalevid->fetch_assoc()){
+                        $eventId = $row['eventId'];
+                        echo $eventId;
+                        $conn->query("DELETE FROM event WHERE id = $eventId");
+                    }
+                $conn->query("DELETE FROM kalenderevent WHERE kalenderId =$sidId");
+                        
+                    
+                    
+                
+
+                
+
+                $sql = "DELETE FROM kalendersida WHERE id = '{$sidId}'";
+                $conn->query($sql);
+                hantering('202','Tog bort kalendersida');
+            }
+            else{
+                hantering('400','kunde ej exekvera',);
+            }
+               
+        
+        
+    
 }
 function tabortEvent($conn){
     //include('dbh.inc.php');
     if(isset($_POST['id']) ){
         $id = $_POST['id'];
+
+    $sql = "DELETE FROM event WHERE id='{$id}'";
+
+    if(mysqli_query($sql)){
+        hantering('202','tog bort event');
         
-    }
-    $event = $conn->query('select * from event where id ='.$id);
-
-    $row=$event->fetch_assoc();
-
-    $eventId=$row['id'];
-
-    if($id==$eventId ){
         
-        $sql = "DELETE FROM event WHERE id='{$id}'";
-        $conn->query($sql);
     }
     else{
         
-        include("./json/felhantering.php");
         hantering('400','Event id existerar inte på databasen.',);
     }
-    $conn->close();  
+    }  
 }
