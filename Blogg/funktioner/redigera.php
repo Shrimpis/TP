@@ -36,7 +36,7 @@ function redigeraBlogg($conn){
     
     if(mysqli_query($conn, $uppdateraBlogg)){
 
-        hantering('202','Bloggen är ändrad.',);
+        hantering('200','Bloggen är ändrad.',);
 
     } else {
 
@@ -132,28 +132,16 @@ function censureraKommentar($conn){
 
                 break;
                
-            }
-            else if($censurerad==1){
+            }else if($censurerad==1){
                 $sql= "UPDATE kommentar SET censurerad = '0' WHERE id = $id ";
                 $conn->query($sql);
 
                 hantering('200','Kommentaren är inte censurerad längre',);
 
                break;
-            }
-            else{
+            }else{
 
                 hantering('400','Kommentaren kunde inte censureras',);
-                $censureraKommentarErrorJson = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'comment' => array(
-                        'commentID'=>$id 
-                    )
-                );
-                
-                echo json_encode($censureraKommentarErrorJson);
 
                break;
             }
