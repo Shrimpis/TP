@@ -30,8 +30,9 @@
 
     //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
 
-    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, theprovider.kundrattigheter.kontoID 
-                                FROM customers.customers LEFT JOIN theprovider.kundrattigheter ON customers.customers.id = theprovider.kundrattigheter.id 
+
+    if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, TheProvider.kundrattigheter.kontoID 
+                                FROM customers.customers LEFT JOIN TheProvider.kundrattigheter ON customers.customers.id = TheProvider.kundrattigheter.id 
                                 ORDER BY customers.customers.id LIMIT ?,?')){
         $calc_page = ($page - 1) * $num_results_on_page;
         $stmt->bind_param('ii', $calc_page, $num_results_on_page);
