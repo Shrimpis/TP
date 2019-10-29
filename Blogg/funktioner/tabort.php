@@ -20,7 +20,7 @@ include("../../Databas/dbh.inc.php");
                 tabortTextruta($conn);
                 break;
             default:
-                hantering('400','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
+                hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
         } 
 
 
@@ -34,7 +34,7 @@ function tabortBlogg($conn){
 
     if(mysqli_query($conn, $taBortBlogg)){
 
-        hantering('200','Bloggen har tagits bort',);
+        hantering('204','Bloggen har tagits bort',);
 
     }else{
 
@@ -49,37 +49,17 @@ function tabortBlogg($conn){
 }
 
 function tabortInlagg($conn){
-    //-include("../../Databas/dbh.inc.php");
+  
     $inlaggsId = mysqli_real_escape_string($conn, $_POST['inlaggsId']);
     $taBortInlagg = "DELETE FROM blogginlagg WHERE id='{$inlaggsId}'";
-    $taBortKommentar = "DELETE FROM kommentar WHERE inlaggId=$inlaggsId";
-    $taBortLike="DELETE FROM gillningar WHERE inlaggId=$inlaggsId";
 
-    if(mysqli_query($conn, $taBortKommentar)){
-
-        
-
-    } else {
-
-
-
-    }
-    if(mysqli_query($conn, $taBortLike)){
-
-
-
-    }else{
-
-
-
-    }
     if(mysqli_query($conn, $taBortInlagg)){
 
-
+        hantering('204','Bloggen har tagits bort',);
 
     }else{
 
-
+        hantering('400','Bloggen har tagits bort',);
 
     }
 
@@ -102,7 +82,7 @@ function tabortKommentar($conn){
     
     if(mysqli_query($conn, $taBortKommentar)){
 
-        hantering('200','Kommentaren har tagits bort',);
+        hantering('204','Kommentaren har tagits bort',);
 
     } else {
 

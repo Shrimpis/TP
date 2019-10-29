@@ -32,7 +32,7 @@ include("../../json/felhantering.php");
                 sokFalt($conn);
                 break;
             default:
-                hantering('400','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
+                hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
         }
     
     
