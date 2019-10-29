@@ -1,8 +1,5 @@
 <h3>Blogg</h3>
     <br>
-<?php
-    include('../../Databas/dbh.inc.php');
-?>
 
     <!-- Skapa blogg -->
 
@@ -15,7 +12,6 @@
         <select name="anvandarId">
         <?php 
             $conn;
-            //-include('funktioner/dbh.inc.php');
             $sql = "SELECT id, anamn FROM anvandare";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -24,7 +20,7 @@
             }
             echo "</table>";
             } else { echo "0 results"; }
-            $conn->close();
+            
         ?>
         </select>
         <br><br>
@@ -47,7 +43,6 @@
                 <select name="bloggId">
                 <?php 
                     $conn;
-                    //-include('funktioner/dbh.inc.php');
                     $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -56,7 +51,7 @@
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
-                        $conn->close();
+                        
                 ?>
                 </select>
                 <br><br>
@@ -74,16 +69,14 @@
                 <select name="bloggId" id="bloggId">
                     <?php 
                         $conn;
-                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
                             echo "<option value='". $row["id"] ."'>ID: ". $row["anvandarId"]." | ". $row["titel"]."</option>";
                         }
-                        echo "</table>";
                         } else { echo "0 results"; }
-                        $conn->close();
+                        
                     ?>
                 </select>
                 <br><br>
@@ -100,16 +93,14 @@
                 <select name="bloggId" id="bloggId">
                     <?php 
                         $conn;
-                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT * FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row["id"] ."'>Blogg: ".$row["titel"]." | privat: ".$row["privat"]."</option>";
+                            echo "<option value='". $row['blogg.id'] ."'>Blogg: ".$row["titel"]." | privat: ".$row["privat"]."</option>";
                         }
-                        echo "</table>";
-                        } else { echo "0 results"; }
-                        $conn->close();
+                        }
+                        
                     ?>
                 </select>
                 <br><br>
@@ -132,7 +123,6 @@
                 <select name="bloggid" id="bloggid">
                     <?php 
                         $conn;
-                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id, titel, anvandarId FROM tjanst";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -141,14 +131,13 @@
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
-                        $conn->close();
+                        
                     ?>
                 </select>
                 <br><br>
                 <select name="anvandarID">
                     <?php 
                     $conn;
-                        //-include('funktioner/dbh.inc.php');
                         $sql = "SELECT id FROM anvandare";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
@@ -157,7 +146,7 @@
                         }
                         echo "</table>";
                         } else { echo "0 results"; }
-                        $conn->close();
+                        
                     ?>
                 </select>
                 <br><br>

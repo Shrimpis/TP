@@ -52,7 +52,7 @@
                 $anamn=$namn['anamn'];
             }
             
-            $tjanstArray=array('anvandarId'=>$anamn);
+            $tjanstArray=array('anamn'=>$anamn);
 
             $kalenderevent = $conn->query('select * from kalenderevent where kalenderId='.$kalenderSidaId);
             $eventIds=array();
@@ -88,7 +88,6 @@
                     $tjanstArray['event'][$ii]=array('id'=>$row['id'],'skapadAv'=>$anamn,'titel'=>$row['titel'],'innehall'=>$row['innehall'],'startTid'=>$row['startTid'],'slutTid'=>$row['slutTid'],'aktiv'=>$row['aktiv']);
                     $ii++;
                 }
-                $i++;
             }
         }
 
