@@ -29,11 +29,11 @@
 
 
    
-    if(isset($_GET['anvandare']) && isset($_GET['kalenderSida'])){
-        kalender($_GET['anvandare'],$_GET['kalenderSida'],$conn);
+    if(isset($_POST['anvandare']) && isset($_POST['kalenderSida'])){
+        kalender($_POST['anvandare'],$_POST['kalenderSida'],$conn);
     }
-    else if(isset($_GET['anvandare']) && isset($_GET['kalender'])){
-        kalenders($_GET['anvandare'],$_GET['kalender'],$conn);
+    else if(isset($_POST['anvandare']) && isset($_POST['kalender'])){
+        kalenders($_POST['anvandare'],$_POST['kalender'],$conn);
     }
     else{
         hantering('400','inga post variabler är satta.',);
