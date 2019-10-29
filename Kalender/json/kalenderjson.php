@@ -32,8 +32,8 @@
     if(isset($_GET['anvandare']) && isset($_GET['kalenderSida'])){
         kalender($_GET['anvandare'],$_GET['kalenderSida'],$conn);
     }
-    else if(isset($_GET['anvandare'])){
-        kalenders($_GET['anvandare'],$conn);
+    else if(isset($_GET['anvandare']) && isset($_GET['kalender'])){
+        kalenders($_GET['anvandare'],$_GET['kalender'],$conn);
     }
     else{
         hantering('400','inga post variabler är satta.',);
@@ -47,7 +47,7 @@
         $tjanstArray=array();
         $kalenderSida = $conn->query('select * from kalendersida where id='.$kalenderSidaId);
         while($row=$kalenderSida->fetch_assoc()){
-            //$tjanstArray=array('anvandarId'=>$row['anvandarId']);
+            $tjanstArray=array('anvandarId'=>$row['anvandarId']);
 
             $kalenderevent = $conn->query('select * from kalenderevent where kalenderId='.$kalenderSidaId);
             $eventIds=array();
@@ -60,13 +60,18 @@
             }
         }
 
+        if(!isset($eventIds)){
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki',);
+            return;
+        }
+
 
         $ii=0;
         $events = $conn->query('select * from event');
         while($row=$events->fetch_assoc()){
             for($i=0;$i<count($eventIds);$i++){
                 if($eventIds[$i]==$row['id']){
-                    $tjanstArray['event'][$ii]=array('id'=>$row['id'],'skapadAv'=>$row['skapadAv'],'titel'=>$row['titel'],'innehall'=>$row['innehall'],'startTid'=>$row['startTid'],'slutTid'=>$row['slutTid'],'aktiv'=>'aktiv');
+                    $tjanstArray['event'][$ii]=array('id'=>$row['id'],'skapadAv'=>$row['skapadAv'],'titel'=>$row['titel'],'innehall'=>$row['innehall'],'startTid'=>$row['startTid'],'slutTid'=>$row['slutTid'],'aktiv'=>$row['aktiv']);
                     $ii++;
                 }
                 $i++;
@@ -90,7 +95,9 @@
 
 
 
-    /*function kalender($anvandarId,$kalenderId,$kalenderSidaId,$conn){
+
+
+    function kalenders($anvandarId,$kalenderId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
         $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
         $kalender = $conn->query('select * from kalender where id='.$kalenderId);
@@ -108,19 +115,16 @@
 
             if($tjanstId==$row['id']){//om kalendern finns i tjänsten.
                 $tjanstArray=array('titel'=>$row['titel'],'privat'=>$row['privat'],'anvandarnamn'=>$anamn);// hämtar wikin från tjänsten.
-                $kalender = $conn->query('select * from kalender where id='.$kalenderId);
-                $id=0;
+                //$kalenderSidor = $conn->query('select * from kalender where id='.$kalender);
                 
                 
-                while($row4=$kalender->fetch_assoc()){//håämtar saker från alla kalender.
-                    $kalenderSida = $conn->query('select * from kalendersida where id='.$kalenderSidaId);
+                    $kalenderSida = $conn->query('select * from kalendersida where kalenderId='.$kalenderId);
+                    $i=0;
                     while($row5=$kalenderSida->fetch_assoc()){
-
+                        $tjanstArray['sidor'][$i]=array('id'=>$row5['id']);
+                        $i++;
                     }
 
-
-                    $id++;
-                }
 
             }
 
@@ -131,59 +135,6 @@
             return;
         }
 
-
-        $json=json_encode($tjanstArray);
-        echo $json;
-        
-    }*/
-
-
-
-
-    function kalenders($anvandarId,$conn){
-        $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
-        $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
-        $wiki = $conn->query('select * from wiki');
-
-        $tjanstArray;
-        $i=0;
-        while($row=$tjanst->fetch_assoc()){
-            $kalenderId;
-            $tjanstId;//id på tjänsten
-            
-            $wiki = $conn->query('select * from wiki');//inte bra preformance fixa?????
-            while($row1=$wiki->fetch_assoc()){//hittar vika tjänster som sitter ihop med wikis
-                //$tjanstId=$row1['tjanstId'];
-                $kalenderId=$row1['id'];
-
-                
-               
-                if($row1['tjanstId']==$row['id']){//om wikin finns i tjänsten.
-                    $tjanstArray['wiki'][$i]=array('titel'=>$row['titel'],'privat'=>$row['privat']);// hämtar wikin från tjänsten.
-                    $kalender = $conn->query('select * from kalender where kalenderId='.$kalenderId);
-                    $id=0;
-                    
-                    
-                    while($row4=$kalender->fetch_assoc()){//hämtar saker från alla kalender.
-                        $tjanstArray['wiki'][$i]['sidor'][$id]=array('id'=>$row4['id']);
-                        
-                        $id++;
-                    }
-                    
-
-                    $i++;
-                }
-            }
-            
-
-        }
-
-        $anamn;//användarnamn
-        while($row3=$anvandare->fetch_assoc()){//hämtar användarnamnet på den som har wikin.
-            $anamn=$row3['anamn'];
-        }
-        
-        $tjanstArray['anvandarnamn']=$anamn;
 
         $json=json_encode($tjanstArray);
         echo $json;
