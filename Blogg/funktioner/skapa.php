@@ -42,17 +42,16 @@ include("../../json/felhantering.php");
 
        //- include("../../Databas/dbh.inc.php");
         if(isset($_POST['anvandarId']) && isset($_POST['Titel'])){
+
             $userid = $_POST['anvandarId'];
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
-
-            
             
         }
         if(mysqli_query($conn, $skapaTjanst)){
 
-            hantering('200','Tjänsten har skapats',);
+            hantering('201','Tjänsten har skapats',);
 
         } else {
 
@@ -61,7 +60,7 @@ include("../../json/felhantering.php");
         }
         if(mysqli_query($conn, $skapaBlogg)){
 
-            hantering('200','Bloggen har skapats',);
+            hantering('201','Bloggen har skapats',);
 
         }else{
 
@@ -86,7 +85,7 @@ include("../../json/felhantering.php");
         
         if(mysqli_query($conn, $sql)){
 
-            hantering('200','Blogginlägget har skapats',);
+            hantering('201','Blogginlägget har skapats',);
             
         } else {
 
@@ -110,7 +109,7 @@ include("../../json/felhantering.php");
         $skapaKommentar = "INSERT INTO kommentar (anvandarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
 
-            hantering('200','Kommentar har skapats',);
+            hantering('201','Kommentar har skapats',);
 
         } else{
 
@@ -159,7 +158,7 @@ include("../../json/felhantering.php");
             $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$anvandarId', '{$inlaggsId}')";
             if(mysqli_query($conn, $like)){
 
-                hantering('200','Inlägget har gillats',);
+                hantering('201','Inlägget har gillats',);
 
             } else{
 
@@ -170,7 +169,7 @@ include("../../json/felhantering.php");
             $dislike = "DELETE FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'";
             if(mysqli_query($conn, $dislike)){
 
-                hantering('200','Inlägget gillas inte längre',);
+                hantering('204','Inlägget gillas inte längre',);
 
             } else{
 
@@ -195,7 +194,7 @@ include("../../json/felhantering.php");
             $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
             $conn->query($flagga);
 
-            hantering('200','Bloggen flaggades',);
+            hantering('201','Bloggen flaggades',);
 
         }else{
 
@@ -227,7 +226,7 @@ include("../../json/felhantering.php");
             $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
             $conn->query($flagga);
 
-            hantering('200','Kommentaren flaggades',);
+            hantering('201','Kommentaren flaggades',);
 
         } else {
 
