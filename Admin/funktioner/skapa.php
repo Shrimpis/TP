@@ -40,7 +40,7 @@ function skapaKonto($conn){
             echo "CRYPT_BLOWFISH is enabled!<br>";
         } else {
             echo "CRYPT_BLOWFISH is NOT enabled!";
-            goto end;
+            
         }
         
         $Blowfish_Pre = '$2a$10$';
