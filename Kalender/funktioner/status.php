@@ -105,6 +105,7 @@ $id = $kalender["kalenderId"];
     $jsonResp->namn = $row["anamn"];
     $jsonResp->start = $row["startTid"];
     $jsonResp->slut = $row["slutTid"];
+    $jsonResp->ID = $row["kalenderID"];
 
     $jsonRespBody[] = $jsonResp;
 
