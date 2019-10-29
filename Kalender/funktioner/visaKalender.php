@@ -23,5 +23,5 @@
 </script>
 
 
-<script src="js/visaKalender.js"></script>
+<script src="../js/visaKalender.js"></script>
 </html>
