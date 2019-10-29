@@ -40,7 +40,6 @@ function skapaKonto($conn){
             echo "CRYPT_BLOWFISH is enabled!<br>";
         } else {
             echo "CRYPT_BLOWFISH is NOT enabled!";
-            
         }
         
         $Blowfish_Pre = '$2a$10$';
@@ -66,8 +65,7 @@ function skapaKonto($conn){
     }
     if($uname_tagen==false){
 
-        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt'";
-        var_dump($sql);
+        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
 
         $conn->query($sql);
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
@@ -98,9 +96,11 @@ function skapaKonto($conn){
 
                 // Skapar mappar för bilder //
 
-                mkdir('Bilder/'+ $username);
-                mkdir('Bilder/'+ $username + '/Blogg');
-                mkdir('Bilder/'+ $username + '/Wiki');
+                $structure = '../Bilder/';
+
+                if(!mkdir($structure + 'Wiki/'+ $username, 0700, true) && !mkdir($structure + 'Blogg/'+ $username, 0700, true)){
+                    die('Failed to create folders.');
+                }
 
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }
