@@ -4,7 +4,8 @@
 
 session_start();
 
-include('../../Databas/dbh.inc.php');   
+include('../../Databas/dbh.inc.php'); 
+include("../../json/felhantering.php");  
 
         switch ($_POST['funktion']) {
 
@@ -27,7 +28,9 @@ include('../../Databas/dbh.inc.php');
                 privatiseraWiki($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+                break;
+                
         }
 
 
@@ -43,47 +46,14 @@ function doljWiki($conn){
            
             if($dolt==0){
                  $conn->query("UPDATE wiki SET dolt=1 WHERE id = '{$wikiId}'");
-                 
-
-                $hideWikiJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'wiki hidden',
-                    'wiki' => array(
-                        'wikiId'=>$wikiId
-                    )
-                );
-                
-                echo json_encode($hideWikiJson);
-
+                hantering('202','wiki är dold');
             }
             else if($dolt==1){
                 $conn->query("UPDATE wiki SET dolt=0 WHERE id = '{$wikiId}'");
-
-                $unhideWikiJson = array(
-                    'code'=> '202',
-                    'status'=> 'Accepted',
-                    'msg' => 'wiki now public',
-                    'wiki' => array(
-                        'wikiId'=>$wikiId
-                    )
-                );
-                
-                echo json_encode($unhideWikiJson);
-
+                hantering('202','wiki är öppen');
             }
             else{
-                $hideWikiJsonError = array(
-                    'code'=> '400',
-                    'status'=> 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'wiki' => array(
-                        'wikiId'=>$wikiId 
-                    )
-                );
-                
-                echo json_encode($hideWikiJsonError);
-
+                hantering('400','något har gått fel med döljningsfunktionen');
             }
         
     $conn->close();
@@ -105,12 +75,17 @@ function doljWikiSida($conn){
         if($dolj==0){
             $sql= "UPDATE wikisidor SET dolt = 1 WHERE id = $id ";
             $conn->query($sql);
+            hantering('202','wikisidan är dold');
            
         }
         else if($dolj==1){
             $sql= "UPDATE wikisidor SET dolt = 0 WHERE id = $id ";
             $conn->query($sql);
+            hantering('202','wikisidan är öppen');
 
+        }
+        else{
+            hantering('400','något har gått fel med döljningsfunktionen');
         }
 
     }
@@ -141,83 +116,22 @@ function godkannUppdatering($conn){
             $taBortUppdatering = "DELETE FROM wikiuppdatering WHERE id = $uppdateringId";
 
             if(mysqli_query($conn, $skickaVersion)){
-                $skickaVersionJson = array(
-                    'code' => '201',
-                    'status' => 'Created',
-                    'msg' => 'Sidversion Created',
-                    'sidversion' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($skickaVersionJson);
-    
+                hantering('201','den gamla versionen flyttades');
             }else{
-                $skickaVersionJsonError = array(
-                    'code' => '400',
-                    'status' => 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'sidversion' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($skickaVersionJsonError);
+                hantering('400','kunde ej exekvera, den gamla versionen av sidan flyttades ej');
             }
     
             if(mysqli_query($conn, $uppdateraSida)){
-                $uppdateraSidaJson = array(
-                    'code' => '201',
-                    'status' => 'Created',
-                    'msg' => 'Update Created',
-                    'wikisidor' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($uppdateraSidaJson);
-    
+                hantering('201','uppdatering skapad');
             }else{
-                $uppdateraSidaJsonError = array(
-                    'code' => '400',
-                    'status' => 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'wikisidor' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($uppdateraSidaJsonError);
+                hantering('400','kunde ej exekvera, sidan uppdaterades ej');
             }
             if(mysqli_query($conn, $taBortUppdatering)){
-                $taBortUppdateringJson = array(
-                    'code' => '204',
-                    'status' => 'No Content',
-                    'msg' => 'Update Deleted',
-                    'wikiuppdatering' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($taBortUppdateringJson);
+                hantering('204','uppdatering flyttad');
+                
     
             }else{
-                $taBortUppdateringJsonError = array(
-                    'code' => '400',
-                    'status' => 'Bad Request',
-                    'msg' => 'Could not execute',
-                    'wikiuppdatering' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($taBortUppdateringJsonError);
+                hantering('400','kunde ej exekvera, uppdateringen flyttades inte från väntan');
             }
         }else if($sidId == 0){
             $nyWikiSida = "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES((SELECT wikiId FROM wikiuppdatering WHERE id = $uppdateringId), $godkantAv,
@@ -227,29 +141,9 @@ function godkannUppdatering($conn){
 
 
             if(mysqli_query($conn, $nyWikiSida)){
-                $nyWikiSidaJson = array(
-                    'code' => '201',
-                    'status' => 'Created',
-                    'msg' => 'New Page Created',
-                    'wikisidor' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($nyWikiSidaJson);
+                hantering('201','ny sida skapad');
             }else{
-                $nyWikiSidaJsonError = array(
-                    'code' => '400',
-                    'status' => 'Bad Request',
-                    'msg' => 'Could not execute nyWikiSida',
-                    'wikiuppdatering' => array(
-                        'uppdateringId' => $uppdateringId,
-                        'sidId' => $sidId,
-                        'godkantAv' => $godkantAv
-                    )
-                );
-                echo json_encode($nyWikiSidaJsonError);
+                hantering('400','kunde ej exekvera, den nya sidan skapades ej');
             }
         }
     }
@@ -282,32 +176,13 @@ function nekaUppdatering($conn){
         $tabortuppdatering = "DELETE FROM wikiuppdatering WHERE id=$id";
         if(mysqli_query($conn, $nekaUppdatering)&&mysqli_query($conn, $tabortuppdatering)){
         
-        
-        $nekadJson = array(
-            'code'=> '202',
-            'status'=> 'Accepted',
-            'msg' => 'sida denied',
-            'sida' => array(
-                'sidId'=>$id
-            )
-        );
-        
-        echo json_encode($nekadJson);
+            hantering('202','sidan nekad');
         
         
         }
         else{
-            echo $nekaUppdatering . " " . $tabortuppdatering . " ";
-            $nekadJsonError = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Could not execute',
-                'sida' => array(
-                    'sidId'=>$id
-                )
-            );
+            hantering('400','kunde ej exekvera');
             
-            echo json_encode($nekadJsonError);
            
         }
     
@@ -330,14 +205,19 @@ function nekaUppdatering($conn){
             $lasa=$row["last"];
 
             if($lasa==0){
+                hantering('202','wikisidan är låst');
                 $sql= "UPDATE wikisidor SET wikisidor.last = 1 WHERE id = $id ";
                 $conn->query($sql);
                
             }
             else if($lasa==1){
+                hantering('202','wikisidan är inte låst');
                 $sql= "UPDATE wikisidor SET wikisidor.last = 0 WHERE id = $id ";
                 $conn->query($sql);
 
+            }
+            else{
+                hantering('400','kunde ej exekvera');
             }
 
         }
@@ -363,28 +243,11 @@ echo $_POST['wikiId'];        }
         
         
         if(mysqli_query($conn, $uppdateraTjanst)){
-    
-            $privatiseraTjanstJson = array(
-                'code'=> '202',
-                'status'=> 'Accepted',
-                'msg' => 'tjanst har redigerats',
-                'tjanst' => array(
-                    'wikiId'=>$wikiId,
-                )
-            );
+            hantering('202','wikin är privat');
             
-            echo json_encode($privatiseraTjanstJson);
         } else {
-            $privatiseraTjanstJsonError = array(
-                'code'=> '400',
-                'status'=> 'Bad Request',
-                'msg' => 'Could not execute',
-                'tjanst' => array(
-                    'wikiId'=>$wikiId,
-                )
-            );
+            hantering('400','kunde ej exkvera');
             
-            echo json_encode($privatiseraTjanstJsonError);
         }
         $conn->close();
     }
