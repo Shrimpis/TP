@@ -13,7 +13,7 @@
 <?php
 session_start();
 include "./dbh.inc.php";
-
+function status($conn){
 $completresponse = Array();
 $jsonRespBody = Array();
 $jsonResp;
@@ -22,7 +22,7 @@ $_SESSION["UID"] = 1;
 
 if (!$conn) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "Debugging error: " . mysqli_connect_errno() . PHP_EOL;
     echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
     exit;
 }
@@ -128,6 +128,7 @@ $id = $kalender["kalenderId"];
 $json = json_encode($completresponse);
 
 echo $json;
+}
 ?>
 
 </body>

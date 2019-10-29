@@ -160,7 +160,6 @@
         kalender:
             <select name="tjanstId">
             <?php
-                include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalender";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
@@ -187,16 +186,13 @@
         kalendersida:
             <select name="sidId">
             <?php
-                include("funktioner/dbh.inc.php");
                 $sql = "SELECT * from kalendersida";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } else {
-                    echo "0 results";
-                }
+                } 
                 
 
             ?>
