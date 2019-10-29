@@ -43,7 +43,7 @@ function redigeraBlogg($conn){
         hantering('400','Kunde inte uppdatera bloggen',);
         
     }
-    $conn->close();
+    
 }
 function privatiseraBlogg($conn){
     //-include("../../Databas/dbh.inc.php");
@@ -53,7 +53,9 @@ function privatiseraBlogg($conn){
     }
 
     $result = $conn->query("SELECT * FROM blogg where id= $bloggId ");
-        $row = $result->fetch_assoc();
+        while($row = $result->fetch_assoc()){
+            
+        }
         $tjanstId = $row['tjanstId'];
         $uppdateraTjanst = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $tjanstId ";
     
@@ -69,7 +71,7 @@ function privatiseraBlogg($conn){
         hantering('400','Blogg kunde inte privatiseras',);
 
     }
-    $conn->close();
+    
 }
 
 function redigeraKommentar($conn){
@@ -90,7 +92,7 @@ function redigeraKommentar($conn){
         hantering('400','Kommentar kunde inte redigeras',);
 
     }
-    $conn->close();
+    
 }
 
 function redigeraInlagg($conn){
@@ -110,7 +112,7 @@ function redigeraInlagg($conn){
         hantering('400','Inlägg kunde inte redigeras',);
 
     }
-    $conn->close();
+    
 }
 
 function censureraKommentar($conn){
@@ -148,7 +150,7 @@ function censureraKommentar($conn){
         }
         
     
-    $conn->close();
+    
 }
 
 ?>
