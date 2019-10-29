@@ -31,6 +31,7 @@ if ($result2->num_rows > 0) {
                                 <div class='tab-pane fade show active' id='nav-information". $row2["id"] ."' role='tabpanel' aria-labelledby='nav-information-tab'>
                                     <div style='padding: 10px 10px 10px 10px;'>
                                         <p>Namn: <strong>". $row2["titel"] ."</strong></p>
+                                        <p>BloggID: <strong>". $row2["id"] ."</strong></p>
                                         <p>Privat: <strong>";
                                         
                                         if($row2["privat"] == 1){
