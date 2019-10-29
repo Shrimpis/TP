@@ -30,6 +30,7 @@
 
     //if($stmt = $conn->prepare('SELECT kundrattigheter.id, kundrattigheter.tjanst, kundrattigheter.kontoID FROM kundrattigheter ORDER BY kundrattigheter.id LIMIT ?,?'))
 
+
     if($stmt = $conn2->prepare('SELECT customers.customers.id, customers.customers.namn, TheProvider.kundrattigheter.kontoID 
                                 FROM customers.customers LEFT JOIN TheProvider.kundrattigheter ON customers.customers.id = TheProvider.kundrattigheter.id 
                                 ORDER BY customers.customers.id LIMIT ?,?')){
