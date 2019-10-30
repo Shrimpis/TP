@@ -11,7 +11,7 @@ include("../../json/felhantering.php");
                 skapaAKonto($conn);
                 break;
             default:    
-                hantering('400','fel på URL parametrar')
+                hantering('400','fel på URL parametrar');
                 break;
         }
     
@@ -34,7 +34,7 @@ function skapaAKonto($conn){
     if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['tjanst'])){
         $username = $_POST['anamn'];
         $rollid = $_POST['rollid'];
-        $tjanst = $$_POST['tjanst'];
+        $tjanst = $_POST['tjanst'];
     }
     $password = slumplosen(10);
     
@@ -76,7 +76,7 @@ function skapaAKonto($conn){
                 $USID=$row['id'];
                 $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,$rollid,$tjanst)");
                 
-                if(myqli_query($sql2)){
+                if(mysqli_query($conn, $sql2)){
                     hantering('202','roll inlagd');
                 }
                 else{
@@ -142,7 +142,7 @@ function skapaKonto($conn){
         if(mysqli_num_rows($result) > 0){
             while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
-                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
+                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,$rollid,$tjanst)");
                 
                 $conn->query($sql2);
 
