@@ -43,14 +43,14 @@ function redigeraBlogg($conn){
         hantering('400','Kunde inte uppdatera bloggen',);
         
     }
-    $conn->close();
+    
 }
 function privatiseraBlogg($conn){
     //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId'])&&isset($_POST['privat'])){
         $bloggId = $_POST['bloggId'];
         $privat = $_POST['privat'];   
-    }
+    echo $bloggId;
 
     $result = $conn->query("SELECT * FROM blogg where id= $bloggId ");
         $row = $result->fetch_assoc();
@@ -69,7 +69,7 @@ function privatiseraBlogg($conn){
         hantering('400','Blogg kunde inte privatiseras',);
 
     }
-    $conn->close();
+    }
 }
 
 function redigeraKommentar($conn){
@@ -79,7 +79,7 @@ function redigeraKommentar($conn){
         $text = $_POST['text'];
     }
 
-    $uppdateraKommentar = "UPDATE kommentar SET innehall = '{$text}' WHERE id = $Kid ";
+    $uppdateraKommentar = "UPDATE kommentar SET innehall = '{$text}', redigerad=1 WHERE id = $Kid ";
 
     if(mysqli_query($conn, $uppdateraKommentar)){
 
@@ -90,7 +90,7 @@ function redigeraKommentar($conn){
         hantering('400','Kommentar kunde inte redigeras',);
 
     }
-    $conn->close();
+    
 }
 
 function redigeraInlagg($conn){
@@ -110,7 +110,7 @@ function redigeraInlagg($conn){
         hantering('400','Inlägg kunde inte redigeras',);
 
     }
-    $conn->close();
+    
 }
 
 function censureraKommentar($conn){
@@ -148,7 +148,7 @@ function censureraKommentar($conn){
         }
         
     
-    $conn->close();
+    
 }
 
 ?>

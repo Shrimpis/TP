@@ -20,7 +20,7 @@ function hantering($code,$msg){
     if($code=='400'){
         $status='Bad Request';
     }
-    if($code = '401'){
+    if($code == '401'){
         $status = 'Unauthorized';
     }
     if($code == '404'){

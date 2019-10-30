@@ -1,5 +1,5 @@
 <?php
-    include("funktioner/dbh.inc.php");
+    include("../Databas/dbh.inc.php");
 
     session_start();
 ?>

@@ -46,27 +46,28 @@ include("../../json/felhantering.php");
             $userid = $_POST['anvandarId'];
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
-            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
+            
             
         }
         if(mysqli_query($conn, $skapaTjanst)){
 
             hantering('201','Tjänsten har skapats',);
+            $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
+            if(mysqli_query($conn, $skapaBlogg)){
 
+                hantering('201','Bloggen har skapats',);
+    
+            }else{
+    
+                hantering('400','Bloggen kunde inte skapas',);
+    
+            }
         } else {
 
             hantering('400','Tjänsten kunde inte skapas',);
 
         }
-        if(mysqli_query($conn, $skapaBlogg)){
-
-            hantering('201','Bloggen har skapats',);
-
-        }else{
-
-            hantering('400','Bloggen kunde inte skapas',);
-
-        }
+        
         $conn->close();
 
     }
@@ -122,8 +123,9 @@ include("../../json/felhantering.php");
 
 
     function sokFalt($conn){
-        if(isset($_POST['sok'])){
+        if(isset($_POST['sok']) && isset($_POST['bloggId'])){
             $sok= $_POST['sok'];
+            $bloggId= $_POST['bloggId'];
         } 
         $output = '';
 
@@ -134,13 +136,18 @@ include("../../json/felhantering.php");
             $output = "There was no search results!";
         }
         else{
-           while ($row = mysqli_fetch_array($query)) {
-                $title = $row ['titel'];
-                
-                $output ='<div> '.$title.'</div>';
-                print ($output);
+            $i=0;
+            $inlagg=array();
+            while ($row = mysqli_fetch_array($query)) {
+               if($row['bloggId']==$bloggId){
+                    $title = $row ['titel'];
+                    $inlagg[$i]=$title;
+                    $i++;
+               }
             }
-            hantering('200','Din förfrågan lyckades',);
+            $json=json_encode($inlagg);
+            echo $json;
+            //hantering('200','Din förfrågan lyckades',);
         }
         $conn->close();
     }

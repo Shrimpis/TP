@@ -9,7 +9,8 @@
 
     </head>
     <body>
-
+    <h4>Skapa wiki</h4>
+    <br>
     <form action ="skapaWiki.php" method = "post">
   
         User ID: <input name="anvandarId" type="text" size="30"/><br>
@@ -245,6 +246,20 @@
         </form>
         <br>
         <br>
+        <!-- söka -->
 
+        <h4>sök efter titel</h4>
+
+        <form action="funktioner/skapa.php" method="POST">
+        <input type='hidden' name='funktion' value='sokFalt'/>
+            
+            <br>
+            <input type="text" name="sok">
+        
+            <br>
+            <input type="submit" value="sök">
+        </form>
+        <br>
+        <br>
     </body>
 </html>

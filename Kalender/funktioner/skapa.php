@@ -1,12 +1,9 @@
 <?php
-
 // Funktioner för att skapa
-
 session_start();
 include("./json/felhantering.php");
 include('../../Databas/dbh.inc.php');
         switch ($_POST['funktion']) {
-
             case 'skapaKalender':
                 skapaKalender($conn);
                 break;
@@ -16,6 +13,9 @@ include('../../Databas/dbh.inc.php');
             case 'skapaKalenderevent':
                 skapaKalenderevent($conn);
                 break;
+            case 'bjudin':
+                bjudin($conn);
+                break;
             default:
                 hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
                 break;
@@ -24,9 +24,7 @@ function skapaKalender($conn){
     //-include('dbh.inc.php');
     $anvandarId = $_POST['anvandarId'];
     $titel = $_POST['titel'];
-
         
-
         
         
             $skapatjanst = "INSERT INTO tjanst(anvandarId,titel,privat) VALUES($anvandarId,'{$titel}',1)";
@@ -46,7 +44,6 @@ function skapaKalender($conn){
         
         
     $conn->close();
-
 }
 function skapaKalendersida($conn){
     //-include('dbh.inc.php');
@@ -54,7 +51,6 @@ function skapaKalendersida($conn){
     $anvandarId = $_POST['anvandarId'];
     $kalenderId = $_POST['kalenderId'];
     }
-
     $get_kalid = $conn->query("SELECT * FROM kalender where tjanstId = $kalenderId");
     $row = $get_kalid->fetch_assoc();
     $kalid = $row['id'];
@@ -66,7 +62,6 @@ function skapaKalendersida($conn){
         hantering('400','kunde inte exekvera');
     }
 }
-
 function skapaKalenderevent($conn){
     //-include('dbh.inc.php');
     if(isset($_POST['titel'])&&isset($_POST['startTid'])&&isset($_POST['slutTid'])&&isset($_POST['anvandarId'])&&isset($_POST['innehall'])&&isset($_POST['kalenderId'])){
@@ -98,4 +93,55 @@ function skapaKalenderevent($conn){
     else{
         hantering('400','kunde inte exekvera');
     }
+}
+function bjudin($conn){
+    if(isset($_GET["eventID"]) && isset($_GET["kalenderIDS"])){
+        $jsonResp;
+        $jsonRespBody = Array();
+        $fullResponse = new stdClass();;
+        $completresponse;
+        $ok = true;
+        $event = $_GET["eventID"];
+        $kalenders = $_GET["kalenderIDS"];
+        for($i = 0; i < count($kalender); $i++){
+          $jsonResp = new stdClass();
+          $kalender = $kalenders[$i];
+          $sql = "INSERT INTO kalenderevent(kalenderId,eventId) VALUES($kalender[$i], $event)";
+          if(mysqli_query($conn,$sql)){
+            $jsonResp->kod = "200";
+            $jsonResp->status = "OK";
+            $jsonResp->msg = "Inbjudan skickad";
+            $jsonResp->event = $event;
+            $jsonResp->kalender = $kalender;
+            $jsonRespBody[] = $jsonResp;
+          }else{
+            if($ok){
+              $ok = false;
+            }
+            $jsonResp->kod = "400";
+            $jsonResp->status = "Dålig begäran";
+            $jsonResp->msg = "Event eller person kunde inte hittas";
+            $jsonResp->event = $event;
+            $jsonResp->kalender = $kalender;
+            $jsonRespBody[] = $jsonResp;
+          }
+        }
+        if($ok){
+          $fullResponse->kod = "200";
+          $fullResponse->status = "OK";
+          $fullResponse->msg = "Alla inbjudningar har skickats utan problem";
+          $fullResponse->inbjudningar = $jsonRespBody;
+        }else{
+          $fullResponse->kod = "400";
+          $fullResponse->status = "Dålig begäran";
+          $fullResponse->msg = "En eller flera inbjudningar kunde inte skickas";
+          $fullResponse->inbjudningar = $jsonRespBody;
+        }
+        }else{
+        $fullResponse->kod = "400";
+        $fullResponse->status = "Dålig begäran";
+        $fullResponse->msg  = "Felaktiga parametrar";
+        }
+        $completresponse = json_encode($fullResponse);
+        echo $completresponse;
 }
