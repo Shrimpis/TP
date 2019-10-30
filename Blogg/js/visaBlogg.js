@@ -98,7 +98,7 @@ function createKommentar(kom) {
 
 
     element2 = document.createElement("p");
-    element2.innerHTML = kom.namn + ": " + kom.innehall + " : " + kom.hierarkiId;
+    element2.innerHTML = kom.namn + ": " + kom.innehall;
     element.appendChild(element2);
     kommentar.appendChild(element);
     body.appendChild(kommentar);
@@ -144,7 +144,7 @@ function init() {
         if (this.readyState === 4 && this.status === 200) {
 
             jsonData = JSON.parse(this.responseText);
-            console.log(jsonData);
+            //console.log(this.responseText);
 
             agare = jsonData.anamn;
             flagga = jsonData.flaggningar;
@@ -168,6 +168,8 @@ function next(id) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             jsonData = JSON.parse(this.responseText);
+            console.log(this.responseText);
+            console.log(jsonData);
             
             //console.log(jsonData);
             createInlagg(id);

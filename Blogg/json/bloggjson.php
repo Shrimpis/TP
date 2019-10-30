@@ -424,7 +424,7 @@
 
 
 
-        $bloggFlaggningar = $conn->query('select * from flaggaconnlogg where bloggId='.$bloggId);
+        $bloggFlaggningar = $conn->query('select * from flaggadblogg where bloggId='.$bloggId);
         $bloggFlaggningarAmount=0;
         while($flaggadRow = $bloggFlaggningar->fetch_assoc()) {
             $bloggFlaggningarAmount++;
