@@ -15,6 +15,9 @@ include("./json/felhantering.php");
             case 'redigeraEvent':
                 redigeraEvent($conn);
                 break;
+            case 'status':
+                status($conn);
+                break;
 
             default:
                 hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
