@@ -69,7 +69,7 @@
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                echo "<option value='". $row["id"] ."'>Roll: ". $row['rollNamn']."</option>";
+                echo "<option value='". $row["id"] ."'>tjanstID: ". $row['id']."</option>";
             }
             echo "</table>";
             } else { echo "0 results"; }
