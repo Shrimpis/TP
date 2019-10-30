@@ -5,7 +5,7 @@ function createWiki() {
 
     getTitel();
     getAdmin();
-    for(let i = 0; i < jsonData.wiki.sidor.length; i++) {
+    for(let i = 0; i < jsonData.sidor.length; i++) {
         getSida(i);
     }
 }
@@ -15,7 +15,7 @@ function getTitel() {
     let element = document.createElement("h2");
     let div = document.createElement("div");
 
-    let titel = document.createTextNode(jsonData.wiki.titel);
+    let titel = document.createTextNode(jsonData.titel);
     element.appendChild(titel);
     div.appendChild(element);
     body.appendChild(div);
@@ -26,7 +26,7 @@ function getAdmin() {
     let element = document.createElement("p");
     let div = document.createElement("div");
 
-    let admin = document.createTextNode(jsonData.wiki.anvandarnamn);
+    let admin = document.createTextNode(jsonData.anvandarnamn);
     element.appendChild(admin);
     div.appendChild(element);
     body.appendChild(div);
@@ -38,7 +38,7 @@ function getSida(i) {
     let body = document.getElementById("sidaContainer");
     let element = document.createElement("h4");
     let div = document.createElement("div");
-    let titel = document.createTextNode(jsonData.wiki.sidor[i].titel)
+    let titel = document.createTextNode(jsonData.sidor[i].titel)
     element.appendChild(titel);
     div.appendChild(element);
     body.appendChild(div);
@@ -46,7 +46,7 @@ function getSida(i) {
     //Hämtar innehållet på wikisidan
     let element2 = document.createElement("p")
     let div2 = document.createElement("div");
-    let innehall = document.createTextNode(jsonData.wiki.sidor[i].innehall);
+    let innehall = document.createTextNode(jsonData.sidor[i].innehall);
     element2.appendChild(innehall);
     div2.appendChild(element2);
     body.appendChild(div2);
@@ -54,7 +54,7 @@ function getSida(i) {
     //Hämtar datumet på sidan
     let element3 = document.createElement("p");
     let div3 = document.createElement("div");
-    let datum = document.createTextNode(jsonData.wiki.sidor[i].datum);
+    let datum = document.createTextNode(jsonData.sidor[i].datum);
     element3.appendChild(datum);
     div3.appendChild(element3);
     body.appendChild(div3);
@@ -62,7 +62,7 @@ function getSida(i) {
     //Hämtar namnet på bidragaren
     let element4 = document.createElement("p");
     let div4 = document.createElement("div");
-    let bidragsgivare = document.createTextNode("Bidragare: " + jsonData.wiki.sidor[i].bidragsgivareNamn + "    Godkännare: " + jsonData.wiki.sidor[i].godKantAvNamn);
+    let bidragsgivare = document.createTextNode("Bidragare: " + jsonData.sidor[i].bidragsgivareNamn + "    Godkännare: " + jsonData.sidor[i].godKantAvNamn);
     element4.appendChild(bidragsgivare);
     div4.appendChild(element4);
     body.appendChild(div4);
@@ -74,6 +74,7 @@ function init() {
 
     let xhttp = new XMLHttpRequest();
 
+    
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             jsonData = JSON.parse(this.responseText);
@@ -82,9 +83,9 @@ function init() {
         }
     };
 
-    xhttp.open("GET", "../json/wikijson.php?anvandare=" + anvandarId , true);
+    xhttp.open("POST", "../json/wikijson.php", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhttp.send();
+    xhttp.send("anvandare=" + anvandarId + "&wiki=" + wikiId);
     }
 
 document.body.onload = function() {init();};
