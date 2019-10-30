@@ -167,7 +167,9 @@
                     <input type='hidden' name='funktion' value='sokfalt'/>
             
                     <input name="sok" type="text" size="30" placeholder="Search..."/>
-
+                    <br>
+                    <input name="bloggId" type="text" size="30" placeholder="bloggId"/>
+                    <br>
                     <input type="submit" value="Search"/>
 
                 
