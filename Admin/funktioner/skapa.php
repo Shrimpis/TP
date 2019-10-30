@@ -2,13 +2,16 @@
 
 session_start();
 include("../../Databas/dbh.inc.php");
+include("../../json/felhantering.php");
         switch ($_POST['funktion']) {
             case 'skapaKonto':
                 skapaKonto($conn);
                 break;
-
+            case 'skapaAKonto':
+                skapaAKonto($conn);
+                break;
             default:    
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering('400','fel på URL parametrar')
                 break;
         }
     
@@ -72,17 +75,21 @@ function skapaAKonto($conn){
                 $USID=$row['id'];
                 $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
                 
-                $conn->query($sql2);
+                if(myqli_query($sql2)){
+                    hantering('202','roll inlagd');
+                }
+                else{
 
-                
-                $anvandare = "SELECT anvandare.id FROM anvandare WHERE anvandare.anamn ='{$username}'";
-                $result2 = $conn->query($anvandare);
-
-                while($row2 = $result2->fetch_assoc()) {
-                    $sql3 = mysqli_query($conn,"UPDATE `kundrattigheter` SET `superadmin` = '1', `kontoID` = '". $row2["id"] ."' WHERE `kundrattigheter`.`id` = $id");
                 }
 
                 
+                
+
+                
+            }
+        }
+
+    } 
     $conn->close();
     
 }
