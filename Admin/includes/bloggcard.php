@@ -15,7 +15,7 @@
                         <select class="selectpicker show-tick" data-live-search="true" id="inputGroupSelect01" name="UID" id="UID">
                             <option selected>Välj...</option>
                             <?php 
-                                include("../../Databas/dbh.inc.php");
+                                include("../Databas/dbh.inc.php");
                                 $sql = "SELECT blogg.id, blogg.tjanstId, tjanst.titel FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
@@ -45,15 +45,15 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="border: 0px solid #d1d3e2 !important;" for="inputGroupSelect01"><i class="fas fa-user"></i></label>
                             </div>
-                            <select class="selectpicker show-tick" data-live-search="true" id="inputGroupSelect01" name="UID" id="UID">
+                            <select class="selectpicker show-tick" data-live-search="true" id="inputGroupSelect01" name="anvandarid" id="anvandarid">
                                 <option selected>Välj...</option>
                                 <?php 
-                                    include("../../Databas/dbh.inc.php");
-                                    $sql = "SELECT anvandare.id, anvandare.fnamn, anvandare.enamn, anvandare.anamn FROM anvandare INNER JOIN anvandarroll ON anvandare.id = anvandarroll.anvandarId WHERE anvandarroll.rollId = 1 AND anvandare.id <> 1"; //TODO: Ändra till rätt rollId.
+                                    include("../Databas/dbh.inc.php");
+                                    $sql = "SELECT anvandare.id, anvandare.anamn FROM anvandare INNER JOIN anvandarroll ON anvandare.id = anvandarroll.anvandarId WHERE anvandarroll.rollId = 1 AND anvandare.id <> 1";
                                     $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
                                     while($row = $result->fetch_assoc()) {
-                                        echo "<option value='". $row["anvandare.id"] ."'>AnvändarID: ". $row["id"]." | ". $row["anamn"]." | ". $row["fnamn"]." ". $row["enamn"]."</option>";
+                                        echo "<option value='". $row["anvandare.id"] ."'>AnvändarID: ". $row["id"]." | ". $row["anamn"]."</option>";
                                     }
                                     echo "</table>";
                                     } else { echo "0 results"; }

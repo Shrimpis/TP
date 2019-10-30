@@ -3,8 +3,8 @@
     // The Provider customers databasanslutning //
 
     $dbServername2 = 'localhost';
-    $dbUsername2 = 'root';
-    $dbPassword2 = '';
+    $dbUsername2 = 'TheProvider';
+    $dbPassword2 = 'Lösenord';
     $dbName2 = 'customers';
 
     $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
@@ -122,8 +122,9 @@
                         "
                         <p>Superadmin information:</p>
     
-                        <form action='funktioner/skapa.php' method='POST'>
-                        <input type='hidden' name='funktion' value='skapaKonto'/>
+                        <form action='funktioner/redigera.php' method='POST'>
+                        <input type='hidden' name='funktion' value='redigeraAKonto'/>
+                        <input type='hidden' name='id' value='". $row["kontoID"] ."'/>
                             <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
                                 <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
@@ -210,6 +211,7 @@
 
                     <form action='funktioner/tabort.php' method='POST'>
                         <input type='hidden' name='funktion' value='harddelkonto'/>
+                        <input type='hidden' name='anamn' value='Superadmin-".$row["namn"]."".$row["id"]."'/>
                         <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
                         <input name='id' type='hidden' value='". $row["id"] ."'>
                         <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>

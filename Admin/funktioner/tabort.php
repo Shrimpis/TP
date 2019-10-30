@@ -12,8 +12,7 @@ include("../../json/felhantering.php");
             harddelkonto($conn);
             break;
         default:
-            echo "jeh";
-            // hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+            hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
             break;
     }
     
@@ -34,10 +33,8 @@ function tabortKonto($conn){
 
 }
 function harddelkonto($conn){
-    echo "hej";
-    //-include("../../Databas/dbh.inc.php");
     $id = mysqli_real_escape_string($conn, $_POST['kontoID']);
-    // $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
+    $username = mysqli_real_escape_string($conn, $_POST['anamn']);
     
     $delkonto = "DELETE FROM anvandare WHERE id ='{$id}'";
     $delroll = "DELETE FROM anvandarroll WHERE anvandarId ='{$id}'";
@@ -47,9 +44,13 @@ function harddelkonto($conn){
     $delflagb = "DELETE FROM flaggadblogg WHERE anvandarId = $id";
     $delflagk = "DELETE FROM flaggadkommentar WHERE anvandarId = $id";
 
-    // $aktiv = '0';    
-    // mysqli_query($conn,"UPDATE kundrattigheter SET tjanst = $aktiv, superadmin = $aktiv, kontoID = $aktiv WHERE id = $kundID");
-    // echo mysqli_error($conn);
+    // Tar bort kunden från kundrättigheter //
+    mysqli_query($conn,"DELETE FROM `kundrattigheter` WHERE `kundrattigheter`.`kontoId` ='$id'");
+
+    // Tar bort api-nyckel //
+    mysqli_query($conn,"DELETE FROM `api` WHERE `api`.`rattighetId` ='$id'");
+
+
     $result = mysqli_query($conn,"SELECT id from tjanst where anvandarId = '{$id}'");
     echo mysqli_error($conn);
     if(mysqli_num_rows($result) > 0){
@@ -112,12 +113,23 @@ function harddelkonto($conn){
         }
     }
     
-    
+    // Ta bort mappar för bilder //
+
+    $blogg = '/var/www/html/TP/Bilder/Blogg/'.$username.'';
+    $wiki = '/var/www/html/TP/Bilder/Wiki/'.$username.'';
+
+    if(!rmdir($blogg)){
+        header('location: ../index.php?funktion=skapaKonto?status=failed?reason=blogg_folder+exists');
+    }
+
+    if(!rmdir($wiki)){
+        header('location: ../index.php?funktion=skapaKonto?status=failed?reason=wiki_folder+exists');
+    }
+
     if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)&&mysqli_query($conn, $delflagb)&&mysqli_query($conn, $delflagk)){
-        // header('location: ../index.php?funktion=avslutaKonto?status=success');
+        header('location: ../index.php?funktion=avslutaKonto?status=success');
     } else {
-        // hantering('400','fel');
-        echo mysqli_error($conn);
+        header('location: ../index.php?funktion=avslutaKonto?status=error');
     }
 
     $conn->close();

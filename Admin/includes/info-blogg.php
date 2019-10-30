@@ -67,53 +67,28 @@ if ($result2->num_rows > 0) {
 
                                 <div class='tab-pane fade' id='nav-installnigar". $row2["id"] ."' role='tabpanel' aria-labelledby='nav-installnigar-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
-                                        <form action='../funktioner/blogg/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
-                                            <input type='hidden' name='funktion' value='tabortBlogg'/>
-                                            <input name='id' type='hidden' value='". $row2["id"] ."'>
-                                            <button type='submit' class='btn btn-danger btn-sm'>Ta bort blogg</button>
-                                        </form>
-                                        <form action='../funktioner/blogg' method='POST'>
-                                            <input type='hidden' name='funktion' value=''/>
-                                            <input name='id' type='hidden' value=''>
-                                            <button type='submit' class='btn btn-warning btn-sm'>Deaktivera blogg</button>
-                                        </form>
+                                        <div style='margin-right:5px;'>
+                                            <form action='../Blogg/funktioner/visaBlogg.php' method='GET'>
+                                                <input name='anvandarId' type='hidden' value='". $row["kontoID"] ."'>
+                                                <input name='bloggId' type='hidden' value='". $row2["id"] ."'>
+                                                <button type='submit' class='btn btn-info btn-sm'>Visa Blogg</button>
+                                            </form>
+                                        </div>
+                                        <div>
+                                            <form action='../Blogg/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
+                                                <input type='hidden' name='funktion' value='tabortBlogg'/>
+                                                <input name='bloggId' type='hidden' value='". $row2["id"] ."'>
+                                                <button type='submit' class='btn btn-danger btn-sm'>Ta bort blogg</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class='tab-pane fade' id='nav-flagg". $row2["id"] ."' role='tabpanel' aria-labelledby='nav-flagg-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
                                         <p>Antal flaggningar: <strong><font color='red'>". $row2["flaggad"] ."</font></strong></p>
-
-                                        <table class='table'>
-                                            <thead>
-                                                <tr>
-                                                <th scope='col'>#</th>
-                                                <th scope='col'>Titel</th>
-                                                <th scope='col'>Flaggad</th>
-                                                <th scope='col'>Datum</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope='row'>1</th>
-                                                    <td>En dag i mitt liv</td>
-                                                    <td>2</td>
-                                                    <td>2019-10-02</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope='row'>2</th>
-                                                    <td>Fotboll är kul</td>
-                                                    <td>13</td>
-                                                    <td>2019-10-09</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope='row'>3</th>
-                                                    <td>Polkagrisar är inte så värst nyttiga...</td>
-                                                    <td>1</td>
-                                                    <td>2019-10-15</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <br>
+                                        <br>
                                     </div>
                                 </div>
                             </div>
