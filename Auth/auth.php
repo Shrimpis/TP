@@ -23,8 +23,6 @@ if(isset($_POST["anvandarnamn"]) && isset($_POST["losenord"])){
       $Blowfish_Pre = '$2a$10$';
       $Blowfish_End = '$';
 
-
-
       $bcrypt_salt = $Blowfish_Pre . $row["salt"] . $Blowfish_End;
       $hashed_password = crypt($password, $bcrypt_salt);
 
