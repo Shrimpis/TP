@@ -3,8 +3,8 @@
     // The Provider customers databasanslutning //
 
     $dbServername2 = 'localhost';
-    $dbUsername2 = 'root';
-    $dbPassword2 = '';
+    $dbUsername2 = 'TheProvider';
+    $dbPassword2 = 'Lösenord';
     $dbName2 = 'customers';
 
     $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
