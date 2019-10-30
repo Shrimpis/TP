@@ -42,7 +42,6 @@ function tabortWikiSida($conn){
 
     $sidID = $_POST["sidId"];
 
-    $result = ($conn->query("SELECT * FROM wikisidor WHERE id = '{$sidID}'"));
     
     $delSida = "DELETE FROM wikisidor WHERE id = '{$sidID}'";
     if(mysqli_query($delSida)){
