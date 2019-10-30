@@ -97,10 +97,15 @@
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='". $row['blogg.id'] ."'>Blogg: ".$row["titel"]." | privat: ".$row["privat"]."</option>";
+                            $tjanstId = $row['tjanstId'];
+                            $result1 = $conn->query("SELECT id FROM blogg WHERE tjanstId =$tjanstId");
+                            while($row1 = $result1->fetch_assoc()){
+                                $BID = $row1['id'];
+                            }
+                            echo "<option value=".$BID.">ID:".$BID." Blogg: ".$row["titel"]." | privat: ".$row["privat"]."</option>";
+                            
                         }
                         }
-                        
                     ?>
                 </select>
                 <br><br>
