@@ -105,19 +105,30 @@ function sokFalt($conn){
     //-include('dbh.inc.php');
 
     if(isset($_POST['sok'])){
-          
+        
         $sok= $_POST['sok'];
     
         $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE titel LIKE '%$sok%'") or die ("Could not search");
         if($count = mysqli_num_rows($query)){
-            $result = 'hittade wikisida: '.$row['titel'];
-            hantering('201',$result);
+
+            $i=0;
+            $results=array();
+            while($row = $query->fetch_assoc()){
+                $results[$i]=$row['titel'];
+                $i++;
+                //$result = 'hittade wikisida: '.$row['titel'];
+                //hantering('201',$result);
+            }
             
-    
-    
-        }else if($count == 0){
-            hantering('201','hittade inget');
+            $json=json_encode($results);
+            echo $json;
         }
+        
+        else if($count == 0){
+            hantering('201','hittade inget');//vill inte skicka error men vad ska man göra.
+        }
+
+        
 
     } 
 
