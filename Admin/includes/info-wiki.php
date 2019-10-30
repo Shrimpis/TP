@@ -53,15 +53,10 @@ if ($wikiresult->num_rows > 0) {
 
                                 <div class='tab-pane fade' id='nav-installnigar-wiki". $wikirow["id"] ."' role='tabpanel' aria-labelledby='nav-installnigar-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
-                                        <form action='../wiki/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
+                                        <form action='../Wiki/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
                                             <input type='hidden' name='funktion' value='tabortWiki'/>
-                                            <input name='id' type='hidden' value='". $wikirow["id"] ."'>
+                                            <input name='wikiId' type='hidden' value='". $wikirow["id"] ."'>
                                             <button type='submit' class='btn btn-danger btn-sm'>Ta bort wiki</button>
-                                        </form>
-                                        <form action='../wiki/funktioner/tabort.php' method='POST'>
-                                            <input type='hidden' name='funktion' value=''/>
-                                            <input name='id' type='hidden' value=''>
-                                            <button type='submit' class='btn btn-warning btn-sm'>Deaktivera wiki</button>
                                         </form>
                                     </div>
                                 </div>

@@ -13,12 +13,6 @@
     <br>
     losenord<input type="text" name="losenord">
     <br>
-    fnamn<input type="text" name="fnamn">
-    <br>
-    enamn<input type="text" name="enamn">
-    <br>
-    email<input type="text" name="email">
-    <br>
     <select name="anvandarid">
     <?php
         $conn;

@@ -53,15 +53,17 @@ if ($kalenderresult->num_rows > 0) {
 
                                 <div class='tab-pane fade' id='nav-installnigar-kalender". $kalenderrow["id"] ."' role='tabpanel' aria-labelledby='nav-installnigar-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
-                                        <form action='../kalender/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
+                                        <div style='margin-right:5px;'>
+                                            <form action='../Blogg/funktioner/visaBlogg.php' method='GET'>
+                                                <input name='anvandarId' type='hidden' value='". $row["kontoID"] ."'>
+                                                <input name='bloggId' type='hidden' value='". $row2["id"] ."'>
+                                                <button type='submit' class='btn btn-info btn-sm'>Visa </button>
+                                            </form>
+                                        </div>
+                                        <form action='../Kalender/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
                                             <input type='hidden' name='funktion' value='tabortkalender'/>
-                                            <input name='id' type='hidden' value='". $kalenderrow["id"] ."'>
+                                            <input name='tjanstId' type='hidden' value='". $kalenderrow["id"] ."'>
                                             <button type='submit' class='btn btn-danger btn-sm'>Ta bort kalender</button>
-                                        </form>
-                                        <form action='../kalender/funktioner/tabort.php' method='POST'>
-                                            <input type='hidden' name='funktion' value=''/>
-                                            <input name='id' type='hidden' value=''>
-                                            <button type='submit' class='btn btn-warning btn-sm'>Deaktivera kalender</button>
                                         </form>
                                     </div>
                                 </div>

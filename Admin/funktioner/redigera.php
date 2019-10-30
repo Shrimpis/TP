@@ -4,7 +4,7 @@
 
 session_start();
 include("../../Databas/dbh.inc.php");
-
+include("../../json/felhantering.php");
         switch ($_POST['funktion']) {
             case 'redigeraKonto':
                 redigeraKonto($conn);
@@ -16,7 +16,7 @@ include("../../Databas/dbh.inc.php");
                 redigeraAKonto($conn);
                 break;
             default:
-                echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+                hantering("400","Fel på URL parametrar");
                 break;
         } 
 
@@ -82,12 +82,18 @@ function redigeraAKonto($conn){
 
             header('location: ../index.php?funktion=skapaKonto?status=success');
         }
-        
-    }
-    else{
-        header('location: ../index.php?funktion=skapaKonto?status=error?reason=usernameTaken');
-    }
+    header('location: ../index.php?funktion=skapaKonto?status=success');
     $conn->close();
+}
+
+function slumplosen($len) {
+    $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $karaktrlen = strlen($karaktr);
+    $slumpstr = '';
+    for ($i = 0; $i < $len; $i++) {
+        $slumpstr .= $karaktr[rand(0, $karaktrlen - 1)];
+    }
+    return $slumpstr;
 }
 
 function redigeraKonto($conn){
@@ -97,31 +103,28 @@ function redigeraKonto($conn){
 
     if(isset($_POST['anamn'])){
         $anamn = $_POST['anamn'];
-        $conn-query("UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $anvandarid ");
+
+        if(mysqli_query($conn,"UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $anvandarid ")){
+            hantering("202","användarnamn uppdaterat");
+        }
+        else{
+            hantering("400","kunde ej exekvera användarnamnsbyte");
+        }
     }
     if(isset($_POST['losenord'])){
         $losenord = $_POST['losenord'];
-        $conn-query("UPDATE anvandare SET losenord = '{$losenord}'  WHERE id = $anvandarid ");
-    }
-    if(isset($_POST['enamn'])){
-        $enamn = $_POST['enamn'];
-        $conn-query("UPDATE anvandare SET enamn = '{$enamn}'  WHERE id = $anvandarid ");
-    }
-    if(isset($_POST['email'])){
-        $email = $_POST['email'];
-        $conn-query("UPDATE anvandare SET email = '{$email}'  WHERE id = $anvandarid ");
-    }
-    if(isset($_POST['fnamn'])){
-        $fnamn = $_POST['fnamn'];
-        $conn-query("UPDATE anvandare SET fnamn = '{$fnamn}'  WHERE id = $anvandarid "); 
+        if(mysqli_query($conn,"UPDATE anvandare SET losenord = '{$losenord}'  WHERE id = $anvandarid ")){
+            hantering("202","lösenord uppdaterat");
+        }
+        else{
+            hantering("400","kunde ej exekvera lösenordsbyte");
+        }
     }
     }
 
     
     
     
-        echo "INFO: kontot har redigerats.";
-        header('Refresh: 2; URL = ../kontoformsadmin.php');
     
     $conn->close();
 }
@@ -138,10 +141,9 @@ function redigeraRoll($conn){
     
     
     if(mysqli_query($conn, $uppdateraRoll)){
-        echo "INFO: kontot har redigerats.";
-        header('Refresh: 2; URL = ../kontoformsadmin.php');
+        hantering("202","användarroll uppdaterat");
     } else {
-        echo "ERROR: Could not execute $uppdateraRoll. " . mysqli_error($conn);
+        hantering("400","kunde ej exekvera rollbyte");
     }
     $conn->close();
 }
