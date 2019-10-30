@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 25 okt 2019 kl 13:27
+-- Tid vid skapande: 30 okt 2019 kl 13:00
 -- Serverversion: 10.1.38-MariaDB
 -- PHP-version: 7.3.2
 
@@ -42,19 +42,7 @@ CREATE TABLE `anvandare` (
 --
 
 INSERT INTO `anvandare` (`id`, `losenord`, `salt`, `anamn`, `email`, `aktiv`) VALUES
-(1, 'admin', '1', 'Hugomeister', 'hugo.malmstrom@hotmail.se', 1),
-(2, 'anvandare', '2', 'l33th4xor', 'l33th4xor@yahoo.com', 1),
-(3, 'anvandare', '3', 'originallt', 'steffe.personsson@outlook.se', 1),
-(4, 'anvandare', '4', 'rapport', 'johanledel@gmail.com', 1),
-(5, 'anvandare', '5', 'htm', 'edwar.oddish-oh@hotmail.dk', 1),
-(6, '12345', '1', 'meister', 'hugo.malmstrom@hotmail.se', 1),
-(7, '12345', '1', 'fixarn', 'greger.andersson@hotmail.se', 1),
-(8, '12345', '1', 'programmeraren', 'anton.augustsson@hotmail.se', 1),
-(9, '12345', '1', 'ditto', 'stina.karlsson@hotmail.se', 1),
-(10, '12345', '1', 'gryta', 'morgan.andersson@hotmail.se', 1),
-(11, '12345', '1', 'originallt', 'steffe.personsson@hotmail.se', 1),
-(12, '12345', '1', 'nilsalskartrad', 'nilsalskartrad@hotmail.se', 1),
-(13, 'dirk', 'dirk', 'polkis', 'polkis.dirk@polkisdirk.dk', 1);
+(1, 'admin', '1', 'admin', 'hugo.malmstrom@hotmail.se', 1);
 
 -- --------------------------------------------------------
 
@@ -74,19 +62,7 @@ CREATE TABLE `anvandarroll` (
 --
 
 INSERT INTO `anvandarroll` (`id`, `anvandarId`, `rollId`, `tjanstId`) VALUES
-(1, 1, 1, 0),
-(2, 2, 2, 2),
-(3, 3, 2, 2),
-(4, 4, 4, 2),
-(5, 5, 5, 2),
-(6, 6, 6, 2),
-(7, 7, 4, 1),
-(8, 8, 3, 4),
-(9, 9, 4, 2),
-(10, 10, 3, 7),
-(11, 11, 5, 7),
-(12, 12, 6, 3),
-(13, 13, 1, 3);
+(1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -105,8 +81,7 @@ CREATE TABLE `api` (
 --
 
 INSERT INTO `api` (`id`, `rattighetId`, `nyckel`) VALUES
-(1, 1, 'JIOAJWWNPA259FB2'),
-(2, 2, '436jqgf8h28IWGui');
+(1, 1, 'JIOAJWWNPA259FB2');
 
 -- --------------------------------------------------------
 
@@ -243,10 +218,6 @@ CREATE TABLE `gillningar` (
 --
 
 INSERT INTO `gillningar` (`id`, `anvandarId`, `inlaggId`) VALUES
-(1, 4, 2),
-(2, 3, 2),
-(3, 2, 1),
-(4, 3, 1),
 (5, 1, 1);
 
 -- --------------------------------------------------------
@@ -311,10 +282,7 @@ CREATE TABLE `kalendersida` (
 --
 
 INSERT INTO `kalendersida` (`id`, `anvandarId`, `kalenderId`) VALUES
-(1, 1, 1),
-(2, 6, 1),
-(3, 12, 2),
-(4, 13, 1);
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -326,7 +294,7 @@ CREATE TABLE `kommentar` (
   `id` int(11) NOT NULL,
   `anvandarId` int(11) NOT NULL,
   `inlaggId` int(11) NOT NULL,
-  `hierarkiId` int(11) NOT NULL,
+  `hierarkiId` int(11) NOT NULL DEFAULT '0',
   `innehall` varchar(2000) NOT NULL,
   `redigerad` tinyint(4) NOT NULL DEFAULT '0',
   `censurerad` tinyint(4) NOT NULL DEFAULT '0'
@@ -361,11 +329,7 @@ CREATE TABLE `kundrattigheter` (
 --
 
 INSERT INTO `kundrattigheter` (`id`, `tjanst`, `superadmin`, `kontoId`) VALUES
-(1, 1, 1, 1),
-(2, 1, 1, 13),
-(3, 0, 0, 0),
-(4, 0, 0, 0),
-(5, 0, 0, 0);
+(1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -390,10 +354,7 @@ CREATE TABLE `nekadwikiuppdatering` (
 --
 
 INSERT INTO `nekadwikiuppdatering` (`id`, `wikiId`, `sidId`, `bidragsgivare`, `nekadAv`, `titel`, `innehall`, `anledning`, `datum`) VALUES
-(1, 0, 3, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', 'Du är fel', '2019-10-16'),
-(2, 0, 4, 11, 5, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', 'De är inte giftiga om du inte äter de gröna delarna', '2019-10-01'),
-(3, 0, 6, 11, 5, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', 'Tomten är en scam gjord av fox news', '2019-10-24'),
-(4, 0, 8, 11, 9, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', 'Hundar är bättre', '2019-10-12');
+(1, 2, 0, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', 'Du är fel', '2019-10-16');
 
 -- --------------------------------------------------------
 
@@ -440,10 +401,6 @@ CREATE TABLE `sidversion` (
 --
 
 INSERT INTO `sidversion` (`id`, `sidId`, `godkantAv`, `bidragsgivare`, `titel`, `innehall`, `datum`) VALUES
-(1, 3, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-15'),
-(2, 4, 11, 5, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-17'),
-(3, 6, 11, 5, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-19'),
-(4, 8, 11, 9, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', '2019-10-24'),
 (5, 1, 10, 4, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-09'),
 (6, 1, 1, 10, 'Vapen under andra v?rldskriget', 'vapen d?dar', '2019-10-23'),
 (7, 1, 1, 11, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-29');
@@ -466,13 +423,13 @@ CREATE TABLE `tjanst` (
 --
 
 INSERT INTO `tjanst` (`id`, `anvandarId`, `titel`, `privat`) VALUES
-(1, 1, 'Polkis Blogg', 0),
+(1, 1, 'Polkis Blogg', 1),
 (2, 1, 'Glada Snickaren', 0),
-(3, 1, 'Polkis Kalender', 0),
+(3, 1, 'Polkis Kalender', 1),
 (4, 1, 'Wikihow-Ripoff', 0),
 (5, 1, 'Minecraft-Wiki', 0),
-(6, 1, 'EngrishKalender', 0),
-(7, 1, 'Allt om Malmström', 0);
+(6, 1, 'EngrishKalender', 1),
+(7, 1, 'Allt om Malmström', 1);
 
 -- --------------------------------------------------------
 
@@ -519,13 +476,7 @@ CREATE TABLE `wikisidor` (
 
 INSERT INTO `wikisidor` (`id`, `wikiId`, `godkantAv`, `bidragsgivare`, `titel`, `innehall`, `datum`, `dolt`, `last`) VALUES
 (1, 3, 1, 11, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-29', 0, 0),
-(2, 4, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
-(3, 6, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
-(4, 8, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
-(5, 3, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
-(6, 4, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
-(7, 6, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0),
-(8, 8, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0);
+(5, 3, 3, 11, 'Gr?na potatisar ?r giftiga', 'De innh?ller ett gift som kan d?da!', '2019-10-25', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -548,8 +499,8 @@ CREATE TABLE `wikiuppdatering` (
 --
 
 INSERT INTO `wikiuppdatering` (`id`, `wikiId`, `sidId`, `bidragsgivare`, `titel`, `innehall`, `datum`) VALUES
-(3, 0, 6, 11, 'Julafton', 'Julafton firas den 24 december, f?rutom i USA d?r den firas den 25 december', '2019-10-29'),
-(4, 0, 8, 11, 'Katter', 'Katter ?r inte m?nniskans b?sta v?n, men de ?r i alla fall s?ta', '2019-10-22');
+(5, 3, 5, 1, 'Hot Maymays', 'Jag vet inte vad vi gör längre... Plox Help!!!', '2019-10-30'),
+(6, 3, 1, 1, 'Låtar som aldrig borde pratas om', 'Wake Me Up med Långben', '2019-10-28');
 
 --
 -- Index för dumpade tabeller
@@ -565,7 +516,8 @@ ALTER TABLE `anvandare`
 -- Index för tabell `anvandarroll`
 --
 ALTER TABLE `anvandarroll`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `anvandare_anvandarroll` (`anvandarId`);
 
 --
 -- Index för tabell `api`
@@ -577,13 +529,15 @@ ALTER TABLE `api`
 -- Index för tabell `blogg`
 --
 ALTER TABLE `blogg`
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `tjanst_blogg` (`tjanstId`);
 
 --
 -- Index för tabell `blogginlagg`
 --
 ALTER TABLE `blogginlagg`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `blogg_blogginlagg` (`bloggId`);
 
 --
 -- Index för tabell `event`
@@ -595,43 +549,53 @@ ALTER TABLE `event`
 -- Index för tabell `flaggadblogg`
 --
 ALTER TABLE `flaggadblogg`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `blogg_flaggadblogg` (`bloggId`);
 
 --
 -- Index för tabell `flaggadkommentar`
 --
 ALTER TABLE `flaggadkommentar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kommentar_flaggadkommentar` (`kommentarId`);
 
 --
 -- Index för tabell `gillningar`
 --
 ALTER TABLE `gillningar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `anvandare_gillningar` (`anvandarId`),
+  ADD KEY `blogginlagg_gillningar` (`inlaggId`);
 
 --
 -- Index för tabell `kalender`
 --
 ALTER TABLE `kalender`
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `tjanst_kalender` (`tjanstId`);
 
 --
 -- Index för tabell `kalenderevent`
 --
 ALTER TABLE `kalenderevent`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kalender_kalenderevent` (`kalenderId`),
+  ADD KEY `event_kalenderevent` (`eventId`);
 
 --
 -- Index för tabell `kalendersida`
 --
 ALTER TABLE `kalendersida`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `anvandare_kalendersida` (`anvandarId`),
+  ADD KEY `kalender_kalendersida` (`kalenderId`);
 
 --
 -- Index för tabell `kommentar`
 --
 ALTER TABLE `kommentar`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `blogginlagg_kommentar` (`inlaggId`);
 
 --
 -- Index för tabell `kundrattigheter`
@@ -643,7 +607,8 @@ ALTER TABLE `kundrattigheter`
 -- Index för tabell `nekadwikiuppdatering`
 --
 ALTER TABLE `nekadwikiuppdatering`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wiki_nekadwikiuppdatering` (`wikiId`);
 
 --
 -- Index för tabell `roll`
@@ -655,31 +620,37 @@ ALTER TABLE `roll`
 -- Index för tabell `sidversion`
 --
 ALTER TABLE `sidversion`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wikisidor_sidversion` (`sidId`);
 
 --
 -- Index för tabell `tjanst`
 --
 ALTER TABLE `tjanst`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `anvandare_tjanst` (`anvandarId`);
 
 --
 -- Index för tabell `wiki`
 --
 ALTER TABLE `wiki`
-  ADD UNIQUE KEY `id` (`id`);
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `tjanst_wiki` (`tjanstId`);
 
 --
 -- Index för tabell `wikisidor`
 --
 ALTER TABLE `wikisidor`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wiki_wikisidor` (`wikiId`);
 
 --
 -- Index för tabell `wikiuppdatering`
 --
 ALTER TABLE `wikiuppdatering`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wikidisor_wikiuppdatering` (`sidId`),
+  ADD KEY `wiki_wikiuppdatering` (`wikiId`);
 
 --
 -- AUTO_INCREMENT för dumpade tabeller
@@ -707,13 +678,13 @@ ALTER TABLE `api`
 -- AUTO_INCREMENT för tabell `blogg`
 --
 ALTER TABLE `blogg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT för tabell `blogginlagg`
 --
 ALTER TABLE `blogginlagg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT för tabell `event`
@@ -731,7 +702,7 @@ ALTER TABLE `flaggadblogg`
 -- AUTO_INCREMENT för tabell `flaggadkommentar`
 --
 ALTER TABLE `flaggadkommentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT för tabell `gillningar`
@@ -761,7 +732,7 @@ ALTER TABLE `kalendersida`
 -- AUTO_INCREMENT för tabell `kommentar`
 --
 ALTER TABLE `kommentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT för tabell `nekadwikiuppdatering`
@@ -785,7 +756,7 @@ ALTER TABLE `sidversion`
 -- AUTO_INCREMENT för tabell `tjanst`
 --
 ALTER TABLE `tjanst`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT för tabell `wiki`
@@ -803,7 +774,111 @@ ALTER TABLE `wikisidor`
 -- AUTO_INCREMENT för tabell `wikiuppdatering`
 --
 ALTER TABLE `wikiuppdatering`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Restriktioner för dumpade tabeller
+--
+
+--
+-- Restriktioner för tabell `anvandarroll`
+--
+ALTER TABLE `anvandarroll`
+  ADD CONSTRAINT `anvandare_anvandarroll` FOREIGN KEY (`anvandarId`) REFERENCES `anvandare` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `blogg`
+--
+ALTER TABLE `blogg`
+  ADD CONSTRAINT `tjanst_blogg` FOREIGN KEY (`tjanstId`) REFERENCES `tjanst` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `blogginlagg`
+--
+ALTER TABLE `blogginlagg`
+  ADD CONSTRAINT `blogg_blogginlagg` FOREIGN KEY (`bloggId`) REFERENCES `blogg` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `flaggadblogg`
+--
+ALTER TABLE `flaggadblogg`
+  ADD CONSTRAINT `blogg_flaggadblogg` FOREIGN KEY (`bloggId`) REFERENCES `blogg` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `flaggadkommentar`
+--
+ALTER TABLE `flaggadkommentar`
+  ADD CONSTRAINT `kommentar_flaggadkommentar` FOREIGN KEY (`kommentarId`) REFERENCES `kommentar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `gillningar`
+--
+ALTER TABLE `gillningar`
+  ADD CONSTRAINT `anvandare_gillningar` FOREIGN KEY (`anvandarId`) REFERENCES `anvandare` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `blogginlagg_gillningar` FOREIGN KEY (`inlaggId`) REFERENCES `blogginlagg` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `kalender`
+--
+ALTER TABLE `kalender`
+  ADD CONSTRAINT `tjanst_kalender` FOREIGN KEY (`tjanstId`) REFERENCES `tjanst` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `kalenderevent`
+--
+ALTER TABLE `kalenderevent`
+  ADD CONSTRAINT `event_kalenderevent` FOREIGN KEY (`eventId`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `kalender_kalenderevent` FOREIGN KEY (`kalenderId`) REFERENCES `kalender` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `kalendersida`
+--
+ALTER TABLE `kalendersida`
+  ADD CONSTRAINT `anvandare_kalendersida` FOREIGN KEY (`anvandarId`) REFERENCES `anvandare` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `kalender_kalendersida` FOREIGN KEY (`kalenderId`) REFERENCES `kalender` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `kommentar`
+--
+ALTER TABLE `kommentar`
+  ADD CONSTRAINT `blogginlagg_kommentar` FOREIGN KEY (`inlaggId`) REFERENCES `blogginlagg` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `nekadwikiuppdatering`
+--
+ALTER TABLE `nekadwikiuppdatering`
+  ADD CONSTRAINT `wiki_nekadwikiuppdatering` FOREIGN KEY (`wikiId`) REFERENCES `wiki` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `sidversion`
+--
+ALTER TABLE `sidversion`
+  ADD CONSTRAINT `wikisidor_sidversion` FOREIGN KEY (`sidId`) REFERENCES `wikisidor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `tjanst`
+--
+ALTER TABLE `tjanst`
+  ADD CONSTRAINT `anvandare_tjanst` FOREIGN KEY (`anvandarId`) REFERENCES `anvandare` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `wiki`
+--
+ALTER TABLE `wiki`
+  ADD CONSTRAINT `tjanst_wiki` FOREIGN KEY (`tjanstId`) REFERENCES `tjanst` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `wikisidor`
+--
+ALTER TABLE `wikisidor`
+  ADD CONSTRAINT `wiki_wikisidor` FOREIGN KEY (`wikiId`) REFERENCES `wiki` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Restriktioner för tabell `wikiuppdatering`
+--
+ALTER TABLE `wikiuppdatering`
+  ADD CONSTRAINT `wiki_wikiuppdatering` FOREIGN KEY (`wikiId`) REFERENCES `wiki` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `wikidisor_wikiuppdatering` FOREIGN KEY (`sidId`) REFERENCES `wikisidor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

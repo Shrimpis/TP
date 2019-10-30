@@ -16,7 +16,7 @@
 <script>
 
     let anvandarId = <?php echo $_GET['anvandarId'] ?>;
-
+    let wikiId = <?php echo $_GET['wikiId'] ?>;
 
 </script>
 

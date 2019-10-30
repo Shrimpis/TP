@@ -93,7 +93,6 @@ function createInlagg(id) {
 function createKommentar(kom) {
     let body = document.getElementById("bloggInlaggContainer");
     let kommentar = document.createElement("div");
-
     let element = document.createElement("div");
     let element2;
 
@@ -145,7 +144,6 @@ function init() {
         if (this.readyState === 4 && this.status === 200) {
 
             jsonData = JSON.parse(this.responseText);
-
             console.log(jsonData);
 
             agare = jsonData.anamn;
@@ -159,9 +157,9 @@ function init() {
             }
         }
     };
-    xhttp.open("GET", "../json/bloggjson.php?anvandare=" + anvandarId + "&blogg=" + bloggId, true);
+    xhttp.open("POST", "../json/bloggjson.php", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhttp.send();
+    xhttp.send("anvandare=" + anvandarId + "&blogg=" + bloggId);
 }
 
 function next(id) {
@@ -178,8 +176,9 @@ function next(id) {
         }
     };
     
-    xhttp.open("GET", "../json/bloggjson.php?anvandare=" + anvandarId + "&blogg=" + bloggId + "&inlagg=" + id, true);
+    xhttp.open("POST", "../json/bloggjson.php", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhttp.send();
+    xhttp.send("anvandare=" + anvandarId + "&blogg=" + bloggId + "&inlagg=" + id);
 }
     
+

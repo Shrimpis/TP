@@ -96,7 +96,6 @@ function doljWikiSida($conn){
 
 function godkannUppdatering($conn){
 
-    
     //-include("dbh.inc.php");
     if(isset($_POST['uppdateringid']) && isset($_POST['sidId']) && isset($_POST['godkantAv'])){
         $uppdateringId = $_POST['uppdateringid'];

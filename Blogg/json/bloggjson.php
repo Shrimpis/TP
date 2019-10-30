@@ -1,13 +1,13 @@
 <?php
-    include("../../Databas/connh.inc.php");
+    include("../../Databas/dbh.inc.php");
 
-    $db=new mysqli("localhost","TheProvider","lösenord","TheProvider");
-    $db->set_charset("utf8");
+    //$db=new mysqli("localhost","root","","TheProvider");
+    //$db->set_charset("utf8");
 
-    if($conn->connect_error){
+    /*if($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
         echo $conn->connect_error;
-    }
+    }*/
 
     /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
 
@@ -26,16 +26,16 @@
     }*/
 
 
-    if(isset($_GET['anvandare']) && isset($_GET['blogg']) && isset($_GET['inlagg']) ){
-        blogginlagg($_GET['anvandare'],$_GET['blogg'],$_GET['inlagg'],$conn);
+    if(isset($_POST['anvandare']) && isset($_POST['blogg']) && isset($_POST['inlagg']) ){
+        blogginlagg($_POST['anvandare'],$_POST['blogg'],$_POST['inlagg'],$conn);
     }
-    else if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
-        blogg($_GET['anvandare'],$_GET['blogg'],$conn);
+    else if(isset($_POST['anvandare']) && isset($_POST['blogg'])){
+        blogg($_POST['anvandare'],$_POST['blogg'],$conn);
 
 
     }
-    else if(isset($_GET['anvandare'])){
-        visaBloggar($_GET['anvandare'],$conn);
+    else if(isset($_POST['anvandare'])){
+        visaBloggar($_POST['anvandare'],$conn);
     }
     else{
         visaAnvandare($conn);
