@@ -2,9 +2,6 @@
 <div>
 <h4>Skapa en kommentar</h4>
 
-<?php
-    include("../../Databas/dbh.inc.php");
-?>
 
 <form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaKommentar'/>
@@ -22,7 +19,7 @@ Välj att kommentera:
         }
         echo "</table>";
         } else { echo "0 results"; }
-        $conn->close();
+        
     ?>
 </select>
 <br><br>
@@ -39,7 +36,7 @@ Välj ett inlägg:
         }
         echo "</table>";
         } else { echo "0 results"; }
-        $conn->close();
+        
     ?>
 </select>
 <br><br>
@@ -56,7 +53,7 @@ Välj en användare:
         }
         echo "</table>";
         } else { echo "0 results"; }
-        $conn->close();
+        
     ?>
 </select>
 <br><br>
@@ -116,7 +113,7 @@ Välj en användare:
         } else { 
             echo "0 results"; 
         }
-        $conn->close();
+        
         
     ?>
     </select>
@@ -142,7 +139,7 @@ Välj en användare:
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
-                    $conn->close();
+                    
                 ?>
             </select>
             <br><br>
@@ -159,7 +156,7 @@ Välj en användare:
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
-                    $conn->close();
+                    
                 ?>
             </select>
             <br><br>
