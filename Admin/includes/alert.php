@@ -4,7 +4,7 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         echo "
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
             <h4 class='alert-heading'>Välkommen!</h4>
-            <p>Du har nu loggats in till <strong>The Providers</strong> kontrollpanel v1.5.</p>
+            <p>Du har nu loggats in till <strong>The Providers</strong> kontrollpanel v1.9.</p>
             <p>Här finns flera funktioner för att administrera kundtjänster.</p>
             <hr>
             <p class='mb-0'>Har du några funderingar så kan du alltid vända dig till <a href='https://github.com/Shrimpis/TP/wiki' target='_blank'>dokumentation</a>.</p>
@@ -64,7 +64,7 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     if (strpos($url,'funktion=aktiveraTjanst?m=success') == true) {
         echo "
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
-            Tjänsten eller tjänsterna har nu ändrats för kunden.
+            Tjänsterna har nu ändrats för kunden.
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                 <span aria-hidden='true'>&times;</span>
             </button>

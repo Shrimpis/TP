@@ -2,6 +2,7 @@
 
 session_start();
 include("../../Databas/dbh.inc.php");
+include("../../json/felhantering.php");
 
     switch ($_POST['funktion']) {
         case 'tabortKonto':
@@ -11,7 +12,8 @@ include("../../Databas/dbh.inc.php");
             harddelkonto($conn);
             break;
         default:
-            echo "ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.";
+            hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
+            break;
     }
     
   
@@ -22,44 +24,99 @@ function tabortKonto($conn){
     
     
     if(mysqli_query($conn, $delkonto)){
-        echo "INFO: konto avaktiverat";
-        header('Refresh: 2; URL = ../kontoformsadmin.php');
+        hantering('202','konto avaktiverat');
     } else {
-        echo "ERROR: Could not execute $delkonto. " . mysqli_error($conn);
+        hantering('400','kunde inte exekvera');
     }
 
     $conn->close();
 
 }
 function harddelkonto($conn){
+    echo "hej";
     //-include("../../Databas/dbh.inc.php");
     $id = mysqli_real_escape_string($conn, $_POST['kontoID']);
-    $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
+    // $kundID = $id = mysqli_real_escape_string($conn, $_POST['id']);
+    
     $delkonto = "DELETE FROM anvandare WHERE id ='{$id}'";
     $delroll = "DELETE FROM anvandarroll WHERE anvandarId ='{$id}'";
     $deltjans = "DELETE FROM tjanst WHERE anvandarId ='{$id}'";
     $delkom = "DELETE FROM kommentar WHERE anvandarId ='{$id}'";
     $delgil = "DELETE FROM gillningar WHERE anvandarId ='{$id}'";
+    $delflagb = "DELETE FROM flaggadblogg WHERE anvandarId = $id";
+    $delflagk = "DELETE FROM flaggadkommentar WHERE anvandarId = $id";
 
-    $aktiv = '0';    
-    $conn->query("UPDATE kundrattigheter SET tjanst = $aktiv, superadmin = $aktiv, kontoID = $aktiv WHERE id = $kundID");
-
-    $result = $conn->query("SELECT id from tjanst where anvandarId = '{$id}'");
+    // $aktiv = '0';    
+    // mysqli_query($conn,"UPDATE kundrattigheter SET tjanst = $aktiv, superadmin = $aktiv, kontoID = $aktiv WHERE id = $kundID");
+    // echo mysqli_error($conn);
+    $result = mysqli_query($conn,"SELECT id from tjanst where anvandarId = '{$id}'");
+    echo mysqli_error($conn);
     if(mysqli_num_rows($result) > 0){
         while($row=$result->fetch_assoc()){
             $delid = $row['id'];
-            $conn->query("DELETE FROM blogginlagg where bloggId = '{$delid}'");
-            $conn->query("DELETE FROM blogg WHERE id = '{$delid}'");
-            $conn->query("DELETE FROM wiki WHERE id = '{$delid}'");
-            $conn->query("DELETE FROM kalender WHERE id = '{$delid}'");
+            $result = mysqli_query($conn,"SELECT * FROM anvandarroll WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            while($row = $result->fetch_assoc()){
+                $delrol = $row['anvandarId'];
+                mysqli_query($conn,"DELETE FROM anvandare where id = '{$delrol}'");
+                echo mysqli_error($conn);
+            }
+            mysqli_query($conn,"DELETE FROM anvandarroll where tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            $result = mysqli_query($conn,"SELECT * FROM blogg WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            while($row = $result->fetch_assoc()){
+                $bid = $row['id'];
+                mysqli_query($conn,"DELETE FROM blogginlagg where bloggId = '{$bid}'");
+                echo mysqli_error($conn);
+            }
+            mysqli_query($conn,"DELETE FROM blogg WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            $result = mysqli_query($conn,"SELECT * FROM wiki WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            while($row = $result->fetch_assoc()){
+                $wid = $row['id'];
+                mysqli_query($conn,"DELETE FROM wikisidor WHERE wikiId = '{$wid}'");
+                echo mysqli_error($conn);
+                mysqli_query($conn,"DELETE FROM wikiuppdatering WHERE wikiId = '{$wid}'");
+                echo mysqli_error($conn);
+                mysqli_query($conn,"DELETE FROM nekadwikiuppdatering WHERE wikiId = '{$wid}'");
+                echo mysqli_error($conn);
+            }
+            mysqli_query($conn,"DELETE FROM wiki WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            $result = mysqli_query($conn,"SELECT * FROM kalender WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
+            while($row = $result->fetch_assoc()){
+                $kid = $row['id'];
+                $result = mysqli_query($conn,"SELECT * FROM kalendersida WHERE kalenderId = '{$kid}'");
+                echo mysqli_error($conn);
+                while($row = $result->fetch_assoc()){
+                    $delkalevid = $row['id'];
+                    $result = mysqli_query($conn,"SELECT * FROM kalenderevent WHERE kalenderId = '{$delkalevid}'");
+                    echo mysqli_error($conn);
+                        while($row = $result->fetch_assoc()){
+                            $delevid = $row['eventId'];
+                            mysqli_query($conn,"DELETE FROM event WHERE id = '{$delevid}'");
+                            echo mysqli_error($conn);
+                        }
+                    mysqli_query($conn,"DELETE FROM kalenderevent WHERE kalenderId = '{$delkalevid}'");
+                    echo mysqli_error($conn);
+                }
+                mysqli_query($conn,"DELETE FROM kalendersida WHERE kalenderId = '{$kid}'"); 
+                echo mysqli_error($conn);
+            }
+            mysqli_query($conn,"DELETE FROM kalender WHERE tjanstId = '{$delid}'");
+            echo mysqli_error($conn);
         }
     }
     
     
-    if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)){
-        header('location: ../index.php?funktion=avslutaKonto?status=success');
+    if(mysqli_query($conn, $delkonto)&&mysqli_query($conn, $delroll)&&mysqli_query($conn, $deltjans)&&mysqli_query($conn, $delkom)&&mysqli_query($conn, $delgil)&&mysqli_query($conn, $delflagb)&&mysqli_query($conn, $delflagk)){
+        // header('location: ../index.php?funktion=avslutaKonto?status=success');
     } else {
-        echo "ERROR: Could not execute $delkonto. " . mysqli_error($conn);
+        // hantering('400','fel');
+        echo mysqli_error($conn);
     }
 
     $conn->close();

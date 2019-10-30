@@ -1,21 +1,18 @@
 <?php
+    include("../../Databas/connh.inc.php");
 
-<<<<<<< HEAD
     $db=new mysqli("localhost","TheProvider","lösenord","TheProvider");
-=======
-    $db=new mysqli("localhost","root","","TheProvider");
->>>>>>> 9981f68c589da848b0ba77fb419c2e17e606c11d
     $db->set_charset("utf8");
 
-    if($db->connect_error){
-        die("Connection failed: " . $db->connect_error);
-        echo $db->connect_error;
+    if($conn->connect_error){
+        die("Connection failed: " . $conn->connect_error);
+        echo $conn->connect_error;
     }
 
     /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
 
         $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
-        $result = $db->query($sql);
+        $result = $conn->query($sql);
         $result = mysqli_fetch_assoc($result);
 
         if($_SESSION["licens"] ==  $result["licens"]){
@@ -30,25 +27,25 @@
 
 
     if(isset($_GET['anvandare']) && isset($_GET['blogg']) && isset($_GET['inlagg']) ){
-        blogginlagg($_GET['anvandare'],$_GET['blogg'],$_GET['inlagg'],$db);
+        blogginlagg($_GET['anvandare'],$_GET['blogg'],$_GET['inlagg'],$conn);
     }
     else if(isset($_GET['anvandare']) && isset($_GET['blogg'])){
-        blogg($_GET['anvandare'],$_GET['blogg'],$db);
+        blogg($_GET['anvandare'],$_GET['blogg'],$conn);
 
 
     }
     else if(isset($_GET['anvandare'])){
-        visaBloggar($_GET['anvandare'],$db);
+        visaBloggar($_GET['anvandare'],$conn);
     }
     else{
-        visaAnvandare($db);
+        visaAnvandare($conn);
     }
 
 
-    function blogginlagg($anvandarId,$bloggId,$inlaggId,$db){
-        $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
-        $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
-        $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
+    function blogginlagg($anvandarId,$bloggId,$inlaggId,$conn){
+        $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
+        $blogg = $conn->query('select * from blogg where tjanstId='.$bloggId);
+        $blogginlagg = $conn->query('select * from blogginlagg where bloggId='.$bloggId);
 
 
 
@@ -68,12 +65,12 @@
 
 
                 //lagger in kommentarer.
-                $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.id=anvandare.id where inlaggId='.$id); //hamtar alla kommentarer i ett bloginlagg
+                $tempKommentar=$conn->query('select * from kommentar inner join anvandare on kommentar.id=anvandare.id where inlaggId='.$id); //hamtar alla kommentarer i ett bloginlagg
                 //echo var_dump($tempKommentar);
                 $kommentarArray=array();
                 $index=0;
                 while($row = $tempKommentar->fetch_assoc()) {
-                    $kommentarFlaggningar = $db->query('select * from flaggadkommentar where kommentarId='.$row['id']);//alla flaggningar för kommentarer.
+                    $kommentarFlaggningar = $conn->query('select * from flaggadkommentar where kommentarId='.$row['id']);//alla flaggningar för kommentarer.
                     $Amount=0;
                     while($flaggadRow = $kommentarFlaggningar->fetch_assoc()) {//hur många flaggningar för kommentaren.
                         $Amount++;
@@ -107,7 +104,7 @@
 
 
                 //lagger in gillningar.
-                $gillningar = $db->query('select * from gillningar where inlaggId='.$id);
+                $gillningar = $conn->query('select * from gillningar where inlaggId='.$id);
                 $gillningarArray=array();
                 $index=0;
                 while($row = $gillningar->fetch_assoc()) {
@@ -146,7 +143,7 @@
 
             $tjanstId=$row['tjanstId'];
 
-            $tjanst = $db->query('select * from tjanst where id='.$tjanstId);
+            $tjanst = $conn->query('select * from tjanst where id='.$tjanstId);
             while($row=$tjanst->fetch_assoc()){
                 $Bloggarray['titel']=$row['titel'];
                 $Bloggarray['privat']=$row['privat'];
@@ -204,11 +201,11 @@
 
 
 
-    function visaBloggar($anvandarId,$db){
-        $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
-        $tjänst = $db->query('select * from tjanst where anvandarId='.$anvandarId);
+    function visaBloggar($anvandarId,$conn){
+        $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
+        $tjänst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
 
-        //$tjänstId = $db->query('select * from tjanst where id='.$anvandarId);
+        //$tjänstId = $conn->query('select * from tjanst where id='.$anvandarId);
 
 
         $anamn;
@@ -228,7 +225,7 @@
 
         while($rowTjänst = $tjänst->fetch_assoc()) {
             $tjänstId=$rowTjänst['id'];
-            $blogg = $db->query('select * from blogg ');
+            $blogg = $conn->query('select * from blogg ');
             while($row = $blogg->fetch_assoc()) {
 
                 $bloggId=$row['tjanstId'];
@@ -241,7 +238,7 @@
 
 
             /*$bloggId= $row['id'];
-            $bloggInlaggCount = $db->query('SELECT * FROM blogginlagg where bloggId='.$bloggId);
+            $bloggInlaggCount = $conn->query('SELECT * FROM blogginlagg where bloggId='.$bloggId);
             $count=0;
             while($row = $bloggInlaggCount->fetch_assoc()) {
                 $count++;
@@ -262,8 +259,8 @@
 
     }
 
-    function visaAnvandare($db){
-        $anvandare = $db->query('select * from anvandare');
+    function visaAnvandare($conn){
+        $anvandare = $conn->query('select * from anvandare');
 
         $anvandareArray;
         $i=0;
@@ -300,10 +297,10 @@
             return $kommentarArrayFull;
     }
 
-    function blogg($anvandarId,$bloggId,$db){
-        $anvandare = $db->query('select * from anvandare where id='.$anvandarId);
-        $blogg = $db->query('select * from blogg where tjanstId='.$bloggId);
-        $blogginlagg = $db->query('select * from blogginlagg where bloggId='.$bloggId);
+    function blogg($anvandarId,$bloggId,$conn){
+        $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
+        $blogg = $conn->query('select * from blogg where tjanstId='.$bloggId);
+        $blogginlagg = $conn->query('select * from blogginlagg where bloggId='.$bloggId);
 
 
 
@@ -324,7 +321,7 @@
 
             /*
             //lagger in kommentarer.
-            $tempKommentar=$db->query('select * from kommentar inner join anvandare on kommentar.UID=anvandare.UID where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
+            $tempKommentar=$conn->query('select * from kommentar inner join anvandare on kommentar.UID=anvandare.UID where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
             //echo var_dump($tempKommentar);
             $kommentarArray=array();
             $index=0;
@@ -355,7 +352,7 @@
 
 
             //lagger in gillningar.
-            $gillningar = $db->query('select * from gillningar where IID='.$IID);
+            $gillningar = $conn->query('select * from gillningar where IID='.$IID);
             $gillningarArray=array();
             $index=0;
             while($row = $gillningar->fetch_assoc()) {
@@ -393,7 +390,7 @@
 
             $tjanstId=$row['tjanstId'];
             
-            $tjanst = $db->query('select * from tjanst where id='.$tjanstId.' and anvandarId='.$anvandarId);
+            $tjanst = $conn->query('select * from tjanst where id='.$tjanstId.' and anvandarId='.$anvandarId);
             $error=true;
             while($row=$tjanst->fetch_assoc()){
                 $Bloggarray['titel']=$row['titel'];
@@ -427,7 +424,7 @@
 
 
 
-        $bloggFlaggningar = $db->query('select * from flaggadblogg where bloggId='.$bloggId);
+        $bloggFlaggningar = $conn->query('select * from flaggaconnlogg where bloggId='.$bloggId);
         $bloggFlaggningarAmount=0;
         while($flaggadRow = $bloggFlaggningar->fetch_assoc()) {
             $bloggFlaggningarAmount++;
