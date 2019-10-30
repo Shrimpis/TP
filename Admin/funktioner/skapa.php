@@ -31,9 +31,10 @@ function skapaAKonto($conn){
 
     //-include("../../Databas/dbh.inc.php");
     $uname_tagen=false;
-    if(isset($_POST['anamn'])&&isset($_POST['rollid'])){
+    if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['tjanst'])){
         $username = $_POST['anamn'];
         $rollid = $_POST['rollid'];
+        $tjanst = $$_POST['tjanst'];
     }
     $password = slumplosen(10);
     
@@ -73,7 +74,7 @@ function skapaAKonto($conn){
         if(mysqli_num_rows($result) > 0){
             while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
-                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
+                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,$rollid,$tjanst)");
                 
                 if(myqli_query($sql2)){
                     hantering('202','roll inlagd');

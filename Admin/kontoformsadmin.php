@@ -62,6 +62,21 @@
     ?>
     </select>
     <br>
+    <select name="tjanst">
+    <?php
+        $conn;
+        $sql = "SELECT * from tjanst";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<option value='". $row["id"] ."'>Roll: ". $row['rollNamn']."</option>";
+            }
+            echo "</table>";
+            } else { echo "0 results"; }
+        
+    ?>
+    </select>
+    <br>
     <input type="submit" value="Skapa Konto">
 </form>
 <br>
