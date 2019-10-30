@@ -103,7 +103,7 @@ function bjudin($conn){
         $ok = true;
         $event = $_GET["eventID"];
         $kalenders = $_GET["kalenderIDS"];
-        for($i = 0; i < count($kalender); $i++){
+        for($i = 0; i < count($kalenders); $i++){
           $jsonResp = new stdClass();
           $kalender = $kalenders[$i];
           $sql = "INSERT INTO kalenderevent(kalenderId,eventId) VALUES($kalender[$i], $event)";

@@ -6,6 +6,7 @@ let flagga;
 let bloggTitel;
 
 
+
 //Dynamisk. Skriver ut vem som äger bloggen
 function createSkribent() {
     let body = document.getElementById("skribentContainer");
@@ -95,6 +96,7 @@ function createKommentar(kom) {
     let element = document.createElement("div");
     let element2;
 
+
     element2 = document.createElement("p");
     element2.innerHTML = kom.namn + ": " + kom.innehall;
     element.appendChild(element2);
@@ -165,7 +167,6 @@ function next(id) {
 
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-
             jsonData = JSON.parse(this.responseText);
             console.log(this.responseText);
             console.log(jsonData);
@@ -182,4 +183,4 @@ function next(id) {
     xhttp.send("anvandare=" + anvandarId + "&blogg=" + bloggId + "&inlagg=" + id);
 }
     
-    document.body.onload = function() {init();};
+
