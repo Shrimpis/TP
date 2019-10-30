@@ -42,7 +42,7 @@
 
 
 <form action="funktioner/skapa.php" method="post">
-<input type='hidden' name='funktion' value='skapaKonto'/>
+<input type='hidden' name='funktion' value='skapaAKonto'/>
     <input type="text" name="anamn">
     
     <br>
