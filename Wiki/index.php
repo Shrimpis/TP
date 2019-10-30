@@ -11,7 +11,8 @@
     <body>
     <h4>Skapa wiki</h4>
     <br>
-    <form action ="skapaWiki.php" method = "post">
+    <form action ="funktioner/skapa.php" method = "post">
+        <input type="hidden" name="funktion" value="skapaWiki">
   
         User ID: <input name="anvandarId" type="text" size="30"/><br>
         Title: <input name="titel" type="text" size="30"/><br>

@@ -1,5 +1,5 @@
 
-<?php 
+<?php
     //-include("funktioner/dbh.inc.php");
     include("../Databas/dbh.inc.php");
 
@@ -32,7 +32,7 @@
                 } else {
                     echo "0 results";
                 }
-                
+
 
             ?>
             </select>
@@ -65,7 +65,7 @@
                 } else {
                     echo "0 results";
                 }
-                
+
 
             ?>
             </select>
@@ -84,7 +84,7 @@
                 } else {
                     echo "0 results";
                 }
-                
+
 
             ?>
             </select>
@@ -93,7 +93,7 @@
         </form>
         <br>
         <br>
-        
+
         <!-- skapa event -->
 
         <h4>Skapa kalenderevent</h4>
@@ -114,7 +114,7 @@
                 } else {
                     echo "0 results";
                 }
-                
+
 
             ?>
             </select>
@@ -134,7 +134,7 @@
                 } else {
                     echo "0 results";
                 }
-                
+
 
             ?>
             </select>
@@ -169,7 +169,7 @@
                 } else {
                     echo "0 results";
                 }
-                
+
 
             ?>
             </select>
@@ -192,9 +192,8 @@
                     while($row = $result->fetch_assoc()) {
                         echo "<option value='" . $row['id'] . "'>" . $row['id'] . "</option>";
                     }
-                } 
+                }
                 
-
             ?>
             </select>
             <input type="submit" value="ta bort kalendersida">
