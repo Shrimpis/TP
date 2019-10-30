@@ -54,10 +54,10 @@ if ($kalenderresult->num_rows > 0) {
                                 <div class='tab-pane fade' id='nav-installnigar-kalender". $kalenderrow["id"] ."' role='tabpanel' aria-labelledby='nav-installnigar-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
                                         <div style='margin-right:5px;'>
-                                            <form action='../Blogg/funktioner/visaBlogg.php' method='GET'>
+                                            <form action='../Kalender/funktioner/visaKalender.php' method='GET'>
                                                 <input name='anvandarId' type='hidden' value='". $row["kontoID"] ."'>
-                                                <input name='bloggId' type='hidden' value='". $row2["id"] ."'>
-                                                <button type='submit' class='btn btn-info btn-sm'>Visa </button>
+                                                <input name='kalenderId' type='hidden' value='". $row2["id"] ."'>
+                                                <button type='submit' class='btn btn-info btn-sm'>Visa Kalender</button>
                                             </form>
                                         </div>
                                         <form action='../Kalender/funktioner/tabort.php' method='POST' style='padding-right: 5px;'>
