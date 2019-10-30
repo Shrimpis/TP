@@ -50,12 +50,10 @@ function privatiseraBlogg($conn){
     if(isset($_POST['bloggId'])&&isset($_POST['privat'])){
         $bloggId = $_POST['bloggId'];
         $privat = $_POST['privat'];   
-    }
+    echo $bloggId;
 
     $result = $conn->query("SELECT * FROM blogg where id= $bloggId ");
-        while($row = $result->fetch_assoc()){
-            
-        }
+        $row = $result->fetch_assoc();
         $tjanstId = $row['tjanstId'];
         $uppdateraTjanst = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $tjanstId ";
     
@@ -71,7 +69,7 @@ function privatiseraBlogg($conn){
         hantering('400','Blogg kunde inte privatiseras',);
 
     }
-    
+    }
 }
 
 function redigeraKommentar($conn){
@@ -81,7 +79,7 @@ function redigeraKommentar($conn){
         $text = $_POST['text'];
     }
 
-    $uppdateraKommentar = "UPDATE kommentar SET innehall = '{$text}' WHERE id = $Kid ";
+    $uppdateraKommentar = "UPDATE kommentar SET innehall = '{$text}', redigerad=1 WHERE id = $Kid ";
 
     if(mysqli_query($conn, $uppdateraKommentar)){
 
