@@ -25,11 +25,9 @@ function tabortWiki($conn){
     $wikiId = $_POST['wikiId'];
 
     $delTjanst = "DELETE FROM tjanst WHERE id='{$wikiId}'";
-    $delwiki = "DELETE FROM wiki WHERE tjanstId='{$wikiId}'";
-    $delsida = "DELETE FROM wikisidor WHERE wikiId='{$wikiId}'";
 
     
-    if(mysqli_query($conn, $delwiki)&&mysqli_query($conn, $delsida)&&mysqli_query($conn, $delTjanst)){
+    if(mysqli_query($conn, $delTjanst)){
         hantering('202','tog bort wikin');
     } else {
         hantering('400','kunde ej exekvera');
@@ -46,9 +44,6 @@ function tabortWikiSida($conn){
 
     $result = ($conn->query("SELECT * FROM wikisidor WHERE id = '{$sidID}'"));
     
-    
-
-
     $delSida = "DELETE FROM wikisidor WHERE id = '{$sidID}'";
     if(mysqli_query($delSida)){
         hantering('202','tog bort wikisidan');

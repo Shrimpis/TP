@@ -2,9 +2,7 @@
 
 <h4>Skapa ett inlägg</h4>
 
-<?php
-    include("../../Databas/dbh.inc.php");
-?>
+
 
 <form action="funktioner/skapa.php" method="POST">
 <input type='hidden' name='funktion' value='skapaInlagg'/>
@@ -59,7 +57,7 @@
         }
         echo "</table>";
         } else { echo "0 results"; }
-        $conn->close();
+        
     ?>
     </select>
     <br>
@@ -90,7 +88,7 @@
         }
         echo "</table>";
         } else { echo "0 results"; }
-        $conn->close();
+        
     ?>
     </select>
     <br>
@@ -119,7 +117,7 @@
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
-                    $conn->close();
+                    
                 ?>
             </select>
             <br><br>
@@ -136,7 +134,7 @@
                     }
                     echo "</table>";
                     } else { echo "0 results"; }
-                    $conn->close();
+                    
                 ?>
             </select>
             <br><br>
