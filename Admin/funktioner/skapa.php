@@ -79,7 +79,7 @@ function skapaAKonto($conn){
                     hantering('202','roll inlagd');
                 }
                 else{
-
+                    hantering('400','kunde ej exekvera');
                 }
 
                 
