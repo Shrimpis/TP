@@ -4,8 +4,8 @@
 
     $dbServername2 = 'localhost';
     $dbUsername2 = 'TheProvider';
-    $dbPassword2 = 'lösenord';
-    $dbName2 = 'Customers';
+    $dbPassword2 = 'Lösenord';
+    $dbName2 = 'customers';
 
     $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
     mysqli_set_charset($conn2, "utf8mb4");
