@@ -1,8 +1,8 @@
 <?php
     include("../../Databas/connh.inc.php");
 
-    $conn=new mysqli("localhost","root","","TheProvider");
-    $conn->set_charset("utf8");
+    $db=new mysqli("localhost","TheProvider","lösenord","TheProvider");
+    $db->set_charset("utf8");
 
     if($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
