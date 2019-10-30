@@ -1,7 +1,7 @@
 <?php
-    include("../../Databas/connh.inc.php");
+    include("../../Databas/dbh.inc.php");
 
-    $db=new mysqli("localhost","TheProvider","lösenord","TheProvider");
+    $db=new mysqli("localhost","root","","TheProvider");
     $db->set_charset("utf8");
 
     if($conn->connect_error){
