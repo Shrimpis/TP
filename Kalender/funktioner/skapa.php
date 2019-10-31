@@ -1,7 +1,7 @@
 <?php
 // Funktioner för att skapa
 session_start();
-include("./json/felhantering.php");
+include("../../json/felhantering.php");
 include('../../Databas/dbh.inc.php');
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     var_dump($_POST['nyckel']);

@@ -5,8 +5,8 @@
 
 session_start();
 
-include('./Databas/dbh.inc.php');
-include("./json/felhantering.php");
+include('../../Databas/dbh.inc.php');
+include("../../json/felhantering.php");
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
   var_dump($_POST['nyckel']);
   
