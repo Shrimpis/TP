@@ -37,10 +37,13 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
                 hantering('404','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
         } 
     }
+    else{
+        hantering('401','Behörighet saknas');
+    }
 }
 else{
-    hantering('401','Behörighet saknas');
-}   
+    hantering('401','Behörighet saknas, tom api');
+} 
 function redigeraBlogg($conn){
     //- include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId']) && isset($_POST['Titel'])){
