@@ -1,5 +1,6 @@
 <?php 
 
+$conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
 
 $valjblogg = "SELECT blogg.id, blogg.tjanstId, blogg.flaggad, tjanst.titel, tjanst.privat FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id WHERE tjanst.anvandarId =". $row["kontoID"] ."";
 $result2 = $conn->query($valjblogg);
