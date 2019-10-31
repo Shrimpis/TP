@@ -4,6 +4,17 @@ session_start();
 include('../../Databas/dbh.inc.php');
 include("../../json/felhantering.php");
 
+if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+    
+    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+    $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
+    
+    $result = mysqli_query($conn,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
+
+    if($count == 1){
+
 switch($_POST['funktion']){
 
     case 'skapaWiki':
@@ -20,7 +31,14 @@ switch($_POST['funktion']){
         break;
 
 }
-
+}
+    else {        
+        hantering('401','Api-nyckeln är antingen fel eller finns inte. Kontakta administratör.');
+    }
+}
+else {
+hantering('401','Api-nyckeln är inte definerad.');
+}
 
 function skapaWiki($conn){
 
