@@ -23,6 +23,7 @@ function createSkribent() {
 //Dynamisk. Skapar titeln på bloggen
 function createTitel() {
     let body = document.getElementById("headerContainer");
+
     let element = document.createElement("h1");
     let div = document.createElement("div");
 
@@ -49,6 +50,10 @@ function createFlagga(){
 function createInlagg(id) {
 
     let body = document.getElementById("bloggInlaggContainer");
+
+
+    let br = document.createElement("br");
+    body.appendChild(br);
 
     //Skapar titeln till inlägget
     let titel = document.createElement("h3");
@@ -85,6 +90,7 @@ function createInlagg(id) {
     element.appendChild(gillningar);
     gillaContainer.appendChild(element);
     body.appendChild(gillaContainer);
+
 }
 
 
@@ -108,6 +114,8 @@ function createKommentar(kom) {
     element3.innerHTML = "Flaggningar: " + kom.flaggningar;
     flaggaContainer.appendChild(element3);
     body.appendChild(flaggaContainer);
+
+
 
 }
 
@@ -152,6 +160,7 @@ function init() {
             createSkribent();
             createFlagga();
             createTitel();
+            console.log(jsonData.bloggInlagg.length);
             for(let i = 1; i <= jsonData.bloggInlagg.length; i++) {
                 next(i);
             }
@@ -168,7 +177,7 @@ function next(id) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             jsonData = JSON.parse(this.responseText);
-            console.log(this.responseText);
+            //console.log(this.responseText);
             console.log(jsonData);
             
             //console.log(jsonData);
@@ -183,4 +192,4 @@ function next(id) {
     xhttp.send("anvandare=" + anvandarId + "&blogg=" + bloggId + "&inlagg=" + id);
 }
     
-
+document.body.onload = function() {init();};
