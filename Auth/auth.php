@@ -1,34 +1,31 @@
 <?php
 
-session_start();
+function login($anamn, $password){
+    include("../Databas/dbh.inc.php");
 
-if(isset($_POST["anvandarnamn"]) && isset($_POST["losenord"])){
+    $sql = "SELECT * FROM tp_admin where anamn='{$anamn}'";
+    $result = $conn->query($sql);
 
-      include("../Databas/dbh.inc.php");
+    $row = mysqli_fetch_assoc($result);
 
-      $anamn = $_POST["anvandarnamn"];
-      $password = $_POST["losenord"];
+    if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+        echo "CRYPT_BLOWFISH is enabled!<br>";
+    } else {
+        echo "CRYPT_BLOWFISH is NOT enabled!";
+    }
 
-      $sql = "SELECT id, salt, losenord,anamn from anvandare where anamn='{$anamn}'";
-      $result = $conn->query($sql);
+    $Blowfish_Pre = '$2a$10$';
+    $Blowfish_End = '$';
 
-      $row = mysqli_fetch_assoc($result);
+    $bcrypt_salt = $Blowfish_Pre . $row["salt"] . $Blowfish_End;
+    $hashed_password = crypt($password, $bcrypt_salt);
+    echo $row["losenord"]."<br>";
+    echo $hashed_password."<br>";
 
-      if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
-          echo "CRYPT_BLOWFISH is enabled!<br>";
-      } else {
-          echo "CRYPT_BLOWFISH is NOT enabled!";
-      }
-
-      $Blowfish_Pre = '$2a$10$';
-      $Blowfish_End = '$';
-
-      $bcrypt_salt = $Blowfish_Pre . $row["salt"] . $Blowfish_End;
-      $hashed_password = crypt($password, $bcrypt_salt);
-
-
-      if($hashed_password == $row["losenord"]){
-        $_SESSION["UID"] = $row["id"];
-      }
+    if($hashed_password == $row["losenord"]){
+       return true;
+    }else{
+       return false;
+    }
 
 }
