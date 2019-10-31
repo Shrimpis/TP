@@ -74,7 +74,7 @@ function init() {
 
     let xhttp = new XMLHttpRequest();
 
-    
+
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             jsonData = JSON.parse(this.responseText);
@@ -85,33 +85,7 @@ function init() {
 
     xhttp.open("POST", "../json/wikijson.php", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xhttp.send("anvandare=" + anvandarId + "&wiki=" + wikiId);
+    xhttp.send("anvandare="+anvandarId+"&wiki="+wikiId);
     }
 
 document.body.onload = function() {init();};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
