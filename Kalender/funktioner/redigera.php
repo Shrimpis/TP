@@ -7,23 +7,41 @@ session_start();
 
 include('./Databas/dbh.inc.php');
 include("./json/felhantering.php");
-        switch ($_POST['funktion']) {
+if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+  var_dump($_POST['nyckel']);
+  
+  $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+  $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
+  
+  $result = mysqli_query($conn,$sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  $count = mysqli_num_rows($result);
 
-            case 'aktiveraEvent':
-                aktiveraEvent($conn);
-                break;
-            case 'redigeraEvent':
-                redigeraEvent($conn);
-                break;
-            case 'status':
-                status($conn);
-                break;
+  if($count == 1){
+    switch ($_POST['funktion']) {
 
-            default:
-                hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
-                break;
-        }
+      case 'aktiveraEvent':
+        aktiveraEvent($conn);
+        break;
+      case 'redigeraEvent':
+        redigeraEvent($conn);
+        break;
+      case 'status':
+        status($conn);
+        break;
 
+      default:
+        hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.',);
+        break;
+    }
+  }
+  else{
+    hantering('401','Behörighet saknas');
+  }
+}
+else{
+  hantering('401','Behörighet saknas, tom api');
+}
 
         function aktiveraEvent($conn){
             
