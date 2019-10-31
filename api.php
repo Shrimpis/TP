@@ -12,7 +12,6 @@ include("json/felhantering.php");
 
 
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
-    var_dump($_POST['nyckel']);
     
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
     $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
@@ -42,11 +41,13 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
         } else {            
             hantering('400','Tjanst måste vara definierad.');
         }
-    } else {        
+    } 
+    else {        
         hantering('401','Api-nyckeln är antingen fel eller finns inte. Kontakta administratör.');
     }
 
-} else {
+} 
+else {
     hantering('401','Api-nyckeln är inte definerad.');
 }
 
