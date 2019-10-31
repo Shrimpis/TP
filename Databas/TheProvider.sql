@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 30 okt 2019 kl 13:00
+-- Tid vid skapande: 30 okt 2019 kl 15:18
 -- Serverversion: 10.1.38-MariaDB
 -- PHP-version: 7.3.2
 
@@ -33,7 +33,7 @@ CREATE TABLE `anvandare` (
   `losenord` varchar(70) NOT NULL,
   `salt` varchar(30) NOT NULL,
   `anamn` varchar(25) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `aktiv` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
