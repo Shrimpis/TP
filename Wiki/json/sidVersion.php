@@ -1,8 +1,6 @@
 <?php
 
-$conn=new mysqli("localhost","root","","the_provider");
-$conn->set_charset("utf8");
-
+include("../../Databas/dbh.inc.php")
 include("../../json/felhantering.php");
 
 if($conn->connect_error){
