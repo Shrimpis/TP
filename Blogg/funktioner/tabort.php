@@ -36,6 +36,9 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
         } 
     }
 }
+else{
+    hantering('401','Behörighet saknas');
+}   
 function tabortBlogg($conn){
     //-include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId'])){

@@ -45,6 +45,9 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
                 hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
         }
     }
+}
+else{
+    hantering('401','Behörighet saknas');
 }    
  
 
