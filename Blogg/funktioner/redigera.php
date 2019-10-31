@@ -6,6 +6,17 @@ session_start();
 include("../../Databas/dbh.inc.php");
 include("../../json/felhantering.php");
 
+if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+    var_dump($_POST['nyckel']);
+    
+    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+    $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
+    
+    $result = mysqli_query($conn,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
+
+    if($count == 1){
         switch ($_POST['funktion']) {
             case 'redigeraBlogg':
                 redigeraBlogg($conn);
@@ -25,7 +36,11 @@ include("../../json/felhantering.php");
             default:
                 hantering('404','Din förfrågan måste vara utanför våra parametrar. Kolla dokumentationen.',);
         } 
-
+    }
+}
+else{
+    hantering('401','Behörighet saknas');
+}   
 function redigeraBlogg($conn){
     //- include("../../Databas/dbh.inc.php");
     if(isset($_POST['bloggId']) && isset($_POST['Titel'])){
