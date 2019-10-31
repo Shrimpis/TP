@@ -120,6 +120,16 @@ function redigeraKonto($conn){
             hantering("400","kunde ej exekvera lösenordsbyte");
         }
     }
+    if(isset($_POST['email'])){
+        $email = $_POST['email'];
+
+        if(mysqli_query($conn,"UPDATE anvandare SET email = '{$email}' WHERE id = $anvandarid ")){
+            hantering("202","email uppdaterat");
+        }
+        else{
+            hantering("400","kunde ej exekvera e-postbyte");
+        }
+    }
     }
 
     
