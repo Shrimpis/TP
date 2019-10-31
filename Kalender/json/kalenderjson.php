@@ -6,23 +6,23 @@
 
     //$conn=new mysqli("localhost","root","","the_provider");
    // $conn->set_charset("utf8");
-    
+
    /* if($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
     }*/
-    
+
     /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
-        
+
         $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
         $result = $conn->query($sql);
         $result = mysqli_fetch_assoc($result);
-                
+
         if($_SESSION["licens"] ==  $result["licens"]){
-            
+
         }else{
             echo "Felaktig/gammal licens. kontakta en adminstratör";
         }
-        
+
     }else{
         echo "Ingen licens. Kontakta adminstratör";
     }*/
@@ -35,7 +35,7 @@
         kalenders($_POST['anvandare'],$_POST['kalender'],$conn);
     }
     else{
-        hantering('400','inga post variabler är satta.',);
+        hantering('400','inga post variabler är satta.');
     }
 
     function kalender($anvandarId,$kalenderSidaId,$conn){
@@ -51,7 +51,7 @@
             while($namn=$anvandare->fetch_assoc()){
                 $anamn=$namn['anamn'];
             }
-            
+
             $tjanstArray=array('anamn'=>$anamn);
 
             $kalenderevent = $conn->query('select * from kalenderevent where kalenderId='.$kalenderSidaId);
@@ -66,7 +66,7 @@
         }
 
         if(!isset($eventIds)){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki',);
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
             return;
         }
 
@@ -93,16 +93,16 @@
 
 
 
-        
+
         if($tjanstArray==null){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki',);
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
             return;
         }
 
 
         $json=json_encode($tjanstArray);
         echo $json;
-        
+
     }
 
 
@@ -119,7 +119,7 @@
         while($row=$tjanst->fetch_assoc()){
             $tjanstId;//id på tjänsten
             $anamn;//användarnamn
-            while($row1=$kalender->fetch_assoc()){//hittar viken tjänst som sitter ihop med 
+            while($row1=$kalender->fetch_assoc()){//hittar viken tjänst som sitter ihop med
                 $tjanstId=$row1['tjanstId'];
             }
             while($row3=$anvandare->fetch_assoc()){//hämtar användarnamnet på den som har wikin.
@@ -129,8 +129,8 @@
             if($tjanstId==$row['id']){//om kalendern finns i tjänsten.
                 $tjanstArray=array('titel'=>$row['titel'],'privat'=>$row['privat'],'anvandarnamn'=>$anamn);// hämtar wikin från tjänsten.
                 //$kalenderSidor = $conn->query('select * from kalender where id='.$kalender);
-                
-                
+
+
                     $kalenderSida = $conn->query('select * from kalendersida where kalenderId='.$kalenderId);
                     $i=0;
                     while($row5=$kalenderSida->fetch_assoc()){
@@ -151,16 +151,16 @@
             }
 
         }
-        
+
         if($tjanstArray==null){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki',);
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
             return;
         }
 
 
         $json=json_encode($tjanstArray);
         echo $json;
-        
+
     }
 
 
