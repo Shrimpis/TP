@@ -1,4 +1,5 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -10,8 +11,50 @@ include("json/felhantering.php");
 
 // Början av API //
 
+function keyIsValid($conn){
+    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+    $sql = "SELECT * FROM api WHERE nyckel = '$apikey'";
+    
+    $result = mysqli_query($conn,$sql);
+    $row = $result->fetch_assoc();
+    $rattighetId=$row['rattighetId'];
+    
+    $sql = "SELECT * FROM kundrattigheter WHERE id = '$rattighetId'";
+    $result = mysqli_query($conn,$sql);
+    $row = $result->fetch_assoc();      
+    $tjanstId=$row['tjanst'];
+    
+
+    //blogg
+    $sql = "SELECT * FROM blogg WHERE tjanstId = '$tjanstId'";  
+    $result = mysqli_query($conn,$sql);
+    if($result->num_rows==1){
+        return 'blogg';
+    }
+
+    //wiki
+    $sql = "SELECT * FROM wiki WHERE tjanstId = '$tjanstId'";  
+    $result = mysqli_query($conn,$sql);
+    if($result->num_rows==1){
+        return 'wiki';
+    }
+    
+     //kalender
+     $sql = "SELECT * FROM wiki WHERE tjanstId = '$tjanstId'";  
+     $result = mysqli_query($conn,$sql);
+     if($result->num_rows==1){
+         return 'kalender';
+     }
+
+    return 'error';
+}
+
 
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+<<<<<<< HEAD
+=======
+    //var_dump($_POST['nyckel']);
+>>>>>>> json
     
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
     $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
@@ -21,18 +64,34 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     $count = mysqli_num_rows($result);
 
     if($count == 1){
+        
         if(!empty($_POST['tjanst'])){ // Kollar efter om tjänst är tom
 
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    bloggar();
+                    if(keyIsValid($conn)=='blogg'){//kollar om nyckeln är till för den tjansten.
+                        bloggar();
+                    }
+                    else{
+                        hantering('400','Denna nyckel kan inte användas till blogg.');
+                    }
                     break;
                 case 'wiki':
-                    wiki();
+                    if(keyIsValid($conn)=='wiki'){//kollar om nyckeln är till för den tjansten.
+                        wiki();
+                    }
+                    else{
+                        hantering('400','Denna nyckel kan inte användas till wiki.');
+                    }
                     break;
                 case 'kalender':
-                    kalender();
+                    if(keyIsValid($conn)=='kalender'){//kollar om nyckeln är till för den tjansten.
+                        kalender();
+                    }
+                    else{
+                        hantering('400','Denna nyckel kan inte användas till kalender.');
+                    }
                     break;
                 default:
                     hantering('404','Funktionen som anropades existerar inte. Vänligen kontrollera dokumentation.');

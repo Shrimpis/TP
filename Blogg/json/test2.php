@@ -23,13 +23,13 @@
 
                 xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    var json=JSON.parse(this.responseText);
-                    console.log(json);
+                    //var json=JSON.parse(this.responseText);
+                    console.log(this.responseText);
                 }
                 };
-                xhttp.open("POST", "bloggjson.php", true);
+                xhttp.open("post", "../../api.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("anvandare=1&blogg=1");
+                xhttp.send("nyckel=JIOAJWWNPA259FB2&tjanst=blogg&typ=JSON");//anvandare=1&blogg=1
             }
 
         

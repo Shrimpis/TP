@@ -1,46 +1,53 @@
 <?php
-    include("../../Databas/dbh.inc.php");
-
-    //$db=new mysqli("localhost","root","","TheProvider");
-    //$db->set_charset("utf8");
-
-    /*if($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-        echo $conn->connect_error;
-    }*/
-
-    /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
-
-        $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
-        $result = $conn->query($sql);
-        $result = mysqli_fetch_assoc($result);
-
-        if($_SESSION["licens"] ==  $result["licens"]){
-
-        }else{
-            echo "Felaktig/gammal licens. kontakta en adminstratör";
-        }
-
-    }else{
-        echo "Ingen licens. Kontakta adminstratör";
-    }*/
+    //include("../../Databas/dbh.inc.php");
+    //include("../../json/felhantering.php");
+    include("./Databas/dbh.inc.php");
+    //include("./json/felhantering.php");
 
 
-    if(isset($_POST['anvandare']) && isset($_POST['blogg']) && isset($_POST['inlagg']) ){
-        blogginlagg($_POST['anvandare'],$_POST['blogg'],$_POST['inlagg'],$conn);
+
+            if(isset($_POST['blogg']) && isset($_POST['inlagg'])){
+                blogginlagg(getAnvandare($conn),$_POST['blogg'],$_POST['inlagg'],$conn);
+            }
+            else if(isset($_POST['blogg'])){
+                blogg(getAnvandare($conn),$_POST['blogg'],$conn);
+            }
+            else{
+                visaBloggar(getAnvandare($conn),$conn);
+            }
+           /* else{
+                hantering('400','inga post variabler är satta.',);
+                
+            }*/
+
+
+   
+    function getAnvandare($conn){
+            
+            $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+            $sql = "SELECT * FROM api WHERE nyckel = '$apikey'";
+            
+            $result = mysqli_query($conn,$sql);
+            $row = $result->fetch_assoc();
+            $rattighetId=$row['rattighetId'];
+            
+            $sql = "SELECT * FROM kundrattigheter WHERE id = '$rattighetId'";
+            $result = mysqli_query($conn,$sql);
+            $row = $result->fetch_assoc();      
+            $tjanstId=$row['tjanst'];
+            
+
+            $sql = "SELECT * FROM tjanst WHERE id = '$tjanstId'";  
+            $result = mysqli_query($conn,$sql);
+            
+            $row = $result->fetch_assoc(); 
+
+            $anvandarId=$row['anvandarId'];
+
+            return $anvandarId;
+        
+            
     }
-    else if(isset($_POST['anvandare']) && isset($_POST['blogg'])){
-        blogg($_POST['anvandare'],$_POST['blogg'],$conn);
-
-
-    }
-    else if(isset($_POST['anvandare'])){
-        visaBloggar($_POST['anvandare'],$conn);
-    }
-    else{
-        visaAnvandare($conn);
-    }
-
 
     function blogginlagg($anvandarId,$bloggId,$inlaggId,$conn){
         $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
