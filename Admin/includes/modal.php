@@ -8,7 +8,7 @@ if ($modal_result->num_rows > 0) {
     while($modal_row = $modal_result->fetch_assoc()) {
         echo 
             "
-            <!-- Delte Modal-->
+            <!-- Delete Modal-->
             <div class='modal fade' id='deleteModal". $modal_row["id"] ."' tabindex='-1' role='dialog' aria-labelledby='DeleteLabel' aria-hidden='true'>
             <div class='modal-dialog' role='document'>
                 <div class='modal-content'>
