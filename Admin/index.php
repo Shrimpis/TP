@@ -263,6 +263,8 @@ if(!isset($_SESSION['login_user'])){
     </div>
   </div>
 
+  <?php include 'includes/modal.php'; ?>
+
   <!-- Bootstrap core JavaScript-->
   <script href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
