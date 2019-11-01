@@ -7,6 +7,11 @@ $valjblogg = "SELECT blogg.id, blogg.tjanstId, tjanst.titel, tjanst.privat FROM 
 $result2 = $conn->query($valjblogg);
 if ($result2->num_rows > 0) {
     while($row2 = $result2->fetch_assoc()) {
+        /*
+        $antal_flaggningar = "SELECT * FROM flaggadblogg WHERE bloggId = $row2["id"]";
+        $result_flaggningar = $conn->query($antal_flaggningar);
+        $row_flaggningar = mysql_fetch_array($result_flaggningar);*/
+
         echo 
             "
             <div id='accordionBlogg". $row2["id"] ."'>
