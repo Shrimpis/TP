@@ -40,7 +40,7 @@ function keyIsValid($conn){
     }
     
      //kalender
-     $sql = "SELECT * FROM wiki WHERE tjanstId = '$tjanstId'";  
+     $sql = "SELECT * FROM kalender WHERE tjanstId = '$tjanstId'";  
      $result = mysqli_query($conn,$sql);
      if($result->num_rows==1){
          return 'kalender';

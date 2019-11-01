@@ -1,44 +1,22 @@
 <?php
-    include("../../json/felhantering.php");
-    include("../../Databas/dbh.inc.php");
+    //include("../../json/felhantering.php");
+    include("././Databas/dbh.inc.php");
+    include("././api_anvandare.php");
 
 
 
-    //$conn=new mysqli("localhost","root","","the_provider");
-   // $conn->set_charset("utf8");
 
-   /* if($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }*/
-
-    /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
-
-        $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
-        $result = $conn->query($sql);
-        $result = mysqli_fetch_assoc($result);
-
-        if($_SESSION["licens"] ==  $result["licens"]){
-
-        }else{
-            echo "Felaktig/gammal licens. kontakta en adminstratör";
-        }
-
-    }else{
-        echo "Ingen licens. Kontakta adminstratör";
-    }*/
-
-
-    if(isset($_POST['anvandare']) && isset($_POST['kalenderSida'])){
-        kalender($_POST['anvandare'],$_POST['kalenderSida'],$conn);
+    if(isset($_POST['kalenderSida'])){
+        kalenderJson(getAnvandare($conn),$_POST['kalenderSida'],$conn);
     }
-    else if(isset($_POST['anvandare']) && isset($_POST['kalender'])){
-        kalenders($_POST['anvandare'],$_POST['kalender'],$conn);
+    else if(isset($_POST['kalender'])){
+        kalenders(getAnvandare($conn),$_POST['kalender'],$conn);
     }
     else{
         hantering('400','inga post variabler är satta.');
     }
 
-    function kalender($anvandarId,$kalenderSidaId,$conn){
+    function kalenderJson($anvandarId,$kalenderSidaId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
         $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
         //$kalender = $conn->query('select * from kalender where id='.$kalenderId);
