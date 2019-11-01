@@ -25,8 +25,6 @@ function keyIsValid($conn){
     $tjanstId=$row['tjanst'];
     
 
-
-
     //blogg
     $sql = "SELECT * FROM blogg WHERE tjanstId = '$tjanstId'";  
     $result = mysqli_query($conn,$sql);
@@ -47,8 +45,6 @@ function keyIsValid($conn){
      if($result->num_rows==1){
          return 'kalender';
      }
-
-
 
     return 'error';
 }
@@ -71,7 +67,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    if(keyIsValid($conn)=='blogg'){
+                    if(keyIsValid($conn)=='blogg'){//kollar om nyckeln är till för den tjansten.
                         bloggar();
                     }
                     else{
@@ -79,7 +75,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
                     }
                     break;
                 case 'wiki':
-                    if(keyIsValid($conn)=='wiki'){
+                    if(keyIsValid($conn)=='wiki'){//kollar om nyckeln är till för den tjansten.
                         wiki();
                     }
                     else{
@@ -87,7 +83,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
                     }
                     break;
                 case 'kalender':
-                    if(keyIsValid($conn)=='kalender'){
+                    if(keyIsValid($conn)=='kalender'){//kollar om nyckeln är till för den tjansten.
                         kalender();
                     }
                     else{
