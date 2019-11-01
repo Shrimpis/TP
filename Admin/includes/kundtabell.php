@@ -3,8 +3,8 @@
     // The Provider customers databasanslutning //
 
     $dbServername2 = 'localhost';
-    $dbUsername2 = 'TheProvider';
-    $dbPassword2 = 'lösenord';
+    $dbUsername2 = 'root';
+    $dbPassword2 = '';
     $dbName2 = 'customers';
 
     $conn2 = mysqli_connect($dbServername2, $dbUsername2, $dbPassword2, $dbName2, "3306");
@@ -208,14 +208,15 @@
                     "
                     <p>Konto Inställningar:</p>
                     <div class='row'>
-
-                    <form action='funktioner/tabort.php' method='POST'>
+                    <form id='deleteform".$row["id"]."' action='funktioner/tabort.php' method='POST'>
                         <input type='hidden' name='funktion' value='harddelkonto'/>
                         <input type='hidden' name='anamn' value='Superadmin-".$row["namn"]."".$row["id"]."'/>
-                        <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
-                        <input name='id' type='hidden' value='". $row["id"] ."'>
-                        <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
-                    </form>";
+                        <input type='hidden' name='kontoID' value='". $row["kontoID"] ."'>
+                        <input type='hidden' name='id'  value='". $row["id"] ."'>
+                    </form>
+
+                    <button type='submit' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#deleteModal".$row["id"]."'>Avsluta konto</button>
+                    ";
 
                     $aktiv = mysqli_query($conn, "SELECT anvandare.aktiv FROM anvandare WHERE anvandare.id=". $row["kontoID"] ." AND anvandare.aktiv=1");
 
