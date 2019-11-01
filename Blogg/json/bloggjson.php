@@ -6,26 +6,48 @@
 
 
 
-            if(isset($_POST['anvandare']) && isset($_POST['blogg']) && isset($_POST['inlagg']) ){
-                blogginlagg($_POST['anvandare'],$_POST['blogg'],$_POST['inlagg'],$conn);
+            if(isset($_POST['blogg']) && isset($_POST['inlagg'])){
+                blogginlagg(getAnvandare($conn),$_POST['blogg'],$_POST['inlagg'],$conn);
             }
-            else if(isset($_POST['anvandare']) && isset($_POST['blogg'])){
-                blogg($_POST['anvandare'],$_POST['blogg'],$conn);
-        
-        
-            }
-            else if(isset($_POST['anvandare'])){
-                visaBloggar($_POST['anvandare'],$conn);
+            else if(isset($_POST['blogg'])){
+                blogg(getAnvandare($conn),$_POST['blogg'],$conn);
             }
             else{
+                visaBloggar(getAnvandare($conn),$conn);
+            }
+           /* else{
                 hantering('400','inga post variabler är satta.',);
                 
-            }
-
+            }*/
 
 
    
+    function getAnvandare($conn){
+            
+            $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+            $sql = "SELECT * FROM api WHERE nyckel = '$apikey'";
+            
+            $result = mysqli_query($conn,$sql);
+            $row = $result->fetch_assoc();
+            $rattighetId=$row['rattighetId'];
+            
+            $sql = "SELECT * FROM kundrattigheter WHERE id = '$rattighetId'";
+            $result = mysqli_query($conn,$sql);
+            $row = $result->fetch_assoc();      
+            $tjanstId=$row['tjanst'];
+            
 
+            $sql = "SELECT * FROM tjanst WHERE id = '$tjanstId'";  
+            $result = mysqli_query($conn,$sql);
+            
+            $row = $result->fetch_assoc(); 
+
+            $anvandarId=$row['anvandarId'];
+
+            return $anvandarId;
+        
+            
+    }
 
     function blogginlagg($anvandarId,$bloggId,$inlaggId,$conn){
         $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
