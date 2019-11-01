@@ -51,10 +51,6 @@ function keyIsValid($conn){
 
 
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
-<<<<<<< HEAD
-=======
-    //var_dump($_POST['nyckel']);
->>>>>>> json
     
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
     $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
