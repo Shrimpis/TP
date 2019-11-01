@@ -7,6 +7,9 @@
     if(isset($_POST['wiki'])){
         wikiJson(getAnvandare($conn),$_POST['wiki'],$conn);
     }
+    else if(isset($_POST['sidId'])){
+        sidVersion(getAnvandare($conn),$_POST['sidId'],$conn);
+    }
     else{
         wikis(getAnvandare($conn),$conn);
     }
@@ -111,6 +114,51 @@
         $json=json_encode($tjanstArray);
         echo $json;
 
+    }
+
+    function sidVersion($anvandarId,$sidId,$conn){
+        $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
+
+        //kollar om användaren äger sidan
+        $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
+        $row = $wikisidor->fetch_assoc();
+        $wikiId=$row['wikiId'];
+
+        $wiki= $conn->query('select * from wiki where id='.$wikiId);
+        $row = $wiki->fetch_assoc();
+        $tjanstId=$row['tjanstId'];
+
+        $tjanst= $conn->query('select * from tjanst where id='.$tjanstId);
+        $row = $tjanst->fetch_assoc();
+        $anvandarId2=$row['anvandarId'];
+
+        if($anvandarId!=$anvandarId2){
+            hantering('400','något gick fel');
+        }
+
+
+
+    
+        $sidVersioner;
+        $i=0;
+    
+        while($row = $sidversion->fetch_assoc()){
+
+            
+
+            $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
+            $i++;
+        }
+    
+        $json= json_encode($sidVersioner);
+    
+        echo $json;
+    
+        if(!isset($sidVersioner)){
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
+            return;
+        }
+    
     }
 
 
