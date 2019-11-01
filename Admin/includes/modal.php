@@ -20,8 +20,8 @@ if ($modal_result->num_rows > 0) {
                     </div>
                     <div class='modal-body'>Välj 'Ja' nedan om du är redo att avsluta kundens konto.</div>
                     <div class='modal-footer'>
-                    <button class='btn btn-secondary' type='button' data-dismiss='modal'>Avbryt</button>
                     <button type='submit' form='deleteform". $modal_row["id"] ."' class='btn btn-danger'>Ja</button>     
+                    <button class='btn btn-secondary' type='button' data-dismiss='modal'>Avbryt</button>
                     </div>
                 </div>
             </div>
