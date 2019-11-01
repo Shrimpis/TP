@@ -99,11 +99,8 @@ function skapaKonto($conn){
 
     //-include("../../Databas/dbh.inc.php");
     $uname_tagen=false;
-    if(isset($_POST['anamn'])&&isset($_POST['rollid'])&&isset($_POST['id'])){
-        $username = $_POST['anamn'];
-        $rollid = $_POST['rollid'];
-        $id = $_POST['id'];
-    }
+    $id = $_POST['id'];
+    $username = slumplosen(8);
     $password = slumplosen(10);
     
         if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
@@ -136,18 +133,20 @@ function skapaKonto($conn){
     if($uname_tagen==false){
 
         $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
-
         $conn->query($sql);
-        $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
+
+        echo "SELECT id FROM anvandare WHERE anamn ='$username'";
+        $result = $conn->query("SELECT id FROM anvandare WHERE anamn ='$username'");
+        echo var_dump($result);
         if(mysqli_num_rows($result) > 0){
             while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
-                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,$rollid,$tjanst)");
+                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,'1', '0')");
                 
                 $conn->query($sql2);
 
                 
-                $anvandare = "SELECT anvandare.id FROM anvandare WHERE anvandare.anamn ='{$username}'";
+                $anvandare = "SELECT id, anamn FROM anvandare WHERE anamn ='$username'";
                 $result2 = $conn->query($anvandare);
 
                 while($row2 = $result2->fetch_assoc()) {
@@ -179,9 +178,9 @@ function skapaKonto($conn){
                 if(!mkdir($wiki, 0777, true)){
                     chown($wiki, $owner);
                     header('location: ../index.php?funktion=skapaKonto?status=failed?reason=wiki_folder+exists');
-                }
-                */
-                header('location: ../index.php?funktion=skapaKonto?status=success');
+                }*/
+                
+                header('location: ../index.php?funktion=skapaKonto?status=success&id='.$rattighetId.'&username='.$username.'&password='.$password.'');
             }
         }
         
