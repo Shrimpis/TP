@@ -98,14 +98,9 @@
                         <input type='hidden' name='funktion' value='skapaKonto'/>
                         <input type='hidden' name='rollid' value='1'/>
                         <input type='hidden' name='id' value='". $row["id"] ."'/>
-                            <div class='input-group mb-3'>
-                            <div class='input-group-prepend'>
-                                <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
-                            </div>
-                            <input type='text' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' value='Superadmin-".$row["namn"]."".$row["id"]."' aria-describedby='basic-addon1' required autofocus>
-                            </div>
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Skapa konto</button>
                         </form>
+                        <br>
                         ";
 
                     } else {
