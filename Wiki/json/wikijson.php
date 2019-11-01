@@ -1,44 +1,17 @@
 <?php
 
-    include("../../json/felhantering.php");
-    include("../../Databas/dbh.inc.php");
-
-    //$conn=new mysqli("localhost","root","","the_provider");
-   // $conn->set_charset("utf8");
-
-   /* if($conn->connect_error){
-        die("Connection failed: " . $conn->connect_error);
-    }*/
-
-    /*if(isset($_SESSION["licens"]) && isset($_UID["anvandare"])){
-
-        $sql = "SELECT *FROM LICENS WHERE ID =".$_UID["anvandare"];
-        $result = $conn->query($sql);
-        $result = mysqli_fetch_assoc($result);
-
-        if($_SESSION["licens"] ==  $result["licens"]){
-
-        }else{
-            echo "Felaktig/gammal licens. kontakta en adminstratör";
-        }
-
-    }else{
-        echo "Ingen licens. Kontakta adminstratör";
-    }*/
+    include("././Databas/dbh.inc.php");
+    include("././api_anvandare.php");
 
 
-
-    if(isset($_POST['anvandare']) && isset($_POST['wiki'])){
-        wiki($_POST['anvandare'],$_POST['wiki'],$conn);
-    }
-    else if(isset($_POST['anvandare'])){
-        wikis($_POST['anvandare'],$conn);
+    if(isset($_POST['wiki'])){
+        wikiJson(getAnvandare($conn),$_POST['wiki'],$conn);
     }
     else{
-        hantering('400','inga post variabler är satta.');
+        wikis(getAnvandare($conn),$conn);
     }
 
-    function wiki($anvandarId,$wikiId,$conn){
+    function wikiJson($anvandarId,$wikiId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
         $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
         $wiki = $conn->query('select * from wiki where id='.$wikiId);
