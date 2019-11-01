@@ -164,7 +164,7 @@ function skapaKonto($conn){
                 $conn->query($skapaAPI);
 
                 // Skapar mappar för bilder //
-                /*
+                
                 $owner = 'theprovider';
 
                 $blogg = '/var/www/html/TP/Bilder/Blogg/'.$username.'';
@@ -178,7 +178,7 @@ function skapaKonto($conn){
                 if(!mkdir($wiki, 0777, true)){
                     chown($wiki, $owner);
                     header('location: ../index.php?funktion=skapaKonto?status=failed?reason=wiki_folder+exists');
-                }*/
+                }
                 
                 header('location: ../index.php?funktion=skapaKonto?status=success&id='.$rattighetId.'&username='.$username.'&password='.$password.'');
             }
