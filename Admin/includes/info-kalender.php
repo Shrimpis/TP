@@ -56,7 +56,7 @@ if ($kalenderresult->num_rows > 0) {
                                         <div style='margin-right:5px;'>
                                             <form action='../Kalender/funktioner/visaKalender.php' method='GET'>
                                                 <input name='anvandarId' type='hidden' value='". $row["kontoID"] ."'>
-                                                <input name='kalenderId' type='hidden' value='". $row2["id"] ."'>
+                                                <input name='kalenderId' type='hidden' value='". $kalenderrow["id"] ."'>
                                                 <button type='submit' class='btn btn-info btn-sm'>Visa Kalender</button>
                                             </form>
                                         </div>
