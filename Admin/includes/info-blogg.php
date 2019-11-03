@@ -7,10 +7,6 @@ $valjblogg = "SELECT blogg.id, blogg.tjanstId, tjanst.titel, tjanst.privat FROM 
 $result2 = $conn->query($valjblogg);
 if ($result2->num_rows > 0) {
     while($row2 = $result2->fetch_assoc()) {
-        /*
-        $antal_flaggningar = "SELECT * FROM flaggadblogg WHERE bloggId = $row2["id"]";
-        $result_flaggningar = $conn->query($antal_flaggningar);
-        $row_flaggningar = mysql_fetch_array($result_flaggningar);*/
 
         echo 
             "
@@ -31,7 +27,26 @@ if ($result2->num_rows > 0) {
                                 <div class='nav nav-tabs' id='nav-tab' role='tablist'>
                                 <a class='nav-item nav-link active' id='nav-information-tab' data-toggle='tab' href='#nav-information". $row2["id"] ."' role='tab' aria-controls='nav-information' aria-selected='true'>Information</a>
                                 <a class='nav-item nav-link' id='nav-installnigar-tab' data-toggle='tab' href='#nav-installnigar". $row2["id"] ."' role='tab' aria-controls='nav-installnigar' aria-selected='false'>Inställningar</a>
-                                <a class='nav-item nav-link' id='nav-flagg-tab' data-toggle='tab' href='#nav-flagg". $row2["id"] ."' role='tab' aria-controls='nav-flagg' aria-selected='false'>Flaggningar (<font color='red'>FIXA</font>)</a>
+                                <a class='nav-item nav-link' id='nav-flagg-tab' data-toggle='tab' href='#nav-flagg". $row2["id"] ."' role='tab' aria-controls='nav-flagg' aria-selected='false'>Flaggningar ("; 
+
+                                $antal_flaggningar = "SELECT * FROM `flaggadblogg` WHERE bloggId=". $row2["id"] ."";
+                                
+                                if($result_flaggningar=mysqli_query($conn,$antal_flaggningar)){
+                                    $flaggningar = mysqli_num_rows($result_flaggningar);
+
+                                    if($flaggningar > 0){
+                                        echo "<font color='red'>";
+                                        printf($flaggningar);
+                                    } else {
+                                        echo "<font color='green'>";
+                                        printf($flaggningar);
+                                    }
+                                    
+                                } else {
+                                    echo "Kunde inte hämta data från databasen.";
+                                }
+                                
+                                echo "</font>)</a>
                                 </div>
                             </nav>
                             <div class='tab-content' id='nav-tabContent'>
@@ -93,9 +108,53 @@ if ($result2->num_rows > 0) {
 
                                 <div class='tab-pane fade' id='nav-flagg". $row2["id"] ."' role='tabpanel' aria-labelledby='nav-flagg-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
-                                        <p>Antal flaggningar: <strong><font color='red'>FIXA</font></strong></p>
-                                        <br>
-                                        <br>
+                                            <p>Bloggen är flaggad av:</p>
+
+                                            <table class='table'>
+                                                <thead>
+                                                    <tr>
+                                                    <th scope='col'>#</th>
+                                                    <th scope='col'>Användarnamn</th>
+                                                    <th scope='col'>E-post</th>
+                                                    <th scope='col'>Roll</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>";
+
+                                                $flaggadblogg_anvandare = "SELECT * FROM flaggadblogg 
+                                                INNER JOIN anvandare ON anvandare.id=flaggadblogg.anvandarId
+                                                INNER JOIN anvandarroll ON flaggadblogg.anvandarId=anvandarroll.anvandarId
+                                                INNER JOIN roll ON anvandarroll.rollId = roll.id WHERE flaggadblogg.bloggId = ". $row2["id"] ."
+                                                ";
+                                                $result_flaggadblogg_anvandare = $conn->query($flaggadblogg_anvandare);
+                                                if ($result_flaggadblogg_anvandare->num_rows > 0) {
+  
+                                                    while($row_flaggadblogg_anvandare = $result_flaggadblogg_anvandare->fetch_assoc()) {
+                                                        echo 
+                                                        "
+                                                        <tr>
+                                                            <th scope='row'>". $row_flaggadblogg_anvandare["id"] ."</th>
+                                                            <td>". $row_flaggadblogg_anvandare["anamn"] ."</td>
+                                                            <td>". $row_flaggadblogg_anvandare["email"] ."</td>
+                                                            <td>". $row_flaggadblogg_anvandare["rollNamn"] ."</td>
+                                                        </tr>
+                                                        ";
+                                                    }
+                                                echo "
+                                                </tbody>
+                                                </table>
+                                                ";
+                                                } else { 
+                                                    echo 
+                                                    "
+                                                    </table>
+                                                    <div class='alert alert-info alert-dismissible fade show center-block text-center' role='alert'>
+                                                        <strong>Info:</strong> Inga användare har flaggat bloggen.
+                                                    </div>
+                                                    ";
+                                                }
+
+                                                    echo "
                                     </div>
                                 </div>
                             </div>
