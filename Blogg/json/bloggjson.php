@@ -1,9 +1,6 @@
 <?php
-    //include("../../Databas/dbh.inc.php");
-    //include("../../json/felhantering.php");
     include("./Databas/dbh.inc.php");
     include("././api_anvandare.php");
-
 
 
             if(isset($_POST['blogg']) && isset($_POST['inlagg'])){
@@ -15,13 +12,7 @@
             else{
                 visaBloggar(getAnvandare($conn),$conn);
             }
-           /* else{
-                hantering('400','inga post variabler är satta.',);
-                
-            }*/
 
-
-   
     
 
     function blogginlagg($anvandarId,$bloggId,$inlaggId,$conn){
@@ -31,10 +22,7 @@
 
 
 
-
-
         $kommentarArray;//alla kommentarer.
-
 
         $blogginlaggArray;//innehåller alla blogginlagg.
         //kollar på alla bloginlagg.
@@ -79,10 +67,7 @@
                 }
 
 
-
                 $blogginlaggArray['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
-
-
 
 
                 //lagger in gillningar.
@@ -96,67 +81,13 @@
                 $blogginlaggArray['gillningar']=$gillningarArray;//lagger in en array med alla gillningar i blogginlagget.
 
 
-
-
-
                 $i++;
 
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         $ii=0;
         $Bloggarray;//innehåller allt i bloggen.
-       /* while($row=$blogg->fetch_assoc()){
-            //$Bloggarray=array('titel'=>$row["titel"]);
-            $Bloggarray=array('flaggad'=>$row["flaggad"]);
-
-            $tjanstId=$row['tjanstId'];
-
-            $tjanst = $conn->query('select * from tjanst where id='.$tjanstId);
-            while($row=$tjanst->fetch_assoc()){
-                $Bloggarray['titel']=$row['titel'];
-                $Bloggarray['privat']=$row['privat'];
-            }
-            $ii++;
-        }*/
-
-
-
-
-
-
-       /* $fnamn;
-        $enamn;
-        $i=0;
-        while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
-            $fnamn=$row["fnamn"];
-            $enamn=$row["enamn"];
-            $i++;
-        }
-
-        $Bloggarray['fnamn']=$fnamn;//förnamn
-        $Bloggarray['enamn']=$enamn;//efternamn
-*/
-
-
-
-
-
-
-
 
         if(isset($blogginlaggArray)){
             $Bloggarray['bloggInlagg']=$blogginlaggArray;
@@ -164,11 +95,6 @@
             $json=json_encode($blogginlaggArray);
             echo $json;
         }
-
-
-
-
-
         else{
             $Bloggarray['bloggInlagg']=array();
             $json=json_encode($blogginlaggArray);
@@ -176,9 +102,6 @@
         }
 
     }
-
-
-
 
 
 
@@ -219,13 +142,6 @@
             }
 
 
-            /*$bloggId= $row['id'];
-            $bloggInlaggCount = $conn->query('SELECT * FROM blogginlagg where bloggId='.$bloggId);
-            $count=0;
-            while($row = $bloggInlaggCount->fetch_assoc()) {
-                $count++;
-            }
-            $bloggar['bloggar'][$i]['inlaggMangd']=$count;*/
            $i++;
         }
 
@@ -237,7 +153,6 @@
             $json=json_encode($tjänstArray);
             echo $json;
         }
-
 
     }
 
@@ -285,9 +200,6 @@
         $blogginlagg = $conn->query('select * from blogginlagg where bloggId='.$bloggId);
 
 
-
-
-
         $kommentarArray=array();//alla kommentarer.
 
 
@@ -298,69 +210,9 @@
             $id=$row["id"];//id på det inlagget som vi ar på.
             $blogginlaggArray[$i]=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
 
-
-
-
-            /*
-            //lagger in kommentarer.
-            $tempKommentar=$conn->query('select * from kommentar inner join anvandare on kommentar.UID=anvandare.UID where IID='.$IID); //hamtar alla kommentarer i ett bloginlagg
-            //echo var_dump($tempKommentar);
-            $kommentarArray=array();
-            $index=0;
-            while($row = $tempKommentar->fetch_assoc()) {
-                $kommentarArray[$index]=array('KID'=>$row['KID'],'anvandareID'=>$row['UID'],'namn'=>$row['fnamn'].' '.$row['enamn'],'text'=>$row['text'],'hierarchyID'=>$row['hierarchyID']);
-
-                $index++;
-            }
-
-            $index=0;
-            $kommentarArrayFull=array();
-            for($ii=0;$ii<count($kommentarArray);$ii++){
-                if($kommentarArray[$ii]['hierarchyID']==0){
-                    $tempKommentarer=$kommentarArray;
-
-                    //lägger kommetarer i kommentarer.
-                    $kommentarArrayFull[$index]=$tempKommentarer[$ii];
-                    $kommentarArrayFull[$index]['kommentarer']=hämtaKommentarer($tempKommentarer[$ii]['KID'],$tempKommentarer);
-                    $index++;
-                }
-            }
-
-
-
-            $blogginlaggArray[$i]['kommentarer']=$kommentarArrayFull;//lagger in en array med alla kommentarer i blogginlagget.
-
-
-
-
-            //lagger in gillningar.
-            $gillningar = $conn->query('select * from gillningar where IID='.$IID);
-            $gillningarArray=array();
-            $index=0;
-            while($row = $gillningar->fetch_assoc()) {
-                $gillningarArray[$index]=array('anvandare'=>$row['UID']);//alla gillningar i ett blogginlagg.
-                $index++;
-            }
-            $blogginlaggArray[$i]['gillningar']=$gillningarArray;//lagger in en array med alla gillningar i blogginlagget.
-
-
-
-*/
-
             $i++;
 
-
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -389,12 +241,6 @@
         }
 
 
-
-
-
-
-        $fnamn;
-        $enamn;
         $i=0;
         while($row = $anvandare->fetch_assoc()) {//lägger in för och efternamn i 2 variabler
             $anamn=$row["anamn"];
@@ -402,8 +248,6 @@
         }
 
         $Bloggarray['anamn']=$anamn;//användarnamn
-
-
 
 
         $bloggFlaggningar = $conn->query('select * from flaggadblogg where bloggId='.$bloggId);
@@ -423,9 +267,6 @@
         }
 
 
-
-
-
         else{
             $Bloggarray['bloggInlagg']=array();
             $json=json_encode($Bloggarray);
@@ -433,18 +274,6 @@
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>
