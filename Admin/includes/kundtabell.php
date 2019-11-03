@@ -98,14 +98,9 @@
                         <input type='hidden' name='funktion' value='skapaKonto'/>
                         <input type='hidden' name='rollid' value='1'/>
                         <input type='hidden' name='id' value='". $row["id"] ."'/>
-                            <div class='input-group mb-3'>
-                            <div class='input-group-prepend'>
-                                <span class='input-group-text' id='basic-addon1'><i class='fas fa-user'></i></span>
-                            </div>
-                            <input type='text' class='form-control' placeholder='Användarnamn' aria-label='Användarnamn' name='anamn' value='Superadmin-".$row["namn"]."".$row["id"]."' aria-describedby='basic-addon1' required autofocus>
-                            </div>
                         <button type='submit' class='btn btn-primary btn-sm' style='margin-top:4px;margin-bottom:10px;'>Skapa konto</button>
                         </form>
+                        <br>
                         ";
 
                     } else {
@@ -208,14 +203,15 @@
                     "
                     <p>Konto Inställningar:</p>
                     <div class='row'>
-
-                    <form action='funktioner/tabort.php' method='POST'>
+                    <form id='deleteform".$row["id"]."' action='funktioner/tabort.php' method='POST'>
                         <input type='hidden' name='funktion' value='harddelkonto'/>
                         <input type='hidden' name='anamn' value='Superadmin-".$row["namn"]."".$row["id"]."'/>
-                        <input name='kontoID' type='hidden' value='". $row["kontoID"] ."'>
-                        <input name='id' type='hidden' value='". $row["id"] ."'>
-                        <button type='submit' class='btn btn-danger btn-sm'>Avsluta konto</button>
-                    </form>";
+                        <input type='hidden' name='kontoID' value='". $row["kontoID"] ."'>
+                        <input type='hidden' name='id'  value='". $row["id"] ."'>
+                    </form>
+
+                    <button type='submit' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#deleteModal".$row["id"]."'>Avsluta konto</button>
+                    ";
 
                     $aktiv = mysqli_query($conn, "SELECT anvandare.aktiv FROM anvandare WHERE anvandare.id=". $row["kontoID"] ." AND anvandare.aktiv=1");
 

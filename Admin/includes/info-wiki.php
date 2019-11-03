@@ -56,7 +56,7 @@ if ($wikiresult->num_rows > 0) {
                                         <div style='margin-right:5px;'>
                                             <form action='../Wiki/funktioner/visaWiki.php' method='GET'>
                                                 <input name='anvandarId' type='hidden' value='". $row["kontoID"] ."'>
-                                                <input name='wikiId' type='hidden' value='". $row2["id"] ."'>
+                                                <input name='wikiId' type='hidden' value='". $wikirow["id"] ."'>
                                                 <button type='submit' class='btn btn-info btn-sm'>Visa Wiki</button>
                                             </form>
                                         </div>
