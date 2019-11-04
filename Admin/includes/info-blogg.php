@@ -1,8 +1,9 @@
 <?php 
 
 $conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
+//mysqli_set_charset($conn. "utf8mb4");
 
-$valjblogg = "SELECT blogg.id, blogg.tjanstId, blogg.flaggad, tjanst.titel, tjanst.privat FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id WHERE tjanst.anvandarId =". $row["kontoID"] ."";
+$valjblogg = "SELECT blogg.id, blogg.tjanstId, tjanst.titel, tjanst.privat FROM blogg INNER JOIN tjanst ON blogg.tjanstId = tjanst.id WHERE tjanst.anvandarId =". $row["kontoID"] ."";
 $result2 = $conn->query($valjblogg);
 if ($result2->num_rows > 0) {
     while($row2 = $result2->fetch_assoc()) {
@@ -25,7 +26,7 @@ if ($result2->num_rows > 0) {
                                 <div class='nav nav-tabs' id='nav-tab' role='tablist'>
                                 <a class='nav-item nav-link active' id='nav-information-tab' data-toggle='tab' href='#nav-information". $row2["id"] ."' role='tab' aria-controls='nav-information' aria-selected='true'>Information</a>
                                 <a class='nav-item nav-link' id='nav-installnigar-tab' data-toggle='tab' href='#nav-installnigar". $row2["id"] ."' role='tab' aria-controls='nav-installnigar' aria-selected='false'>Inställningar</a>
-                                <a class='nav-item nav-link' id='nav-flagg-tab' data-toggle='tab' href='#nav-flagg". $row2["id"] ."' role='tab' aria-controls='nav-flagg' aria-selected='false'>Flaggningar (<font color='red'>". $row2["flaggad"] ."</font>)</a>
+                                <a class='nav-item nav-link' id='nav-flagg-tab' data-toggle='tab' href='#nav-flagg". $row2["id"] ."' role='tab' aria-controls='nav-flagg' aria-selected='false'>Flaggningar (<font color='red'>". $row2["flaggad"] ."3</font>)</a>
                                 </div>
                             </nav>
                             <div class='tab-content' id='nav-tabContent'>
@@ -87,7 +88,7 @@ if ($result2->num_rows > 0) {
 
                                 <div class='tab-pane fade' id='nav-flagg". $row2["id"] ."' role='tabpanel' aria-labelledby='nav-flagg-tab'>
                                     <div class='row' style='padding: 10px 10px 10px 10px;'>
-                                        <p>Antal flaggningar: <strong><font color='red'>". $row2["flaggad"] ."</font></strong></p>
+                                        <p>Antal flaggningar: <strong><font color='red'>". $row2["flaggad"] ."3</font></strong></p>
                                         <br>
                                         <br>
                                     </div>
