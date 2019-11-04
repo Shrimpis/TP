@@ -25,12 +25,11 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var json=JSON.parse(this.responseText);
                     console.log(json);
-                    console.log(json.titel);
                 }
                 };
-                xhttp.open("POST", "wikijson.php", true);
+                xhttp.open("post", "../../api.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("anvandare=1&wiki=3");
+                xhttp.send("nyckel=JIOAJWWNPA259FB1&tjanst=wiki&typ=JSON");//anvandare=1&blogg=1
             }
 
         

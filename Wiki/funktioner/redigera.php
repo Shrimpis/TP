@@ -4,16 +4,29 @@
 
 session_start();
 
-include('../../Databas/dbh.inc.php'); 
-include("../../json/felhantering.php");  
+include('./Databas/dbh.inc.php'); 
+//include("./json/felhantering.php");  
+include("./api_anvandare.php");
+
+if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+   
+    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+    $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
+    
+    $result = mysqli_query($conn,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
+
+    if($count == 1){
+
 
         switch ($_POST['funktion']) {
 
             case 'doljWiki':
-                doljWiki($conn);
+                doljWiki(getAnvandare($conn),$conn);
                 break;
             case 'doljWikiSida':
-                doljWikiSida($conn);
+                doljWikiSida(getAnvandare($conn),$conn);
                 break;
             case 'godkannUppdatering':
                 godkannUppdatering($conn);
@@ -22,48 +35,69 @@ include("../../json/felhantering.php");
                 nekaUppdatering($conn);
                 break;
             case 'lasaWikiSida':
-                lasaWikiSida($conn);
+                lasaWikiSida(getAnvandare($conn),$conn);
                 break;
             case 'privatiseraWiki':
-                privatiseraWiki($conn);
+                privatiseraWiki(getAnvandare($conn),$conn);
                 break;
             default:
                 hantering('400','ERROR: Något fel med URL-parametrarna för din begäran. Kontrollera dokumentationen.');
                 break;
                 
         }
+    }
+    else {        
+        hantering('401','Api-nyckeln är antingen fel eller finns inte. Kontakta administratör.');
+    }
+}
+else {
+    hantering('401','Api-nyckeln är inte definerad.');
+}
 
-
-function doljWiki($conn){
+function doljWiki($anvandarId, $conn){
     //-include('dbh.inc.php');
     $wikiId = $_POST['wikiId'];
 
 
         $redan_dolt = $conn->query("SELECT * FROM wiki WHERE id ='{$wikiId}'");
-
+        
         $row = $redan_dolt->fetch_assoc();
         $dolt=$row["dolt"];
-           
+        
+        $tjanstId=$row["tjanstId"];
+
+        $tjanst= $conn ->query("SELECT * FROM tjanst WHERE id = '$tjanstId'");
+        $row = $tjanst->fetch_assoc();
+        $anvandarId2=$row["anvandarId"];
+
+        if($anvandarId==$anvandarId2){
             if($dolt==0){
-                 $conn->query("UPDATE wiki SET dolt=1 WHERE id = '{$wikiId}'");
-                hantering('202','wiki är dold');
-            }
-            else if($dolt==1){
-                $conn->query("UPDATE wiki SET dolt=0 WHERE id = '{$wikiId}'");
-                hantering('202','wiki är öppen');
-            }
-            else{
-                hantering('400','något har gått fel med döljningsfunktionen');
-            }
+                $conn->query("UPDATE wiki SET dolt=1 WHERE id = '{$wikiId}'");
+               hantering('202','wiki är dold');
+           }
+           else if($dolt==1){
+               $conn->query("UPDATE wiki SET dolt=0 WHERE id = '{$wikiId}'");
+               hantering('202','wiki är öppen');
+           }
+           else{
+               hantering('400','något har gått fel med döljningsfunktionen');
+           }
+        }
+        else{
+            hantering('400','något har gått fel med anvandare');
+        }
+        
+           
+            
         
     $conn->close();
 
 }
 
-function doljWikiSida($conn){
+function doljWikiSida($anvandarId, $conn){
 
     //-include('dbh.inc.php');
-
+    
     if(isset($_POST['id']) ){
         $id = $_POST['id'];
         
@@ -71,21 +105,38 @@ function doljWikiSida($conn){
 
         $row = $wikiSida->fetch_assoc();
         $dolj=$row["dolt"];
+        $wikiId=$row["wikiId"];
 
-        if($dolj==0){
-            $sql= "UPDATE wikisidor SET dolt = 1 WHERE id = $id ";
-            $conn->query($sql);
-            hantering('202','wikisidan är dold');
-           
-        }
-        else if($dolj==1){
-            $sql= "UPDATE wikisidor SET dolt = 0 WHERE id = $id ";
-            $conn->query($sql);
-            hantering('202','wikisidan är öppen');
+        $wiki = $conn->query("SELECT * FROM wiki WHERE id ='{$wikiId}'");
+        
+        $row = $wiki->fetch_assoc();
+      
+        $tjanstId=$row["tjanstId"];
+
+        $tjanst= $conn ->query("SELECT * FROM tjanst WHERE id = '$tjanstId'");
+        $row = $tjanst->fetch_assoc();
+        $anvandarId2=$row["anvandarId"];
+
+        if($anvandarId==$anvandarId2){
+            if($dolj==0){
+                $sql= "UPDATE wikisidor SET dolt = 1 WHERE id = $id ";
+                $conn->query($sql);
+                hantering('202','wikisidan är dold');
+            
+            }
+            else if($dolj==1){
+                $sql= "UPDATE wikisidor SET dolt = 0 WHERE id = $id ";
+                $conn->query($sql);
+                hantering('202','wikisidan är öppen');
+
+            }
+            else{
+                hantering('400','något har gått fel med döljningsfunktionen');
+            }
 
         }
         else{
-            hantering('400','något har gått fel med döljningsfunktionen');
+            hantering('400','något har gått fel med anvandare');
         }
 
     }
@@ -191,7 +242,7 @@ function nekaUppdatering($conn){
     
     }
 
-    function lasaWikiSida($conn){
+    function lasaWikiSida($anvandarId,$conn){
 
         //-include('dbh.inc.php');
 
@@ -202,51 +253,80 @@ function nekaUppdatering($conn){
     
             $row = $wikiSida->fetch_assoc();
             $lasa=$row["last"];
+            $wikiId=$row["wikiId"];
 
-            if($lasa==0){
-                hantering('202','wikisidan är låst');
-                $sql= "UPDATE wikisidor SET wikisidor.last = 1 WHERE id = $id ";
-                $conn->query($sql);
-               
-            }
-            else if($lasa==1){
-                hantering('202','wikisidan är inte låst');
-                $sql= "UPDATE wikisidor SET wikisidor.last = 0 WHERE id = $id ";
-                $conn->query($sql);
+            $wiki = $conn->query("SELECT * FROM wiki WHERE id ='{$wikiId}'");
+        
+            $row = $wiki->fetch_assoc();
+          
+            $tjanstId=$row["tjanstId"];
+    
+            $tjanst= $conn ->query("SELECT * FROM tjanst WHERE id = '$tjanstId'");
+            $row = $tjanst->fetch_assoc();
+            $anvandarId2=$row["anvandarId"];
+    
+            if($anvandarId==$anvandarId2){
 
-            }
-            else{
-                hantering('400','kunde ej exekvera');
-            }
+                if($lasa==0){
+                    hantering('202','wikisidan är låst');
+                    $sql= "UPDATE wikisidor SET wikisidor.last = 1 WHERE id = $id ";
+                    $conn->query($sql);
+                
+                }
+                else if($lasa==1){
+                    hantering('202','wikisidan är inte låst');
+                    $sql= "UPDATE wikisidor SET wikisidor.last = 0 WHERE id = $id ";
+                    $conn->query($sql);
+
+                }
+                else{
+                    hantering('400','kunde ej exekvera');
+                }
 
         }
-
+        else{
+            hantering('400','något har gått fel med anvandare');
+        }
+    }
         $conn->close();
         
     }
 
-    function privatiseraWiki($conn){
+    function privatiseraWiki($anvandarId, $conn){
         //-include("dbh.inc.php");
-        if(isset($_POST['wikiId'])&&isset($_POST['privat'])){
+        
+        if(isset($_POST['wikiId'])){
             $wikiId = $_POST['wikiId'];
-            $privat = $_POST['privat'];   
-echo $_POST['wikiId'];        }
-
-    
-        $result = $conn->query("SELECT * FROM wiki where id= $wikiId ");
+                 
+            $result = $conn->query("SELECT * FROM wiki where id= $wikiId ");
             $row = $result->fetch_assoc();
             $tjanstId = $row['tjanstId'];
-            $uppdateraTjanst = "UPDATE tjanst SET privat = '{$privat}' WHERE id = $tjanstId ";
-        
-        
-        
-        
-        if(mysqli_query($conn, $uppdateraTjanst)){
-            hantering('202','wikin är privat');
+
+            $tjanst = $conn->query("SELECT * FROM tjanst where id= $tjanstId ");
+            $row = $tjanst->fetch_assoc();
+            $privat = $row['privat'];
             
-        } else {
-            hantering('400','kunde ej exkvera');
-            
+            $anvandarId2=$row["anvandarId"];
+
+            if($anvandarId==$anvandarId2){
+                
+                if($privat==1){
+                    $uppdateraTjanst = "UPDATE tjanst SET privat = '0' WHERE id = $tjanstId ";
+                    $conn->query($uppdateraTjanst);
+                    hantering('202','wikin är privat');
+                }
+                else if($privat==0){
+                    $uppdateraTjanst = "UPDATE tjanst SET privat = '1' WHERE id = $tjanstId ";
+                    $conn->query($uppdateraTjanst);
+                    hantering('202','wikin är öppet');
+                }
+                else{
+                    hantering('400','kunde ej exkvera');
+                } 
+            }
+            else{
+                hantering('400','något har gått fel med anvandare');
+            }
         }
         $conn->close();
     }

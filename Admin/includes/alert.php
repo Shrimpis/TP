@@ -72,9 +72,16 @@ $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
       ";
     }
     if (strpos($url,'funktion=skapaKonto?status=success') == true) {
+        $id = $_GET['id'];
+        $username = $_GET['username'];
+        $password = $_GET['password'];
+
         echo "
         <div class='alert alert-success alert-dismissible fade show' role='alert'>
-            Kontot har nu skapats.
+            <h4 class='alert-heading'>Kontot har nu skapats för kund #".$id."</h4>
+            <hr>
+            <p>Användarnamn: <strong>".$username."</strong></p>
+            <p>Lösenord: <strong>".$password."</strong></p>
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                 <span aria-hidden='true'>&times;</span>
             </button>

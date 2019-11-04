@@ -5,6 +5,17 @@
 session_start();
 include("../../json/felhantering.php");
 include('../../Databas/dbh.inc.php');
+if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+    var_dump($_POST['nyckel']);
+    
+    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+    $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
+    
+    $result = mysqli_query($conn,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
+
+    if($count == 1){
         switch ($_POST['funktion']) {
 
             case 'tabortKalender':
@@ -22,8 +33,14 @@ include('../../Databas/dbh.inc.php');
 
         }
 
-
-
+    }
+    else{
+        hantering('401','Behörighet saknas');
+    }
+}
+else{
+    hantering('401','Behörighet saknas, tom api');
+}
 
 
 

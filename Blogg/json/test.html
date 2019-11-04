@@ -25,11 +25,11 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var json=JSON.parse(this.responseText);
                     console.log(json);
-                    console.log(json.titel);
                 }
                 };
-                xhttp.open("GET", "bloggjson.php?anvandare=1&blogg=1", true);
-                xhttp.send();
+                xhttp.open("POST", "bloggjson.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("anvandare=1&blogg=1");
             }
 
         

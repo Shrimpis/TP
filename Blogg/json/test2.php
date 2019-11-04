@@ -29,7 +29,7 @@
                 };
                 xhttp.open("post", "../../api.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("nyckel=JIOAJWWNPA259FB&tjanst=kalender&typ=JSON");//anvandare=1&blogg=1
+                xhttp.send("nyckel=JIOAJWWNPA259FB2&tjanst=blogg&typ=JSON");//anvandare=1&blogg=1
             }
 
         

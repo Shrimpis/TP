@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Värd: 127.0.0.1
--- Tid vid skapande: 30 okt 2019 kl 15:18
--- Serverversion: 10.1.38-MariaDB
--- PHP-version: 7.3.2
+-- Värd: localhost
+-- Tid vid skapande: 31 okt 2019 kl 14:26
+-- Serverversion: 10.4.8-MariaDB
+-- PHP-version: 7.1.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Databas: `theprovider`
+-- Databas: `TheProvider`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `anvandare` (
   `salt` varchar(30) NOT NULL,
   `anamn` varchar(25) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `aktiv` tinyint(1) NOT NULL DEFAULT '1'
+  `aktiv` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `anvandare` (
 --
 
 INSERT INTO `anvandare` (`id`, `losenord`, `salt`, `anamn`, `email`, `aktiv`) VALUES
-(1, 'admin', '1', 'admin', 'hugo.malmstrom@hotmail.se', 1);
+(1, '$2a$10$Ubh1SH9evigYQTfZW9zL$.7QZIaTCKmiunuY0nb1M0y/UOpRejLmu', 'Ubh1SH9evigYQTfZW9zL', 'hugomeister1', 'hugo.malmstrom@hotmail.se', 1);
 
 -- --------------------------------------------------------
 
@@ -138,7 +138,7 @@ CREATE TABLE `event` (
   `innehall` varchar(255) NOT NULL,
   `startTid` datetime NOT NULL,
   `slutTid` datetime NOT NULL,
-  `aktiv` tinyint(4) NOT NULL DEFAULT '1'
+  `aktiv` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -250,7 +250,7 @@ CREATE TABLE `kalenderevent` (
   `kalenderId` int(11) NOT NULL,
   `eventId` int(11) NOT NULL,
   `anledning` varchar(255) DEFAULT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0'
+  `status` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -294,10 +294,10 @@ CREATE TABLE `kommentar` (
   `id` int(11) NOT NULL,
   `anvandarId` int(11) NOT NULL,
   `inlaggId` int(11) NOT NULL,
-  `hierarkiId` int(11) NOT NULL DEFAULT '0',
+  `hierarkiId` int(11) NOT NULL DEFAULT 0,
   `innehall` varchar(2000) NOT NULL,
-  `redigerad` tinyint(4) NOT NULL DEFAULT '0',
-  `censurerad` tinyint(4) NOT NULL DEFAULT '0'
+  `redigerad` tinyint(4) NOT NULL DEFAULT 0,
+  `censurerad` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -319,9 +319,9 @@ INSERT INTO `kommentar` (`id`, `anvandarId`, `inlaggId`, `hierarkiId`, `innehall
 
 CREATE TABLE `kundrattigheter` (
   `id` int(11) NOT NULL,
-  `tjanst` tinyint(4) NOT NULL DEFAULT '0',
-  `superadmin` tinyint(4) NOT NULL DEFAULT '0',
-  `kontoId` int(11) NOT NULL DEFAULT '0'
+  `tjanst` tinyint(4) NOT NULL DEFAULT 0,
+  `superadmin` tinyint(4) NOT NULL DEFAULT 0,
+  `kontoId` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -415,7 +415,7 @@ CREATE TABLE `tjanst` (
   `id` int(11) NOT NULL,
   `anvandarId` int(11) NOT NULL,
   `titel` varchar(70) NOT NULL,
-  `privat` tinyint(4) NOT NULL DEFAULT '0'
+  `privat` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -434,13 +434,33 @@ INSERT INTO `tjanst` (`id`, `anvandarId`, `titel`, `privat`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellstruktur `tp_admin`
+--
+
+CREATE TABLE `tp_admin` (
+  `id` int(11) NOT NULL,
+  `anamn` varchar(25) NOT NULL,
+  `losenord` varchar(70) NOT NULL,
+  `salt` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumpning av Data i tabell `tp_admin`
+--
+
+INSERT INTO `tp_admin` (`id`, `anamn`, `losenord`, `salt`) VALUES
+(1, 'admin', '$2a$10$Ubh1SH9evigYQTfZW9zL$.34YYNmunJxBzNRJEwU/./BqsF1TimHK', 'Ubh1SH9evigYQTfZW9zL');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellstruktur `wiki`
 --
 
 CREATE TABLE `wiki` (
   `id` int(11) NOT NULL,
   `tjanstId` int(11) NOT NULL,
-  `dolt` tinyint(4) NOT NULL DEFAULT '0'
+  `dolt` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -466,8 +486,8 @@ CREATE TABLE `wikisidor` (
   `titel` varchar(100) NOT NULL,
   `innehall` text NOT NULL,
   `datum` date NOT NULL,
-  `dolt` tinyint(4) NOT NULL DEFAULT '0',
-  `last` tinyint(4) NOT NULL DEFAULT '0'
+  `dolt` tinyint(4) NOT NULL DEFAULT 0,
+  `last` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -487,7 +507,7 @@ INSERT INTO `wikisidor` (`id`, `wikiId`, `godkantAv`, `bidragsgivare`, `titel`, 
 CREATE TABLE `wikiuppdatering` (
   `id` int(11) NOT NULL,
   `wikiId` int(11) NOT NULL,
-  `sidId` int(11) NOT NULL DEFAULT '0',
+  `sidId` int(11) NOT NULL DEFAULT 0,
   `bidragsgivare` int(11) NOT NULL,
   `titel` varchar(100) NOT NULL,
   `innehall` text NOT NULL,
@@ -631,6 +651,12 @@ ALTER TABLE `tjanst`
   ADD KEY `anvandare_tjanst` (`anvandarId`);
 
 --
+-- Index för tabell `tp_admin`
+--
+ALTER TABLE `tp_admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index för tabell `wiki`
 --
 ALTER TABLE `wiki`
@@ -660,31 +686,31 @@ ALTER TABLE `wikiuppdatering`
 -- AUTO_INCREMENT för tabell `anvandare`
 --
 ALTER TABLE `anvandare`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT för tabell `anvandarroll`
 --
 ALTER TABLE `anvandarroll`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT för tabell `api`
 --
 ALTER TABLE `api`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT för tabell `blogg`
 --
 ALTER TABLE `blogg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT för tabell `blogginlagg`
 --
 ALTER TABLE `blogginlagg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT för tabell `event`
@@ -702,7 +728,7 @@ ALTER TABLE `flaggadblogg`
 -- AUTO_INCREMENT för tabell `flaggadkommentar`
 --
 ALTER TABLE `flaggadkommentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT för tabell `gillningar`
@@ -726,19 +752,19 @@ ALTER TABLE `kalenderevent`
 -- AUTO_INCREMENT för tabell `kalendersida`
 --
 ALTER TABLE `kalendersida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT för tabell `kommentar`
 --
 ALTER TABLE `kommentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT för tabell `nekadwikiuppdatering`
 --
 ALTER TABLE `nekadwikiuppdatering`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT för tabell `roll`
@@ -756,7 +782,13 @@ ALTER TABLE `sidversion`
 -- AUTO_INCREMENT för tabell `tjanst`
 --
 ALTER TABLE `tjanst`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT för tabell `tp_admin`
+--
+ALTER TABLE `tp_admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT för tabell `wiki`
@@ -768,7 +800,7 @@ ALTER TABLE `wiki`
 -- AUTO_INCREMENT för tabell `wikisidor`
 --
 ALTER TABLE `wikisidor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT för tabell `wikiuppdatering`
