@@ -1,10 +1,13 @@
 <?php 
 
 session_start();
-include("../../Databas/dbh.inc.php");
+//include("../Databas/dbh.inc.php");
+$conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
+
 include("../../json/felhantering.php");
         switch ($_POST['funktion']) {
             case 'skapaKonto':
+		echo var_dump($conn);
                 skapaKonto($conn);
                 break;
             case 'skapaAKonto':
@@ -40,6 +43,7 @@ function skapaAKonto($conn){
     
         if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
             echo "CRYPT_BLOWFISH is enabled!<br>";
+		
         } else {
             echo "CRYPT_BLOWFISH is NOT enabled!";
         }
@@ -66,7 +70,7 @@ function skapaAKonto($conn){
         }
     }
     if($uname_tagen==false){
-
+	
         $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
 
         $conn->query($sql);
@@ -134,16 +138,20 @@ function skapaKonto($conn){
         }
     }
     if($uname_tagen==false){
-
-        $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
-
-        $conn->query($sql);
+	
+        $sql= "INSERT INTO anvandare(anamn, losenord, salt,email) VALUES ('{$username}','{$hashed_password}','{$salt}', '123')";
+	echo $sql;
+       if($conn->query($sql))
+		echo "funkar";
+	else
+	echo "funkar inte";
         $result = ($conn->query("SELECT id from anvandare where anamn ='{$username}'"));
-        if(mysqli_num_rows($result) > 0){
-            while($row=$result->fetch_assoc()){
+       	
+	 if(mysqli_num_rows($result) > 0){           
+ 		while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
-                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,$rollid,$tjanst)");
-                
+                $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid) VALUES ($USID,$rollid)");
+               
                 $conn->query($sql2);
 
                 
@@ -165,7 +173,7 @@ function skapaKonto($conn){
                 $conn->query($skapaAPI);
 
                 // Skapar mappar för bilder //
-                /*
+                
                 $owner = 'theprovider';
 
                 $blogg = '/var/www/html/TP/Bilder/Blogg/'.$username.'';
@@ -180,7 +188,7 @@ function skapaKonto($conn){
                     chown($wiki, $owner);
                     header('location: ../index.php?funktion=skapaKonto?status=failed?reason=wiki_folder+exists');
                 }
-                */
+                
                 header('location: ../index.php?funktion=skapaKonto?status=success');
             }
         }
