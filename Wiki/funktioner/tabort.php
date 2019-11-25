@@ -4,7 +4,8 @@
 
 session_start();
 
-include('./Databas/dbh.inc.php');
+//include('./Databas/dbh.inc.php');
+$conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
 //include("../../json/felhantering.php");
 include("./api_anvandare.php");
 

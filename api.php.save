@@ -1,4 +1,3 @@
-
 <?php
 
 header("Access-Control-Allow-Origin: *");
@@ -27,7 +26,7 @@ function keyIsValid($conn){
     
 
     //blogg
-    $sql = "SELECT * FROM blogg WHERE tjanstId = '$tjanstId'";  
+    $sql = "SELECT * FROM blogg";  
     $result = mysqli_query($conn,$sql);
     if($result->num_rows==1){
         return 'blogg';
@@ -67,21 +66,34 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    blogg();
+                    if(keyIsValid($conn)=='blogg'){//kollar om nyckeln är till för den tjansten.
+                        bloggar();
+                    }
+                    else{
+                        hantering('400','Denna nyckel kan inte användas till blogg.');
+                    }
                     break;
                 case 'wiki':
-                    wiki();
+                    if(keyIsValid($conn)=='wiki'){//kollar om nyckeln är till för den tjansten.
+                        wiki();
+                    }
+                    else{
+                        hantering('400','Denna nyckel kan inte användas till wiki.');
+                    }
                     break;
                 case 'kalender':
-                    kalender();
+                    if(keyIsValid($conn)=='kalender'){//kollar om nyckeln är till för den tjansten.
+                        kalender();
+                    }
+                    else{
+                        hantering('400','Denna nyckel kan inte användas till kalender.');
+                    }
                     break;
                 default:
-                    hantering('404','Tjänsten som anropades existerar inte. Vänligen kontrollera dokumentation.');
+                    hantering('404','Funktionen som anropades existerar inte. Vänligen kontrollera dokumentation.');
             }
         
-        } else {           
-
- 
+        } else {            
             hantering('400','Tjanst måste vara definierad.');
         }
     } 

@@ -76,7 +76,7 @@ function skapaWikiUppdatering($conn){
         $sidId= $_POST['sidId'];
         $bidragsGivare= $_POST['bidragsgivare'];
         $titel= $_POST['titel'];
-        $innehall= mysqli_real_escape_string($conn, $_POST['innehall']);
+        $innehall= $_POST['innehall'];
 
         $anvandarroll = $conn->query('select * from anvandarroll where anvandarId='.$bidragsGivare);
         if($sidId!=""){
@@ -91,7 +91,7 @@ function skapaWikiUppdatering($conn){
         $date= date("Y-m-d H:i");
             if(($roll=="1" || $roll=="3") && $sidId==""){
                 $sql= "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$bidragsGivare','$bidragsGivare', '$titel','$innehall','$date')";
-             
+                
                 
             }
             else if(($roll=="1" || $roll=="3") && $sidId==$sidaId){
@@ -106,11 +106,10 @@ function skapaWikiUppdatering($conn){
                 $sql= "INSERT INTO wikiuppdatering(wikiId, sidId, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$sidId','$bidragsGivare', '$titel','$innehall','$date')";
                 
             }
-            if(mysqli_query($conn, $sql)){
+            if(mysqli_query($sql)){
                 hantering('201','skapade uppdatering');
             }
             else{
-echo $sql;
                 hantering('400','kunde ej exekvera');
             }
         

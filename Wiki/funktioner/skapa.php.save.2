@@ -76,7 +76,7 @@ function skapaWikiUppdatering($conn){
         $sidId= $_POST['sidId'];
         $bidragsGivare= $_POST['bidragsgivare'];
         $titel= $_POST['titel'];
-        $innehall= mysqli_real_escape_string($conn, $_POST['innehall']);
+        $innehall= $_POST['innehall'];
 
         $anvandarroll = $conn->query('select * from anvandarroll where anvandarId='.$bidragsGivare);
         if($sidId!=""){
@@ -90,7 +90,7 @@ function skapaWikiUppdatering($conn){
 
         $date= date("Y-m-d H:i");
             if(($roll=="1" || $roll=="3") && $sidId==""){
-                $sql= "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$bidragsGivare','$bidragsGivare', '$titel','$innehall','$date')";
+                $sql= "INSERT INTO wikisidor(wikiId, godkantAv, bidragsgivare, titel, innehall, datum) VALUES ('$wikiId','$bidragsGivare','$bidragsGivare', '$tite'",'$innehall','$date')";
              
                 
             }
