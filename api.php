@@ -97,8 +97,8 @@ else {
 // Tjänster //
 
 function bloggar(){
+    echo "nyckel!!!!! ".$_POST['nyckel'];
     if($_POST['typ']=='JSON'){ // Kollar om typen som anropas är JSON
-        echo "nyckel!!!!! ".$_POST['nyckel'];
         include "Blogg/json/bloggjson.php";
     } else {
         if($_POST['typ']=='function'){ // Kollar om typen som anropas är funktion
