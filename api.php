@@ -51,7 +51,7 @@ function keyIsValid($conn){
 }
 
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
-    echo "nyckel är inte fucking to!!!!!!!! ".$_POST['nyckel'];
+    
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
     $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
     
@@ -59,6 +59,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
 
+    echo "nyckel är inte fucking to!!!!!!!! ".$_POST['nyckel'];
     if($count == 1){
         
         if(!empty($_POST['tjanst'])){ // Kollar efter om tjänst är tom
