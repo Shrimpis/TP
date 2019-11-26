@@ -106,7 +106,10 @@ function bloggar(){
         
                 case 'skapa':
                     include "Blogg/funktioner/skapa.php";
-                    break;
+                break;
+                case 'skapa2'://för att skappa konto
+                    include "Admin/funktioner/skapa.php";
+                break;
                 case 'tabort':
                     include "Blogg/funktioner/tabort.php";
                     break;
