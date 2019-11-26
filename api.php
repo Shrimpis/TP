@@ -67,7 +67,6 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    echo "nyckel är inte fucking to!!!!!!!! ".$_POST['nyckel'];
                     blogg();
                     break;
                 case 'wiki':
@@ -99,6 +98,7 @@ else {
 
 function bloggar(){
     if($_POST['typ']=='JSON'){ // Kollar om typen som anropas är JSON
+        echo "nyckel!!!!! ".$_POST['nyckel'];
         include "Blogg/json/bloggjson.php";
     } else {
         if($_POST['typ']=='function'){ // Kollar om typen som anropas är funktion
