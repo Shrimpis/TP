@@ -67,7 +67,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    blogg();
+                    bloggar();
                     break;
                 case 'wiki':
                     wiki();
