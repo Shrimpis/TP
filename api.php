@@ -50,7 +50,7 @@ function keyIsValid($conn){
     return 'error';
 }
 
-echo "saokdsaiujsadisahdiusahdiusahdiusahiudsaiudiusauhdsa";
+echo $_POST['nyckel']."aaaaaa");
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
