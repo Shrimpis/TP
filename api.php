@@ -51,7 +51,7 @@ function keyIsValid($conn){
 }
 
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
-    
+    echo "nyckel är inte fucking to!!!!!!!!";
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
     $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
     

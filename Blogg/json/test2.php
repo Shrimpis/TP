@@ -31,7 +31,7 @@
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("nyckel=JIOAJWWNPA259FB2&tjanst=blogg&typ=JSON");//anvandare=1&blogg=1
             }
-
+                
         
         </script>
     </body>
