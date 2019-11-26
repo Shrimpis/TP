@@ -59,7 +59,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
 
-    echo "nyckel är inte fucking to!!!!!!!! ".$_POST['nyckel'];
+    
     if($count == 1){
         
         if(!empty($_POST['tjanst'])){ // Kollar efter om tjänst är tom
@@ -67,6 +67,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
+                    echo "nyckel är inte fucking to!!!!!!!! ".$_POST['nyckel'];
                     blogg();
                     break;
                 case 'wiki':
