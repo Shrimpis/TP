@@ -81,7 +81,7 @@ function skapaAKonto($conn){
                 $sql2 = ("INSERT INTO anvandarroll(anvandarid,rollid,tjanstId) VALUES ($USID,$rollid,$tjanst)");
                 
                 if(mysqli_query($conn, $sql2)){
-                    hantering('202','roll inlagd');
+                    hantering('202','roll inlagd',$username,$password);
                 }
                 else{
                     hantering('400','kunde ej exekvera');
