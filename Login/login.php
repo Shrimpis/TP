@@ -51,6 +51,7 @@
             echo json_encode($verifyJson);  
         }
     }else{
+        echo "KYS";
         $verifyJson = array('success' => false, 'reason' => 'Wrong credentials');
     }
 
