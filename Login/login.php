@@ -46,6 +46,7 @@
             $rollRes = $conn->query($roll_sql);
             $rollRow = mysqli_fetch_assoc($bloggRes);
             $roll = $rollRow['rollNamn'];
+            echo $roll_sql;
 
             $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'roll' => $roll);
             echo json_encode($verifyJson);  
