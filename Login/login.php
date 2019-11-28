@@ -44,7 +44,7 @@
 
             $roll_sql = "SELECT * FROM roll where id='{$anvandarroll}'";
             $rollRes = $conn->query($roll_sql);
-            $rollRow = mysqli_fetch_assoc($bloggRes);
+            $rollRow = mysqli_fetch_assoc($rollRes);
             $roll = $rollRow['rollNamn'];
             echo $roll_sql;
 
