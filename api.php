@@ -50,7 +50,6 @@ function keyIsValid($conn){
     return 'error';
 }
 
-echo $_POST['nyckel']."aaaaaa");
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
@@ -60,6 +59,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
 
+    
     if($count == 1){
         
         if(!empty($_POST['tjanst'])){ // Kollar efter om tjänst är tom
@@ -67,7 +67,7 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             switch ($_POST['tjanst']) { // Kollar efter vilken tjänst som anropas
         
                 case 'blogg':
-                    blogg();
+                    bloggar();
                     break;
                 case 'wiki':
                     wiki();
@@ -106,7 +106,13 @@ function bloggar(){
         
                 case 'skapa':
                     include "Blogg/funktioner/skapa.php";
-                    break;
+                break;
+                case 'skapa2'://för att skappa konto
+                    include "Admin/funktioner/skapa.php";
+                break;
+                case 'login'://för att logga in.
+                    include "Admin/login.php";
+                break;
                 case 'tabort':
                     include "Blogg/funktioner/tabort.php";
                     break;

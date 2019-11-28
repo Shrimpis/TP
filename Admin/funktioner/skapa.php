@@ -82,6 +82,8 @@ function skapaAKonto($conn){
                 
                 if(mysqli_query($conn, $sql2)){
                     hantering('202','roll inlagd');
+                    $userJson = array('username' => $username,'password' => $password,'userid' => $USID);
+                    echo json_encode($userJson);
                 }
                 else{
                     hantering('400','kunde ej exekvera');
