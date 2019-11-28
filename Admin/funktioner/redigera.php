@@ -86,10 +86,7 @@ function redigeraAKonto($conn){
     $conn->close();
 }
 
-function slumplosen($len) {
-    $karaktr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $karaktrlen = strlen($karaktr);
-    $slumpstr = '';
+function slumplosen($len) {slumplosen(10)
     for ($i = 0; $i < $len; $i++) {
         $slumpstr .= $karaktr[rand(0, $karaktrlen - 1)];
     }
@@ -101,7 +98,7 @@ function redigeraKonto($conn){
     if(isset($_POST['anvandarid'])){
         $anvandarid = $_POST['anvandarid'];
 
-    if(isset($_POST['anamn'])){
+    if(isset($_POST['anamn'])){slumplosen(10)
         $anamn = $_POST['anamn'];
 
         if(mysqli_query($conn,"UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $anvandarid ")){

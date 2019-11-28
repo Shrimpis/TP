@@ -25,8 +25,6 @@
 
     $bcrypt_salt = $Blowfish_Pre . $row["salt"] . $Blowfish_End;
     $hashed_password = crypt($password, $bcrypt_salt);
-    echo $row['losenord']."<br>";
-    echo $hashed_password."<br>";
 
     if($hashed_password == $row["losenord"]){
         if($tjanst == 'blogg'){
