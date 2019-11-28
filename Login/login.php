@@ -21,10 +21,12 @@
     $Blowfish_End = '$';
     
     $anvandarId = $row['id'];
-    echo $row['losenord'];
+    
 
     $bcrypt_salt = $Blowfish_Pre . $row["salt"] . $Blowfish_End;
     $hashed_password = crypt($password, $bcrypt_salt);
+    echo $row['losenord'];
+    echo $hashed_password;
 
     if($hashed_password == $row["losenord"]){
         if($tjanst == 'blogg'){
