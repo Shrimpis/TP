@@ -21,7 +21,7 @@
     $Blowfish_End = '$';
     
     $anvandarId = $row['id'];
-    
+    echo $row['losenord'];
 
     $bcrypt_salt = $Blowfish_Pre . $row["salt"] . $Blowfish_End;
     $hashed_password = crypt($password, $bcrypt_salt);
@@ -46,7 +46,6 @@
             $rollRes = $conn->query($roll_sql);
             $rollRow = mysqli_fetch_assoc($rollRes);
             $roll = $rollRow['rollNamn'];
-            echo $roll_sql;
 
             $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'roll' => $roll);
             echo json_encode($verifyJson);  
