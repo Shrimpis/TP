@@ -7,6 +7,7 @@
       
         $anamn = mysqli_real_escape_string($conn,$_POST['anamn']);
         $losenord = mysqli_real_escape_string($conn,$_POST['losenord']);
+        $tjanst = mysqli_real_escape_string($conn, $_POST['tjanst']);
 		
         if(login($anamn, $losenord)) {
             $_SESSION['login_user'] = $anamn;
