@@ -10,12 +10,6 @@
     $sql = "SELECT * FROM anvandare where anamn='{$anamn}'";
     $result = $conn->query($sql);
     $row = mysqli_fetch_assoc($result);
-    
-    if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
-        echo "CRYPT_BLOWFISH is enabled!<br>";
-    } else {
-        echo "CRYPT_BLOWFISH is NOT enabled!";
-    }
 
     $Blowfish_Pre = '$2a$10$';
     $Blowfish_End = '$';

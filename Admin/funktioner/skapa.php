@@ -40,13 +40,6 @@ function skapaAKonto($conn){
         $tjanst = $_POST['tjanst'];
     }
     $password = slumplosen(10);
-    
-        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
-            echo "CRYPT_BLOWFISH is enabled!<br>";
-		
-        } else {
-            echo "CRYPT_BLOWFISH is NOT enabled!";
-        }
         
         $Blowfish_Pre = '$2a$10$';
         $Blowfish_End = '$';
@@ -109,11 +102,6 @@ function skapaKonto($conn){
     $username = slumplosen(8);
     $password = slumplosen(10);
     
-        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
-            echo "CRYPT_BLOWFISH is enabled!<br>";
-        } else {
-            echo "CRYPT_BLOWFISH is NOT enabled!";
-        }
         
         $Blowfish_Pre = '$2a$10$';
         $Blowfish_End = '$';
