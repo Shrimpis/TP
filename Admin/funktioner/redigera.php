@@ -27,7 +27,7 @@ function redigeraAKonto($conn){
     $losenord = $_POST['losenord'];
     $id = $_POST['id'];
 
-    $password = slumplosen(10);
+    $password = $losenord;
     
         if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
             echo "CRYPT_BLOWFISH is enabled!<br>";
