@@ -1,7 +1,6 @@
 <?php
-echo "asdjsaoidjsajdisajoidjoisada";
 // Funktion för skapa //
-
+/*
 //session_start();
 include("../../Databas/dbh.inc.php");
 include("../../json/felhantering.php");
@@ -310,3 +309,6 @@ else{
         $conn->close();
 
     }
+
+
+    ?>
