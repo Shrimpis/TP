@@ -20,6 +20,9 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
             case 'skapaBlogg':
                 skapaBlogg($conn);
                 break;
+                case 'skapaBlogg2':
+                skapaBlogg2($conn);
+                break;
             case 'skapaInlagg':
                 skapaInlagg($conn);
                 break;
@@ -87,6 +90,45 @@ else{
         $conn->close();
 
     }
+
+
+    function skapaBlogg2($conn){
+
+        //- include("../../Databas/dbh.inc.php");
+         if(isset($_POST['anvandarId']) && isset($_POST['Titel']) && isset($_POST['bloggAnvandarId'])){
+ 
+             $userid = $_POST['anvandarId'];
+             $title = $_POST['Titel'];
+             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
+             
+             
+             $bloggUserId = $_POST['bloggAnvandarId'];//bloggens ägare
+         }
+         if(mysqli_query($conn, $skapaTjanst)){
+ 
+             hantering('201','Tjänsten har skapats',);
+             $skapaBlogg = "INSERT INTO blogg(tjanstId,anvandarID) VALUES (".mysqli_insert_id($conn). ",".$bloggUserId.")";
+             if(mysqli_query($conn, $skapaBlogg)){
+ 
+                 hantering('201','Bloggen har skapats',);
+     
+             }else{
+     
+                 hantering('400','Bloggen kunde inte skapas',);
+     
+             }
+         } else {
+ 
+             hantering('400','Tjänsten kunde inte skapas',);
+ 
+         }
+         
+         $conn->close();
+ 
+     }
+
+
+
 
     function skapaInlagg($conn){
 
