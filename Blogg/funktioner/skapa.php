@@ -15,11 +15,10 @@ include("../../json/felhantering.php");
     $count = mysqli_num_rows($result);*/
 
     //if($count == 1){
-        switch ($_POST['funktion']) {
+       /* switch ($_POST['funktion']) {
             
             case 'skapaBlogg':
-                echo "ioasjdioasjodjasiodasj";
-                //skapaBlogg($conn);
+                skapaBlogg($conn);
                 break;
             case 'skapaBlogg2':
                 skapaBlogg2($conn);
@@ -47,7 +46,7 @@ include("../../json/felhantering.php");
                 break;
             default:
                 hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen');
-        }
+        }*/
     /*}
     else{
         hantering('401','Behörighet saknas');
