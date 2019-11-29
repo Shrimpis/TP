@@ -17,6 +17,7 @@ include("../../json/felhantering.php");
 
     //if($count == 1){
         switch ($_POST['funktion']) {
+            echo "asdjsaoidjsajdisajoidjoisada";
             case 'skapaBlogg':
                 skapaBlogg($conn);
                 break;

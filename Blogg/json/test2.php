@@ -27,9 +27,9 @@
                     console.log(this.responseText);
                 }
                 };
-                xhttp.open("post", "http://10.130.216.101/TP/api.php", true);
+                xhttp.open("post", "http://10.130.216.101/TP/Blogg/funktioner/skapa.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("nyckel=JIOAJWWNPA259FB2&tjanst=blogg&typ=function&handling=login&anamn=test&losenord=test&rollid=4");//anvandare=1&blogg=1
+                xhttp.send("funktion=skapaBlogg&anvandarId=1&Titel=titelpåblogg&bloggAnvandarId=7");//anvandare=1&blogg=1
             }
 
         
