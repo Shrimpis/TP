@@ -5,7 +5,7 @@
 session_start();
 include("../../Databas/dbh.inc.php");
 include("../../json/felhantering.php");
-if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
+//if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     var_dump($_POST['nyckel']);
     
     $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
@@ -51,10 +51,10 @@ if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     else{
         hantering('401','Behörighet saknas');
     }
-}
+/*}
 else{
     hantering('401','Behörighet saknas, tom api');
-}
+}*/
  
 
     function skapaBlogg($conn){
