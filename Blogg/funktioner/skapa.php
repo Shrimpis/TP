@@ -100,7 +100,7 @@ else{
              $title = $_POST['Titel'];
              $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
              
-             
+             echo "masiocjasiocjioasjcas";
              $bloggUserId = $_POST['bloggAnvandarId'];//bloggens ägare
          }
          if(mysqli_query($conn, $skapaTjanst)){
