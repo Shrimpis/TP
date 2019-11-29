@@ -2,7 +2,7 @@
 
 // Funktion för skapa //
 
-session_start();
+//session_start();
 include("../../Databas/dbh.inc.php");
 include("../../json/felhantering.php");
 //if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
