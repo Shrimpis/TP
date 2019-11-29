@@ -70,7 +70,7 @@ else{
         }
         if(mysqli_query($conn, $skapaTjanst)){
 
-            hantering('201','Tjänsten har skapats',);
+            //hantering('201','Tjänsten har skapats',);
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
             if(mysqli_query($conn, $skapaBlogg)){
 
