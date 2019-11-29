@@ -78,7 +78,7 @@ else{
     
             }else{
     
-                hantering('400','Bloggen kunde inte skapas',);
+                hantering('400','Bloggen kunde inte skapas');
     
             }
         } else {
