@@ -57,7 +57,7 @@ else{
 }*/
  
 
-   /* function skapaBlogg($conn){
+    function skapaBlogg($conn){
 
        //- include("../../Databas/dbh.inc.php");
         if(isset($_POST['anvandarId']) && isset($_POST['Titel'])){
@@ -91,7 +91,7 @@ else{
 
     }
 
-
+/*
     function skapaBlogg2($conn){
 
         //- include("../../Databas/dbh.inc.php");
