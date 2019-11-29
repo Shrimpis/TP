@@ -29,7 +29,7 @@
                 };
                 xhttp.open("post", "http://10.130.216.101/TP/Blogg/funktioner/skapa.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("funktion=skapaBlogg&anvandarId=1&Titel=titelpåblogg&bloggAnvandarId=7");//anvandare=1&blogg=1
+                xhttp.send("funktion=skapaBlogg2&anvandarId=1&Titel=titelpåblogg&bloggAnvandarId=7");//anvandare=1&blogg=1
             }
 
         
