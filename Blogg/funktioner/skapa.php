@@ -129,7 +129,7 @@ else{
 
 */
 
-/*
+
     function skapaInlagg($conn){
 
         //-include("../../Databas/dbh.inc.php");
@@ -246,7 +246,6 @@ else{
         $conn->close();
 
     }
-    */
     function flaggaBlogg($conn){
         //-include("../../Databas/dbh.inc.php");
         if(isset($_POST['bloggid']) && isset($_POST['anvandarID'])){
