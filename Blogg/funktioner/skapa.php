@@ -74,16 +74,16 @@ else{
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
             if(mysqli_query($conn, $skapaBlogg)){
 
-                hantering('201','Bloggen har skapats');
+               // hantering('201','Bloggen har skapats');
     
             }else{
     
-                hantering('400','Bloggen kunde inte skapas');
+               // hantering('400','Bloggen kunde inte skapas');
     
             }
         } else {
 
-            hantering('400','Tjänsten kunde inte skapas');
+            //hantering('400','Tjänsten kunde inte skapas');
 
         }
         
