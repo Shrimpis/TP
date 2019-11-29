@@ -136,13 +136,13 @@
                 $bloggId=$row['tjanstId'];
                 if($bloggId==$tjänstId){
                     $tjänstArray['bloggar'][$i]=array('id'=>$rowTjänst["id"],'titel'=>$rowTjänst["titel"],'privat'=>$rowTjänst["privat"]);
-
+                    $i++;
                 }
 
             }
 
 
-           $i++;
+           
         }
 
         $tjänstArray['anamn']=$anamn;//användarnamnanamn
