@@ -45,7 +45,7 @@ include("../../json/felhantering.php");
                 sokFalt($conn);
                 break;
             default:
-                hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen',);
+                hantering('404','Din förfrågan är utanför våra parametrar, kolla dokumentationen');
         }
     /*}
     else{
@@ -74,7 +74,7 @@ else{
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
             if(mysqli_query($conn, $skapaBlogg)){
 
-                hantering('201','Bloggen har skapats',);
+                hantering('201','Bloggen har skapats');
     
             }else{
     
@@ -83,7 +83,7 @@ else{
             }
         } else {
 
-            hantering('400','Tjänsten kunde inte skapas',);
+            hantering('400','Tjänsten kunde inte skapas');
 
         }
         
@@ -106,20 +106,20 @@ else{
          }
          if(mysqli_query($conn, $skapaTjanst)){
  
-             hantering('201','Tjänsten har skapats',);
+             hantering('201','Tjänsten har skapats');
              $skapaBlogg = "INSERT INTO blogg(tjanstId,anvandarID) VALUES (".mysqli_insert_id($conn). ",".$bloggUserId.")";
              if(mysqli_query($conn, $skapaBlogg)){
  
-                 hantering('201','Bloggen har skapats',);
+                 hantering('201','Bloggen har skapats');
      
              }else{
      
-                 hantering('400','Bloggen kunde inte skapas',);
+                 hantering('400','Bloggen kunde inte skapas');
      
              }
          } else {
  
-             hantering('400','Tjänsten kunde inte skapas',);
+             hantering('400','Tjänsten kunde inte skapas');
  
          }
          
@@ -144,11 +144,11 @@ else{
         
         if(mysqli_query($conn, $sql)){
 
-            hantering('201','Blogginlägget har skapats',);
+            hantering('201','Blogginlägget har skapats');
             
         } else {
 
-            hantering('400','Bloginlägget kunde inte skapas',);
+            hantering('400','Bloginlägget kunde inte skapas');
             
         }
         
@@ -168,11 +168,11 @@ else{
         $skapaKommentar = "INSERT INTO kommentar (anvandarId, inlaggId, hierarkiId, innehall) VALUES ('$anvandarId', '$inlaggsId', '$hierarchyID', '{$text}')";
         if(mysqli_query($conn, $skapaKommentar)){
 
-            hantering('201','Kommentar har skapats',);
+            hantering('201','Kommentar har skapats');
 
         } else{
 
-            hantering('400','Kommentar kunde inte skapas',);
+            hantering('400','Kommentar kunde inte skapas');
             
         }
         $conn->close();
@@ -223,22 +223,22 @@ else{
             $like = "INSERT INTO gillningar(anvandarId, inlaggId) VALUES ('$anvandarId', '{$inlaggsId}')";
             if(mysqli_query($conn, $like)){
 
-                hantering('201','Inlägget har gillats',);
+                hantering('201','Inlägget har gillats');
 
             } else{
 
-                hantering('400','Inlägget kunde inte gillas',);
+                hantering('400','Inlägget kunde inte gillas');
 
             }
         } else {
             $dislike = "DELETE FROM gillningar WHERE anvandarId='$anvandarId' AND inlaggId='$inlaggsId'";
             if(mysqli_query($conn, $dislike)){
 
-                hantering('204','Inlägget gillas inte längre',);
+                hantering('204','Inlägget gillas inte längre');
 
             } else{
 
-                hantering('400','Kunde inte ångra gilla statusen på inlägget',);
+                hantering('400','Kunde inte ångra gilla statusen på inlägget');
 
             }
         }
@@ -259,11 +259,11 @@ else{
             $flagga = "INSERT INTO flaggadblogg(anvandarId, bloggId) VALUES ('{$anvandarId}', '{$Bloggid}')";
             $conn->query($flagga);
 
-            hantering('201','Bloggen flaggades',);
+            hantering('201','Bloggen flaggades');
 
         }else{
 
-            hantering('400','Kunde inte flagga bloggen',);
+            hantering('400','Kunde inte flagga bloggen');
 
         }
         
@@ -291,11 +291,11 @@ else{
             $flagga = "INSERT INTO flaggadkommentar(anvandarId, kommentarId) VALUES ('{$anvandarId}', '{$komid}')";
             $conn->query($flagga);
 
-            hantering('201','Kommentaren flaggades',);
+            hantering('201','Kommentaren flaggades');
 
         } else {
 
-            hantering('400','Kommentaren kunde inte flaggas',);
+            hantering('400','Kommentaren kunde inte flaggas');
 
         }
         
