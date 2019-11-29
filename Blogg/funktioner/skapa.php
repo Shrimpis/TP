@@ -66,9 +66,9 @@ else{
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             
-            
+            echo "asdasmiodjasodj";
         }
-       /* if(mysqli_query($conn, $skapaTjanst)){
+        if(mysqli_query($conn, $skapaTjanst)){
 
             //hantering('201','Tjänsten har skapats',);
             $skapaBlogg = "INSERT INTO blogg(tjanstId) VALUES (". mysqli_insert_id($conn). ")";
@@ -86,7 +86,7 @@ else{
             //hantering('400','Tjänsten kunde inte skapas');
 
         }
-        */
+        
         $conn->close();
 
     }
