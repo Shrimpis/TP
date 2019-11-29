@@ -66,7 +66,6 @@ else{
             $title = $_POST['Titel'];
             $skapaTjanst = "INSERT INTO tjanst(titel, anvandarId, privat) VALUES('{$title}',$userid,0)";
             
-            echo "asdasmiodjasodj";
         }
         if(mysqli_query($conn, $skapaTjanst)){
 
@@ -91,7 +90,7 @@ else{
 
     }
 
-/*
+
     function skapaBlogg2($conn){
 
         //- include("../../Databas/dbh.inc.php");
@@ -127,7 +126,7 @@ else{
  
      }
 
-*/
+
 
 
     function skapaInlagg($conn){
