@@ -18,7 +18,8 @@ include("../../json/felhantering.php");
         switch ($_POST['funktion']) {
             
             case 'skapaBlogg':
-                skapaBlogg($conn);
+                echo "ioasjdioasjodjasiodasj";
+                //skapaBlogg($conn);
                 break;
             case 'skapaBlogg2':
                 skapaBlogg2($conn);
