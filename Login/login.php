@@ -31,6 +31,7 @@
             echo json_encode($verifyJson);  
         }
         else if($tjanst == 'wiki' || $tjanst == 'kalender'){
+            echo $hashed_password . '<br>' . $row['losenord'];
             $anvandarroll_sql = "SELECT * FROM anvandarroll where anvandarId='{$anvandarId}'";
             $anvandarrollRes = $conn->query($anvandarroll_sql);
             $anvandarrollRow = mysqli_fetch_assoc($anvandarrollRes);
