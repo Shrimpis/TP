@@ -27,8 +27,7 @@
             $bloggRow = mysqli_fetch_assoc($bloggRes);
             $bloggId = $bloggRow['id'];
 
-            $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'bloggId' => "$bloggId");
-            echo json_encode($verifyJson);  
+            $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'bloggId' => "$bloggId"); 
         }
         else if($tjanst == 'wiki' || $tjanst == 'kalender'){
             $anvandarroll_sql = "SELECT * FROM anvandarroll where anvandarId='{$anvandarId}'";
@@ -42,13 +41,12 @@
             $roll = $rollRow['rollNamn'];
 
             $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'roll' => "$roll");
-            echo json_encode($verifyJson);  
         }
     }else{
         $verifyJson = array('success' => false, 'reason' => 'Wrong credentials');
     }
 
- 
+    echo json_encode($verifyJson);  
 
 
 
