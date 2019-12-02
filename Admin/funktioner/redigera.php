@@ -20,7 +20,7 @@ include("../../json/felhantering.php");
                 break;
         } 
 
-function redigeraAKonto($conn){
+/*function redigeraAKonto($conn){
     $uname_tagen=false;
 
     $uname = $_POST['anamn'];
@@ -87,7 +87,7 @@ function slumplosen($len) {slumplosen(10)
     }
     return $slumpstr;
 }
-
+*/
 function redigeraKonto($conn){
     //include("../../Databas/dbh.inc.php");
     if(isset($_POST['anvandarid'])){
