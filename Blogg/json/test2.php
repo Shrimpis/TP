@@ -27,9 +27,9 @@
                     console.log(json);
                 }
                 };
-                xhttp.open("post", "http://10.130.216.101/TP/Admin/funktioner/redigera.php", true);
+                xhttp.open("post", "http://10.130.216.101/TP/api.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("anvandarid=13&losenord=ahmad");//anvandare=1&blogg=1
+                xhttp.send("nyckel=JIOAJWWNPA259FB2&tjanst=blogg&typ=JSON");//anvandare=1&blogg=1
             }
 
         
