@@ -93,14 +93,24 @@ function redigeraKonto($conn){
     if(isset($_POST['anvandarid'])){
         $anvandarid = $_POST['anvandarid'];
 
-    if(isset($_POST['anamn'])){slumplosen(10)
+    if(isset($_POST['anamn'])){
         $anamn = $_POST['anamn'];
+        $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
 
-        if(mysqli_query($conn,"UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $anvandarid ")){
-            hantering("202","användarnamn uppdaterat");
+        $uname_tagen=false;
+        while($row=$sqlcheck->fetch_assoc()){
+            if($username==$row['anamn']){
+                $uname_tagen=true;
+            }
         }
-        else{
-            hantering("400","kunde ej exekvera användarnamnsbyte");
+
+        if($uname_tagen==false){
+            if(mysqli_query($conn,"UPDATE anvandare SET anamn = '{$anamn}' WHERE id = $anvandarid ")){
+                hantering("202","användarnamn uppdaterat");
+            }
+            else{
+                hantering("400","kunde ej exekvera användarnamnsbyte");
+            }
         }
     }
     if(isset($_POST['losenord'])){
