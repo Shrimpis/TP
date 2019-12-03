@@ -10,18 +10,24 @@ if($conn->connect_error){
 
 if(isset($_POST['sidId'])){
     
-    sidVersion($_POST['sidId'],$conn);
+    sidVersion(getAnvandare($conn), $_POST['sidId'], $conn);
 }
 
-function sidVersion($sidId,$conn){
+function sidVersion($anvandarId, $sidId,$conn){
     $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
+    $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
     $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
+
+    
+    $anvandarRes = $conn->query($anvandare);
+    $anvandarRow = mysqli_fetch_assoc($anvandarRes);
+    $anamn = $anvandarRow['anamn'];
 
     $sidVersioner;
     $i=0;
 
     while($row = $sidversion->fetch_assoc()){
-        $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
+        $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$anamn,'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
         $i++;
     }
 
