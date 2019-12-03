@@ -40,7 +40,7 @@
             $rollRow = mysqli_fetch_assoc($rollRes);
             $roll = $rollRow['rollNamn'];
 
-            $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'roll' => "$roll");
+            $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'roll' => "$roll", 'anvandarId' = $anvandarId);
         }
     }else{
         $verifyJson = array('success' => false, 'reason' => 'Wrong credentials');
