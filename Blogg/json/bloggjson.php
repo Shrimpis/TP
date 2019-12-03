@@ -223,12 +223,14 @@
             //$Bloggarray=array('flaggad'=>$row["flaggad"]);
 
             $tjanstId=$row['tjanstId'];
+            $bloggIdBlogg=$row['id'];
             
             $tjanst = $conn->query('select * from tjanst where id='.$tjanstId.' and anvandarId='.$anvandarId);
             $error=true;
             while($row=$tjanst->fetch_assoc()){
                 $Bloggarray['titel']=$row['titel'];
                 $Bloggarray['privat']=$row['privat'];
+                $bloggArray['bloggId']=$bloggIdBlogg;
                 $error=false;
             }
             if($error){
