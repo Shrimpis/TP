@@ -131,12 +131,7 @@ function bloggar(){
 
 function wiki(){
     if($_POST['typ']=='JSON'){ // Kollar om typen som anropas är JSON
-        if($_POST['handling'] == 'wikijson'){
-            include "Wiki/json/wikijson.php";
-        }
-        else if($_POST['handling' == 'sidVersion']){
-            include 'Wiki/json/sidVersion.php';
-        }
+        include "Wiki/json/wikijson.php";
     } else {
         if($_POST['typ']=='function'){ // Kollar om typen som anropas är funktion
             
