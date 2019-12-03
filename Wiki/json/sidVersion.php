@@ -2,6 +2,7 @@
 
 include("../../Databas/dbh.inc.php");
 include("../../json/felhantering.php");
+include '../../api_anvandare.php';
 
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
