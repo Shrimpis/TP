@@ -207,6 +207,7 @@
         //kollar på alla bloginlagg.
         $i=0;
         while($row = $blogginlagg->fetch_assoc()) {
+            echo "sadsadsaddsa";
             $id=$row["id"];//id på det inlagget som vi ar på.
             $blogginlaggArray[$i]=array('id'=>$id,'datum'=>$row["datum"],'titel'=>$row["titel"]);//skappar en array som innehåller datum title
 
