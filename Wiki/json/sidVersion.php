@@ -20,13 +20,19 @@ function sidVersion($anvandarId, $sidId,$conn){
     $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
 
     $anvandarRow = mysqli_fetch_assoc($anvandare);
-    $anamn = $anvandarRow['anamn'];
+    $godkantAv_array = array();
+    
+    for($i = 0; $i < sizeof($anvandarRow); $i++){
+       $anamn = $anvandarRow['anamn']; 
+       array_push($godkantAv_array, $anamn);
+    }
+    
 
     $sidVersioner;
     $i=0;
 
     while($row = $sidversion->fetch_assoc()){
-        $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>"$anamn",'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
+        $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$anamn[$i],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
         $i++;
     }
 
