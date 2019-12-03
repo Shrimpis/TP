@@ -30,7 +30,7 @@ function sidVersion($sidId,$conn){
     echo $json;
 
     if(!isset($sidVersioner)){
-        hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion',);
+        hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
         return;
     }
 
