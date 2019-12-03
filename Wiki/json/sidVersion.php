@@ -15,7 +15,7 @@ if(isset($_POST['sidId'])){
 
 function sidVersion($sidId,$conn){
     $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
-    $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
+    /*$wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
 
     $sidVersioner;
     $i=0;
@@ -32,7 +32,7 @@ function sidVersion($sidId,$conn){
     if(!isset($sidVersioner)){
         hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
         return;
-    }
+    }*/
 
 }
 
