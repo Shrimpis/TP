@@ -230,7 +230,7 @@
             while($row=$tjanst->fetch_assoc()){
                 $Bloggarray['titel']=$row['titel'];
                 $Bloggarray['privat']=$row['privat'];
-                $bloggarray['bloggId']=$bloggIdBlogg;
+                $Bloggarray['bloggId']=$bloggIdBlogg;
                 $error=false;
             }
             if($error){
