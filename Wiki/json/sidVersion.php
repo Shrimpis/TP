@@ -28,7 +28,7 @@ function sidVersion($anvandarId, $sidId,$conn){
     $i=0;
 
     while($row = $sidversion->fetch_assoc()){
-        $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$anamn,'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
+        $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>"$anamn",'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
         $i++;
     }
 
