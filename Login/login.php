@@ -25,7 +25,7 @@
             $blogg_sql = "SELECT * FROM blogg where anvandarId='{$anvandarId}'";
             $bloggRes = $conn->query($blogg_sql);
             $bloggRow = mysqli_fetch_assoc($bloggRes);
-            $bloggId = $bloggRow['tjanstId'];//id
+            $bloggId = $bloggRow['id'];//tjanstId
 
             $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'bloggId' => "$bloggId");
             echo json_encode($verifyJson); 
