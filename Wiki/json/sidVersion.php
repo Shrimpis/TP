@@ -1,6 +1,6 @@
 <?php
 
-include("../../Databas/dbh.inc.php")
+include("../../Databas/dbh.inc.php");
 include("../../json/felhantering.php");
 
 if($conn->connect_error){
@@ -20,10 +20,10 @@ function sidVersion($sidId,$conn){
     $sidVersioner;
     $i=0;
 
-    /*while($row = $sidversion->fetch_assoc()){
+    while($row = $sidversion->fetch_assoc()){
         $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
         $i++;
-    }*/
+    }
 
     $json= json_encode($sidVersioner);
 
