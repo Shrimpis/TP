@@ -19,11 +19,8 @@ function sidVersion($anvandarId, $sidId,$conn){
     $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
     $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
 
-    $anvandarRes = $conn->query($anvandare);
-    $anvandarRow = mysqli_fetch_assoc($anvandarRes);
+    $anvandarRow = mysqli_fetch_assoc($anvandare);
     $anamn = $anvandarRow['anamn'];
-
-    echo $anamn;
 
     $sidVersioner;
     $i=0;
