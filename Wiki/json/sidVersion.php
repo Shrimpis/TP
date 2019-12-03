@@ -15,15 +15,15 @@ if(isset($_POST['sidId'])){
 
 function sidVersion($sidId,$conn){
     $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
-    /*$wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
+    $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
 
     $sidVersioner;
     $i=0;
 
-    while($row = $sidversion->fetch_assoc()){
+    /*while($row = $sidversion->fetch_assoc()){
         $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
         $i++;
-    }
+    }*/
 
     $json= json_encode($sidVersioner);
 
@@ -32,7 +32,7 @@ function sidVersion($sidId,$conn){
     if(!isset($sidVersioner)){
         hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
         return;
-    }*/
+    }
 
 }
 
