@@ -195,7 +195,6 @@
     }
 
     function blogg($anvandarId,$bloggId,$conn){
-        echo $bloggId." asdaoskfdposakdposa";
         $anvandare = $conn->query('select * from anvandare where id='.$anvandarId);
         $blogg = $conn->query('select * from blogg where tjanstId='.$bloggId);
         $blogginlagg = $conn->query('select * from blogginlagg where bloggId='.$bloggId);
