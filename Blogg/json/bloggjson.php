@@ -132,10 +132,10 @@
             $tjänstId=$rowTjänst['id'];
             $blogg = $conn->query('select * from blogg ');
             while($row = $blogg->fetch_assoc()) {
-
+                $bloggIdBlogg=$row['id'];
                 $bloggId=$row['tjanstId'];
                 if($bloggId==$tjänstId){
-                    $tjänstArray['bloggar'][$i]=array('id'=>$rowTjänst["id"],'titel'=>$rowTjänst["titel"],'privat'=>$rowTjänst["privat"]);
+                    $tjänstArray['bloggar'][$i]=array('bloggId'=>$bloggIdBlogg,'id'=>$rowTjänst["id"],'titel'=>$rowTjänst["titel"],'privat'=>$rowTjänst["privat"]);
                     $i++;
                 }
 
@@ -223,12 +223,14 @@
             //$Bloggarray=array('flaggad'=>$row["flaggad"]);
 
             $tjanstId=$row['tjanstId'];
+            $bloggIdBlogg=$row['id'];
             
             $tjanst = $conn->query('select * from tjanst where id='.$tjanstId.' and anvandarId='.$anvandarId);
             $error=true;
             while($row=$tjanst->fetch_assoc()){
                 $Bloggarray['titel']=$row['titel'];
                 $Bloggarray['privat']=$row['privat'];
+                $bloggArray['bloggId']=$bloggIdBlogg;
                 $error=false;
             }
             if($error){
