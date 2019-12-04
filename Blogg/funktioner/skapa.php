@@ -198,8 +198,8 @@ else{
                if($row['bloggId']==$bloggId){
                     $id=$row ['id'];
                     $title = $row ['titel'];
-                    $inlagg[$i]['id']=$id;
-                    $inlagg[$i]['titel']=$title;
+                    $inlagg['inlagg'][$i]['id']=$id;
+                    $inlagg['inlagg'][$i]['titel']=$title;
 
                     $i++;
                }
