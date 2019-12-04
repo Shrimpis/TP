@@ -143,10 +143,7 @@
         $i=0;
     
         while($row = $sidversion->fetch_assoc()){
-
-            
-
-            $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
+            $sidVersioner[$i]=array('id'=>$row["id"],'sidId' => $row['sidId'],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
             $i++;
         }
     
