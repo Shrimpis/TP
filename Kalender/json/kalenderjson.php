@@ -4,8 +4,6 @@
     include("../../api_anvandare.php");
 
 
-
-
     if(isset($_POST['kalenderSida'])){
         kalenderJson(getAnvandare($conn),$_POST['kalenderSida'],$conn);
     }
@@ -17,14 +15,11 @@
     }
 
 
-
-
     function allaKalendrar($anvandarId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
-        echo $tjanst;
         $i=0;
         $kalenderArray;
-        //while($row=$tjanst->fetch_assoc()){
+        while($row=$tjanst->fetch_assoc()){
             $kalender = $conn->query('select * from kalender where tjanstId='.$row['id']);
             if($kalender->num_rows==1){
                 $row1=$kalender->fetch_assoc();
@@ -32,7 +27,7 @@
                 $kalenderArray[$i]=array('id'=>$row1['id'],'titel'=>$row['titel'],'privat'=>$row['privat']);
                 $i++;
             }
-        //}
+        }
 
         $json=json_encode($kalenderArray);
         echo $json;
