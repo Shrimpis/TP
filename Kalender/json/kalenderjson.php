@@ -24,7 +24,7 @@
 
         $i=0;
         $kalenderArray;
-        while($row=$tjanst->fetch_assoc()){
+        /*while($row=$tjanst->fetch_assoc()){
             $kalender = $conn->query('select * from kalender where tjanstId='.$row['id']);
             if($kalender->num_rows==1){
                 $row1=$kalender->fetch_assoc();
@@ -34,7 +34,7 @@
             }
 
 
-        }
+        }*/
 
         $json=json_encode($kalenderArray);
         echo $json;
