@@ -44,14 +44,11 @@ function skapaKalender($conn){
     $anvandarId = $_POST['anvandarId'];
     $titel = $_POST['titel'];
 
-
-
             $skapatjanst = "INSERT INTO tjanst(anvandarId,titel,privat) VALUES($anvandarId,'{$titel}',1)";
             if(mysqli_query($conn, $skapatjanst)){
 
                 $sql = "INSERT INTO kalender(tjanstId) VALUES(". mysqli_insert_id($conn).")";
                    $conn->query($sql);
-
 
                    hantering('202','Ny kalender skapad');
             }
@@ -59,8 +56,6 @@ function skapaKalender($conn){
 
                 hantering('400','kunde inte exekvera');
             }
-
-
 
     $conn->close();
 }
@@ -82,7 +77,6 @@ function skapaKalendersida($conn){
     }
 }
 function skapaKalenderevent($conn){
-    //-include('dbh.inc.php');
     if(isset($_POST['titel'])&&isset($_POST['startTid'])&&isset($_POST['slutTid'])&&isset($_POST['anvandarId'])&&isset($_POST['innehall'])&&isset($_POST['kalenderId'])){
     $titel = $_POST['titel'];
     $innehall = $_POST['innehall'];
@@ -90,26 +84,10 @@ function skapaKalenderevent($conn){
     $anvandarId = $_POST['anvandarId'];
     $slut = $_POST['slutTid'];
     $kalenderId = $_POST['kalenderId'];
-    echo "Hej";
     }
-        echo ("INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
-        mysqli_query($conn,"INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
-        /*
-        Denna bortkommenterade kod gör samma sak som mysqli_insert_id men om fler funktioner använder mysqli kanske det inte fungerar, då kan vi behöva använda denna kod igen. Däremot kan det bli fel med denna kod om en person lyckas dubbelskicka ett event.
-        $sql="SELECT * FROM event WHERE skapadAv = $anvandarId AND titel= '{$titel}' AND startTid = '{$start}'";
-        $result = $conn->query($sql);
 
-        while($row = $result->fetch_assoc()){
-        $evId = $row['id'];
-
-      }*/
-        $evId = (int)mysqli_insert_id($conn);
-        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId) VALUES($kalenderId,$evId)";
-
-        echo $skapakalev;
-    if(mysqli_query($conn, $skapakalev)){
+    if(mysqli_query($conn,"INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')")){
         hantering('202','Ny event skapad');
-
     }
     else{
         hantering('400','kunde inte exekvera');
