@@ -123,7 +123,7 @@
             $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
 
             //kollar om användaren äger sidan
-            $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
+            /*$wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
             $row = $wikisidor->fetch_assoc();
             $wikiId=$row['wikiId'];
 
@@ -137,7 +137,7 @@
 
             if($anvandarId!=$anvandarId2){
                 hantering('400','något gick fel');
-            }
+            }*/
 
 
 
