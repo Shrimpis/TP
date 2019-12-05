@@ -5,7 +5,7 @@
 
 
 
-
+/*
     if(isset($_POST['kalenderSida'])){
         kalenderJson(getAnvandare($conn),$_POST['kalenderSida'],$conn);
     }
@@ -16,7 +16,7 @@
         allaKalendrar(getAnvandare($conn),$conn);
     }
 
-/*
+*/
 
 
     function allaKalendrar($anvandarId,$conn){
@@ -173,5 +173,5 @@
 
 
 
-*/
+
 ?>
