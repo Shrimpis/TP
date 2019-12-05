@@ -1,5 +1,5 @@
 <?php
-    include("../../json/felhantering.php");
+  /*  include("../../json/felhantering.php");
     include("../../Databas/dbh.inc.php");
     include("../../api_anvandare.php");
 
@@ -173,5 +173,5 @@
 
 
 
-
+*/
 ?>
