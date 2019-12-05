@@ -196,8 +196,11 @@ else{
             $inlagg=array();
             while ($row = mysqli_fetch_array($query)) {
                if($row['bloggId']==$bloggId){
+                    $id=$row ['id'];
                     $title = $row ['titel'];
-                    $inlagg[$i]=$title;
+                    $inlagg['inlagg'][$i]['id']=$id;
+                    $inlagg['inlagg'][$i]['titel']=$title;
+
                     $i++;
                }
             }
