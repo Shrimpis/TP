@@ -9,9 +9,9 @@
     if(isset($_POST['kalenderSida'])){
         kalenderJson(getAnvandare($conn),$_POST['kalenderSida'],$conn);
     }
-    /*else if(isset($_POST['kalender'])){
+    else if(isset($_POST['kalender'])){
         kalenders(getAnvandare($conn),$_POST['kalender'],$conn);
-    }*/
+    }
   /*  else{
         allaKalendrar(getAnvandare($conn),$conn);
     }*/
