@@ -1,7 +1,7 @@
 <?php
-    //include("../../json/felhantering.php");
-    include("././Databas/dbh.inc.php");
-    include("././api_anvandare.php");
+    include("../../json/felhantering.php");
+    include("../../Databas/dbh.inc.php");
+    include("../../api_anvandare.php");
 
 
 
@@ -35,7 +35,7 @@
 
 
         }
-        
+
         $json=json_encode($kalenderArray);
         echo $json;
     }
@@ -101,7 +101,7 @@
 
 
         if($tjanstArray==null){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna kalender');
             return;
         }
 
@@ -159,7 +159,7 @@
         }
 
         if($tjanstArray==null){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna kalender');
             return;
         }
 
