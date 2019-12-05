@@ -117,47 +117,53 @@
     }
 
     function sidVersion($anvandarId,$sidId,$conn){
-        $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
+        
+        
+            $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
 
-        //kollar om användaren äger sidan
-        $wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
-        $row = $wikisidor->fetch_assoc();
-        $wikiId=$row['wikiId'];
+            //kollar om användaren äger sidan
+            /*$wikisidor= $conn->query('select * from wikisidor where id='.$sidId);
+            $row = $wikisidor->fetch_assoc();
+            $wikiId=$row['wikiId'];
 
-        $wiki= $conn->query('select * from wiki where id='.$wikiId);
-        $row = $wiki->fetch_assoc();
-        $tjanstId=$row['tjanstId'];
+            $wiki= $conn->query('select * from wiki where id='.$wikiId);
+            $row = $wiki->fetch_assoc();
+            $tjanstId=$row['tjanstId'];
 
-        $tjanst= $conn->query('select * from tjanst where id='.$tjanstId);
-        $row = $tjanst->fetch_assoc();
-        $anvandarId2=$row['anvandarId'];
+            $tjanst= $conn->query('select * from tjanst where id='.$tjanstId);
+            $row = $tjanst->fetch_assoc();
+            $anvandarId2=$row['anvandarId'];
 
-        if($anvandarId!=$anvandarId2){
-            hantering('400','något gick fel');
-        }
+            if($anvandarId!=$anvandarId2){
+                hantering('400','något gick fel');
+            }*/
 
 
 
-    
-        $sidVersioner;
-        $i=0;
-    
-        while($row = $sidversion->fetch_assoc()){
+        
+            $sidVersioner;
+            $i=0;
 
+        //if($sidversion->fetch_assoc()){
+            while($row = $sidversion->fetch_assoc()){
+                $sidVersioner[$i]=array('id'=>$row["id"],'sidId' => $row['sidId'],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
+                $i++;
+            }
+        
+            $json= json_encode($sidVersioner);
+        
+            echo $json;
             
+        /*}else{
+            $json = json_encode('titel' => 'Hitta ingen historik');
 
-            $sidVersioner[$i]=array('id'=>$row["id"],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
-            $i++;
-        }
-    
-        $json= json_encode($sidVersioner);
-    
-        echo $json;
-    
-        if(!isset($sidVersioner)){
+            echo $json;
+        }*/
+
+        /*if(!isset($sidVersioner)){
             hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
             return;
-        }
+        }*/
     
     }
 
