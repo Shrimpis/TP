@@ -153,12 +153,16 @@
         
             echo $json;
             
+        }else{
+            $json = json_encode('titel' => 'Hitta ingen historik');
+
+            echo $json;
         }
 
-        if(!isset($sidVersioner)){
+        /*if(!isset($sidVersioner)){
             hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
             return;
-        }
+        }*/
     
     }
 
