@@ -21,7 +21,7 @@
 
     function allaKalendrar($anvandarId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
-
+        echo $tjanst;
         $i=0;
         $kalenderArray;
         //while($row=$tjanst->fetch_assoc()){
