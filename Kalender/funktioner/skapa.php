@@ -101,7 +101,7 @@ function skapaKalenderevent($conn){
         $evId = $row['id'];
 
       }*/
-        $evId = (int)mysqli_insert_id($conn)
+        $evId = (int)mysqli_insert_id($conn);
         $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,$evId,0)";
 
 
