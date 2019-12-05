@@ -117,9 +117,8 @@
     }
 
     function sidVersion($anvandarId,$sidId,$conn){
-        try{
-
         
+        if($conn->query('select * from sidversion where sidId='.$sidId)){
             $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
 
             //kollar om användaren äger sidan
@@ -153,16 +152,13 @@
             $json= json_encode($sidVersioner);
         
             echo $json;
-        
             
-        }
-        catch(Exception $e){
         }
 
         if(!isset($sidVersioner)){
             hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
             return;
-        } 
+        }
     
     }
 
