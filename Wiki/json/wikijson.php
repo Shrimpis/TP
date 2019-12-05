@@ -118,7 +118,7 @@
 
     function sidVersion($anvandarId,$sidId,$conn){
         
-        if($conn->query('select * from sidversion where sidId='.$sidId)){
+        
             $sidversion= $conn->query('select * from sidversion where sidId='.$sidId);
 
             //kollar om användaren äger sidan
@@ -143,7 +143,8 @@
         
             $sidVersioner;
             $i=0;
-        
+
+        if($sidversion->fetch_assoc()){
             while($row = $sidversion->fetch_assoc()){
                 $sidVersioner[$i]=array('id'=>$row["id"],'sidId' => $row['sidId'],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
                 $i++;
