@@ -92,7 +92,7 @@ function skapaKalenderevent($conn){
     $kalenderId = $_POST['kalenderId'];
     }
         mysqli_query($conn,"INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
-        /*
+
         Denna bortkommenterade kod gör samma sak som mysqli_insert_id men om fler funktioner använder mysqli kanske det inte fungerar, då kan vi behöva använda denna kod igen. Däremot kan det bli fel med denna kod om en person lyckas dubbelskicka ett event.
         $sql="SELECT * FROM event WHERE skapadAv = $anvandarId AND titel= '{$titel}' AND startTid = '{$start}'";
         $result = $conn->query($sql);
@@ -101,8 +101,8 @@ function skapaKalenderevent($conn){
         $evId = $row['id'];
 
         }
-        */
-        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,mysqli_insert_id($conn),0);
+
+        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,$evId,0);
 
 
     if(mysqli_query($conn, $skapakalev)){
