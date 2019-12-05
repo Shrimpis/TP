@@ -7,7 +7,7 @@ $conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
 include("../../json/felhantering.php");
         switch ($_POST['funktion']) {
             case 'skapaKonto':
-		echo var_dump($conn);
+
                 skapaKonto($conn);
                 break;
             case 'skapaAKonto':
@@ -128,9 +128,9 @@ function skapaKonto($conn){
         $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
         $conn->query($sql);
 
-        echo "SELECT id FROM anvandare WHERE anamn ='$username'";
+
         $result = $conn->query("SELECT id FROM anvandare WHERE anamn ='$username'");
-        echo var_dump($result);
+
         if(mysqli_num_rows($result) > 0){
             while($row=$result->fetch_assoc()){
                 $USID=$row['id'];
