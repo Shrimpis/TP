@@ -144,7 +144,7 @@
             $sidVersioner;
             $i=0;
 
-        if($sidversion->fetch_assoc()){
+        //if($sidversion->fetch_assoc()){
             while($row = $sidversion->fetch_assoc()){
                 $sidVersioner[$i]=array('id'=>$row["id"],'sidId' => $row['sidId'],'godkantAv'=>$row["godkantAv"],'bidragsgivare'=>$row["bidragsgivare"],'titel'=>$row["titel"],'innehall'=>$row["innehall"], 'datum'=>$row["datum"]);
                 $i++;
@@ -154,11 +154,11 @@
         
             echo $json;
             
-        }else{
+        /*}else{
             $json = json_encode('titel' => 'Hitta ingen historik');
 
             echo $json;
-        }
+        }*/
 
         /*if(!isset($sidVersioner)){
             hantering('400','fel med hämting av data eller så har du inte åtkomst till denna sidversion');
