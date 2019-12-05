@@ -1,10 +1,10 @@
 <?php
-  /*  include("../../json/felhantering.php");
+    include("../../json/felhantering.php");
     include("../../Databas/dbh.inc.php");
     include("../../api_anvandare.php");
 
 
-
+/*
 
     if(isset($_POST['kalenderSida'])){
         kalenderJson(getAnvandare($conn),$_POST['kalenderSida'],$conn);
