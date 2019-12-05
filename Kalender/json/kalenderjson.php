@@ -12,9 +12,9 @@
     else if(isset($_POST['kalender'])){
         kalenders(getAnvandare($conn),$_POST['kalender'],$conn);
     }
-  /*  else{
+    else{
         allaKalendrar(getAnvandare($conn),$conn);
-    }*/
+    }
 
 
 
