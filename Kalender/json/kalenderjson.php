@@ -26,14 +26,12 @@
         $kalenderArray;
         while($row=$tjanst->fetch_assoc()){
             $kalender = $conn->query('select * from kalender where tjanstId='.$row['id']);
-            if(mysqli_num_rows($kalender)==1){
+            /*if($kalender->num_rows==1){
                 $row1=$kalender->fetch_assoc();
 
                 $kalenderArray[$i]=array('id'=>$row1['id'],'titel'=>$row['titel'],'privat'=>$row['privat']);
                 $i++;
-            }
-
-
+            }*/
         }
 
         $json=json_encode($kalenderArray);
