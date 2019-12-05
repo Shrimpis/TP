@@ -4,14 +4,14 @@ session_start();
 include("../../json/felhantering.php");
 include('../../Databas/dbh.inc.php');
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
-    var_dump($_POST['nyckel']);
-    
-    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
-    $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
-    
-    $result = mysqli_query($conn,$sql);
-    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-    $count = mysqli_num_rows($result);
+
+
+  $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
+  $sql = "SELECT nyckel FROM api WHERE nyckel = '$apikey'";
+
+  $result = mysqli_query($conn,$sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  $count = mysqli_num_rows($result);
 
     if($count == 1){
         switch ($_POST['funktion']) {
@@ -43,25 +43,25 @@ function skapaKalender($conn){
     //-include('dbh.inc.php');
     $anvandarId = $_POST['anvandarId'];
     $titel = $_POST['titel'];
-        
-        
-        
+
+
+
             $skapatjanst = "INSERT INTO tjanst(anvandarId,titel,privat) VALUES($anvandarId,'{$titel}',1)";
             if(mysqli_query($conn, $skapatjanst)){
-                
+
                 $sql = "INSERT INTO kalender(tjanstId) VALUES(". mysqli_insert_id($conn).")";
                    $conn->query($sql);
-                
-                   
+
+
                    hantering('202','Ny kalender skapad');
             }
             else{
-                
+
                 hantering('400','kunde inte exekvera');
             }
-               
-        
-        
+
+
+
     $conn->close();
 }
 function skapaKalendersida($conn){
@@ -93,21 +93,21 @@ function skapaKalenderevent($conn){
     }
         mysqli_query($conn,"INSERT INTO event(skapadAv,titel,innehall,startTid,slutTid) VALUES($anvandarId,'{$titel}','{$innehall}','{$start}','{$slut}')");
         /*
-        Denna bortkommenterade kod gör samma sak som mysqli_insert_id men om fler funktioner använder mysqli kanske det inte fungerar, då kan vi behöva använda denna kod igen. Däremot kan det bli fel med denna kod om en person lyckas dubbelskicka ett event. 
+        Denna bortkommenterade kod gör samma sak som mysqli_insert_id men om fler funktioner använder mysqli kanske det inte fungerar, då kan vi behöva använda denna kod igen. Däremot kan det bli fel med denna kod om en person lyckas dubbelskicka ett event.
         $sql="SELECT * FROM event WHERE skapadAv = $anvandarId AND titel= '{$titel}' AND startTid = '{$start}'";
         $result = $conn->query($sql);
-        
+
         while($row = $result->fetch_assoc()){
         $evId = $row['id'];
-        
+
         }
         */
-        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,". mysqli_insert_id($conn).",0)";
-        
-        
+        $skapakalev = "INSERT INTO kalenderevent(kalenderId,eventId,status) VALUES($kalenderId,mysqli_insert_id($conn),0);
+
+
     if(mysqli_query($conn, $skapakalev)){
         hantering('202','Ny event skapad');
-        
+
     }
     else{
         hantering('400','kunde inte exekvera');
