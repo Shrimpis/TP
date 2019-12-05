@@ -41,7 +41,6 @@ if($_FILES["file"]["size"] > 500000){
 
 }
 
-echo $bildFilTyp."afedsefda";
 //Kollar så att det är giltiga fil extensions
 if($bildFilTyp != "jpg" && $bildFilTyp != "png" && $bildFilTyp != "gif" && $bildFilTyp != "jpeg"){
     $uppladningOk = 0;
