@@ -117,14 +117,14 @@ else{
             
             mysqlI_set_charset($conn, "utf8mb4");
             
-            if(isset($_SESSION["UID"]) && isset($_GET["status"]) && isset($_GET["kalenderID"])){
+            if(isset($_SESSION["UID"]) && isset($_POST["status"]) && isset($_POST["kalenderID"])){
             
               echo "test";
-              if(isset($_GET["anledning"]) && $_GET["status"] == 2){
+              if(isset($_POST["anledning"]) && $_POST["status"] == 2){
             
-                $status = $_GET["status"];
-                $anledning = $_GET["anledning"];
-                $id = $_GET["kalenderID"];
+                $status = $_POST["status"];
+                $anledning = $_POST["anledning"];
+                $id = $_POST["kalenderID"];
             
                 $sql = "update kalenderevent set anledning='{$anledning}', status=".$status." where id=".$id;
                 if(mysqli_query($conn, $sql)){
@@ -137,10 +137,10 @@ else{
                 }
                 header("Refresh:0; url=status.php");
             
-              }else if($_GET["status"] == 2){
+              }else if($_POST["status"] == 2){
             
-                    $status = $_GET["status"];
-                    $id = $_GET["kalenderID"];
+                    $status = $_POST["status"];
+                    $id = $_POST["kalenderID"];
             
                     $sql = "update kalenderevent set status=".$status." where id=".$id;
                     if(mysqli_query($conn, $sql)){
@@ -152,8 +152,8 @@ else{
                     header("Refresh:0; url=status.php");
               }else{
             
-                    $status = $_GET["status"];
-                    $id = $_GET["kalenderID"];
+                    $status = $_POST["status"];
+                    $id = $_POST["kalenderID"];
             
                     $sql = "update kalenderevent set status=".$status." where id=".$id;
                     if(mysqli_query($conn, $sql)){

@@ -1,9 +1,7 @@
 <?php
-    //include("../../json/felhantering.php");
-    include("././Databas/dbh.inc.php");
-    include("././api_anvandare.php");
-
-
+    include("../../json/felhantering.php");
+    include("../../Databas/dbh.inc.php");
+    include("../../api_anvandare.php");
 
 
     if(isset($_POST['tjanstId'])){
@@ -48,7 +46,6 @@
 
     function allaKalendrar($anvandarId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
-
         $i=0;
         $kalenderArray;
         while($row=$tjanst->fetch_assoc()){
@@ -59,10 +56,8 @@
                 $kalenderArray[$i]=array('id'=>$row1['id'],'titel'=>$row['titel'],'privat'=>$row['privat']);
                 $i++;
             }
-
-
         }
-        
+
         $json=json_encode($kalenderArray);
         echo $json;
     }
@@ -128,7 +123,7 @@
 
 
         if($tjanstArray==null){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna kalender');
             return;
         }
 
@@ -186,7 +181,7 @@
         }
 
         if($tjanstArray==null){
-            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna wiki');
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna kalender');
             return;
         }
 
