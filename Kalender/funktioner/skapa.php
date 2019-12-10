@@ -94,14 +94,14 @@ function skapaKalenderevent($conn){
     }
 }
 function bjudin($conn){
-    if(isset($_GET["eventID"]) && isset($_GET["kalenderIDS"])){
+    if(isset($_POST["eventID"]) && isset($_POST["kalenderIDS"])){
         $jsonResp;
         $jsonRespBody = Array();
         $fullResponse = new stdClass();;
         $completresponse;
         $ok = true;
-        $event = $_GET["eventID"];
-        $kalenders = $_GET["kalenderIDS"];
+        $event = $_POST["eventID"];
+        $kalenders = $_POST["kalenderIDS"];
         for($i = 0; i < count($kalenders); $i++){
           $jsonResp = new stdClass();
           $kalender = $kalenders[$i];
