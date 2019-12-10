@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-//include('../../Databas/dbh.inc.php');
-$conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
-include("../../json/felhantering.php");
+include('Databas/dbh.inc.php');
+//$conn = mysqli_connect('localhost','TheProvider','lösenord','TheProvider');
+//include("json/felhantering.php");
 
 if(!empty($_POST['nyckel'])){ // Kollar efter om api-nyckeln är tom
     
@@ -131,11 +131,12 @@ function sokFalt($conn){
 
     //-include('dbh.inc.php');
 
-    if(isset($_POST['sok'])){
+    if(isset($_POST['sok']) && isset($_POST['wikiId'])){
         
         $sok= $_POST['sok'];
+        $wikiId = $_POST['wikiId'];
     
-        $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE titel LIKE '%$sok%'") or die ("Could not search");
+        $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE wikiId=".$wikiId." AND titel LIKE '%$sok%'") or die ("Could not search");
         if($count = mysqli_num_rows($query)){
 
             $i=0;

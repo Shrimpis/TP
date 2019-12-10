@@ -23,13 +23,13 @@
 
                 xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    //var json=JSON.parse(this.responseText);
-                    console.log(this.responseText);
+                    var json=JSON.parse(this.responseText);
+                    console.log(json);
                 }
                 };
                 xhttp.open("post", "../../api.php", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("nyckel=JIOAJWWNPA259FB&tjanst=kalender&typ=JSON");//anvandare=1&blogg=1
+                xhttp.send("nyckel=5dLlf08Pp66BewmI&tjanst=kalender&typ=JSON&tjanstId=8");//anvandare=1&blogg=1
             }
 
         

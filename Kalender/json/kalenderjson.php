@@ -6,7 +6,10 @@
 
 
 
-    if(isset($_POST['kalenderSida'])){
+    if(isset($_POST['tjanstId'])){
+        tjanstJson(getAnvandare($conn),$_POST['tjanstId'],$conn);
+    }
+    else if(isset($_POST['kalenderSida'])){
         kalenderJson(getAnvandare($conn),$_POST['kalenderSida'],$conn);
     }
     else if(isset($_POST['kalender'])){
@@ -17,7 +20,31 @@
     }
 
 
+    function tjanstJson($anvandarId,$tjanstId,$conn){
+        $anvandarIds = $conn->query('select anvandarId from anvandarroll where tjanstId='.$tjanstId);
+        
+        $anvandarArray = array();
+        $id = 0;
 
+        while($row = $anvandarIds->fetch_assoc()){
+            $anvandare = $conn->query('select * from anvandare where id='.$row['anvandarId']);
+            
+            while($row1 = $anvandare->fetch_assoc()){
+                $anvandarArray['anvandare'][$id] = array('id' => $row1['id'], 'anamn' => $row1['anamn']);
+                $id++;
+            }
+            
+        }
+
+        if($anvandarArray==null){
+            hantering('400','fel med hämtning av data eller så har du inte åtkomst till denna wiki');
+            return;
+        }
+
+        $json=json_encode($anvandarArray);
+        echo $json;
+        
+    }
 
     function allaKalendrar($anvandarId,$conn){
         $tjanst = $conn->query('select * from tjanst where anvandarId='.$anvandarId);
