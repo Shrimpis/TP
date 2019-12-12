@@ -136,7 +136,7 @@ function sokFalt($conn){
         $sok= $_POST['sok'];
         $wikiId = $_POST['wikiId'];
     
-        $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE wikiId=".$wikiId." AND titel LIKE '%$sok%'") or die ("Could not search");
+        $query = mysqli_query($conn,"SELECT * FROM wikisidor WHERE wikiId=".$wikiId." AND UPPER(titel) LIKE UPPER('%$sok%')") or die ("Could not search");
         if($count = mysqli_num_rows($query)){
 
             $i=0;
