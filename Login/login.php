@@ -27,7 +27,7 @@
             $bloggRow = mysqli_fetch_assoc($bloggRes);
             $bloggId = $bloggRow['id'];//tjanstId
 
-            $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'bloggId' => "$bloggId");
+            $verifyJson = array('success' => true, 'anamn' => $anamn, 'losenord' => $password,'bloggId' => "$bloggId", 'anvandarId' => $anvandarId);
             echo json_encode($verifyJson); 
         }
         else if($tjanst == 'wiki' || $tjanst == 'kalender'){
