@@ -14,7 +14,7 @@
         kalenders(getAnvandare($conn),$_POST['kalender'],$conn);
     }
     else if(isset($_POST['anvandarId'])){
-        getEvent($_POST['anvandarId'],$conn)
+        getEvent($_POST['anvandarId'],$conn);
     }
     else{
         allaKalendrar(getAnvandare($conn),$conn);
@@ -68,6 +68,7 @@
 
     function getEvent($anvandarId,$conn){
         //funktion som tillåter en användare att se event som denne har skapat.
+        $tjanstArray=array();
         $ii=0;
         $events = $conn->query('select * from event where skapadAv='.$anvandarId);
         while($row=$events->fetch_assoc()){
