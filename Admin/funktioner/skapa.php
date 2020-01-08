@@ -38,30 +38,33 @@ function skapaAKonto($conn){
         $username = $_POST['anamn'];
         $rollid = $_POST['rollid'];
         $tjanst = $_POST['tjanst'];
+        $password = $_POST['losenord']; 
     }
-    $password = slumplosen(10);
         
-        $Blowfish_Pre = '$2a$10$';
-        $Blowfish_End = '$';
-        
-        $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        $Chars_Len = 63;
-        
-        $Salt_Length = 21;
-        $salt = "";
-        for ($i = 0; $i < $Salt_Length; $i++) {
-            $salt .= $Allowed_Chars[mt_rand(0, $Chars_Len)];
-        }
-        $bcrypt_salt = $Blowfish_Pre . $salt . $Blowfish_End;
-        $hashed_password = crypt($password, $bcrypt_salt);
-        
+    $Blowfish_Pre = '$2a$10$';
+    $Blowfish_End = '$';
+    
+    $Allowed_Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    $Chars_Len = 63;
+    
+    $Salt_Length = 21;
+    $salt = "";
+
+    for ($i = 0; $i < $Salt_Length; $i++) {
+        $salt .= $Allowed_Chars[mt_rand(0, $Chars_Len)];
+    }
+
+    $bcrypt_salt = $Blowfish_Pre . $salt . $Blowfish_End;
+    $hashed_password = crypt($password, $bcrypt_salt);  
     
     $sqlcheck = ($conn->query("SELECT anamn from anvandare"));
+    
     while($row=$sqlcheck->fetch_assoc()){
         if($username==$row['anamn']){
             $uname_tagen=true;
         }
     }
+    
     if($uname_tagen==false){
 	
         $sql= "INSERT INTO anvandare(anamn, losenord, salt) VALUES ('$username','$hashed_password','$salt')";
