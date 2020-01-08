@@ -13,6 +13,9 @@
     else if(isset($_POST['kalender'])){
         kalenders(getAnvandare($conn),$_POST['kalender'],$conn);
     }
+    else if(isset($_POST['anvandarId'])){
+        getEvent($_POST['anvandarId'],$conn)
+    }
     else{
         allaKalendrar(getAnvandare($conn),$conn);
     }
@@ -63,7 +66,41 @@
     }
 
 
+    function getEvent($anvandarId,$conn){
+        //funktion som tillåter en användare att se event som denne har skapat.
+        $ii=0;
+        $events = $conn->query('select * from event where skapadAv='.$anvandarId);
+        while($row=$events->fetch_assoc()){
+            for($i=0;$i<$events->num_rows;$i++){
+               
 
+
+                    $anvandare = $conn->query('select * from anvandare where id='.$row['skapadAv']);
+                    $anamn;
+                    while($namn=$anvandare->fetch_assoc()){
+                        $anamn=$namn['anamn'];
+                    }
+
+
+                    $tjanstArray['event'][$ii]=array('id'=>$row['id'],'skapadAv'=>$anamn,'titel'=>$row['titel'],'innehall'=>$row['innehall'],'startTid'=>$row['startTid'],'slutTid'=>$row['slutTid'],'aktiv'=>$row['aktiv']);
+                    $ii++;
+                
+            }
+        }
+
+
+
+
+        if($tjanstArray==null){
+            hantering('400','fel med hämting av data eller så har du inte åtkomst till denna kalender');
+            return;
+        }
+
+
+        $json=json_encode($tjanstArray);
+        echo $json;
+
+    }
 
 
     function kalenderJson($anvandarId,$kalenderSidaId,$conn){
