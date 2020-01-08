@@ -105,7 +105,7 @@ function bjudin($conn){
         for($i = 0; i < count($kalenders); $i++){
           $jsonResp = new stdClass();
           $kalender = $kalenders[$i];
-          $sql = "INSERT INTO kalenderevent(kalenderId,eventId) VALUES($kalender[$i], $event)";
+          $sql = "INSERT INTO kalenderevent(kalenderId,eventId) VALUES($kalender, $event)";
           if(mysqli_query($conn,$sql)){
             $jsonResp->kod = "200";
             $jsonResp->status = "OK";

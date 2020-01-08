@@ -3,7 +3,7 @@
 //hämtar användarId med hjälp av nyckel. fungerar bara om en post nyckel finns. om api används så är den set.
 function getAnvandare($conn){
             
-    $apikey = mysqli_real_escape_string($conn,$_GET['nyckel']);
+    $apikey = mysqli_real_escape_string($conn,$_POST['nyckel']);
     $sql = "SELECT * FROM api WHERE nyckel = '$apikey'";
     
     $result = mysqli_query($conn,$sql);
