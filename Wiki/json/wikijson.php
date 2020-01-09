@@ -27,7 +27,7 @@
             $anvandare = $conn->query('select * from anvandare where id='.$row['anvandarId']);
             
             while($row1 = $anvandare->fetch_assoc()){
-                $anvandarArray['anvandare'][$id] = array('id' => $row1['id'], 'anamn' => $row1['anamn']);
+                $anvandarArray['anvandare'][$id] = array('id' => $row1['id'], 'anamn' => $row1['anamn'], 'aktiv' => $row1['aktiv']);
                 $id++;
             }
             
